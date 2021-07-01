@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efa8b605ece923d4d960bc34f0a495f7, type: 3}
+  m_Name: Vector Target Skill
+  m_EditorClassIdentifier: 
+  ID: 35b37e63-db2c-4a9a-9861-1520e55969ca
+  skillName: Vector target 1
+  power: 0
+  skillCategory: 0
+  cooldownTime: 3
+  staminaTake: 0
+  healthTake: 0
+  spawnedProjectile: {fileID: 0}
+  width: 5

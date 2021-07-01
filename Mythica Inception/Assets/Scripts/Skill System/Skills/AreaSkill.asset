@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0294f834faae6614fac6d45a70e50d8e, type: 3}
+  m_Name: AreaSkill
+  m_EditorClassIdentifier: 
+  ID: 5f02dce3-50c1-4257-985b-de632b4646a5
+  skillName: Area chuchu
+  power: 0
+  skillCategory: 0
+  castDistance: 0
+  cooldownTime: 5
+  staminaTake: 0
+  healthTake: 0
+  delayTime: 0
+  radius: 10
+  targetType: 3

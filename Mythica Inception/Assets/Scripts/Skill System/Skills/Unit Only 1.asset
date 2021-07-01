@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0f5b6cadc021ff4195b4eca9a92d9a8, type: 3}
+  m_Name: Unit Only 1
+  m_EditorClassIdentifier: 
+  ID: b3ed9f6a-7cc0-49cd-9f0b-4f259621cc90
+  skillName: unit only 1
+  power: 0
+  skillCategory: 0
+  cooldownTime: 5
+  staminaTake: 0
+  healthTake: 0

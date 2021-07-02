@@ -21,6 +21,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         [HideInInspector] public Player player;
         [HideInInspector] public AI aI;
+        [HideInInspector] public Animator controllerAnimator;
 
         [HideInInspector] public Vector3 machineDestination;
         [HideInInspector] public bool stateBoolVariable;
@@ -37,7 +38,20 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         void Update()
         {
             if(!_isActive) return;
-
+            
+            if (stateMachineType == StateMachineType.Player && controllerAnimator != player.animator)
+            {
+                controllerAnimator = player.animator;
+            }
+            else if (stateMachineType == StateMachineType.AI && controllerAnimator != aI.animator)
+            {
+                controllerAnimator = aI.animator;
+            }
+            
+            if (controllerAnimator != null && !currentState.stateAnimation.Equals(""))
+            {
+                controllerAnimator.SetBool(currentState.stateAnimation, true);
+            }
             currentState.UpdateState(this);
         }
         
@@ -54,9 +68,13 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         {
             if (nextState == remainState) return;
             
+            if (controllerAnimator != null && !currentState.stateAnimation.Equals(""))
+            {
+                controllerAnimator.SetBool(currentState.stateAnimation, false);
+            }
+            
             currentState = nextState;
             OnExitState();
-
         }
 
         public bool HasTimeElapsed(float duration)

@@ -1,5 +1,4 @@
 using System.Collections;
-using Assets.Scripts.Core.Player_FSM;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +19,8 @@ namespace Assets.Scripts.Core.Player.Input
         [HideInInspector] public bool fourthSkillInput;
         [HideInInspector] public bool cancelSkill;
         [HideInInspector] public bool activateSkill;
+        public int currentMonster;
+        public int previousMonster;
 
         void Awake()
         {
@@ -113,6 +114,36 @@ namespace Assets.Scripts.Core.Player.Input
             {
                 activateSkill = true;
             }
+        }
+        
+        public void SwitchMonster1(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            
+            previousMonster = currentMonster;
+            currentMonster = 0;
+
+        }
+        public void SwitchMonster2(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            
+            previousMonster = currentMonster;
+            currentMonster = 1;
+        }
+        public void SwitchMonster3(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            
+            previousMonster = currentMonster;
+            currentMonster = 2;
+        }
+        public void SwitchMonster4(InputAction.CallbackContext context)
+        {
+            if (!context.started) return;
+            
+            previousMonster = currentMonster;
+            currentMonster = 3;
         }
     }
 }

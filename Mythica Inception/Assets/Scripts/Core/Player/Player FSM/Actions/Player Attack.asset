@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7d6e546535fa6d4ab7360ecc1ccbe72, type: 3}
   m_Name: Player Attack
   m_EditorClassIdentifier: 
-  sample: {fileID: 8634179053709731195, guid: 7c197bd0b7afc0e4483aa4e83f89620b, type: 3}
+  attackTime: 0.5

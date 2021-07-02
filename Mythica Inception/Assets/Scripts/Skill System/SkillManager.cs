@@ -148,10 +148,21 @@ namespace Assets.Scripts.Skill_System
                     transform.LookAt(target);
                 }
             }
+
+            if (target != null)
+            {
+                GameObject targetUnitIndicator = target.GetComponent<AI>().unitIndicator;
+                if (!targetUnitIndicator.activeInHierarchy)
+                {
+                    targetUnitIndicator.SetActive(true);
+                }
+            }
             
             transform.rotation = new Quaternion(0f,transform.rotation.y, 0f, transform.rotation.w);
             skillPoint = Vector3.zero;
             target = null;
+            //TODO: Play attack animation here
+            _entity.GetEntityAnimator().SetBool("Attack", true);
         }
 
         public void Targeting(SkillSlot slot)

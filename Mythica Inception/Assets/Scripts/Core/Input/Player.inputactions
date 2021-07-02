@@ -76,6 +76,38 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Monster 1",
+                    "type": "Button",
+                    "id": "c4e9454b-c039-42b4-bcb5-81e744f0443e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Monster 2",
+                    "type": "Button",
+                    "id": "9746ceb2-f4fd-42c4-b68c-deeae2b834d3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Monster 3",
+                    "type": "Button",
+                    "id": "0b70782d-8a91-4612-8ba0-e16c708e673f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Monster 4",
+                    "type": "Button",
+                    "id": "46477d54-d759-493e-820b-991b1675ce1e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -241,6 +273,50 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Activate Skill",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1edd2ab1-f60c-494c-92b4-4240485b47c9",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Monster 1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "da02ad08-d156-4ced-a01c-42fed6096d76",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Monster 2",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cd7a036b-7e41-4d6c-93a3-0190a7a0b9ca",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Monster 3",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5147ab8b-53b4-431a-99d2-5888afff1ca1",
+                    "path": "<Keyboard>/4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Monster 4",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

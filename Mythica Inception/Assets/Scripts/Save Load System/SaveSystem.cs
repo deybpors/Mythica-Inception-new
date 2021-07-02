@@ -3,7 +3,6 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Assets.Scripts;
 using Assets.Scripts.Core.Player;
-using Assets.Scripts.Core.Player_FSM;
 
 public static class SaveSystem
 {

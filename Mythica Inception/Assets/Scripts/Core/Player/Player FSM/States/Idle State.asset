@@ -23,5 +23,5 @@ MonoBehaviour:
   - decision: {fileID: 11400000, guid: 1ecc3bf7593a6a94c94f3b1d2d59a491, type: 2}
     successState: {fileID: 11400000, guid: 94b1e124099edd345b012859a6d7d9b7, type: 2}
     failState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
-  stateAnimation: 
+  stateAnimation: Idle
   gizmoColor: {r: 0, g: 0, b: 1, a: 1}

@@ -7,8 +7,10 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
     [CreateAssetMenu(menuName = "Player FSM/Actions/Attack Action")]
     public class PlayerAttackAction : Action
     {
-        public GameObject sample;
+        public float attackTime;
+        
         private Transform _target;
+        private float _timer;
         public override void Act(StateController stateController)
         {
             Attack(stateController);
@@ -16,11 +18,24 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
         private void Attack(StateController stateController)
         {
+            if (_timer >= attackTime)
+            {
+                stateController.player.playerData.temporaryTurnSmoothTime =
+                    stateController.player.playerData.turnSmoothTime;
+                stateController.player.animator.SetBool("Attack", false);
+            }
+            else
+            {
+                stateController.player.playerData.temporaryTurnSmoothTime =
+                    stateController.player.playerData.turnSmoothTime * 5;
+            }
+
+            _timer += Time.deltaTime;
             if (!stateController.player.inputHandler.attackInput) { return; }
-            
+
+            _timer = 0;
             stateController.player.inputHandler.attackInput = false;
             Vector3 faceTo = Vector3.zero;
-            
             RaycastHit hit;
             Ray ray = stateController.player.mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             
@@ -46,6 +61,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             stateController.transform.LookAt(faceTo);
             stateController.transform.rotation = new Quaternion(0f,stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
             //TODO: play attack animation here
+            stateController.player.animator.SetBool("Attack", true);
         }
     }
 }

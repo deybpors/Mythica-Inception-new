@@ -9,12 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e155d89fe01e9e04ba7964ef67f3294b, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 5578edc634b84bc4ca4dfd7448357581, type: 3}
+  m_Name: Skills
   m_EditorClassIdentifier: 
-  turnSmoothTime: 0.1
-  speed: 30
-  dashTime: 0.05
-  dashSpeed: 5
-  attackRate: 1
-  temporaryTurnSmoothTime: 0.1
+  skills: []

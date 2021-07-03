@@ -13,6 +13,8 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
     }
     public class StateController : MonoBehaviour
     {
+        //TODO: update this so suitable for object pooling
+        
         public StateMachineType stateMachineType;
         public Transform machineEyes;
         
@@ -20,24 +22,29 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public State remainState;
 
         [HideInInspector] public Player player;
-        [HideInInspector] public AI aI;
+        [HideInInspector] public MonsterTamerAI aI;
         [HideInInspector] public Animator controllerAnimator;
 
         [HideInInspector] public Vector3 machineDestination;
         [HideInInspector] public bool stateBoolVariable;
         [HideInInspector] public float stateTimeElapsed;
 
-        private bool _isActive;
+        public bool isActive;
 
         void Awake()
         {
-            aI = GetComponent<AI>();
+            aI = GetComponent<MonsterTamerAI>();
             player = GetComponent<Player>();
+        }
+
+        void OnDisable()
+        {
+            isActive = false;
         }
 
         void Update()
         {
-            if(!_isActive) return;
+            if(!isActive) return;
             
             if (stateMachineType == StateMachineType.Player && controllerAnimator != player.animator)
             {
@@ -57,11 +64,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         
         public void InitializeAI(bool activate, List<Transform> waypointList)
         {
-            _isActive = activate;
+            isActive = activate;
             
             if (aI == null) return;
             aI.waypoints = waypointList;
-            aI.agent.enabled = _isActive;
+            aI.agent.enabled = isActive;
         }
 
         public void TransitionToState(State nextState)

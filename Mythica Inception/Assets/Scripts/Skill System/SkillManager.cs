@@ -151,7 +151,7 @@ namespace Assets.Scripts.Skill_System
 
             if (target != null)
             {
-                GameObject targetUnitIndicator = target.GetComponent<AI>().unitIndicator;
+                GameObject targetUnitIndicator = target.GetComponent<MonsterTamerAI>().unitIndicator;
                 if (!targetUnitIndicator.activeInHierarchy)
                 {
                     targetUnitIndicator.SetActive(true);

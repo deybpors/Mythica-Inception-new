@@ -1,5 +1,5 @@
 using Assets.Scripts.Core;
-using Assets.Scripts.Core.Player;
+using Assets.Scripts.Monster_System;
 using UnityEngine;
 
 namespace Assets.Scripts.Skill_System
@@ -9,16 +9,18 @@ namespace Assets.Scripts.Skill_System
         Physical,
         Special
     }
-    public abstract class Skill : BaseScriptableObject
+    public abstract class Skill : ScriptableObjectWithID
     {
         public string skillName = "Skill name";
-        public float power = 10;
+        public MonsterType skillType;
         public SkillCategory skillCategory;
+        public float power = 10;
         public float cooldownTime = 10;
         public float staminaTake;
         public float healthTake;
+        //TODO: change with below with id from the database to spawn in pooler
         public GameObject spawnedProjectile;
-        
+
         public virtual void Activate(IEntity entity, Transform target) { }
         
         public virtual void Activate(IEntity entity) { }

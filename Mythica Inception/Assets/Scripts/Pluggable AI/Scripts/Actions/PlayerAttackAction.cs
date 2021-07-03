@@ -22,12 +22,13 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             {
                 stateController.player.playerData.temporaryTurnSmoothTime =
                     stateController.player.playerData.turnSmoothTime;
-                stateController.player.animator.SetBool("Attack", false);
+                //TODO: Update these
+                if(stateController.player.animator!=null) stateController.player.animator.SetBool("Attack", false);
             }
             else
             {
                 stateController.player.playerData.temporaryTurnSmoothTime =
-                    stateController.player.playerData.turnSmoothTime * 5;
+                    stateController.player.playerData.turnSmoothTime * 8;
             }
 
             _timer += Time.deltaTime;
@@ -53,15 +54,18 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
                     faceTo = hit.point;
                 }
             }
-            
+
             stateController.player.skillManager.skillPoint = faceTo;
             
             if (stateController.player.skillManager.targeting) { return; }
-            
+            if (stateController.player.inputHandler.playerSwitch && _target!=null)
+            {
+                stateController.player.ReleaseTameBeam();
+            }
             stateController.transform.LookAt(faceTo);
             stateController.transform.rotation = new Quaternion(0f,stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
-            //TODO: play attack animation here
-            stateController.player.animator.SetBool("Attack", true);
+            
+            if(stateController.player.animator!=null) stateController.player.animator.SetBool("Attack", true);
         }
     }
 }

@@ -39,7 +39,14 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             
             foreach (var stateController in _stateControllers)
             {
-                stateController.InitializeAI(true, waypoints);
+                if (stateController.gameObject.activeInHierarchy)
+                {
+                    stateController.InitializeAI(true, waypoints);
+                }
+                else
+                {
+                    stateController.InitializeAI(false, waypoints);
+                }
             }
         }
     }

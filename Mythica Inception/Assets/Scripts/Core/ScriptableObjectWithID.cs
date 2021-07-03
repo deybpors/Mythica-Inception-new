@@ -20,7 +20,7 @@ namespace Assets.Scripts.Core
     }
 #endif
 
-    public class BaseScriptableObject : ScriptableObject {
+    public class ScriptableObjectWithID : ScriptableObject {
         [ScriptableObjectId]
         public string ID;
     }

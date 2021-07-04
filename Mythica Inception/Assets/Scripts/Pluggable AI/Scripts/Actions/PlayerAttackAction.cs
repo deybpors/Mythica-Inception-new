@@ -58,11 +58,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             stateController.player.skillManager.skillPoint = faceTo;
             
             if (stateController.player.skillManager.targeting) { return; }
+            stateController.transform.LookAt(faceTo);
             if (stateController.player.inputHandler.playerSwitch && _target!=null)
             {
                 stateController.player.ReleaseTameBeam();
             }
-            stateController.transform.LookAt(faceTo);
             stateController.transform.rotation = new Quaternion(0f,stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
             
             if(stateController.player.animator!=null) stateController.player.animator.SetBool("Attack", true);

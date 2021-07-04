@@ -20,14 +20,13 @@ namespace Assets.Scripts.Core.Player
         public SkillManager skillManager;
         public float monsterSwitchRate = .5f;
         public EntitiesHealth playerHealth;
-        [HideInInspector] public Health healthComponent;
-        //TODO: change type with string to request from object pooler
-        public GameObject projectilePrefab;
+        public TameBeam tameBeam;
         public Transform projectileRelease;
-        
+
         //TODO: change type from gameobject to whatever the data type name of monster
+        private Health _healthComponent;
         public List<GameObject> monsters;
-        public Animator animator = null;
+        [HideInInspector] public Animator animator;
         [HideInInspector] public Transform target;
         private StateController _stateController;
 
@@ -50,7 +49,7 @@ namespace Assets.Scripts.Core.Player
             animator = monsters[0].GetComponent<Animator>();
             _stateController = GetComponent<StateController>();
             _stateController.InitializeAI(true, null);
-            if(healthComponent == null){ healthComponent = GetComponent<Health>(); }
+            if(_healthComponent == null){ _healthComponent = GetComponent<Health>(); }
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
         }
         public void InitializeMonstersPlayerData()
@@ -119,9 +118,16 @@ namespace Assets.Scripts.Core.Player
         public void ReleaseTameBeam()
         {
             if(!inputHandler.playerSwitch) return;
-            
-            GameObject projectile = Instantiate(projectilePrefab, projectileRelease.position, Quaternion.identity);
-            projectile.GetComponent<IRange>().SetDataForProjectile(true, false,10, transform, target, Vector3.zero, 10, 50,1);
+            //TODO: instead of instantiate, change to object pooler chuchu
+            GameObject projectile = Instantiate(tameBeam.projectileGraphics.projectile, projectileRelease.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero));
+            IRange rangeProjectile = projectile.GetComponent<IRange>();
+            if (rangeProjectile == null)
+            {
+                ProjectileMove projectileMove = projectile.AddComponent<ProjectileMove>();
+                projectileMove.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle, true, false,tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
+                return;
+            }
+            rangeProjectile.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle,true, false,tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
         }
 
         public void TakeDamage(int damageToTake)
@@ -131,7 +137,7 @@ namespace Assets.Scripts.Core.Player
                 PlayerTakeDamage(damageToTake);
                 return;
             }
-            healthComponent.ReduceHealth(damageToTake, inputHandler.currentMonster);
+            _healthComponent.ReduceHealth(damageToTake, inputHandler.currentMonster);
         }
 
         public void Heal(int amountToHeal)
@@ -156,7 +162,6 @@ namespace Assets.Scripts.Core.Player
                 playerHealth.currentHealth = playerHealth.maxHealth;
             }
         }
-
         public void AddCurrentTameValue(int tameBeamValue)
         {
             throw new System.NotImplementedException();

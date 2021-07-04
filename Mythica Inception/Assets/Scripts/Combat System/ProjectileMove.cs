@@ -50,7 +50,7 @@ namespace Assets.Scripts.Combat_System
         {
             if(_fall) return;
             
-            Vector3 position = target == null ? toPosition : target.position;
+            Vector3 position = target == null ? toPosition : new Vector3(target.position.x, target.position.y + .5f, target.position.z);
             transform.position = Vector3.MoveTowards(transform.position, position, velocity * Time.deltaTime);
 
             if (target == null)

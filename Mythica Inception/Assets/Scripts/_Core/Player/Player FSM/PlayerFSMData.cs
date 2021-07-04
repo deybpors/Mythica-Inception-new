@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Core.Player.Player_FSM
+namespace Assets.Scripts._Core.Player.Player_FSM
 {
     [CreateAssetMenu(menuName = "Player FSM/Player FSM Data")]
     public class PlayerFSMData : ScriptableObject
@@ -10,6 +10,7 @@ namespace Assets.Scripts.Core.Player.Player_FSM
         public float dashTime;
         public float dashSpeed;
         public float attackRate;
+        public float monsterSwitchRate = .5f;
 
         [HideInInspector]
         public float temporaryTurnSmoothTime;

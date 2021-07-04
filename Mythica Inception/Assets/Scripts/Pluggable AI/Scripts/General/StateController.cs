@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Assets.Scripts.Core.Player;
+using Assets.Scripts._Core.Player;
 using Assets.Scripts.Pluggable_AI.Scripts.States;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -30,11 +30,16 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         [HideInInspector] public float stateTimeElapsed;
 
         public bool isActive;
-
-        void Awake()
+        
+        public void InitializeAI(bool activate, List<Transform> waypointList)
         {
             aI = GetComponent<MonsterTamerAI>();
             player = GetComponent<Player>();
+            isActive = activate;
+            
+            if (aI == null) return;
+            aI.waypoints = waypointList;
+            aI.agent.enabled = isActive;
         }
 
         void OnDisable()
@@ -46,13 +51,13 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         {
             if(!isActive) return;
             
-            if (stateMachineType == StateMachineType.Player && controllerAnimator != player.animator)
+            if (stateMachineType == StateMachineType.Player && controllerAnimator != player.currentAnimator)
             {
-                controllerAnimator = player.animator;
+                controllerAnimator = player.currentAnimator;
             }
-            else if (stateMachineType == StateMachineType.AI && controllerAnimator != aI.animator)
+            else if (stateMachineType == StateMachineType.AI && controllerAnimator != aI.currentAnimator)
             {
-                controllerAnimator = aI.animator;
+                controllerAnimator = aI.currentAnimator;
             }
             
             if (controllerAnimator != null && !currentState.stateAnimation.Equals(""))
@@ -60,15 +65,6 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
                 controllerAnimator.SetBool(currentState.stateAnimation, true);
             }
             currentState.UpdateState(this);
-        }
-        
-        public void InitializeAI(bool activate, List<Transform> waypointList)
-        {
-            isActive = activate;
-            
-            if (aI == null) return;
-            aI.waypoints = waypointList;
-            aI.agent.enabled = isActive;
         }
 
         public void TransitionToState(State nextState)

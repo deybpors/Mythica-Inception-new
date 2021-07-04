@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Core;
-using Assets.Scripts.Core.Player;
-using UnityEngine;
+using Assets.Scripts._Core;
 
 namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts
 {

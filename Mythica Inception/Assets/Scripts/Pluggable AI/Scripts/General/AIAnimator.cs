@@ -8,17 +8,18 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         
         void Update()
         {
+            if(monsterTamerAi.currentAnimator == null) return;
+            
             if (monsterTamerAi.agent.velocity.magnitude > 5f)
             {
-                monsterTamerAi.animator.SetBool("Move", true);
-                monsterTamerAi.animator.SetBool("Idle", false);
+                monsterTamerAi.currentAnimator.SetBool("Move", true);
+                monsterTamerAi.currentAnimator.SetBool("Idle", false);
             }
             else
             {
-                monsterTamerAi.animator.SetBool("Move", false);
-                monsterTamerAi.animator.SetBool("Idle", true);
+                monsterTamerAi.currentAnimator.SetBool("Move", false);
+                monsterTamerAi.currentAnimator.SetBool("Idle", true);
             }
-            //TODO: Update AI Monster for attacks, etc.
         }
     }
 }

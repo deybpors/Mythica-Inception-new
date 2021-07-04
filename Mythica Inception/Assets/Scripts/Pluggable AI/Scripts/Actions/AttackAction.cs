@@ -25,7 +25,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             {
                 if (stateController.HasTimeElapsed(stateController.aI.aiStats.attackDecisionEvery))
                 {
-                    //attack here
+                    //TODO: attack here
                 }
             }
         }

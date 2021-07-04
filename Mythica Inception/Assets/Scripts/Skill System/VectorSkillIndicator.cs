@@ -1,4 +1,4 @@
-using Assets.Scripts.Core.Player;
+using Assets.Scripts._Core.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 

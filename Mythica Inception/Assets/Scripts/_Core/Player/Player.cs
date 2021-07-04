@@ -1,34 +1,24 @@
 using System.Collections.Generic;
+using Assets.Scripts._Core.Input;
+using Assets.Scripts._Core.Player.Player_FSM;
 using Assets.Scripts.Combat_System;
-using Assets.Scripts.Core.Player.Input;
-using Assets.Scripts.Core.Player.Player_FSM;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
 
-namespace Assets.Scripts.Core.Player
+namespace Assets.Scripts._Core.Player
 {
     [RequireComponent(typeof(StateController))]
     public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame
     {
         private bool _activated;
-        public Camera mainCamera;
+        
+        public List<Monster> monsters;
         public PlayerFSMData playerData;
-        public CharacterController controller;
-        public PlayerInputHandler inputHandler;
-        public SkillManager skillManager;
-        public float monsterSwitchRate = .5f;
         public EntitiesHealth playerHealth;
         public TameBeam tameBeam;
         public Transform projectileRelease;
-
-        //TODO: change type from gameobject to whatever the data type name of monster
-        private Health _healthComponent;
-        public List<GameObject> monsters;
-        [HideInInspector] public Animator animator;
-        [HideInInspector] public Transform target;
-        private StateController _stateController;
 
         [Header("Skill Indicators")] 
         public Texture2D normalCursor;
@@ -36,6 +26,21 @@ namespace Assets.Scripts.Core.Player
         public Texture2D pointIndicator;
         public GameObject vectorIndicator;
         public GameObject unitIndicator;
+
+        #region Hidden Fields
+        
+        [HideInInspector] public Camera mainCamera;
+        [HideInInspector] public GameObject tamer;
+        private Health _healthComponent;
+        [HideInInspector] public SkillManager skillManager;
+        [HideInInspector] public PlayerInputHandler inputHandler;
+        [HideInInspector] public CharacterController controller;
+        [HideInInspector] public Animator currentAnimator;
+        [HideInInspector] public Transform target;
+        private StateController _stateController;
+
+        #endregion
+        
 
         void Awake()
         {
@@ -45,21 +50,27 @@ namespace Assets.Scripts.Core.Player
 
         private void Init()
         {
-            InitializeMonstersPlayerData();
-            animator = monsters[0].GetComponent<Animator>();
+            InitializePlayerData();
+            mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            controller = GetComponent<CharacterController>();
+            inputHandler = GetComponent<PlayerInputHandler>();
+            tamer = transform.FindChildWithTag("Tamer").gameObject;
+            currentAnimator = tamer.GetComponent<Animator>();
             _stateController = GetComponent<StateController>();
             _stateController.InitializeAI(true, null);
             if(_healthComponent == null){ _healthComponent = GetComponent<Health>(); }
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
+            GetComponent<MonsterManager>().ActivateMonsterManager();
         }
-        public void InitializeMonstersPlayerData()
+        public void InitializePlayerData()
         {
             //TODO: initialize the monsters from player's save data and put it in monsters list
+            Debug.Log("Initializing save data...");
         }
 
         public float GetMonsterSwitchRate()
         {
-            return monsterSwitchRate;
+            return playerData.monsterSwitchRate;
         }
 
         public int MonsterSwitched()
@@ -76,7 +87,7 @@ namespace Assets.Scripts.Core.Player
         }
         
 
-        public List<GameObject> GetMonsters()
+        public List<Monster> GetMonsters()
         {
             return monsters;
         }
@@ -88,7 +99,12 @@ namespace Assets.Scripts.Core.Player
 
         public void SetAnimator(Animator animatorToChange)
         {
-            animator = animatorToChange;
+            currentAnimator = animatorToChange;
+        }
+
+        public GameObject GetTamer()
+        {
+            return tamer;
         }
 
         public void Deactivate()
@@ -105,7 +121,7 @@ namespace Assets.Scripts.Core.Player
 
         public Animator GetEntityAnimator()
         {
-            return animator;
+            return currentAnimator;
         }
 
         public Transform GetTarget()
@@ -118,16 +134,18 @@ namespace Assets.Scripts.Core.Player
         public void ReleaseTameBeam()
         {
             if(!inputHandler.playerSwitch) return;
-            //TODO: instead of instantiate, change to object pooler chuchu
-            GameObject projectile = Instantiate(tameBeam.projectileGraphics.projectile, projectileRelease.position, Quaternion.FromToRotation(Vector3.up, Vector3.zero));
+            GameObject projectile = GameManager.instance.pooler.
+                SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
+                tameBeam.projectileGraphics.projectile, projectileRelease.position,
+                Quaternion.FromToRotation(Vector3.up, Vector3.zero));
             IRange rangeProjectile = projectile.GetComponent<IRange>();
             if (rangeProjectile == null)
             {
                 ProjectileMove projectileMove = projectile.AddComponent<ProjectileMove>();
-                projectileMove.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle, true, false,tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
+                projectileMove.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle, true, false, tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
                 return;
             }
-            rangeProjectile.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle,true, false,tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
+            rangeProjectile.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle,true, false, tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
         }
 
         public void TakeDamage(int damageToTake)
@@ -164,7 +182,7 @@ namespace Assets.Scripts.Core.Player
         }
         public void AddCurrentTameValue(int tameBeamValue)
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

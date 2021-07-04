@@ -1,7 +1,7 @@
 ﻿using Assets.Scripts.Pluggable_AI.Scripts.General;
 using UnityEngine;
 
-namespace Assets.Scripts.Core
+namespace Assets.Scripts._Core
 {
     public interface IEntity
     {

@@ -1,3 +1,4 @@
+using Assets.Scripts._Core;
 using Assets.Scripts.Core;
 using Assets.Scripts.Monster_System;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace Assets.Scripts.Skill_System
         public float cooldownTime = 10;
         public float staminaTake;
         public float healthTake;
-        //TODO: change with below with id from the database to spawn in pooler
+        //TODO: remember, tag of projectile in pooler is its .name
         public GameObject spawnedProjectile;
 
         public virtual void Activate(IEntity entity, Transform target) { }

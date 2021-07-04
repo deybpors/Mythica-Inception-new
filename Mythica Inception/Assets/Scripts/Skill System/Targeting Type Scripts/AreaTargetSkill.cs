@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Core;
-using Assets.Scripts.Core.Player;
+﻿using Assets.Scripts._Core;
+using Assets.Scripts._Core.Player;
 using UnityEngine;
 
 namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts
@@ -12,7 +12,9 @@ namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts
         public override void Target(IEntity entity)
         {
             Player player = entity.GetStateController().player;
-
+            
+            if(player == null || !player.skillManager.enabled) return;
+            
             if (!player.areaIndicator.activeInHierarchy)
             {
                 player.areaIndicator.GetComponent<AreaIndicator>().radius = radius;

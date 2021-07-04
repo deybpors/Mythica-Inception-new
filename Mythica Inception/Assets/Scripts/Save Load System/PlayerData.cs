@@ -1,18 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
-using Assets.Scripts.Core.Player;
-using UnityEngine;
+using Assets.Scripts._Core.Player;
 
-[System.Serializable]
-public class PlayerData
+namespace Assets.Scripts.Save_Load_System
 {
-    public float[] position;
-    public PlayerData(Player player)
+    [System.Serializable]
+    public class PlayerData
     {
-        position = new float[3];
-        position[0] = player.transform.position.x;
-        position[1] = player.transform.position.y;
-        position[2] = player.transform.position.z;
+        public float[] position;
+        public PlayerData(Player player)
+        {
+            position = new float[3];
+            position[0] = player.transform.position.x;
+            position[1] = player.transform.position.y;
+            position[2] = player.transform.position.z;
+        }
     }
 }

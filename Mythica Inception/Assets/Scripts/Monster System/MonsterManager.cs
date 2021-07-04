@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Core;
+using Assets.Scripts._Core;
+using Assets.Scripts.Skill_System;
 using UnityEngine;
 
 namespace Assets.Scripts.Monster_System
@@ -8,59 +9,76 @@ namespace Assets.Scripts.Monster_System
     [RequireComponent(typeof(IHaveMonsters))]
     public class MonsterManager : MonoBehaviour
     {
-        //TODO: change type from gameobject to whatever the data type name of monster
-        [SerializeField]
-        private List<GameObject> _monstersPrefabs;
+        [SerializeField] private bool _activated;
+        [SerializeField] private List<Monster> _monsters;
+
+        #region Hidden Fields
+
+        private SkillManager _skillManager;
+        private List<GameObject> _monsterGameObjects;
         private IHaveMonsters _haveMonsters;
         private List<Animator> _monsterAnimators;
         private GameObject _tamerPrefab;
         private Animator _tamerAnimator;
         private float _timer;
+        [SerializeField]
         private int _currentMonster;
-
-        void Start()
+        #endregion
+        
+        public void ActivateMonsterManager()
         {
-            Init();
-        }
-
-        void OnEnable()
-        {
-            Init();
-        }
-        private void Init()
-        {
-            var tamer = FindChildTag.FindChildWithTag(transform, "Tamer");
-            if (tamer != null) { _tamerPrefab = tamer.gameObject; }
+            _currentMonster = -1;
             _haveMonsters = GetComponent<IHaveMonsters>();
-            _monstersPrefabs = _haveMonsters.GetMonsters();
+            _skillManager = GetComponent<SkillManager>();
+            if (_haveMonsters.GetTamer() != null) { _tamerPrefab = _haveMonsters.GetTamer().gameObject; }
+            
+            _monsters = _haveMonsters.GetMonsters();
+            _monsterGameObjects = new List<GameObject>();
+            RequestPoolMonstersPrefab();
+            
             _monsterAnimators = GetMonsterAnimators();
+            
             if (_tamerPrefab == null) return;
             _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
+            _activated = true;
+        }
+
+        private void RequestPoolMonstersPrefab()
+        {
+            for (int i = 0; i < _monsters.Count; i++)
+            {
+                GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
+                    _monsters[i].monsterName, _monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
+                monsterObj.SetActive(false);
+                _monsterGameObjects.Add(monsterObj);
+            }
         }
 
         private List<Animator> GetMonsterAnimators()
         {
-            return _monstersPrefabs.Select(monster => monster.GetComponent<Animator>()).ToList();
+            return _monsterGameObjects.Select(monster => monster.GetComponent<Animator>()).ToList();
         }
 
         void Update()
         {
-            if (_monstersPrefabs.Count <= 0) return;
+            if(!_activated) return;
+            
+            if (_monsters.Count <= 0) return;
             
             _timer += Time.deltaTime;
             if(_timer < _haveMonsters.GetMonsterSwitchRate()) return;
             
-            int monsterSlotSelected = _haveMonsters.MonsterSwitched();
-            
             if (_haveMonsters.isPlayerSwitched())
             {
-                SwitchToPlayer(); 
+                SwitchToTamer();
                 return;
             }
             
+            int monsterSlotSelected = _haveMonsters.MonsterSwitched();
+            Debug.Log(monsterSlotSelected);
             if(monsterSlotSelected == _currentMonster) return;
-            
-            if (_monstersPrefabs[monsterSlotSelected] == null)
+
+            if (_monsterGameObjects[monsterSlotSelected] == null)
             {
                 //TODO: Update UI to send message that there is currently no monsters in the selected slot
                 Debug.Log("Currently no monsters in the selected slot");
@@ -71,27 +89,38 @@ namespace Assets.Scripts.Monster_System
             _timer = 0;
         }
 
-        private void SwitchToPlayer()
+        private void SwitchToTamer()
         {
             if (_tamerPrefab == null) return;
             InactiveAll();
             _tamerPrefab.SetActive(true);
             _haveMonsters.SetAnimator(_tamerAnimator);
+            _skillManager.activated = false;
+            _currentMonster = -1;
         }
 
         public void SwitchMonster(int slot)
         {
             InactiveAll();
-            _monstersPrefabs[slot].SetActive(true);
-            _currentMonster = slot;
-            Debug.Log("Monster switched to slot " + (slot + 1));
+            
+            _skillManager.ActivateSkillManager();
+            
+            _monsterGameObjects[slot].SetActive(true);
+            
             _haveMonsters.SetAnimator(_monsterAnimators[slot]);
+
+            _currentMonster = slot;
+            ChangeMonsterStats(slot);
+        }
+
+        private void ChangeMonsterStats(int slot)
+        {
             //TODO: change the stats of monsters here
         }
 
         private void InactiveAll()
         {
-            foreach (var monster in _monstersPrefabs)
+            foreach (var monster in _monsterGameObjects)
             {
                 monster.SetActive(false);
             }

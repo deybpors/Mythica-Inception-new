@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts._Core;
 using Assets.Scripts.Core;
 using Assets.Scripts.Monster_System;
+using Assets.Scripts.Skill_System;
 using Assets.Scripts.UI;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,33 +17,28 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public FieldOfView fieldOfView;
         public GameObject unitIndicator;
         [HideInInspector] public Health health;
-        [HideInInspector] public Animator animator = null;
+        [HideInInspector] public Animator currentAnimator = null;
         [HideInInspector] public List<Transform> waypoints;
         [HideInInspector] public int nextWaypoint;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 lastKnownTargetPosition;
         [HideInInspector] public int currentMonster;
         private StateController _stateController;
-
-        //TODO: change type from gameobject to whatever the data type name of monster
-        public List<GameObject> monsters;
-
-        void Start()
-        {
-            Init();
-        }
-
-        void OnEnable()
-        {
-            Init();
-        }
-
+        public List<Monster> monsters;
+        [HideInInspector] public List<GameObject> monsterGameObjects;
+        private SkillManager _skillManager;
         private void Init()
         {
             _stateController = GetComponent<StateController>();
+            
+            if (monsters.Count <= 0)
+            {
+                //if Wild monsters
+                InitializeMonstersData();
+            }
+            
             InitializeMonsters();
-            InitializeMonstersData();
-            animator = monsters[0].GetComponent<Animator>();
+            currentAnimator = monsterGameObjects[0].GetComponent<Animator>();
             health = GetComponent<Health>();
             if (health == null)
             {
@@ -54,19 +51,17 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         {
             if (monsters.Count > 0) return;
             
-            //TODO: spawn monster prefab from pool here instead of finding the tag that has monster in it
-            for (int i = 0; i < transform.childCount; i++)
+            for (int i = 0; i < monsters.Count; i++)
             {
-                if (transform.GetChild(i).CompareTag("Monster"))
-                {
-                    monsters.Add(transform.GetChild(i).gameObject);
-                }
+                GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform, monsters[i].monsterName,
+                    monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
+                monsterGameObjects.Add(monsterObj);
             }
         }
 
         private void InitializeMonstersData()
         {
-            //TODO: initialize monster's data here
+            //TODO: initialize monster's data here (put Monsters in the monsters list)
         }
 
         public StateController GetStateController()
@@ -76,7 +71,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public Animator GetEntityAnimator()
         {
-            return animator;
+            return currentAnimator;
         }
 
         public float GetMonsterSwitchRate()
@@ -86,7 +81,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public int MonsterSwitched() { return currentMonster; }
 
-        public List<GameObject> GetMonsters()
+        public List<Monster> GetMonsters()
         {
             return monsters;
         }
@@ -98,7 +93,22 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public void SetAnimator(Animator animatorToChange)
         {
-            animator = animatorToChange;
+            currentAnimator = animatorToChange;
+        }
+
+        public GameObject GetTamer()
+        {
+            return null;
+        }
+
+        public void ActivateSkillManager(bool isActivated)
+        {
+            if (_skillManager == null)
+            {
+                _skillManager = GetComponent<SkillManager>();
+            }
+
+            _skillManager.enabled = isActivated;
         }
 
         public void Deactivate()

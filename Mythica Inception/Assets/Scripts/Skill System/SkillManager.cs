@@ -1,7 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Core;
-using Assets.Scripts.Core.Player;
+using Assets.Scripts._Core;
+using Assets.Scripts._Core.Player;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using Assets.Scripts.Skill_System.Targeting_Type_Scripts;
 using UnityEngine;
@@ -19,18 +18,18 @@ namespace Assets.Scripts.Skill_System
         }
     
         public List<SkillSlot> skillSlots;
-        
+        public bool activated;
         [HideInInspector] public bool targeting;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 skillPoint;
         [HideInInspector] public StateMachineType smType;
         private IEntity _entity;
-
-        void Start()
+        public void ActivateSkillManager()
         {
             InitializeMonsterSkills();
             _entity = GetComponent<IEntity>();
             smType = _entity.GetStateController().stateMachineType;
+            activated = true;
         }
 
         private void InitializeMonsterSkills()
@@ -46,6 +45,8 @@ namespace Assets.Scripts.Skill_System
 
         void Update()
         {
+            if(!activated) return;
+            
             if (smType == StateMachineType.Player)
             {
                 CheckTargetingAndOnCooldownSkills();
@@ -167,6 +168,8 @@ namespace Assets.Scripts.Skill_System
 
         public void Targeting(SkillSlot slot)
         {
+            if(!activated) return;
+            
             if (slot.cooldownTimer > 0)
             {
                 //TODO: update UI that skill is still in cooldown

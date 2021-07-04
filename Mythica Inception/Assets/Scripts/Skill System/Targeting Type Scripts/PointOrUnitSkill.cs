@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Core;
-using Assets.Scripts.Core.Player;
+﻿using Assets.Scripts._Core;
+using Assets.Scripts._Core.Player;
 using UnityEngine;
 
 namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts

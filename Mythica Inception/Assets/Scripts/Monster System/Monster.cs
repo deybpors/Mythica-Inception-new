@@ -11,7 +11,8 @@ namespace Assets.Scripts.Monster_System
         public string monsterName;
         public GameObject monsterPrefab;
         public MonsterType type;
-        public BasicAttackType attackType;
+        public BasicAttackType basicAttackType;
+        public float basicAttackRadius;
         public MonsterStats stats;
         public List<MonsterSkillLearnSets> skillLearnSets;
     }

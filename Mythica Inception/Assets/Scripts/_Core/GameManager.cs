@@ -1,13 +1,13 @@
+using Assets.Scripts.Core;
 using Assets.Scripts.Databases.Scripts;
-using Assets.Scripts.Monster_System;
-using Assets.Scripts.Skill_System;
 using UnityEngine;
 
-namespace Assets.Scripts.Core
+namespace Assets.Scripts._Core
 {
     public class GameManager : MonoBehaviour
     {
         public static GameManager instance = null;
+        public ObjectPooler pooler;
         
         [Header("Databases")]
         public Database monstersDatabase;

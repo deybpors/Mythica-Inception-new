@@ -22,8 +22,10 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             {
                 stateController.player.playerData.temporaryTurnSmoothTime =
                     stateController.player.playerData.turnSmoothTime;
-                //TODO: Update these
-                if(stateController.player.animator!=null) stateController.player.animator.SetBool("Attack", false);
+                if (stateController.player.currentAnimator != null)
+                {
+                    stateController.player.currentAnimator.SetBool("Attack", false);
+                }
             }
             else
             {
@@ -63,9 +65,9 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             {
                 stateController.player.ReleaseTameBeam();
             }
+            //TODO: Request to object pooler for attack here
             stateController.transform.rotation = new Quaternion(0f,stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
-            
-            if(stateController.player.animator!=null) stateController.player.animator.SetBool("Attack", true);
+            if(stateController.player.currentAnimator!=null) stateController.player.currentAnimator.SetBool("Attack", true);
         }
     }
 }

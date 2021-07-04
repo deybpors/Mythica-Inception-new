@@ -1,18 +1,17 @@
 using System.Collections;
-using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.Core.Player.Input
+namespace Assets.Scripts._Core.Input
 {
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerInputHandler : MonoBehaviour
     {
-        public Player Player { get; private set; }
+        public _Core.Player.Player Player { get; private set; }
 
         [HideInInspector] public Vector2 movementInput;
         [HideInInspector] public bool dashInput;
-         public bool attackInput;
+        [HideInInspector] public bool attackInput;
         [HideInInspector] public bool canAttack = true;
         [HideInInspector] public bool firstSkillInput;
         [HideInInspector] public bool secondSkillInput;
@@ -20,12 +19,14 @@ namespace Assets.Scripts.Core.Player.Input
         [HideInInspector] public bool fourthSkillInput;
         [HideInInspector] public bool cancelSkill;
         [HideInInspector] public bool activateSkill;
-        [HideInInspector] public int currentMonster;
-        [HideInInspector] public int previousMonster;
-         public bool playerSwitch;
+        public int currentMonster;
+        public int previousMonster;
+        public bool playerSwitch;
         void Awake()
         {
-            Player = GetComponent<Player>();
+            Player = GetComponent<_Core.Player.Player>();
+            previousMonster = -1;
+            playerSwitch = true;
         }
 
         #region Move
@@ -111,10 +112,11 @@ namespace Assets.Scripts.Core.Player.Input
         #endregion
 
         #region MonsterSwitching
-        public void SwitchPlayer(InputAction.CallbackContext context)
+        
+        public void SwitchTamer(InputAction.CallbackContext context)
         {
             if(!context.started) return;
-            SwitchMonster(0, true);
+            SwitchMonster(-1, true);
         }
         public void SwitchMonster1(InputAction.CallbackContext context)
         {

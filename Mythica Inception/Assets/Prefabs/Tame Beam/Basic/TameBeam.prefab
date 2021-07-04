@@ -14669,7 +14669,7 @@ GameObject:
   - component: {fileID: 3968044214962634631}
   - component: {fileID: 496487237765553797}
   - component: {fileID: 2284030030547160384}
-  - component: {fileID: 4208779163559461991}
+  - component: {fileID: -8447853404318755761}
   m_Layer: 0
   m_Name: TameBeam
   m_TagString: Untagged
@@ -19536,7 +19536,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &4208779163559461991
+--- !u!114 &-8447853404318755761
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19545,10 +19545,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7466845484337942068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5aa5c1e37409a9344a344c0468db383d, type: 3}
+  m_Script: {fileID: 11500000, guid: b20371c7b4e90df4caa6e1ef1550c417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabSound: {fileID: 1297775994297274, guid: 05e4ff0bff6104f4e87085790abc6e88, type: 3}
-  destroyWhenDone: 1
-  soundPrefabIsChild: 0
-  pitchRandomMultiplier: 1.2

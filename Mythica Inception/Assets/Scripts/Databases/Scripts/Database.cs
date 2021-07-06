@@ -1,5 +1,4 @@
-using System.Collections.Generic;
-using Assets.Scripts.Core;
+using Assets.Scripts._Core;
 using UnityEngine;
 
 namespace Assets.Scripts.Databases.Scripts

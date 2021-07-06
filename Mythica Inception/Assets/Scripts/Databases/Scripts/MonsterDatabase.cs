@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.Core;
+using Assets.Scripts._Core;
 using Assets.Scripts.Monster_System;
 using UnityEngine;
 

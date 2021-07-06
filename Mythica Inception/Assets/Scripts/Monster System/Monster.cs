@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Core;
+using Assets.Scripts._Core;
+using Assets.Scripts.Items_and_Barter_System.Scripts;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
 
@@ -15,6 +16,24 @@ namespace Assets.Scripts.Monster_System
         public float basicAttackRadius;
         public MonsterStats stats;
         public List<MonsterSkillLearnSets> skillLearnSets;
+        [TextArea(15,20)]
+        public string description;
+    }
+    
+    [System.Serializable]
+    public class MonsterSlot
+    {
+        //this will be the one saved
+        public bool inParty;
+        public int slotNumber;
+        public string nickName;
+        public Monster monster;
+        public int currentHealth;
+        public int currentStamina;
+        public int currentExp;
+        public float stabilityValue;
+        public Skill[] skill = new Skill[4];
+        public InventorySlot[] inventory = new InventorySlot[6];
     }
 
     [System.Serializable]
@@ -53,16 +72,6 @@ namespace Assets.Scripts.Monster_System
     {
         public Skill skill;
         public int levelToLearn;
-    }
-
-    public class MonsterSaveData
-    {
-        public string id;
-        public string nickName;
-        public int currentExp;
-        [Range(0,50)]
-        public float stabilityValue;
-        public Skill[] skills;
     }
 
     public enum MonsterType

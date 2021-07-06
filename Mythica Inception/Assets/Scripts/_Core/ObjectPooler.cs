@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Linq;
+using MyBox;
 using UnityEngine;
 
-namespace Assets.Scripts.Core
+namespace Assets.Scripts._Core
 {
     public class ObjectPooler : MonoBehaviour
     {
@@ -15,6 +17,28 @@ namespace Assets.Scripts.Core
 
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
+
+
+        void Start()
+        {
+            if (pools.Count > 0)
+            {
+                PreInstantiate();
+            }
+        }
+
+        private void PreInstantiate()
+        {
+            foreach (var pool in pools.ToList())
+            {
+                if (pool.tag.IsNullOrEmpty())
+                {
+                    pool.tag = pool.prefab.name;
+                }
+                AddNewPoolToDictionary(transform, pool.tag, pool.prefab, pool.size);
+            }
+        }
+
 
         public GameObject SpawnFromPool(Transform parent, string newSpawnedTag, GameObject prefabCheck, Vector3 position, Quaternion rotation)
         {
@@ -33,9 +57,20 @@ namespace Assets.Scripts.Core
                 }
 
                 GameObject objectToSpawn = poolDictionary[newSpawnedTag].Dequeue();
-
+                
+                if (objectToSpawn == null) return null;
+                
                 objectToSpawn.SetActive(true);
-                objectToSpawn.transform.position = position;
+                if (parent != null)
+                {
+                    objectToSpawn.transform.parent = parent;
+                    objectToSpawn.transform.localPosition = position;
+                }
+                else
+                {
+                    objectToSpawn.transform.position = position;
+                }
+                
                 objectToSpawn.transform.rotation = rotation;
 
                 poolDictionary[newSpawnedTag].Enqueue(objectToSpawn);
@@ -46,6 +81,10 @@ namespace Assets.Scripts.Core
 
         private void AddNewPoolToDictionary(Transform parent, string newSpawnedTag, GameObject prefabCheck, int size)
         {
+            poolDictionary ??= new Dictionary<string, Queue<GameObject>>();
+            
+            if(poolDictionary.ContainsKey(newSpawnedTag)) return;
+            
             //create a queue of Game objects
             Queue<GameObject> newPool = new Queue<GameObject>();
 
@@ -62,24 +101,28 @@ namespace Assets.Scripts.Core
                 {
                     if (i == 0)
                     {
-                        InstantiateAndAddToPool(parent, pool, newPool);
+                        InstantiateAndAddToPool(pool, newPool);
                         continue; 
                     }
                 }
-                InstantiateAndAddToPool(null, pool, newPool);
+                InstantiateAndAddToPool(pool, newPool);
             }
             //add pool to pools
             pools.Add(pool);
+
+            poolDictionary ??= new Dictionary<string, Queue<GameObject>>();
+            
             //add it in the pool dictionary
             poolDictionary.Add(newSpawnedTag, newPool);
+            
+            //TODO: instead of debugging, update UI during loading
             Debug.LogWarning("Pool with tag " + newSpawnedTag + " doesn't exist.\nProceed to adding new pool.");
         }
 
-        private GameObject InstantiateAndAddToPool(Transform parent, Pool pool, Queue<GameObject> objectPool)
+        private GameObject InstantiateAndAddToPool(Pool pool, Queue<GameObject> objectPool)
         {
             //instantiating the object then setting it inactive
             GameObject obj = Instantiate(pool.prefab);
-            obj.transform.parent = parent == null ? transform : parent;
             obj.SetActive(false);
 
             //put it in the new queue

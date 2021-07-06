@@ -1,5 +1,4 @@
 using Assets.Scripts._Core;
-using Assets.Scripts.Core;
 using Assets.Scripts.Monster_System;
 using UnityEngine;
 
@@ -21,7 +20,9 @@ namespace Assets.Scripts.Skill_System
         public float healthTake;
         //TODO: remember, tag of projectile in pooler is its .name
         public GameObject spawnedProjectile;
-
+        [TextArea(15,20)]
+        public string description;
+        
         public virtual void Activate(IEntity entity, Transform target) { }
         
         public virtual void Activate(IEntity entity) { }

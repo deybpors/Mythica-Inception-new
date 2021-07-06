@@ -31,7 +31,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public bool isActive;
         
-        public void InitializeAI(bool activate, List<Transform> waypointList)
+        public void ActivateAI(bool activate, List<Transform> waypointList)
         {
             aI = GetComponent<MonsterTamerAI>();
             player = GetComponent<Player>();

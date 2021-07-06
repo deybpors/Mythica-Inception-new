@@ -1,4 +1,3 @@
-using Assets.Scripts.Core;
 using Assets.Scripts.Databases.Scripts;
 using UnityEngine;
 
@@ -12,7 +11,8 @@ namespace Assets.Scripts._Core
         [Header("Databases")]
         public Database monstersDatabase;
         public Database skillsDatabase;
-
+        public Database itemsDatabase;
+        
         void Awake()
         {
             if (instance == null)

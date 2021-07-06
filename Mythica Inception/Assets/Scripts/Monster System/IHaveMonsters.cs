@@ -10,12 +10,12 @@ namespace Assets.Scripts.Monster_System
         int MonsterSwitched();
         List<Monster> GetMonsters();
 
+        List<MonsterSlot> GetMonsterSlots();
+
         bool isPlayerSwitched();
 
         void SetAnimator(Animator animatorToChange);
 
         GameObject GetTamer();
-
-        void Deactivate();
     }
 }

@@ -41,11 +41,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             {
                 if (stateController.gameObject.activeInHierarchy)
                 {
-                    stateController.InitializeAI(true, waypoints);
+                    stateController.ActivateAI(true, waypoints);
                 }
                 else
                 {
-                    stateController.InitializeAI(false, waypoints);
+                    stateController.ActivateAI(false, waypoints);
                 }
             }
         }

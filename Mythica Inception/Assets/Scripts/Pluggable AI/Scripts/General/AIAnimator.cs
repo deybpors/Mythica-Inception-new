@@ -9,7 +9,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         void Update()
         {
             if(monsterTamerAi.currentAnimator == null) return;
-            
+
             if (monsterTamerAi.agent.velocity.magnitude > 5f)
             {
                 monsterTamerAi.currentAnimator.SetBool("Move", true);

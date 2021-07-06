@@ -2,7 +2,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Core
+namespace Assets.Scripts._Core
 {
     public class ScriptableObjectIdAttribute : PropertyAttribute { }
 

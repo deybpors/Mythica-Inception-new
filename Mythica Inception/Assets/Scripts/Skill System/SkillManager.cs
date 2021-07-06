@@ -76,8 +76,8 @@ namespace Assets.Scripts.Skill_System
                         Player player = _entity.GetStateController().player;
                         player.inputHandler.activateSkill = false;
 
-                        target = player.GetTarget();
-                        
+                        target = player.selectionManager.selectables.Count > 0 ? player.selectionManager.selectables[0] : null;
+
                         if ((slot.skill is UnitAreaTargetSkill || slot.skill is UnitOnlyTargetSkill) && target == null)
                         {
                             //TODO display message that skill needs to have target

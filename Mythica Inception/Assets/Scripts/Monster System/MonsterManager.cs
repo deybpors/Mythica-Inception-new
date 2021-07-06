@@ -14,6 +14,7 @@ namespace Assets.Scripts.Monster_System
 
         #region Hidden Fields
 
+        [HideInInspector] public bool isPlayer;
         private SkillManager _skillManager;
         private List<GameObject> _monsterGameObjects;
         private IHaveMonsters _haveMonsters;
@@ -30,14 +31,16 @@ namespace Assets.Scripts.Monster_System
             _currentMonster = -1;
             _haveMonsters = GetComponent<IHaveMonsters>();
             _skillManager = GetComponent<SkillManager>();
-            if (_haveMonsters.GetTamer() != null) { _tamerPrefab = _haveMonsters.GetTamer().gameObject; }
+            if (_haveMonsters.GetTamer() != null)
+            {
+                isPlayer = true;
+                _tamerPrefab = _haveMonsters.GetTamer().gameObject;
+            }
             
             _monsters = _haveMonsters.GetMonsters();
             _monsterGameObjects = new List<GameObject>();
             RequestPoolMonstersPrefab();
-            
             _monsterAnimators = GetMonsterAnimators();
-            
             if (_tamerPrefab == null) return;
             _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
             _activated = true;
@@ -75,16 +78,17 @@ namespace Assets.Scripts.Monster_System
             }
             
             int monsterSlotSelected = _haveMonsters.MonsterSwitched();
-            Debug.Log(monsterSlotSelected);
             if(monsterSlotSelected == _currentMonster) return;
-
             if (_monsterGameObjects[monsterSlotSelected] == null)
             {
-                //TODO: Update UI to send message that there is currently no monsters in the selected slot
-                Debug.Log("Currently no monsters in the selected slot");
+                if (isPlayer)
+                {
+                    //TODO: Update UI to send message that there is currently no monsters in the selected slot
+                    Debug.Log("Currently no monsters in the selected slot"); 
+                }
                 return;
             }
-            
+
             SwitchMonster(_haveMonsters.MonsterSwitched());
             _timer = 0;
         }

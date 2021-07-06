@@ -4,5 +4,7 @@
     {
         void TakeDamage(int damageToTake);
         void Heal(int amountToHeal);
+
+        void Die();
     }
 }

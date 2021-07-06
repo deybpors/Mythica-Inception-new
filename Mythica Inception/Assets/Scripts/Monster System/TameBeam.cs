@@ -1,5 +1,5 @@
-﻿using Assets.Scripts.Combat_System;
-using Assets.Scripts.Core;
+﻿using Assets.Scripts._Core;
+using Assets.Scripts.Combat_System;
 using UnityEngine;
 
 namespace Assets.Scripts.Monster_System

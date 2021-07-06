@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts._Core.Input;
 using Assets.Scripts._Core.Player.Player_FSM;
 using Assets.Scripts.Combat_System;
@@ -10,16 +11,16 @@ using UnityEngine;
 namespace Assets.Scripts._Core.Player
 {
     [RequireComponent(typeof(StateController))]
-    public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame
+    public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame, IHaveStamina
     {
-        private bool _activated;
-        
-        public List<Monster> monsters;
+
+        public MonsterSlot[] monsterSlots;
         public PlayerFSMData playerData;
-        public EntitiesHealth playerHealth;
+        public EntityHealth playerHealth;
+        public EntityStamina playerStamina;
         public TameBeam tameBeam;
         public Transform projectileRelease;
-
+        
         [Header("Skill Indicators")] 
         public Texture2D normalCursor;
         public GameObject areaIndicator;
@@ -28,7 +29,8 @@ namespace Assets.Scripts._Core.Player
         public GameObject unitIndicator;
 
         #region Hidden Fields
-        
+
+        [HideInInspector] public SelectionManager selectionManager;
         [HideInInspector] public Camera mainCamera;
         [HideInInspector] public GameObject tamer;
         private Health _healthComponent;
@@ -36,7 +38,7 @@ namespace Assets.Scripts._Core.Player
         [HideInInspector] public PlayerInputHandler inputHandler;
         [HideInInspector] public CharacterController controller;
         [HideInInspector] public Animator currentAnimator;
-        [HideInInspector] public Transform target;
+        [HideInInspector] public Stamina staminaComponent;
         private StateController _stateController;
 
         #endregion
@@ -45,19 +47,21 @@ namespace Assets.Scripts._Core.Player
         void Awake()
         {
             Init();
-            _activated = true;
         }
 
         private void Init()
         {
             InitializePlayerData();
             mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            staminaComponent = GetComponent<Stamina>();
+            selectionManager = GetComponent<SelectionManager>();
+            selectionManager.ActivateSelectionManager();
             controller = GetComponent<CharacterController>();
             inputHandler = GetComponent<PlayerInputHandler>();
             tamer = transform.FindChildWithTag("Tamer").gameObject;
             currentAnimator = tamer.GetComponent<Animator>();
             _stateController = GetComponent<StateController>();
-            _stateController.InitializeAI(true, null);
+            _stateController.ActivateAI(true, null);
             if(_healthComponent == null){ _healthComponent = GetComponent<Health>(); }
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
             GetComponent<MonsterManager>().ActivateMonsterManager();
@@ -75,7 +79,7 @@ namespace Assets.Scripts._Core.Player
 
         public int MonsterSwitched()
         {
-            if (inputHandler.currentMonster >= monsters.Count)
+            if (inputHandler.currentMonster >= monsterSlots.Length)
             {
                 inputHandler.currentMonster = inputHandler.previousMonster;
                 
@@ -89,7 +93,15 @@ namespace Assets.Scripts._Core.Player
 
         public List<Monster> GetMonsters()
         {
+            var monsters = new List<Monster>();
+            if (monsterSlots.Length <= 0) return monsters;
+            monsters.AddRange(monsterSlots.Select(slot => slot.monster));
             return monsters;
+        }
+
+        public List<MonsterSlot> GetMonsterSlots()
+        {
+            return monsterSlots.ToList();
         }
 
         public bool isPlayerSwitched()
@@ -107,16 +119,29 @@ namespace Assets.Scripts._Core.Player
             return tamer;
         }
 
-        public void Deactivate()
-        {
-            if(!_activated) return;
-            gameObject.SetActive(false);
-        }
-
 
         public StateController GetStateController()
         {
             return _stateController;
+        }
+
+        public void ReleaseTameBeam()
+        {
+            if(!inputHandler.playerSwitch) return;
+            if(selectionManager.selectables.Count <= 0) return;
+            
+            var projectile = GameManager.instance.pooler.
+                SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
+                tameBeam.projectileGraphics.projectile, projectileRelease.position,
+                Quaternion.FromToRotation(Vector3.up, Vector3.zero));
+            var rangeProjectile = projectile.GetComponent<IRange>();
+            if (rangeProjectile == null)
+            {
+                ProjectileMove projectileMove = projectile.AddComponent<ProjectileMove>();
+                projectileMove.ProjectileData(true, tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle, true, false, tameBeam.power, transform, selectionManager.selectables[0], Vector3.zero, 10, 50,1);
+                return;
+            }
+            rangeProjectile.ProjectileData(true, tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle,true, false, tameBeam.power, transform, selectionManager.selectables[0], Vector3.zero, 10, 50,1);
         }
 
         public Animator GetEntityAnimator()
@@ -124,65 +149,62 @@ namespace Assets.Scripts._Core.Player
             return currentAnimator;
         }
 
-        public Transform GetTarget()
-        {
-            Transform returnTarget = target;
-            target = null;
-            return returnTarget;
-        }
-
-        public void ReleaseTameBeam()
-        {
-            if(!inputHandler.playerSwitch) return;
-            GameObject projectile = GameManager.instance.pooler.
-                SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
-                tameBeam.projectileGraphics.projectile, projectileRelease.position,
-                Quaternion.FromToRotation(Vector3.up, Vector3.zero));
-            IRange rangeProjectile = projectile.GetComponent<IRange>();
-            if (rangeProjectile == null)
-            {
-                ProjectileMove projectileMove = projectile.AddComponent<ProjectileMove>();
-                projectileMove.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle, true, false, tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
-                return;
-            }
-            rangeProjectile.ProjectileData(tameBeam.projectileGraphics.impact, tameBeam.projectileGraphics.muzzle,true, false, tameBeam.power, transform, target, Vector3.zero, 10, 50,1);
-        }
-
         public void TakeDamage(int damageToTake)
         {
+            _healthComponent.ReduceHealth(damageToTake);
             if (inputHandler.playerSwitch)
             {
-                PlayerTakeDamage(damageToTake);
+                playerHealth.currentHealth = _healthComponent.health.currentHealth;
                 return;
             }
-            _healthComponent.ReduceHealth(damageToTake, inputHandler.currentMonster);
+            monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
         }
 
         public void Heal(int amountToHeal)
         {
-            
+            _healthComponent.AddHealth(amountToHeal);
+            if (inputHandler.playerSwitch)
+            {
+                playerHealth.currentHealth = _healthComponent.health.currentHealth;
+                return;
+            }
+            monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
         }
 
-        private void PlayerTakeDamage(int damageToTake)
+        public void Die()
         {
-            playerHealth.currentHealth -= damageToTake;
-            if (playerHealth.currentHealth <= 0)
+            if (inputHandler.playerSwitch)
             {
-                playerHealth.currentHealth = 0;
-                //TODO: Game over command here
+                //TODO: Go back to last town
+            }
+            else
+            {
+                //switch to next monster
+                //if no more monster that still has health
+                    //go back to last town
             }
         }
-        private void PlayerHeal(int amountToHeal)
+
+        public void TakeStamina(int staminaToTake)
         {
-            playerHealth.currentHealth += amountToHeal;
-            if (playerHealth.currentHealth >= playerHealth.maxHealth)
+            staminaComponent.ReduceStamina(staminaToTake);
+            if (inputHandler.playerSwitch)
             {
-                playerHealth.currentHealth = playerHealth.maxHealth;
+                playerStamina.currentStamina = staminaComponent.stamina.currentStamina;
+                return;
             }
+            monsterSlots[inputHandler.currentMonster].currentStamina = staminaComponent.stamina.currentStamina;
         }
-        public void AddCurrentTameValue(int tameBeamValue)
+
+        public void AddStamina(int staminaToAdd)
         {
-            
+            staminaComponent.AddStamina(staminaToAdd);
+            if (inputHandler.playerSwitch)
+            {
+                playerStamina.currentStamina = staminaComponent.stamina.currentStamina;
+                return;
+            }
+            monsterSlots[inputHandler.currentMonster].currentStamina = staminaComponent.stamina.currentStamina;
         }
     }
 }

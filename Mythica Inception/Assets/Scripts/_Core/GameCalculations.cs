@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts.Core
+namespace Assets.Scripts._Core
 {
     public static class GameCalculations
     {

@@ -12,16 +12,18 @@ namespace Assets.Scripts._Core.Input
         [HideInInspector] public Vector2 movementInput;
         [HideInInspector] public bool dashInput;
         [HideInInspector] public bool attackInput;
-        [HideInInspector] public bool canAttack = true;
         [HideInInspector] public bool firstSkillInput;
         [HideInInspector] public bool secondSkillInput;
         [HideInInspector] public bool thirdSkillInput;
         [HideInInspector] public bool fourthSkillInput;
         [HideInInspector] public bool cancelSkill;
         [HideInInspector] public bool activateSkill;
-        public int currentMonster;
-        public int previousMonster;
-        public bool playerSwitch;
+        [HideInInspector] public int currentMonster;
+        [HideInInspector] public int previousMonster;
+        [HideInInspector] public bool playerSwitch;
+
+        private bool _canAttack = true;
+
         void Awake()
         {
             Player = GetComponent<_Core.Player.Player>();
@@ -51,17 +53,25 @@ namespace Assets.Scripts._Core.Input
         #region Attack
         public void OnAttack(InputAction.CallbackContext context)
         {
-            if(!canAttack) return;
-            
-            attackInput = true;
-            canAttack = false;
-            StartCoroutine("CanAttack");
+            if (context.started)
+            {
+                Player.unitIndicator.SetActive(true);
+                if(!_canAttack) return;
+                attackInput = true;
+                _canAttack = false;
+                StartCoroutine("CanAttack");
+            }
+
+            if (context.canceled)
+            {
+                Player.unitIndicator.SetActive(false);
+            }
         }
         
         IEnumerator CanAttack()
         {
             yield return new WaitForSeconds(Player.playerData.attackRate);
-            canAttack = true;
+            _canAttack = true;
         }
         
 

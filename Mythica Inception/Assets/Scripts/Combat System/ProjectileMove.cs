@@ -1,6 +1,5 @@
 using System.Collections;
 using Assets.Scripts._Core;
-using Assets.Scripts.Core;
 using Assets.Scripts.Monster_System;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,8 +22,8 @@ namespace Assets.Scripts.Combat_System
         private float _velocity = 5;
         private float _radius = 1;
         private ITameable _tameable;
-        private UnityAction<string> _action;
         private float _timer;
+        private bool _destroyOnCollide;
 
         void OnEnable()
         {
@@ -42,7 +41,10 @@ namespace Assets.Scripts.Combat_System
         
         private void Init()
         {
-            StartCoroutine("DestroyAfter", _secondsToDeath);
+            if (gameObject.activeInHierarchy)
+            {
+                StartCoroutine("DestroyAfter", _secondsToDeath);
+            }
         }
 
         void Update()
@@ -54,57 +56,64 @@ namespace Assets.Scripts.Combat_System
             
             if(_timer < .1f) return;
             _timer = 0;
-            Check();
+
+            if (!Check()) return;
             
+            if (_destroyOnCollide)
+            {
+                OnDestroy();
+            }
+
         }
 
-        private void Check()
+        private bool Check()
         {
             if (_target == null)
             {
                 if (_spawner.CompareTag("Player"))
                 {
-                    CheckByTag("Enemy");
-                    return;
+                    return CheckByTag("Enemy");
                 }
 
                 if (_spawner.CompareTag("Enemy"))
                 {
-                    CheckByTag("Player");
+                    return CheckByTag("Player");
                 }
             }
             else
             {
                 if (_isTame)
                 {
-                    CheckTameTarget();
-                    return;
+                    return CheckTameTarget();
                 }
 
-                CheckByTarget();
+                return CheckByTarget();
             }
+
+            return false;
         }
 
-        private void CheckTameTarget()
+        private bool CheckTameTarget()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
-            if (hits.Length <= 0) return;
+            if (hits.Length <= 0) return false;
             
             foreach (var hit in hits)
             {
                 if (hit.transform != _target) continue;
                 
-                if(_tameable==null) continue;
-                
+                if(_tameable == null) continue;
+                //calculate tame beam value here
                 _tameable.AddCurrentTameValue(_value);
-                OnDestroy();
+                return true;
             }
+            return false;
         }
 
-        private void CheckByTarget()
+        private bool CheckByTarget()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
-            if (hits.Length <= 0) return;
+            if (hits.Length <= 0) return false;
             
             foreach (var hit in hits)
             {
@@ -113,26 +122,34 @@ namespace Assets.Scripts.Combat_System
                 if (damageable == null) continue;
                 if (_isDamage)
                 {
+                    //calculate damage value here
                     damageable.TakeDamage(_value);
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        private void CheckByTag(string tag)
+        private bool CheckByTag(string opponentTag)
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
-            if (hits.Length <= 0) return;
+            if (hits.Length <= 0) return false;
             
             foreach (var hit in hits)
             {
-                if (!hit.CompareTag(tag)) continue;
+                if (!hit.CompareTag(opponentTag)) continue;
                 IHaveHealth damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
                 if (damageable == null) continue;
                 if (_isDamage)
                 {
+                    //calculate damage value here
                     damageable.TakeDamage(_value);
+                    return true;
                 }
             }
+
+            return false;
         }
 
         IEnumerator DestroyAfter(float sec)
@@ -143,24 +160,25 @@ namespace Assets.Scripts.Combat_System
 
         private void OnDestroy()
         {
+            gameObject.SetActive(false);
+            if (GameManager.instance == null) return;
+            
             if (_impactProj != null)
             {
+                
+                
                 GameObject impact = GameManager.instance.pooler.SpawnFromPool(null, _impactProj.name, _impactProj,
                     transform.position, Quaternion.identity);
-                _impactPart.Play();
             }
 
             if (_muzzleProj != null)
             {
                 GameObject muzzle = GameManager.instance.pooler.SpawnFromPool(null, _muzzleProj.name, _muzzleProj,
                     transform.position, Quaternion.identity);
-                _muzzlePart.Play();
             }
-
-            gameObject.SetActive(false);
         }
 
-        public void ProjectileData(GameObject impactParticle, GameObject muzzleParticle, bool isTameBeam, bool canDamage,int whatValue, Transform whoSpawned, Transform whatTarget, Vector3 wherePosition, float secondsToDie, float howFast, float whatRadius)
+        public void ProjectileData(bool destroyOnCollide, GameObject impactParticle, GameObject muzzleParticle, bool isTameBeam, bool canDamage,int whatValue, Transform whoSpawned, Transform whatTarget, Vector3 wherePosition, float secondsToDie, float howFast, float whatRadius)
         {
             gameObject.SetActive(false);
             _isTame = isTameBeam;
@@ -176,6 +194,7 @@ namespace Assets.Scripts.Combat_System
             _impactPart = impactParticle.GetComponent<ParticleSystem>();
             _muzzleProj = muzzleParticle;
             _muzzlePart = muzzleParticle.GetComponent<ParticleSystem>();
+            _destroyOnCollide = destroyOnCollide;
             gameObject.SetActive(true);
         }
         

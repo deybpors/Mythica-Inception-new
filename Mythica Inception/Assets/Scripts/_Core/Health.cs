@@ -1,39 +1,37 @@
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts
+namespace Assets.Scripts._Core
 {
     public class Health : MonoBehaviour
     {
-        public List<EntitiesHealth> entitiesHealth;
+        public EntityHealth health;
         [HideInInspector] public bool tookHit;
-
-        public void ReduceHealth(int damage, int entity)
+        public void ReduceHealth(int damage)
         {
-            entitiesHealth[entity].currentHealth -= damage;
-            if (entitiesHealth[entity].currentHealth < 0)
+            health.currentHealth -= damage;
+            if (health.currentHealth < 0)
             {
-                entitiesHealth[entity].currentHealth = 0;
+                health.currentHealth = 0;
             }
 
             tookHit = true;
             StartCoroutine("TookDamage");
         }
 
-        public void AddHealth(int damage, int entity)
+        public void AddHealth(int amountToHeal)
         {
-            entitiesHealth[entity].currentHealth += damage;
-            if (entitiesHealth[entity].currentHealth > entitiesHealth[entity].maxHealth)
+            health.currentHealth += amountToHeal;
+            if (health.currentHealth > health.maxHealth)
             {
-                entitiesHealth[entity].currentHealth = entitiesHealth[entity].maxHealth;
+                health.currentHealth = health.maxHealth;
             }
         }
 
-        public void UpdateMaxHealth(int updatedMaxHealth, int entity)
+        public void UpdateHealth(int updatedMaxHealth, int updatedCurrentHealth)
         {
-            entitiesHealth[entity].maxHealth = updatedMaxHealth;
+            health.currentHealth = updatedCurrentHealth;
+            health.maxHealth = updatedMaxHealth;
         }
 
         IEnumerator TookDamage()
@@ -44,28 +42,9 @@ namespace Assets.Scripts
     }
 
     [System.Serializable]
-    public class EntitiesHealth
+    public class EntityHealth
     {
         public int maxHealth;
         public int currentHealth;
-    }
-    
-    [CustomEditor(typeof(Health))]
-    public class DamageEditor : Editor 
-    {
-        public override void OnInspectorGUI()
-        {
-            Health myTarget = (Health)target;
-            DrawDefaultInspector();
-            if (GUILayout.Button("Damage Monster", GUILayout.Height(40)))
-            {
-                if(Application.isPlaying)
-                    myTarget.ReduceHealth(0, 0);
-                else
-                {
-                    Debug.LogWarning("DamageObject script Warning: The project is currently not in GameMode");
-                }
-            }
-        }
     }
 }

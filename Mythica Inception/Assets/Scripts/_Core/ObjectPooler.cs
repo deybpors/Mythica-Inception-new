@@ -57,10 +57,14 @@ namespace Assets.Scripts._Core
                 }
 
                 GameObject objectToSpawn = poolDictionary[newSpawnedTag].Dequeue();
-                
-                if (objectToSpawn == null) return null;
+
+                if (objectToSpawn == null || objectToSpawn.Equals(null))
+                {
+                    return null;
+                }
                 
                 objectToSpawn.SetActive(true);
+                
                 if (parent != null)
                 {
                     objectToSpawn.transform.parent = parent;

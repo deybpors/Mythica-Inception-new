@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Tame Beam Basic
   m_EditorClassIdentifier: 
   ID: f23be0bc-36ae-420a-b2c1-1fae37ac4e68
-  power: 10
+  skill: {fileID: 11400000, guid: c1a4315de9c454744a63d7856f686d8b, type: 2}
   projectileGraphics:
     projectile: {fileID: 7466845484337942068, guid: 4e0604656336ee340a79ad616bfc1f5a, type: 3}
     impact: {fileID: 1503859245115456, guid: b70a39501d8a7bc4d84e95fe014dcdba, type: 3}
     muzzle: {fileID: 1970972249526710, guid: 22ca77b2016a4bc43913be754aa264da, type: 3}
+    targetObject: {fileID: 2934295706030293342, guid: a211d7276e54f1e4aaa306de22402de2, type: 3}

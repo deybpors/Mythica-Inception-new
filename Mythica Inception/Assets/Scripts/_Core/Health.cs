@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -7,6 +8,11 @@ namespace Assets.Scripts._Core
     {
         public EntityHealth health;
         [HideInInspector] public bool tookHit;
+
+        void Start()
+        {
+            health.currentHealth = health.maxHealth;
+        }
         public void ReduceHealth(int damage)
         {
             health.currentHealth -= damage;

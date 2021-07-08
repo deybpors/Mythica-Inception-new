@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts._Core;
 using Assets.Scripts.Combat_System;
+using Assets.Scripts.Skill_System;
 using UnityEngine;
 
 namespace Assets.Scripts.Monster_System
@@ -8,7 +9,7 @@ namespace Assets.Scripts.Monster_System
     [CreateAssetMenu(menuName = "Monster System/Tame Beam")]
     public class TameBeam : ScriptableObjectWithID
     {
-        public int power;
+        public Skill skill;
         public ProjectileGraphics projectileGraphics;
     }
 }

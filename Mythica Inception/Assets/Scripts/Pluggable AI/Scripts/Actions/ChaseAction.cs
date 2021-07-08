@@ -17,7 +17,10 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
             if (fieldOfView.visibleTargets.Count > 0)
             {
-                Quaternion transRotation = Quaternion.LookRotation(stateController.aI.target.position - stateController.transform.position);
+                Quaternion transRotation;
+                transRotation = stateController.aI.target.position - stateController.transform.position != Vector3.zero ? 
+                    Quaternion.LookRotation(stateController.aI.target.position - stateController.transform.position) : Quaternion.identity;
+                
                 Quaternion look = new Quaternion(0f,transRotation.y, 0f, transRotation.w);
                 stateController.transform.rotation = Quaternion.Lerp(stateController.transform.rotation, look, .25f);
                 

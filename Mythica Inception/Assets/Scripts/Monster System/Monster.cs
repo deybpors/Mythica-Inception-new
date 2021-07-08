@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Assets.Scripts._Core;
+using Assets.Scripts.Combat_System;
 using Assets.Scripts.Items_and_Barter_System.Scripts;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Assets.Scripts.Monster_System
         public GameObject monsterPrefab;
         public MonsterType type;
         public BasicAttackType basicAttackType;
-        public float basicAttackRadius;
+        public Skill basicAttack;
+        public ProjectileGraphics basicAttackObjects;
         public MonsterStats stats;
         public List<MonsterSkillLearnSets> skillLearnSets;
         [TextArea(15,20)]
@@ -29,9 +31,9 @@ namespace Assets.Scripts.Monster_System
         public string nickName;
         public Monster monster;
         public int currentHealth;
-        public int currentStamina;
-        public int currentExp;
-        public float stabilityValue;
+        public int currentExp = 1;
+        [Range(1,50)]
+        public float stabilityValue = 1;
         public Skill[] skill = new Skill[4];
         public InventorySlot[] inventory = new InventorySlot[6];
     }
@@ -39,24 +41,22 @@ namespace Assets.Scripts.Monster_System
     [System.Serializable]
     public class MonsterStats
     {
-        [Range(0,255)]
+        [Range(1,255)]
         public int baseHealth;
-        [Range(0,10)]
+        [Range(1,10)]
         public int maxLives;
-        [Range(0,255)]
+        [Range(1,255)]
         public int physicalAttack;
-        [Range(0,255)]
+        [Range(1,255)]
         public int physicalDefense;
-        [Range(0,255)]
+        [Range(1,255)]
         public int specialAttack;
-        [Range(0,255)]
+        [Range(1,255)]
         public int specialDefense;
         [Range(20,255)]
         public int baseExpYield = 20;
-        [Range(0,255)]
+        [Range(1,255)]
         public int tameResistance;
-        [Range(0,1)]
-        public float stamina;
         [Range(.05f, 1)] 
         public float criticalChance = .05f;
         [Tooltip("The lower the movement speed, the faster the monster attacks.")]

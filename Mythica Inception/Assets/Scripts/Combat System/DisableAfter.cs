@@ -1,18 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
+using Assets.Scripts._Core;
 using UnityEngine;
 
-public class DisableAfter : MonoBehaviour
+namespace Assets.Scripts.Combat_System
 {
-    public float secsAfterDisable;
-    void OnEnable()
+    public class DisableAfter : MonoBehaviour
     {
-        StartCoroutine(Disable(secsAfterDisable));
-    }
+        public bool backToPoolAfterDisable;
+        public float secsAfterDisable;
+        void OnEnable()
+        {
+            StartCoroutine(Disable(secsAfterDisable));
+        }
 
-    IEnumerator Disable(float secs)
-    {
-        yield return new WaitForSeconds(secs);
-        gameObject.SetActive(false);
+        IEnumerator Disable(float secs)
+        {
+            yield return new WaitForSeconds(secs);
+            gameObject.SetActive(false);
+            if (backToPoolAfterDisable)
+            {
+                transform.parent = GameManager.instance.transform;
+            }
+        }
     }
 }

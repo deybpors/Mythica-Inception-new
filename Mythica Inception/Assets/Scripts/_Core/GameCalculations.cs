@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Assets.Scripts.Monster_System;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Assets.Scripts._Core
@@ -7,9 +9,8 @@ namespace Assets.Scripts._Core
     {
         public static int Damage(float gamePace, int attackerLvl, int attackerAttack, int targetDefense, int skillPower, int maxSkillPower, float modifier)
         {
-            int damage = (int)(gamePace * attackerLvl * ((float) attackerAttack / targetDefense) *
-                                ((float) skillPower / maxSkillPower) * modifier);
-            return damage;
+            return (int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
+                ((float) attackerAttack / targetDefense) + 2) * modifier);
         }
 
         public static float Modifier(bool stab, float attackerMonsterSV, float attackerMonsterType, bool critical)
@@ -19,10 +20,9 @@ namespace Assets.Scripts._Core
             return modifier;
         }
         
-        public static int Stats(int baseValue, float stabilityValue, int monsterCurrentLevel, int monsterMaxLevel)
+        public static int Stats(int baseValue, float stabilityValue, int monsterCurrentLevel)
         {
-            int stat = (int) (((baseValue + stabilityValue) * monsterCurrentLevel) / monsterMaxLevel) +
-                       monsterCurrentLevel;
+            int stat = (int) (0.01 * (2 * baseValue + (stabilityValue * 2) * monsterCurrentLevel) + monsterCurrentLevel + 10);
             return stat;
         }
 
@@ -40,8 +40,10 @@ namespace Assets.Scripts._Core
         
         public static int TameBeam(int avgLevel, int tSPower, int wildMonsterTamingResistance , float gamePace)
         {
+            //(int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
+            //((float) attackerAttack / targetDefense) + 2) * modifier);
             float random = Random.Range(0.85f, 1);
-            int tameBeam = (int) ((avgLevel ^ 2) * ((float) tSPower / wildMonsterTamingResistance) * random * gamePace);
+            int tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);
             return tameBeam;
         }
 
@@ -58,6 +60,32 @@ namespace Assets.Scripts._Core
         public static int ExperienceGain()
         {
             return 0;
+        }
+
+        public static float TypeComparison(MonsterType attackerSkillType, MonsterType monsterHitType)
+        {
+            var offenseTypeNum = 0;
+            var defenseTypeNum = 0;
+
+            for (int i = 0; i < GameManager.instance.attackerTypes.Count; i++)
+            {
+                if (attackerSkillType.ToString().ToUpper().Equals(GameManager.instance.attackerTypes[i]))
+                {
+                    offenseTypeNum = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < GameManager.instance.defenseTypes.Count; i++)
+            {
+                if (monsterHitType.ToString().ToUpper().Equals(GameManager.instance.defenseTypes[i]))
+                {
+                    defenseTypeNum = i;
+                    break;
+                }
+            }
+            var typeComparison = GameManager.instance.typeChart[offenseTypeNum][defenseTypeNum];
+            return typeComparison;
         }
     }
 }

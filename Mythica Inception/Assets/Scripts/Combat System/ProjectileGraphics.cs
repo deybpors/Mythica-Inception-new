@@ -8,5 +8,6 @@ namespace Assets.Scripts.Combat_System
         public GameObject projectile;
         public GameObject impact;
         public GameObject muzzle;
+        public GameObject targetObject;
     }
 }

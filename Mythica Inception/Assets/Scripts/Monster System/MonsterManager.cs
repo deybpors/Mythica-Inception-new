@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Player;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
 
@@ -24,6 +25,10 @@ namespace Assets.Scripts.Monster_System
         private float _timer;
         [SerializeField]
         private int _currentMonster;
+        private float _tamerTameRadius;
+        private Player _player;
+        private bool _tamerBefore;
+        
         #endregion
         
         public void ActivateMonsterManager()
@@ -34,7 +39,10 @@ namespace Assets.Scripts.Monster_System
             if (_haveMonsters.GetTamer() != null)
             {
                 isPlayer = true;
-                _tamerPrefab = _haveMonsters.GetTamer().gameObject;
+                _tamerPrefab = _haveMonsters.GetTamer();
+                _player = GetComponent<Player>();
+                _tamerTameRadius = _player.tameRadius;
+                _tamerBefore = true;
             }
             
             _monsters = _haveMonsters.GetMonsters();
@@ -73,7 +81,10 @@ namespace Assets.Scripts.Monster_System
             
             if (_haveMonsters.isPlayerSwitched())
             {
+                if(_tamerBefore) return;
+                
                 SwitchToTamer();
+                _tamerBefore = true;
                 return;
             }
             
@@ -89,18 +100,22 @@ namespace Assets.Scripts.Monster_System
                 return;
             }
 
+            _tamerBefore = false;
             SwitchMonster(_haveMonsters.MonsterSwitched());
             _timer = 0;
         }
 
-        private void SwitchToTamer()
+        public void SwitchToTamer()
         {
             if (_tamerPrefab == null) return;
             InactiveAll();
             _tamerPrefab.SetActive(true);
             _haveMonsters.SetAnimator(_tamerAnimator);
             _skillManager.activated = false;
+            _player.unitIndicator.transform.localScale =
+                new Vector3(_tamerTameRadius, _tamerTameRadius, _tamerTameRadius);
             _currentMonster = -1;
+            _haveMonsters.SpawnSwitchFX();
         }
 
         public void SwitchMonster(int slot)
@@ -114,6 +129,9 @@ namespace Assets.Scripts.Monster_System
             _haveMonsters.SetAnimator(_monsterAnimators[slot]);
 
             _currentMonster = slot;
+            
+            _haveMonsters.ChangeMonsterUnitIndicatorRadius(_haveMonsters.GetMonsters()[slot].basicAttack.castRadius);
+            _haveMonsters.SpawnSwitchFX();
             ChangeMonsterStats(slot);
         }
 

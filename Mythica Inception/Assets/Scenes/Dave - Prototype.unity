@@ -290,7 +290,7 @@ Transform:
   m_LocalScale: {x: 1.7155493, y: 14.33208, z: 29.823011}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!208 &290583714
 NavMeshObstacle:
@@ -742,7 +742,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &621949104
 GameObject:
@@ -816,7 +816,37 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &652452304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 652452305}
+  m_Layer: 6
+  m_Name: Status FX Indicator
+  m_TagString: Untagged
+  m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &652452305
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 652452304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 4.68, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1549083965}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &653260035
 GameObject:
@@ -864,7 +894,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &682371732
 GameObject:
@@ -901,7 +931,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &682371734
 Canvas:
@@ -954,7 +984,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &721566677
 MonoBehaviour:
@@ -972,6 +1002,9 @@ MonoBehaviour:
   monstersDatabase: {fileID: 11400000, guid: 63d558cf0ee7424498525f3f88a223a8, type: 2}
   skillsDatabase: {fileID: 11400000, guid: bc52c63f9a6ec964d903c5b71a6eb649, type: 2}
   itemsDatabase: {fileID: 11400000, guid: 8345848d14f52ed41b0962bcb763ea6d, type: 2}
+  monsterTypeChart: {fileID: 4900000, guid: 3cb97fd2c2956dc41a8ecb5e39ab199b, type: 3}
+  attackerTypes: []
+  defenseTypes: []
 --- !u!114 &721566678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,6 +1026,24 @@ MonoBehaviour:
     size: 10
   - tag: 
     prefab: {fileID: 1970972249526710, guid: 22ca77b2016a4bc43913be754aa264da, type: 3}
+    size: 10
+  - tag: 
+    prefab: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
+    size: 10
+  - tag: 
+    prefab: {fileID: 2934295706030293342, guid: a211d7276e54f1e4aaa306de22402de2, type: 3}
+    size: 10
+  - tag: 
+    prefab: {fileID: 1263804789950809153, guid: 212f39a0d1037bb4b9f06ff1bd6bf7d7, type: 3}
+    size: 10
+  - tag: 
+    prefab: {fileID: 3709998008571580245, guid: db95a228ce752894b95105fcc4c74f1f, type: 3}
+    size: 10
+  - tag: 
+    prefab: {fileID: 356804050156977343, guid: 371b2a7f332e1f14d8ad7b4e8d724ae0, type: 3}
+    size: 10
+  - tag: 
+    prefab: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
     size: 10
 --- !u!1 &725565001
 GameObject:
@@ -1066,6 +1117,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725565001}
   m_CullTransparentMesh: 1
+--- !u!1 &767467397
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 767467398}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &767467398
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767467397}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.18, z: -2.01}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &782447897
 GameObject:
   m_ObjectHideFlags: 0
@@ -1216,7 +1297,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &789864693
 GameObject:
@@ -1265,7 +1346,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BindingMode: 4
   m_FollowOffset: {x: -0.48, y: 34.38, z: -24.280008}
-  m_XDamping: 0.15
+  m_XDamping: 0.8
   m_YDamping: 1
   m_ZDamping: 1
   m_AngularDampingMode: 0
@@ -1451,9 +1532,8 @@ MonoBehaviour:
     nickName: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
     currentHealth: 0
-    currentStamina: 0
     currentExp: 0
-    stabilityValue: 0
+    stabilityValue: 1
     skill:
     - {fileID: 0}
     - {fileID: 0}
@@ -1472,7 +1552,8 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
-  health: {fileID: 0}
+  deathParticles: {fileID: 0}
+  healthComponent: {fileID: 0}
   currentAnimator: {fileID: 0}
   nextWaypoint: 0
   target: {fileID: 0}
@@ -1553,7 +1634,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &899125338
 GameObject:
@@ -1687,7 +1768,7 @@ Transform:
   - {fileID: 1025177001}
   - {fileID: 263090461}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &925285255
 MonoBehaviour:
@@ -1800,7 +1881,7 @@ RectTransform:
   m_Children:
   - {fileID: 1994266666}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2284,9 +2365,8 @@ MonoBehaviour:
     nickName: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
     currentHealth: 0
-    currentStamina: 0
-    currentExp: 0
-    stabilityValue: 0
+    currentExp: 100
+    stabilityValue: 5
     skill: []
     inventory:
     - inventoryItem: {fileID: 0}
@@ -2307,6 +2387,9 @@ MonoBehaviour:
     currentHealth: 0
   tameBeam: {fileID: 11400000, guid: a9b12769fd8176d4b916b995a2aced8a, type: 2}
   projectileRelease: {fileID: 241484253}
+  dashGraphic: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
+  tameRadius: 20
+  deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   normalCursor: {fileID: 2800000, guid: a5f9cc9a5efbe894eb85de4851711ba8, type: 3}
   areaIndicator: {fileID: 1471944091}
   pointIndicator: {fileID: 2800000, guid: 009bc0f57c177604a90b4697026d8c00, type: 3}
@@ -2537,7 +2620,7 @@ Transform:
   m_LocalScale: {x: 10.026, y: 14.332076, z: 16.827293}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &1036287115
 BoxCollider:
@@ -2648,7 +2731,7 @@ Transform:
   m_LocalScale: {x: 1, y: 27.636742, z: 33.039093}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!65 &1120105376
 BoxCollider:
@@ -2740,7 +2823,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1293252445
 GameObject:
@@ -3027,7 +3110,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 1.8, y: 1.8}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1430930779
 MonoBehaviour:
@@ -3243,9 +3326,8 @@ MonoBehaviour:
     nickName: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
     currentHealth: 0
-    currentStamina: 0
-    currentExp: 0
-    stabilityValue: 0
+    currentExp: 200
+    stabilityValue: 4.1
     skill:
     - {fileID: 0}
     - {fileID: 0}
@@ -3264,7 +3346,8 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
-  health: {fileID: 0}
+  deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
+  healthComponent: {fileID: 0}
   currentAnimator: {fileID: 0}
   nextWaypoint: 0
   target: {fileID: 0}
@@ -3283,7 +3366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health:
-    maxHealth: 0
+    maxHealth: 100
     currentHealth: 0
   tookHit: 0
 --- !u!114 &1549083962
@@ -3358,6 +3441,7 @@ Transform:
   - {fileID: 2003485726}
   - {fileID: 535715244}
   - {fileID: 1347011795}
+  - {fileID: 652452305}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3407,7 +3491,7 @@ Transform:
   m_LocalScale: {x: 21.722357, y: 1, z: 15.159342}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!64 &1564576771
 MeshCollider:
@@ -3500,7 +3584,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1687258581
 GameObject:
@@ -3619,7 +3703,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 21
   m_LocalEulerAnglesHint: {x: 20.146, y: 195.09, z: 0.001}
 --- !u!114 &1687258586
 MonoBehaviour:
@@ -3748,7 +3832,7 @@ Transform:
   m_Children:
   - {fileID: 789864694}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 22
   m_LocalEulerAnglesHint: {x: 55.994, y: 0, z: 0}
 --- !u!1 &1863092013
 GameObject:
@@ -3883,7 +3967,7 @@ Transform:
   m_LocalScale: {x: 1, y: 27.636732, z: 33.039093}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 64.033}
 --- !u!65 &1872290822
 BoxCollider:
@@ -4050,15 +4134,15 @@ RectTransform:
   m_GameObject: {fileID: 1994266665}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 725565002}
   m_Father: {fileID: 934609367}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 234.7, y: 234.7}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 209, y: -193}
   m_SizeDelta: {x: 350, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1994266667
@@ -4309,7 +4393,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2138677391
 GameObject:
@@ -4402,7 +4486,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 45.625, y: 229.465, z: 207.883}
 --- !u!1001 &1461744430394887215
 PrefabInstance:
@@ -4413,7 +4497,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
       propertyPath: m_LocalPosition.x

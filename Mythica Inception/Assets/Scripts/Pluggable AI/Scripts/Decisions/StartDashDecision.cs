@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Pluggable_AI.Scripts.General;
+﻿using Assets.Scripts._Core;
+using Assets.Scripts.Pluggable_AI.Scripts.General;
 using UnityEngine;
 
 namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
@@ -13,7 +14,17 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
 
         private bool StartDash(StateController stateController)
         {
-            return stateController.player.inputHandler.dashInput;
+            var pos = new Vector3(stateController.transform.position.x, stateController.transform.position.y + 2,
+                stateController.transform.position.z);
+            var dashInput = stateController.player.inputHandler.dashInput;
+            if (dashInput)
+            {
+                var dash = GameManager.instance.pooler.SpawnFromPool(null, stateController.player.dashGraphic.name,
+                    stateController.player.dashGraphic, pos,
+                    stateController.transform.rotation);
+                dash.GetComponent<ParticleSystem>().Play();
+            }
+            return dashInput;
         }
     }
 }

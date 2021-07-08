@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83916d9a506d2534fab148d75a51b36c, type: 3}
+  m_Name: _TameBeamBasic
+  m_EditorClassIdentifier: 
+  ID: 67ae8b76-73cd-4500-9ffb-71e5e78c9258
+  tameBeam: 1
+  skillName: Tame Beam Basic
+  skillType: 0
+  skillCategory: 0
+  power: 10
+  cooldownTime: 10
+  castRadius: 0
+  staminaTake: 0
+  healthTake: 0
+  spawnedProjectile:
+    projectile: {fileID: 0}
+    impact: {fileID: 0}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  description: 

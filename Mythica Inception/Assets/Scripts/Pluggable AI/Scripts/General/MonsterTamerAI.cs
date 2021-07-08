@@ -19,10 +19,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public GameObject unitIndicator;
         public List<Transform> waypoints;
         public List<MonsterSlot> monsterSlots;
+        public GameObject deathParticles;
 
         #region Hidden Fields
         
-        [HideInInspector] public Health health;
+        [HideInInspector] public Health healthComponent;
         [HideInInspector] public Animator currentAnimator = null;
         [HideInInspector] public int nextWaypoint;
         [HideInInspector] public Transform target;
@@ -31,7 +32,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         private StateController _stateController;
         [HideInInspector] private List<GameObject> _monsterGameObjects;
         private SkillManager _skillManager;
-        
+        private MonsterManager _monsterManager;
         #endregion
 
         void Start()
@@ -54,13 +55,14 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             }
             SpawnMonstersFromPool();
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
-            health = GetComponent<Health>();
-            if (health == null)
+            healthComponent = GetComponent<Health>();
+            if (healthComponent == null)
             {
                 Debug.LogWarning("Added new Health component to " + this.name + ". Please setup this first.");
-                health = gameObject.AddComponent<Health>();
+                healthComponent = gameObject.AddComponent<Health>();
             }
 
+            _monsterManager = GetComponent<MonsterManager>();
             _stateController.isActive = true;
         }
 
@@ -113,6 +115,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             return monsterSlots;
         }
 
+        public Monster GetCurrentMonster()
+        {
+            return monsterSlots[currentMonster].monster;
+        }
+
         public bool isPlayerSwitched()
         {
             return false;
@@ -128,6 +135,15 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             return null;
         }
 
+        public void ChangeMonsterUnitIndicatorRadius(float radius) { }
+
+        public void ReleaseMonAttackProjectile()
+        {
+            
+        }
+        
+        public void SpawnSwitchFX() { }
+
         public void ActivateSkillManager(bool isActivated)
         {
             if (_skillManager == null)
@@ -141,17 +157,45 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         #region Health
         public void TakeDamage(int damageToTake)
         {
-            
+            Debug.Log(damageToTake);
+            healthComponent.ReduceHealth(damageToTake);
+            monsterSlots[currentMonster].currentHealth = healthComponent.health.currentHealth;
+            if (monsterSlots[currentMonster].currentHealth <= 0)
+            {
+                var slotToSwitch = 9999999;
+                for (int i = 0; i < monsterSlots.Count; i++)
+                {
+                    if (monsterSlots[i].currentHealth > 0)
+                    {
+                        slotToSwitch = i;
+                    }
+                }
+
+                if (slotToSwitch > monsterSlots.Count)
+                {
+                    Die();
+                }
+                else
+                {
+                    if (_monsterManager != null)
+                    {
+                        _monsterManager.SwitchMonster(slotToSwitch);
+                    }
+                }
+            }
         }
 
         public void Heal(int amountToHeal)
         {
-            
+            healthComponent.AddHealth(amountToHeal);
         }
 
         public void Die()
         {
-            
+            var pos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+            GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
+                Quaternion.identity);
+            gameObject.SetActive(false);
         }
         
         #endregion

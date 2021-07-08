@@ -12,10 +12,15 @@ namespace Assets.Scripts.Monster_System
 
         List<MonsterSlot> GetMonsterSlots();
 
+        Monster GetCurrentMonster();
+
         bool isPlayerSwitched();
 
         void SetAnimator(Animator animatorToChange);
 
         GameObject GetTamer();
+        void ChangeMonsterUnitIndicatorRadius(float radius);
+
+        void SpawnSwitchFX();
     }
 }

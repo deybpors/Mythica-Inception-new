@@ -31,11 +31,12 @@ namespace Assets.Scripts.Monster_System
         
         #endregion
         
-        public void ActivateMonsterManager()
+        public void ActivateMonsterManager(IHaveMonsters haveMonsters, SkillManager skillManager)
         {
             _currentMonster = -1;
-            _haveMonsters = GetComponent<IHaveMonsters>();
-            _skillManager = GetComponent<SkillManager>();
+            _haveMonsters = haveMonsters;
+            
+            //meaning it is a player since only the player has a tamer
             if (_haveMonsters.GetTamer() != null)
             {
                 isPlayer = true;
@@ -43,14 +44,15 @@ namespace Assets.Scripts.Monster_System
                 _player = GetComponent<Player>();
                 _tamerTameRadius = _player.tameRadius;
                 _tamerBefore = true;
+                _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
             }
             
+            _skillManager = skillManager;
             _monsters = _haveMonsters.GetMonsters();
             _monsterGameObjects = new List<GameObject>();
             RequestPoolMonstersPrefab();
             _monsterAnimators = GetMonsterAnimators();
-            if (_tamerPrefab == null) return;
-            _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
+            
             _activated = true;
         }
 
@@ -88,7 +90,7 @@ namespace Assets.Scripts.Monster_System
                 return;
             }
             
-            int monsterSlotSelected = _haveMonsters.MonsterSwitched();
+            var monsterSlotSelected = _haveMonsters.MonsterSwitched();
             if(monsterSlotSelected == _currentMonster) return;
             if (_monsterGameObjects[monsterSlotSelected] == null)
             {
@@ -108,7 +110,7 @@ namespace Assets.Scripts.Monster_System
         public void SwitchToTamer()
         {
             if (_tamerPrefab == null) return;
-            InactiveAll();
+            InactiveAllMonsters();
             _tamerPrefab.SetActive(true);
             _haveMonsters.SetAnimator(_tamerAnimator);
             _skillManager.activated = false;
@@ -116,31 +118,22 @@ namespace Assets.Scripts.Monster_System
                 new Vector3(_tamerTameRadius, _tamerTameRadius, _tamerTameRadius);
             _currentMonster = -1;
             _haveMonsters.SpawnSwitchFX();
+            _haveMonsters.ChangeStatsToMonster(_currentMonster);
         }
 
         public void SwitchMonster(int slot)
         {
-            InactiveAll();
-            
-            _skillManager.ActivateSkillManager();
-            
+            InactiveAllMonsters();
             _monsterGameObjects[slot].SetActive(true);
-            
             _haveMonsters.SetAnimator(_monsterAnimators[slot]);
-
             _currentMonster = slot;
-            
-            _haveMonsters.ChangeMonsterUnitIndicatorRadius(_haveMonsters.GetMonsters()[slot].basicAttack.castRadius);
+            _haveMonsters.ChangeMonsterUnitIndicatorRadius(_haveMonsters.GetMonsters()[slot].basicAttackSkill.castRadius);
             _haveMonsters.SpawnSwitchFX();
-            ChangeMonsterStats(slot);
+            _skillManager.ActivateSkillManager(_haveMonsters);
+            _haveMonsters.ChangeStatsToMonster(slot);
         }
 
-        private void ChangeMonsterStats(int slot)
-        {
-            //TODO: change the stats of monsters here
-        }
-
-        private void InactiveAll()
+        private void InactiveAllMonsters()
         {
             foreach (var monster in _monsterGameObjects)
             {

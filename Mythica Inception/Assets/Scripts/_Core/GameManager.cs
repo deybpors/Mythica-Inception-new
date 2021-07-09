@@ -10,6 +10,7 @@ namespace Assets.Scripts._Core
     {
         public static GameManager instance = null;
         public ObjectPooler pooler;
+        public Camera mainCamera;
         
         [Header("Databases")]
         public Database monstersDatabase;

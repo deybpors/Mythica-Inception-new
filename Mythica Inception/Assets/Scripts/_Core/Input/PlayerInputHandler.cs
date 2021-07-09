@@ -7,7 +7,7 @@ namespace Assets.Scripts._Core.Input
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerInputHandler : MonoBehaviour
     {
-        public _Core.Player.Player Player { get; private set; }
+        private _Core.Player.Player _player;
 
         [HideInInspector] public Vector2 movementInput;
         [HideInInspector] public bool dashInput;
@@ -24,9 +24,9 @@ namespace Assets.Scripts._Core.Input
 
         private bool _canAttack = true;
 
-        void Awake()
+        public void ActivatePlayerInputHandler(Player.Player player)
         {
-            Player = GetComponent<_Core.Player.Player>();
+            _player = player;
             previousMonster = -1;
             playerSwitch = true;
         }
@@ -55,7 +55,7 @@ namespace Assets.Scripts._Core.Input
         {
             if (context.started)
             {
-                Player.unitIndicator.SetActive(true);
+                _player.unitIndicator.SetActive(true);
                 if(!_canAttack) return;
                 attackInput = true;
                 _canAttack = false;
@@ -64,13 +64,13 @@ namespace Assets.Scripts._Core.Input
 
             if (context.canceled)
             {
-                Player.unitIndicator.SetActive(false);
+                _player.unitIndicator.SetActive(false);
             }
         }
         
         IEnumerator CanAttack()
         {
-            yield return new WaitForSeconds(Player.playerData.attackRate);
+            yield return new WaitForSeconds(_player.playerData.attackRate);
             _canAttack = true;
         }
         
@@ -112,7 +112,7 @@ namespace Assets.Scripts._Core.Input
         
         public void OnActivateSkill(InputAction.CallbackContext context)
         {
-            if(!Player.skillManager.targeting) return;
+            if(!_player.skillManager.targeting) return;
 
             if (!context.started) return;
             activateSkill = true;

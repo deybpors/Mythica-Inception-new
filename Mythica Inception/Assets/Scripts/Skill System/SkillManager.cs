@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Assets.Scripts._Core;
 using Assets.Scripts._Core.Player;
+using Assets.Scripts.Monster_System;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using Assets.Scripts.Skill_System.Targeting_Type_Scripts;
 using UnityEngine;
@@ -16,16 +17,24 @@ namespace Assets.Scripts.Skill_System
             cooldown,
             active
         }
-    
-        public List<SkillSlot> skillSlots;
+
         public bool activated;
+        public List<SkillSlot> skillSlots;
+
+        #region Hidden Fields
+
         [HideInInspector] public bool targeting;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 skillPoint;
         [HideInInspector] public StateMachineType smType;
+        [HideInInspector] public IHaveMonsters haveMonsters;
         private IEntity _entity;
-        public void ActivateSkillManager()
+
+        #endregion
+        
+        public void ActivateSkillManager(IHaveMonsters hM)
         {
+            haveMonsters = hM;
             InitializeMonsterSkills();
             _entity = GetComponent<IEntity>();
             smType = _entity.GetStateController().stateMachineType;
@@ -34,12 +43,14 @@ namespace Assets.Scripts.Skill_System
 
         private void InitializeMonsterSkills()
         {
-            //get skills from monster data here
-            
-            //making all skills ready
-            foreach (var skillSlot in skillSlots)
+            skillSlots.Clear();
+            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.MonsterSwitched()].skillSlots;
+
+            foreach (var skillSlot in currentMonsterSkillSlots)
             {
-                skillSlot.skillState = SkillState.ready;
+                var currentSkillSlot = new SkillSlot(skillSlot.skill,
+                    skillSlot.cooldownTimer, skillSlot.skillState);
+                skillSlots.Add(currentSkillSlot);
             }
         }
 
@@ -191,5 +202,12 @@ namespace Assets.Scripts.Skill_System
         public Skill skill;
         public float cooldownTimer;
         public SkillManager.SkillState skillState;
+
+        public SkillSlot(Skill skill, float cooldownTimer, SkillManager.SkillState skillState)
+        {
+            this.skill = skill;
+            this.cooldownTimer = cooldownTimer;
+            this.skillState = skillState;
+        }
     }
 }

@@ -72,10 +72,10 @@ namespace Assets.Scripts._Core
                 }
                 else
                 {
+                    objectToSpawn.transform.parent = null;
                     objectToSpawn.transform.position = position;
+                    objectToSpawn.transform.rotation = rotation;
                 }
-                
-                objectToSpawn.transform.rotation = rotation;
 
                 poolDictionary[newSpawnedTag].Enqueue(objectToSpawn);
 

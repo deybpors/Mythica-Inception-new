@@ -7,7 +7,6 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
     [CreateAssetMenu(menuName = "Player FSM/Actions/Attack Action")]
     public class PlayerAttackAction : Action
     {
-        public float attackTime;
         private Transform _target;
         private float _timer;
         public override void Act(StateController stateController)
@@ -17,9 +16,9 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
         private void Attack(StateController stateController)
         {
-            HandleTurnSmoothTime(stateController);
-
             _timer += Time.deltaTime;
+            HandleTurnSmoothTime(stateController);
+            
             if (!stateController.player.inputHandler.attackInput) { return; }
             stateController.player.inputHandler.attackInput = false;
             
@@ -39,7 +38,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
 
             var currentMonster = stateController.player.inputHandler.currentMonster;
-            if(distance > stateController.player.monsterSlots[currentMonster].monster.basicAttack.castRadius) return;
+            if(distance > stateController.player.monsterSlots[currentMonster].monster.basicAttackSkill.castRadius) return;
             
             if (stateController.player.skillManager.targeting) { return; }
             
@@ -72,7 +71,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
         private void HandleTurnSmoothTime(StateController stateController)
         {
-            if (_timer >= attackTime)
+            if (_timer >= stateController.player.tempAttackRate)
             {
                 stateController.player.playerData.temporaryTurnSmoothTime =
                     stateController.player.playerData.turnSmoothTime;

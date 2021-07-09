@@ -9,5 +9,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public int searchDuration;
         public int searchingTurnSpeed;
         public float fleeDuration;
+        public float movementSpeed;
+        
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core.Input;
@@ -33,6 +34,8 @@ namespace Assets.Scripts._Core.Player
 
         #region Hidden Fields
 
+        [HideInInspector] public float tempSpeed;
+        [HideInInspector] public float tempAttackRate;
         [HideInInspector] public SelectionManager selectionManager;
         [HideInInspector] public Camera mainCamera;
         [HideInInspector] public GameObject tamer;
@@ -55,27 +58,48 @@ namespace Assets.Scripts._Core.Player
 
         private void Init()
         {
+            GetNeededComponents();
             InitializePlayerData();
+            _monsterManager.ActivateMonsterManager(this, skillManager);
+            tempSpeed = playerData.speed;
+            tempAttackRate = playerData.attackRate;
             unitIndicator.transform.localScale = new Vector3(tameRadius, tameRadius, tameRadius);
-            mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
+            Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
+            _stateController.ActivateAI(true, null, this);
+        }
+
+        private void GetNeededComponents()
+        {
+            mainCamera = GameManager.instance.mainCamera;
+            skillManager = GetComponent<SkillManager>();
+            skillManager.skillSlots.Clear();
             _monsterManager = GetComponent<MonsterManager>();
             staminaComponent = GetComponent<Stamina>();
             selectionManager = GetComponent<SelectionManager>();
-            selectionManager.ActivateSelectionManager();
+            selectionManager.ActivateSelectionManager(this);
             controller = GetComponent<CharacterController>();
             inputHandler = GetComponent<PlayerInputHandler>();
+            inputHandler.ActivatePlayerInputHandler(this);
             tamer = transform.FindChildWithTag("Tamer").gameObject;
             currentAnimator = tamer.GetComponent<Animator>();
             _stateController = GetComponent<StateController>();
-            _stateController.ActivateAI(true, null);
-            if(_healthComponent == null){ _healthComponent = GetComponent<Health>(); }
-            Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
-            GetComponent<MonsterManager>().ActivateMonsterManager();
+            _healthComponent = GetComponent<Health>();
         }
+
         public void InitializePlayerData()
         {
             //TODO: initialize the monsters from player's save data and put it in monsters list
             Debug.Log("Initializing save data...");
+            
+            
+            //after getting all data,
+            //initialize player's health
+            playerHealth.maxHealth = GameCalculations.Stats(
+                GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
+                GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                GameCalculations.MonstersAvgLevel(monsterSlots.ToList()));
+            _healthComponent.health.maxHealth = playerHealth.maxHealth;
+            _healthComponent.health.currentHealth = playerHealth.currentHealth;
         }
 
         public float GetMonsterSwitchRate()
@@ -138,19 +162,20 @@ namespace Assets.Scripts._Core.Player
         public void ReleaseBasicAttack()
         {
             var monAttacking = GetCurrentMonster();
-            Quaternion r = new Quaternion(-90, 180, 0, 0);
+
+            var range = monAttacking.basicAttackType != BasicAttackType.Melee;
             var projectile = GameManager.instance.pooler.
-                SpawnFromPool(null, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, projectileRelease.position,
-                    r);
-            var rangeProjectile = projectile.GetComponent<IRange>();
-            var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
-            var deathTime = monAttacking.basicAttackType != BasicAttackType.Melee ? 3f : 1f;
-            var speed = monAttacking.basicAttackType != BasicAttackType.Melee ? 50f : 20f;
+                SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
+                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
             
-            rangeProjectile.ProjectileData(true, monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
+            var rangeProjectile = projectile.GetComponent<IRange>() ?? projectile.AddComponent<ProjectileMove>();
+            var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
+            var deathTime = range ? .25f : .1f;
+            var speed = range ? 50f : 30f;
+            
+            rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
                 monAttacking.basicAttackObjects.muzzle,false, true, transform, target,
-                Vector3.zero, deathTime, speed,1,monAttacking.basicAttack);
+                Vector3.zero, deathTime, speed,1.5f,monAttacking.basicAttackSkill);
         }
 
         public void SpawnSwitchFX()
@@ -159,6 +184,35 @@ namespace Assets.Scripts._Core.Player
                 SpawnFromPool(transform, tameBeam.projectileGraphics.targetObject.name,
                     tameBeam.projectileGraphics.targetObject, Vector3.zero, 
                     Quaternion.identity);
+        }
+
+        public void ChangeStatsToMonster(int slot)
+        {
+            tempSpeed = playerData.speed;
+            tempAttackRate = playerData.attackRate;
+
+            if (slot < 0)
+            {
+                _healthComponent.health.currentHealth = playerHealth.currentHealth;
+                playerHealth.maxHealth = GameCalculations.Stats(
+                    GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    GameCalculations.MonstersAvgLevel(monsterSlots.ToList())
+                    );
+                _healthComponent.health.maxHealth = playerHealth.maxHealth;
+                return;
+            }
+            
+            tempSpeed *= monsterSlots[slot].monster.stats.movementSpeed;
+            tempAttackRate *= monsterSlots[slot].monster.stats.attackRate;
+            //Initialize Monster's health
+            _healthComponent.health.currentHealth = monsterSlots[slot].currentHealth;
+            _healthComponent.health.maxHealth =
+                GameCalculations.Stats(
+                    monsterSlots[slot].monster.stats.baseHealth,
+                    monsterSlots[slot].stabilityValue,
+                    GameCalculations.Level(monsterSlots[slot].currentExp)
+                    );
         }
 
 
@@ -174,17 +228,9 @@ namespace Assets.Scripts._Core.Player
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
                 tameBeam.projectileGraphics.projectile, projectileRelease.position,
-                Quaternion.FromToRotation(Vector3.up, Vector3.zero));
-            var rangeProjectile = projectile.GetComponent<IRange>();
-            if (rangeProjectile == null)
-            {
-                ProjectileMove projectileMove = projectile.AddComponent<ProjectileMove>();
-                projectileMove.ProjectileData(true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 
-                    tameBeam.projectileGraphics.muzzle, true, false, transform, selectionManager.selectables[0],
-                    Vector3.zero, 10, 50,1, tameBeam.skill);
-                return;
-            }
-            rangeProjectile.ProjectileData(true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 
+                Quaternion.identity);
+            var rangeProjectile = projectile.GetComponent<IRange>() ?? projectile.AddComponent<ProjectileMove>();
+            rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 
                 tameBeam.projectileGraphics.muzzle,true, false, transform, selectionManager.selectables[0], 
                 Vector3.zero, 10, 50,1, tameBeam.skill);
         }
@@ -207,29 +253,28 @@ namespace Assets.Scripts._Core.Player
                 return;
             }
             monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
-            if (monsterSlots[inputHandler.currentMonster].currentHealth <= 0)
+            if (monsterSlots[inputHandler.currentMonster].currentHealth > 0) return;
+            
+            var slotToSwitch = 9999999;
+            for (int i = 0; i < monsterSlots.Length; i++)
             {
-                var slotToSwitch = 9999999;
-                for (int i = 0; i < monsterSlots.Length; i++)
+                if (monsterSlots[i].currentHealth > 0)
                 {
-                    if (monsterSlots[i].currentHealth > 0)
-                    {
-                        slotToSwitch = i;
-                    }
+                    slotToSwitch = i;
                 }
+            }
 
-                if (slotToSwitch > monsterSlots.Length)
+            if (slotToSwitch > monsterSlots.Length)
+            {
+                inputHandler.playerSwitch = true;
+                _monsterManager.SwitchToTamer();
+            }
+            else
+            {
+                if (_monsterManager != null)
                 {
-                    inputHandler.playerSwitch = true;
-                    _monsterManager.SwitchToTamer();
-                }
-                else
-                {
-                    if (_monsterManager != null)
-                    {
-                        inputHandler.currentMonster = slotToSwitch;
-                        _monsterManager.SwitchMonster(slotToSwitch);
-                    }
+                    inputHandler.currentMonster = slotToSwitch;
+                    _monsterManager.SwitchMonster(slotToSwitch);
                 }
             }
         }

@@ -14,7 +14,7 @@ namespace Assets.Scripts.Monster_System
         public GameObject monsterPrefab;
         public MonsterType type;
         public BasicAttackType basicAttackType;
-        public Skill basicAttack;
+        public Skill basicAttackSkill;
         public ProjectileGraphics basicAttackObjects;
         public MonsterStats stats;
         public List<MonsterSkillLearnSets> skillLearnSets;
@@ -32,9 +32,10 @@ namespace Assets.Scripts.Monster_System
         public Monster monster;
         public int currentHealth;
         public int currentExp = 1;
+        public int currentLives;
         [Range(1,50)]
         public float stabilityValue = 1;
-        public Skill[] skill = new Skill[4];
+        public SkillSlot[] skillSlots = new SkillSlot[4];
         public InventorySlot[] inventory = new InventorySlot[6];
     }
 
@@ -59,7 +60,6 @@ namespace Assets.Scripts.Monster_System
         public int tameResistance;
         [Range(.05f, 1)] 
         public float criticalChance = .05f;
-        [Tooltip("The lower the movement speed, the faster the monster attacks.")]
         [Range(.5f, 1.5f)] 
         public float movementSpeed = .5f;
         [Tooltip("The lower the attack rate, the faster the monster attacks.")]

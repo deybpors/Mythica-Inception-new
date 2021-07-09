@@ -10,66 +10,75 @@ using UnityEngine.AI;
 namespace Assets.Scripts.Pluggable_AI.Scripts.General
 {
     [RequireComponent(typeof(StateController))]
-    public class MonsterTamerAI : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ISelectable
+    public class MonsterTamerAI : GenericAI, IEntity, IHaveMonsters, IHaveHealth, ISelectable
     {
         public bool tamer;
-        public AIStats aiStats;
-        public NavMeshAgent agent;
-        public FieldOfView fieldOfView;
-        public GameObject unitIndicator;
-        public List<Transform> waypoints;
+        public ProgressBarUI healthBar;
+        public ProgressBarUI tameValueBarUI;
         public List<MonsterSlot> monsterSlots;
         public GameObject deathParticles;
+        private TameValue _tameValue;
 
         #region Hidden Fields
         
         [HideInInspector] public Health healthComponent;
-        [HideInInspector] public Animator currentAnimator = null;
-        [HideInInspector] public int nextWaypoint;
-        [HideInInspector] public Transform target;
-        [HideInInspector] public Vector3 lastKnownTargetPosition;
-        [HideInInspector] public int currentMonster;
-        private StateController _stateController;
+        [HideInInspector] public int currentMonster = 0;
         [HideInInspector] private List<GameObject> _monsterGameObjects;
         private SkillManager _skillManager;
         private MonsterManager _monsterManager;
+
         #endregion
 
-        void Start()
+        void OnEnable()
         {
-            // if (tamer)
-            // {
-                Init();
-            // }
+            Init();
         }
 
         private void Init()
         {
-            _stateController = GetComponent<StateController>();
-            _stateController.isActive = false;
+            stateController.active = false;
+            agent.speed = aiData.movementSpeed;
             
-            if (!tamer)
-            {
-                //if Wild monsters
-                InitializeMonstersData();
-            }
+            _monsterManager = GetComponent<MonsterManager>();
+            _skillManager = GetComponent<SkillManager>();
+            _skillManager.ActivateSkillManager(this);
+            healthComponent = GetComponent<Health>();
+            if (healthComponent == null) { healthComponent = gameObject.AddComponent<Health>(); }
+
+            InitializeCurrentMonsterHealth();
+            InitializeMonstersData();
             SpawnMonstersFromPool();
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
-            healthComponent = GetComponent<Health>();
-            if (healthComponent == null)
-            {
-                Debug.LogWarning("Added new Health component to " + this.name + ". Please setup this first.");
-                healthComponent = gameObject.AddComponent<Health>();
-            }
 
-            _monsterManager = GetComponent<MonsterManager>();
-            _stateController.isActive = true;
+            stateController.active = true;
+        }
+
+        private void InitializeCurrentMonsterHealth()
+        {
+            healthComponent.health.maxHealth = GameCalculations.Stats(
+                monsterSlots[currentMonster].monster.stats.baseHealth,
+                monsterSlots[currentMonster].stabilityValue,
+                GameCalculations.Level(monsterSlots[currentMonster].currentExp));
+            healthComponent.health.currentHealth = healthComponent.health.maxHealth;
+            monsterSlots[currentMonster].currentHealth = healthComponent.health.maxHealth;
         }
 
         private void InitializeMonstersData()
         {
-            //TODO: initialize monster's data here (put Monsters in the monsters list)
-            //use the monster's place and get random monsters from the place's monster's list
+            if (!tamer) //if wild monster
+            {
+                //TODO: initialize monster's data here (put Monsters in the monsters list)
+                //use the monster's place and get random monsters from the place's monster's list
+                
+                
+                //after initializing data
+                _tameValue = GetComponent<TameValue>();
+                _tameValue.tameValueBarUI = tameValueBarUI;
+                _tameValue.ActivateTameValue(GameCalculations.Level(monsterSlots[0].currentExp), healthComponent);
+                return;
+            }
+            
+            //TODO: initialize the monster's data if tamer here
         }
 
         private void SpawnMonstersFromPool()
@@ -88,7 +97,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public StateController GetStateController()
         {
-            return _stateController;
+            return stateController;
         }
 
         public Animator GetEntityAnimator()
@@ -105,9 +114,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public List<Monster> GetMonsters()
         {
-            if (monsterSlots.Count <= 0) return null;
-
-            return monsterSlots.Select(monsterSlot => monsterSlot.monster).ToList();
+            return monsterSlots.Count <= 0 ? null : monsterSlots.Select(monsterSlot => monsterSlot.monster).ToList();
         }
 
         public List<MonsterSlot> GetMonsterSlots()
@@ -137,29 +144,32 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         public void ChangeMonsterUnitIndicatorRadius(float radius) { }
 
-        public void ReleaseMonAttackProjectile()
-        {
-            
-        }
-        
         public void SpawnSwitchFX() { }
 
-        public void ActivateSkillManager(bool isActivated)
+        public void ChangeStatsToMonster(int slot)
         {
-            if (_skillManager == null)
-            {
-                _skillManager = GetComponent<SkillManager>();
-            }
-
-            _skillManager.enabled = isActivated;
+            agent.speed = aiData.movementSpeed;
+            agent.speed *= GetMonsters()[slot].stats.movementSpeed;
+            healthComponent.health.maxHealth = GameCalculations.Stats(
+                monsterSlots[slot].monster.stats.baseHealth,
+                monsterSlots[slot].stabilityValue,
+                GameCalculations.Level(monsterSlots[slot].currentExp));
+            healthComponent.health.currentHealth = monsterSlots[slot].currentHealth;
         }
 
         #region Health
         public void TakeDamage(int damageToTake)
         {
-            Debug.Log(damageToTake);
+            if (!healthBar.gameObject.activeInHierarchy)
+            {
+                healthBar.gameObject.SetActive(true);
+            }
             healthComponent.ReduceHealth(damageToTake);
             monsterSlots[currentMonster].currentHealth = healthComponent.health.currentHealth;
+
+            healthBar.maxValue = healthComponent.health.maxHealth;
+            healthBar.currentValue = healthComponent.health.currentHealth;
+            
             if (monsterSlots[currentMonster].currentHealth <= 0)
             {
                 var slotToSwitch = 9999999;

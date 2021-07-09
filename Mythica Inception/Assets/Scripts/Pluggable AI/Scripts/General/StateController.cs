@@ -22,34 +22,33 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public State remainState;
 
         [HideInInspector] public Player player;
-        [HideInInspector] public MonsterTamerAI aI;
+        [HideInInspector] public GenericAI aI;
         [HideInInspector] public Animator controllerAnimator;
-
         [HideInInspector] public Vector3 machineDestination;
         [HideInInspector] public bool stateBoolVariable;
         [HideInInspector] public float stateTimeElapsed;
 
-        public bool isActive;
+        public bool active;
         
-        public void ActivateAI(bool activate, List<Transform> waypointList)
+        public void ActivateAI(bool activate, List<Transform> waypointList, Player player)
         {
-            aI = GetComponent<MonsterTamerAI>();
-            player = GetComponent<Player>();
-            isActive = activate;
+            aI = GetComponent<GenericAI>();
+            this.player = player;
+            active = activate;
             
             if (aI == null) return;
             aI.waypoints = waypointList;
-            aI.agent.enabled = isActive;
+            aI.agent.enabled = active;
         }
 
         void OnDisable()
         {
-            isActive = false;
+            active = false;
         }
 
         void Update()
         {
-            if(!isActive) return;
+            if(!active) return;
             
             if (stateMachineType == StateMachineType.Player && controllerAnimator != player.currentAnimator)
             {

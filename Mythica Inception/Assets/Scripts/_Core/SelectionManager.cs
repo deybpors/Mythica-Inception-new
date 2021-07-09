@@ -10,14 +10,17 @@ namespace Assets.Scripts._Core
         public Vector3 selectablePosition;
         public LayerMask layer;
         private Player.Player _player;
+        private bool _activated;
     
-        public void ActivateSelectionManager()
+        public void ActivateSelectionManager(Player.Player player)
         {
-            _player = GetComponent<Player.Player>();
+            _player = player;
+            _activated = true;
         }
 
         void FixedUpdate()
         {
+            if(!_activated) return;
             GetSelection();
         }
     

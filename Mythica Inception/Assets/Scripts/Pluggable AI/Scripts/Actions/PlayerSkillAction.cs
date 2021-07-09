@@ -14,6 +14,12 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
         private void ExecuteSkill(StateController stateController)
         {
+            if (!stateController.player.skillManager.activated)
+            {
+                MakeAllSkillInputFalse(stateController);
+                return;
+            }
+            
             if (stateController.player.skillManager.targeting)
             {
                 //TODO: display message for player still targeting
@@ -54,10 +60,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
         private void PickSkill(StateController stateController, int slotNum)
         {
             SkillSlot skillSlot = stateController.player.skillManager.skillSlots[slotNum];
-            
-            if (skillSlot == null)
+
+            if (skillSlot.skill == null)
             {
                 //TODO: display message for no skill currently in slot
+                Debug.Log("No skill");
                 return;
             }
             

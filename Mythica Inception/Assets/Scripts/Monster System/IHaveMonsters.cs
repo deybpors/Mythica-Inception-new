@@ -22,5 +22,7 @@ namespace Assets.Scripts.Monster_System
         void ChangeMonsterUnitIndicatorRadius(float radius);
 
         void SpawnSwitchFX();
+
+        void ChangeStatsToMonster(int slot);
     }
 }

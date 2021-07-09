@@ -13,9 +13,9 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
 
         private bool TargetNotVisible(StateController stateController)
         {
-            stateController.transform.Rotate(0, stateController.aI.aiStats.searchingTurnSpeed * Time.deltaTime, 0);
+            stateController.transform.Rotate(0, stateController.aI.aiData.searchingTurnSpeed * Time.deltaTime, 0);
 
-            return stateController.HasTimeElapsed(stateController.aI.aiStats.searchDuration);
+            return stateController.HasTimeElapsed(stateController.aI.aiData.searchDuration);
         }
     }
 }

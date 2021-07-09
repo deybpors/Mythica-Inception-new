@@ -16,11 +16,11 @@ namespace Assets.Scripts.Combat_System
         IEnumerator Disable(float secs)
         {
             yield return new WaitForSeconds(secs);
-            gameObject.SetActive(false);
             if (backToPoolAfterDisable)
             {
                 transform.parent = GameManager.instance.transform;
             }
+            gameObject.SetActive(false);
         }
     }
 }

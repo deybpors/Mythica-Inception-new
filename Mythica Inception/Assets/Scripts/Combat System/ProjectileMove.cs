@@ -4,6 +4,7 @@ using System.Linq;
 using Assets.Scripts._Core;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Skill_System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -35,7 +36,7 @@ namespace Assets.Scripts.Combat_System
         private int _spawnerLevel;
         private IHaveMonsters _haveMonsters;
         private int _tameBeamPower;
-
+        private bool _range;
         void OnEnable()
         {
             if (_isTame)
@@ -61,12 +62,21 @@ namespace Assets.Scripts.Combat_System
         void Update()
         {
             if(!_activated) return;
-            Vector3 position = _target == null ? _toPosition : _target.position;
-            position = new Vector3(position.x, position.y + 3f, position.z);
-            transform.position = Vector3.MoveTowards(transform.position, position, _velocity * Time.deltaTime);
-            
+
+            if (_range)
+            {
+                if (_target != null)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, _target.position, _velocity * Time.deltaTime);
+                }
+                else
+                {
+                    transform.position += transform.forward * Time.deltaTime * _velocity;
+                }
+            }
+
+            //limit checking of colliders
             _timer += Time.deltaTime;
-            
             if(_timer < .1f) return;
             _timer = 0;
 
@@ -113,6 +123,9 @@ namespace Assets.Scripts.Combat_System
             
             foreach (var hit in hits)
             {
+                if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
+                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) return true;
+                
                 if (hit.transform != _target) continue;
                 
                 if(_tameable == null) continue;
@@ -125,12 +138,7 @@ namespace Assets.Scripts.Combat_System
 
         private int CalculateTameBeamValue(Monster monsterToTame)
         {
-            var monsterLevels = new List<int>();
-            for (int i = 0; i < _haveMonsters.GetMonsterSlots().Count; i++)
-            {
-                monsterLevels.Add(GameCalculations.Level(_haveMonsters.GetMonsterSlots()[i].currentExp));
-            }
-            var avgLevel = (int)monsterLevels.Average();
+            var avgLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
             return GameCalculations.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance, 1);
         }
 
@@ -141,6 +149,8 @@ namespace Assets.Scripts.Combat_System
             
             foreach (var hit in hits)
             {
+                if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
+                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) return true;
                 if (hit.transform != _target) continue;
                 
                 IHaveHealth damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
@@ -164,6 +174,8 @@ namespace Assets.Scripts.Combat_System
             
             foreach (var hit in hits)
             {
+                if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
+                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) return true;
                 if (!hit.CompareTag(opponentTag)) continue;
                 
                 IHaveHealth damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
@@ -182,55 +194,30 @@ namespace Assets.Scripts.Combat_System
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)
         {
-            //if the skill used is the spawner monster's basic attack
-            if (_spawnerMonster.basicAttack == _spawnerSkill)
-            {
-                var attackerAttack = 0;
-                var hitDefense = 0;
-                if (_spawnerMonster.basicAttackType == BasicAttackType.Melee)
-                {
-                    attackerAttack = GameCalculations.Stats(_spawnerMonster.stats.physicalAttack, _spawnerSV, _spawnerLevel);
-                    int hitLevel =
-                        GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()]
-                            .currentExp);
-                    hitDefense = GameCalculations.Stats(monsterHit.stats.physicalDefense, hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue, hitLevel);
-                    
-                }
-                else
-                {
-                    attackerAttack = GameCalculations.Stats(_spawnerMonster.stats.specialAttack, _spawnerSV, _spawnerLevel);
-                    int hitLevel =
-                        GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()]
-                            .currentExp);
-                    hitDefense = GameCalculations.Stats(monsterHit.stats.specialDefense, hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue, hitLevel);
-                }
+            var hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].currentExp);
+            var attackerAttack = 0;
+            var hitDefense = 0;
+            var typeComparison = GameCalculations.TypeComparison(_spawnerMonster.type, monsterHit.type);
+            var modifier = 0f;
+            //if the basic attack skill of attacker monster is used or attacker skill type is same with the attacker monster's type
+            var stab = _spawnerMonster.basicAttackSkill == _spawnerSkill || _spawnerSkill.skillType == _spawnerMonster.type;
+        
 
-                float typeComparison = GameCalculations.TypeComparison(_spawnerMonster.type, monsterHit.type);
-                float modifier = GameCalculations.Modifier(true, _spawnerSV, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
-                int damage = GameCalculations.Damage(1, _spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power,
-                    255, modifier);
-                
-                return damage;
+            if (_spawnerSkill.skillCategory == SkillCategory.Physical) //if the skill is physical
+            {
+                //get physical attack of attacker monster and physical defense of hit monster
+                attackerAttack = GameCalculations.Stats(_spawnerMonster.stats.physicalAttack, _spawnerSV, _spawnerLevel);
+                hitDefense = GameCalculations.Stats(monsterHit.stats.physicalDefense, hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue, hitLevel);
             }
-            //if the skill used is a skill of the spawner (not basic attack)
             else
             {
-                var attackerAttack = 0;
-                var hitDefense = 0;
-                if (_spawnerSkill.skillCategory == SkillCategory.Physical)
-                {
-                    attackerAttack = _spawnerMonster.stats.physicalAttack;
-                    hitDefense = monsterHit.stats.physicalDefense;
-                }
-                else
-                {
-                    attackerAttack = _spawnerMonster.stats.specialAttack;
-                    hitDefense = monsterHit.stats.specialDefense;
-                }
-                float typeComparison = GameCalculations.TypeComparison(_spawnerMonster.type, monsterHit.type);
-                float modifier = GameCalculations.Modifier(_spawnerSkill.skillType == _spawnerMonster.type, _spawnerSV, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
-                return GameCalculations.Damage(1, _spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
+                //get special attack of attacker monster and special defense of hit monster
+                attackerAttack = GameCalculations.Stats(_spawnerMonster.stats.specialAttack, _spawnerSV, _spawnerLevel);
+                hitDefense = GameCalculations.Stats(monsterHit.stats.specialDefense, hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue, hitLevel);
             }
+            
+            modifier = GameCalculations.Modifier(stab, _spawnerSV, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
+            return GameCalculations.Damage(1, _spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
         }
 
         IEnumerator DestroyAfter(float sec)
@@ -246,8 +233,6 @@ namespace Assets.Scripts.Combat_System
             
             if (_impactProj != null)
             {
-                
-                
                 GameObject impact = GameManager.instance.pooler.SpawnFromPool(null, _impactProj.name, _impactProj,
                     transform.position, Quaternion.identity);
             }
@@ -258,16 +243,19 @@ namespace Assets.Scripts.Combat_System
                     transform.position, Quaternion.identity);
             }
 
-            if (_targetObject != null)
-            {
-                GameObject targetObj = GameManager.instance.pooler.SpawnFromPool(_target, _targetObject.name,
-                    _targetObject, Vector3.zero, Quaternion.identity);
-            }
+            if (_targetObject == null) return;
             
+            var pos = transform.position;
+            if (_target != null)
+            {
+                pos = Vector3.zero;
+            }
+            GameObject targetObj = GameManager.instance.pooler.SpawnFromPool(_target, _targetObject.name,
+                _targetObject, pos, Quaternion.identity);
             
         }
 
-        public void ProjectileData(bool destroyOnCollide, GameObject targetObject,GameObject impactParticle, GameObject muzzleParticle, bool isTameBeam, bool canDamage, Transform whoSpawned, Transform whatTarget, Vector3 toPosition, float secondsToDie, float howFast, float whatRadius, Skill skill)
+        public void ProjectileData(bool destroyOnCollide, bool range, GameObject targetObject,GameObject impactParticle, GameObject muzzleParticle, bool isTameBeam, bool canDamage, Transform whoSpawned, Transform whatTarget, Vector3 toPosition, float secondsToDie, float howFast, float whatRadius, Skill skill)
         {
             gameObject.SetActive(false);
             _isTame = isTameBeam;
@@ -279,6 +267,7 @@ namespace Assets.Scripts.Combat_System
             _velocity = howFast;
             _radius = whatRadius;
             _impactProj = impactParticle;
+            _range = range;
             if (_impactProj != null)
             {
                 _impactPart = impactParticle.GetComponent<ParticleSystem>();

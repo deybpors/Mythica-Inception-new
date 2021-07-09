@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 5399334194870992708}
   - component: {fileID: -8183873031276510918}
   m_Layer: 0
-  m_Name: Sample Range
+  m_Name: _SampleRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,13 +140,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b20371c7b4e90df4caa6e1ef1550c417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTame: 0
-  value: 0
-  spawner: {fileID: 0}
-  target: {fileID: 0}
-  toPosition: {x: 0, y: 0, z: 0}
-  seconds: 5
-  velocity: 5
 --- !u!1001 &3698468761051342791
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -25,7 +25,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
                 stateController.player.playerData.temporaryTurnSmoothTime);
             stateController.transform.rotation = Quaternion.Euler(0f, newAngle, 0f);
             _moveVector = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            stateController.player.controller.Move(_moveVector.normalized * stateController.player.playerData.speed * Time.deltaTime);
+            stateController.player.controller.Move(_moveVector.normalized * stateController.player.tempSpeed * Time.deltaTime);
             
         }
     }

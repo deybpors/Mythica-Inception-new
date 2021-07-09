@@ -18,7 +18,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
         {
             stateController.StartCoroutine(_destination);
             
-            return stateController.HasTimeElapsed(stateController.aI.aiStats.fleeDuration);
+            return stateController.HasTimeElapsed(stateController.aI.aiData.fleeDuration);
         }
 
         IEnumerator TravelOppositeToTarget(StateController stateController)
@@ -28,7 +28,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
             newDestination += currentPosition;
             stateController.aI.agent.destination = newDestination;
             stateController.machineDestination = newDestination;
-            yield return new WaitForSeconds(stateController.aI.aiStats.fleeDuration);
+            yield return new WaitForSeconds(stateController.aI.aiData.fleeDuration);
         }
     }
 }

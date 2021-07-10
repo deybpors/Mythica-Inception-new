@@ -51,7 +51,6 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             InitializeMonstersData();
             SpawnMonstersFromPool();
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
-
             stateController.active = true;
         }
 
@@ -76,11 +75,9 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
                 //after initializing data
                 _tameValue = GetComponent<TameValue>();
                 _tameValue.tameValueBarUI = tameValueBarUI;
-                _tameValue.ActivateTameValue(GameCalculations.Level(monsterSlots[0].currentExp), healthComponent);
+                _tameValue.ActivateTameValue(GameCalculations.Level(monsterSlots[0].currentExp), healthComponent, this);
                 return;
             }
-            
-            //TODO: initialize the monster's data if tamer here
         }
 
         private void SpawnMonstersFromPool()
@@ -112,19 +109,21 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             return .5f;
         }
 
-        public int MonsterSwitched() { return currentMonster; }
+        public int CurrentMonsterSlotNumber() { return currentMonster; }
 
         public List<Monster> GetMonsters()
         {
             return monsterSlots.Count <= 0 ? null : monsterSlots.Select(monsterSlot => monsterSlot.monster).ToList();
         }
 
+        public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot) { }
+
         public List<MonsterSlot> GetMonsterSlots()
         {
             return monsterSlots;
         }
 
-        public MonsterSlot GetMonsterWithHighestEXP()
+        public MonsterSlot GetMonsterWithHighestExp()
         {
             var mSlot = new MonsterSlot();
             foreach (var slot in monsterSlots.Where(slot => mSlot.monster == null || mSlot.currentExp >= slot.currentExp))

@@ -44,7 +44,7 @@ namespace Assets.Scripts.Skill_System
         private void InitializeMonsterSkills()
         {
             skillSlots.Clear();
-            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.MonsterSwitched()].skillSlots;
+            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentMonsterSlotNumber()].skillSlots;
 
             foreach (var skillSlot in currentMonsterSkillSlots)
             {

@@ -7,11 +7,12 @@ namespace Assets.Scripts.Monster_System
     public interface IHaveMonsters
     {
         float GetMonsterSwitchRate();
-        int MonsterSwitched();
+        int CurrentMonsterSlotNumber();
         List<Monster> GetMonsters();
-
+        void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot);
+        
         List<MonsterSlot> GetMonsterSlots();
-        MonsterSlot GetMonsterWithHighestEXP();
+        MonsterSlot GetMonsterWithHighestExp();
 
         Monster GetCurrentMonster();
 

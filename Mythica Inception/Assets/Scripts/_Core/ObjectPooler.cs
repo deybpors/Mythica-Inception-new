@@ -19,7 +19,7 @@ namespace Assets.Scripts._Core
         public Dictionary<string, Queue<GameObject>> poolDictionary;
 
 
-        void Start()
+        void Awake()
         {
             if (pools.Count > 0)
             {

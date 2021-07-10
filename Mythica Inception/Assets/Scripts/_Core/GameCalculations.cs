@@ -29,19 +29,19 @@ namespace Assets.Scripts._Core
 
         public static int MonstersAvgLevel(List<MonsterSlot> monsterSlots)
         {
-            var levels = monsterSlots.Select(slot => Level(slot.currentExp)).ToList();
+            var levels = monsterSlots.Select(slot => Level(slot.monster != null ? slot.currentExp : 0)).ToList();
             return (int)levels.Average();
         }
 
         public static int MonstersAvgHealth(List<MonsterSlot> monsterSlots)
         {
-            var health = monsterSlots.Select(slot => slot.monster.stats.baseHealth).ToList();
+            var health = monsterSlots.Select(slot => slot.monster != null ? slot.monster.stats.baseHealth : 0).ToList();
             return (int) health.Average();
         }
 
         public static float MonstersAvgStabilityValue(List<MonsterSlot> monsterSlots)
         {
-            var stabilityValue = monsterSlots.Select(slot => slot.stabilityValue).ToList();
+            var stabilityValue = monsterSlots.Select(slot => slot.monster != null ? slot.stabilityValue : 0).ToList();
             return stabilityValue.Average();
         }
         
@@ -50,7 +50,7 @@ namespace Assets.Scripts._Core
             var hp = (float) wildMonsterCurrentHP / wildMonsterMaxHP;
             if (hp < .5f) { hp = .5f; }
             var sfx = statusFX ? .75f : 1;
-            return (int)(100 + ((Mathf.Pow(wildMonsterLvl, 3)) / 5) * sfx * hp);
+            return (int)(50 + ((Mathf.Pow(wildMonsterLvl, 3)) / 5) * sfx * hp);
         }
         
         public static int TameBeam(int avgLevel, int tSPower, int wildMonsterTamingResistance , float gamePace)

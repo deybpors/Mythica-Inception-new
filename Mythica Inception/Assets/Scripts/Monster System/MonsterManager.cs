@@ -60,6 +60,8 @@ namespace Assets.Scripts.Monster_System
         {
             for (int i = 0; i < _monsters.Count; i++)
             {
+                if(_monsters[i]==null) continue;
+                
                 GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
                     _monsters[i].monsterName, _monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
                 monsterObj.SetActive(false);
@@ -90,20 +92,11 @@ namespace Assets.Scripts.Monster_System
                 return;
             }
             
-            var monsterSlotSelected = _haveMonsters.MonsterSwitched();
+            var monsterSlotSelected = _haveMonsters.CurrentMonsterSlotNumber();
             if(monsterSlotSelected == _currentMonster) return;
-            if (_monsterGameObjects[monsterSlotSelected] == null)
-            {
-                if (isPlayer)
-                {
-                    //TODO: Update UI to send message that there is currently no monsters in the selected slot
-                    Debug.Log("Currently no monsters in the selected slot"); 
-                }
-                return;
-            }
 
             _tamerBefore = false;
-            SwitchMonster(_haveMonsters.MonsterSwitched());
+            SwitchMonster(monsterSlotSelected);
             _timer = 0;
         }
 

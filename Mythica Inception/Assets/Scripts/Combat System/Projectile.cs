@@ -41,15 +41,6 @@ namespace Assets.Scripts.Combat_System
         private bool _hitOnTarget;
         void OnEnable()
         {
-            if (_isTame)
-            {
-                _tameable = _target.GetComponent<ITameable>();
-                if (_tameable == null)
-                {
-                    //TODO: display in UI that the target has to be a Wild monster
-                    gameObject.SetActive(false);
-                }
-            }
             Init();
         }
 
@@ -123,7 +114,7 @@ namespace Assets.Scripts.Combat_System
                 if(_tameable == null) continue;
                 Monster monsterToTame = hit.GetComponent<IHaveMonsters>().GetCurrentMonster();
                 _hitOnTarget = true;
-                _tameable.AddCurrentTameValue(CalculateTameBeamValue(monsterToTame));
+                _tameable.AddCurrentTameValue(CalculateTameBeamValue(monsterToTame), _haveMonsters);
                 return true;
             }
             return true;
@@ -178,6 +169,8 @@ namespace Assets.Scripts.Combat_System
                 Monster monsterHit = hitHaveMonster.GetCurrentMonster();
                 if (_isDamage)
                 {
+                    _target = hit.transform;
+                    _hitOnTarget = true;
                     damageable.TakeDamage(CalculateDamage(monsterHit, hitHaveMonster));
                     return true;
                 }
@@ -188,7 +181,7 @@ namespace Assets.Scripts.Combat_System
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)
         {
-            var hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].currentExp);
+            var hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].currentExp);
             var attackerAttack = 0;
             var hitDefense = 0;
             var typeComparison = 0f;
@@ -206,22 +199,22 @@ namespace Assets.Scripts.Combat_System
             if (monsterHit == null)
             {
                 hitLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
-                monsterHit = _haveMonsters.GetMonsterWithHighestEXP().monster;
+                monsterHit = _haveMonsters.GetMonsterWithHighestExp().monster;
                 typeComparison = 1f;
                 hitDefense = GameCalculations.Stats(
                     _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                         monsterHit.stats.physicalDefense : monsterHit.stats.specialDefense, 
-                    hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue, 
+                    hitHaveMonster.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].stabilityValue, 
                     hitLevel);
             }
             else
             {
-                hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].currentExp);
+                hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].currentExp);
                 typeComparison = GameCalculations.TypeComparison(_spawnerMonster.type, monsterHit.type);
                 hitDefense = GameCalculations.Stats(
                     _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                     monsterHit.stats.physicalDefense : monsterHit.stats.specialDefense, 
-                    hitHaveMonster.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue, 
+                    hitHaveMonster.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].stabilityValue, 
                     hitLevel);
             }
             
@@ -254,13 +247,13 @@ namespace Assets.Scripts.Combat_System
 
             if (_targetObject == null) return;
             
-            var pos = transform.position;
             if (_target != null && _hitOnTarget)
             {
-                pos = Vector3.zero;
+                var pos = Vector3.zero;
+                GameObject targetObj = GameManager.instance.pooler.SpawnFromPool(_target, _targetObject.name,
+                    _targetObject, pos, Quaternion.identity);
             }
-            GameObject targetObj = GameManager.instance.pooler.SpawnFromPool(_target, _targetObject.name,
-                _targetObject, pos, Quaternion.identity);
+            
             
         }
 
@@ -304,9 +297,9 @@ namespace Assets.Scripts.Combat_System
             {
                 
                 _spawnerMonster = _haveMonsters.GetCurrentMonster();
-                _spawnerSV = _haveMonsters.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].stabilityValue;
+                _spawnerSV = _haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].stabilityValue;
                 _spawnerSkill = skill;
-                _spawnerLevel = GameCalculations.Level(_haveMonsters.GetMonsterSlots()[_haveMonsters.MonsterSwitched()].currentExp);
+                _spawnerLevel = GameCalculations.Level(_haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].currentExp);
             }
             
             gameObject.SetActive(true);

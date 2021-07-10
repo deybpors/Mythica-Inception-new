@@ -21,6 +21,7 @@ namespace Assets.Scripts._Core.Input
         [HideInInspector] public int currentMonster;
         [HideInInspector] public int previousMonster;
         [HideInInspector] public bool playerSwitch;
+        [HideInInspector] public bool playerSwitchDisabled;
 
         private bool _canAttack = true;
 
@@ -125,6 +126,7 @@ namespace Assets.Scripts._Core.Input
         
         public void SwitchTamer(InputAction.CallbackContext context)
         {
+            if(playerSwitchDisabled) return;
             if(!context.started) return;
             SwitchMonster(-1, true);
         }

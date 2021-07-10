@@ -15,7 +15,7 @@ namespace Assets.Scripts._Core.Player
     public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame, IHaveStamina
     {
 
-        public MonsterSlot[] monsterSlots;
+        public List<MonsterSlot> monsterSlots;
         public PlayerFSMData playerData;
         public EntityHealth playerHealth;
         public EntityStamina playerStamina;
@@ -107,26 +107,31 @@ namespace Assets.Scripts._Core.Player
             return playerData.monsterSwitchRate;
         }
 
-        public int MonsterSwitched()
+        public int CurrentMonsterSlotNumber()
         {
-            if (inputHandler.currentMonster >= monsterSlots.Length)
+            if (inputHandler.currentMonster < monsterSlots.Count && monsterSlots[inputHandler.currentMonster].monster != null)
             {
-                inputHandler.currentMonster = inputHandler.previousMonster;
-                
-                //TODO: Update UI to send message that there is currently no monsters in the selected slot
-                Debug.Log("Currently no monsters in the selected slot");
-                return inputHandler.previousMonster;
+                return inputHandler.currentMonster;
             }
-            return inputHandler.currentMonster;
+            inputHandler.currentMonster = inputHandler.previousMonster;
+                
+            //TODO: Update UI to send message that there is currently no monsters in the selected slot
+            Debug.Log("Currently no monsters in the selected slot");
+            return inputHandler.previousMonster;
         }
         
 
         public List<Monster> GetMonsters()
         {
             var monsters = new List<Monster>();
-            if (monsterSlots.Length <= 0) return monsters;
-            monsters.AddRange(monsterSlots.Select(slot => slot.monster));
+            if (monsterSlots.Count <= 0) return monsters;
+            monsters.AddRange(monsterSlots.Select(slot => slot.monster != null ? slot.monster : null));
             return monsters;
+        }
+
+        public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot)
+        {
+            monsterSlots[slotNum] = newSlot;
         }
 
         public List<MonsterSlot> GetMonsterSlots()
@@ -134,7 +139,7 @@ namespace Assets.Scripts._Core.Player
             return monsterSlots.ToList();
         }
 
-        public MonsterSlot GetMonsterWithHighestEXP()
+        public MonsterSlot GetMonsterWithHighestExp()
         {
             var mSlot = new MonsterSlot();
             foreach (var slot in monsterSlots.Where(slot => mSlot.monster == null || mSlot.currentExp >= slot.currentExp))
@@ -235,6 +240,15 @@ namespace Assets.Scripts._Core.Player
         {
             if(!inputHandler.playerSwitch) return;
             if(selectionManager.selectables.Count <= 0) return;
+            
+            var tameable = selectionManager.selectables[0].GetComponent<ITameable>();
+            if (tameable == null)
+            {
+                //TODO: display in UI that the target has to be a Wild monster
+                return;
+            }
+            
+            //spawn projectile
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
                 tameBeam.projectileGraphics.projectile, projectileRelease.position,
@@ -266,7 +280,7 @@ namespace Assets.Scripts._Core.Player
             if (monsterSlots[inputHandler.currentMonster].currentHealth > 0) return;
             
             var slotToSwitch = 9999999;
-            for (int i = 0; i < monsterSlots.Length; i++)
+            for (int i = 0; i < monsterSlots.Count; i++)
             {
                 if (monsterSlots[i].currentHealth > 0)
                 {
@@ -274,7 +288,7 @@ namespace Assets.Scripts._Core.Player
                 }
             }
 
-            if (slotToSwitch > monsterSlots.Length)
+            if (slotToSwitch > monsterSlots.Count)
             {
                 inputHandler.playerSwitch = true;
                 _monsterManager.SwitchToTamer();

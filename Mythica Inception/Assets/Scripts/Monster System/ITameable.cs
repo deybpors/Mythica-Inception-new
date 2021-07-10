@@ -2,7 +2,6 @@
 {
     public interface ITameable
     {
-        void Tamed();
-        void AddCurrentTameValue(int tameBeamValue);
+        void AddCurrentTameValue(int tameBeamValue, IHaveMonsters tamer);
     }
 }

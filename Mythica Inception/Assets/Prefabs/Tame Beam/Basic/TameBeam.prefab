@@ -14669,7 +14669,8 @@ GameObject:
   - component: {fileID: 3968044214962634631}
   - component: {fileID: 496487237765553797}
   - component: {fileID: 2284030030547160384}
-  - component: {fileID: -8447853404318755761}
+  - component: {fileID: 1728476630815409805}
+  - component: {fileID: 2592684153187835731}
   m_Layer: 0
   m_Name: TameBeam
   m_TagString: Untagged
@@ -19536,7 +19537,7 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
---- !u!114 &-8447853404318755761
+--- !u!114 &1728476630815409805
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -19545,6 +19546,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 7466845484337942068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b20371c7b4e90df4caa6e1ef1550c417, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f2a1994ceb493f42a8c7f6b452d5275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2592684153187835731
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7466845484337942068}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f3b99645936194dabeb1518ec49df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

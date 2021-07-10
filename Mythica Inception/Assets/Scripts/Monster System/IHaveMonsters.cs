@@ -11,6 +11,7 @@ namespace Assets.Scripts.Monster_System
         List<Monster> GetMonsters();
 
         List<MonsterSlot> GetMonsterSlots();
+        MonsterSlot GetMonsterWithHighestEXP();
 
         Monster GetCurrentMonster();
 

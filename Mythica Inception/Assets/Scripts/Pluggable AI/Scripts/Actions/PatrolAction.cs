@@ -13,6 +13,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
         private void Patrol(StateController stateController)
         {
+            stateController.controllerAnimator.SetBool("Attack", false);
             Vector3 nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
             stateController.aI.agent.destination = nextDestination;
             stateController.machineDestination = nextDestination;

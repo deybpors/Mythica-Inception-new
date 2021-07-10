@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a1ab9ad5e2ebc749a4f952c93d204f4, type: 3}
   m_Name: AttackAction
   m_EditorClassIdentifier: 
+  fleeState: {fileID: 11400000, guid: def5d20293b61354693900f9365c1c28, type: 2}

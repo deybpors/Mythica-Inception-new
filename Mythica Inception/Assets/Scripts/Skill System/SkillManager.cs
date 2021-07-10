@@ -57,14 +57,7 @@ namespace Assets.Scripts.Skill_System
         void Update()
         {
             if(!activated) return;
-            
-            if (smType == StateMachineType.Player)
-            {
-                CheckTargetingAndOnCooldownSkills();
-                return;
-            }
-            
-            //TODO: implement AI skill here
+            CheckTargetingAndOnCooldownSkills();
         }
 
         private void CheckTargetingAndOnCooldownSkills()
@@ -116,15 +109,22 @@ namespace Assets.Scripts.Skill_System
 
         public void TargetDone(SkillSlot slot)
         {
-            if (smType == StateMachineType.Player)
-            {
-                slot.skill.DoneTargeting(_entity);
-                targeting = false;
-            }
+            slot.skill.DoneTargeting(_entity);
+            targeting = false;
 
             ActivateWithTargetType(slot);
             
             if (slot.skill is ToggleTargetSkill) return;
+            slot.skillState = SkillState.cooldown;
+            slot.cooldownTimer = slot.skill.cooldownTime;
+        }
+        
+        public void TargetDoneAI(SkillSlot slot, Vector3 position, Transform t)
+        {
+            ActivateSkillForAI(slot, position, t);
+            
+            if (slot.skill is ToggleTargetSkill) {return;}
+            
             slot.skillState = SkillState.cooldown;
             slot.cooldownTimer = slot.skill.cooldownTime;
         }
@@ -173,8 +173,42 @@ namespace Assets.Scripts.Skill_System
             transform.rotation = new Quaternion(0f,transform.rotation.y, 0f, transform.rotation.w);
             skillPoint = Vector3.zero;
             target = null;
-            //TODO: Play attack animation here
             _entity.GetEntityAnimator().SetBool("Attack", true);
+        }
+        
+        private void ActivateSkillForAI(SkillSlot slot, Vector3 position, Transform t)
+        {
+            Skill s = slot.skill;
+            
+            if (s is NoTargetSkill || s is ToggleTargetSkill)
+            {
+                s.Activate(_entity);
+            }
+            else if (s is AreaTargetSkill || s is VectorTargetSkill)
+            {
+                s.Activate(_entity, position);
+            }
+            else if (s is UnitAreaTargetSkill || s is UnitOnlyTargetSkill)
+            {
+                s.Activate(_entity, target);
+            }
+            else if (s is PointOrUnitSkill)
+            {
+                if (target == null)
+                {
+                    s.Activate(_entity, skillPoint);
+                }
+                else
+                {
+                    s.Activate(_entity, target);
+                }
+            }
+            
+            skillPoint = Vector3.zero;
+            target = null;
+            
+            _entity.GetEntityAnimator().SetBool("Attack", true);
+
         }
 
         public void Targeting(SkillSlot slot)
@@ -193,7 +227,20 @@ namespace Assets.Scripts.Skill_System
             targeting = true;
             slot.skillState = SkillState.targeting;
         }
-        
+
+        public List<SkillSlot> GetAllSlots()
+        {
+            var slots = new List<SkillSlot>();
+            foreach (var slot in skillSlots)
+            {
+                if (slot.skill != null)
+                {
+                    slots.Add(slot);
+                }
+            }
+
+            return slots;
+        }
     }
 
     [System.Serializable]

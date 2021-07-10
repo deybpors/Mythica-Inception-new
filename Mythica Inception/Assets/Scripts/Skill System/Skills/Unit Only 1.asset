@@ -13,9 +13,19 @@ MonoBehaviour:
   m_Name: Unit Only 1
   m_EditorClassIdentifier: 
   ID: b3ed9f6a-7cc0-49cd-9f0b-4f259621cc90
+  tameBeam: 0
   skillName: unit only 1
-  power: 0
+  skillType: 0
   skillCategory: 0
-  cooldownTime: 5
+  power: 0
+  cooldownTime: 10
+  castRadius: 10
   staminaTake: 0
   healthTake: 0
+  spawnedProjectile:
+    projectile: {fileID: 0}
+    impact: {fileID: 0}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  skillAiStrategy: 0
+  description: 

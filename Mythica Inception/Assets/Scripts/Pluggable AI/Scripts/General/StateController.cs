@@ -35,7 +35,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             aI = GetComponent<GenericAI>();
             this.player = player;
             active = activate;
-            
+            stateTimeElapsed = 0;
             if (aI == null) return;
             aI.waypoints = waypointList;
             aI.agent.enabled = active;

@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57a45008170eaa4dbb1466d92faa93b, type: 3}
-  m_Name: Sample AI Stat
+  m_Script: {fileID: 11500000, guid: ff3bfeb15d649964db626669cb9a2d69, type: 3}
+  m_Name: PanicAction
   m_EditorClassIdentifier: 
-  combatDecisionEvery: 3
-  searchDuration: 3
-  searchingTurnSpeed: 200
-  fleeDuration: 3
-  movementSpeed: 20
+  searchState: {fileID: 11400000, guid: 4d14516c0711d184388b1704ed8866ac, type: 2}

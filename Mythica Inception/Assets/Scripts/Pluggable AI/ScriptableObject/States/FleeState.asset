@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45818efe249322c44a81c58a4d56dfbc, type: 3}
   m_Name: FleeState
   m_EditorClassIdentifier: 
-  actions: []
+  actions:
+  - {fileID: 11400000, guid: 05aadb300c5d8f64fbb111022e1a466e, type: 2}
   transitions:
   - decision: {fileID: 11400000, guid: fe1cfd6e536d10f4a87b08f3aff8b5b9, type: 2}
     successState: {fileID: 11400000, guid: 4d14516c0711d184388b1704ed8866ac, type: 2}

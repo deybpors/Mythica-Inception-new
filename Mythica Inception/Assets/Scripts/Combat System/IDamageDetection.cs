@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Combat_System
 {
-    public interface IRange
+    public interface IDamageDetection
     {
         void ProjectileData(bool destroyOnCollide, bool range,GameObject targetFX, GameObject impactFX, 
             GameObject muzzleFX, bool isTameBeam, bool canDamage, Transform whoSpawned, 

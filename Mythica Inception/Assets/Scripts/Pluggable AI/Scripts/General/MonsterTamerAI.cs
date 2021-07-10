@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core;
+using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Skill_System;
 using Assets.Scripts.UI;
@@ -18,7 +19,8 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public List<MonsterSlot> monsterSlots;
         public GameObject deathParticles;
         private TameValue _tameValue;
-
+        public Transform projectileRelease;
+        
         #region Hidden Fields
         
         [HideInInspector] public Health healthComponent;
@@ -122,6 +124,16 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             return monsterSlots;
         }
 
+        public MonsterSlot GetMonsterWithHighestEXP()
+        {
+            var mSlot = new MonsterSlot();
+            foreach (var slot in monsterSlots.Where(slot => mSlot.monster == null || mSlot.currentExp >= slot.currentExp))
+            {
+                mSlot = slot;
+            }
+            return mSlot;
+        }
+
         public Monster GetCurrentMonster()
         {
             return monsterSlots[currentMonster].monster;
@@ -209,6 +221,20 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         }
         
         #endregion
-        
+
+
+        public void ReleaseBasicAttack()
+        {
+            var monAttacking = GetCurrentMonster();
+            var range = monAttacking.basicAttackType != BasicAttackType.Melee;
+            var projectile = GameManager.instance.pooler.
+                SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
+                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
+            var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
+            var deathTime = range ? 1f : .25f;
+            var speed = range ? 50f : 30f;
+            rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
+                monAttacking.basicAttackObjects.muzzle,false, true, transform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,1.5f,monAttacking.basicAttackSkill);
+        }
     }
 }

@@ -11,6 +11,14 @@ namespace Assets.Scripts.Skill_System
         Physical,
         Special,
     }
+
+    public enum SkillAIStrategy
+    {
+        Offense,
+        Defense,
+        Both
+    }
+    
     public abstract class Skill : ScriptableObjectWithID
     {
         public bool tameBeam;
@@ -26,6 +34,10 @@ namespace Assets.Scripts.Skill_System
         //remember, tag of projectile in pooler is its .name
         [ConditionalField(nameof(tameBeam), true)]
         public ProjectileGraphics spawnedProjectile;
+
+        [ConditionalField(nameof(tameBeam), true)]
+        public SkillAIStrategy skillAiStrategy;
+        
         [TextArea(15,20)] public string description;
         
         public virtual void Activate(IEntity entity, Transform target) { }

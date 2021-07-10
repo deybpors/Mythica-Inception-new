@@ -13,10 +13,20 @@ MonoBehaviour:
   m_Name: Unit Area 1
   m_EditorClassIdentifier: 
   ID: 642c382d-7edb-4105-92ea-05c9c3d3f889
+  tameBeam: 0
   skillName: unit area 1
-  power: 0
+  skillType: 0
   skillCategory: 0
+  power: 0
   cooldownTime: 5
+  castRadius: 20
   staminaTake: 0
   healthTake: 0
+  spawnedProjectile:
+    projectile: {fileID: 0}
+    impact: {fileID: 0}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  skillAiStrategy: 0
+  description: 
   radius: 5

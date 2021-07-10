@@ -1340,6 +1340,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 725565001}
   m_CullTransparentMesh: 1
+--- !u!1 &736149721
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 736149722}
+  m_Layer: 6
+  m_Name: Projectile Release
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &736149722
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 736149721}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2.2, z: 1.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1549083965}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &752697199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1402,7 +1432,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
@@ -1837,6 +1867,7 @@ MonoBehaviour:
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
   deathParticles: {fileID: 0}
+  projectileRelease: {fileID: 0}
   healthComponent: {fileID: 0}
   currentMonster: 0
 --- !u!114 &794089818
@@ -2282,7 +2313,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969145007}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -7.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 241484253}
@@ -2644,7 +2675,7 @@ MonoBehaviour:
     slotNumber: 0
     nickName: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
-    currentHealth: 5
+    currentHealth: 20
     currentExp: 500
     currentLives: 0
     stabilityValue: 5
@@ -2712,6 +2743,9 @@ MonoBehaviour:
   playerHealth:
     maxHealth: 0
     currentHealth: 10
+  playerStamina:
+    currentStamina: 0
+    fullStamina: 0
   tameBeam: {fileID: 11400000, guid: a9b12769fd8176d4b916b995a2aced8a, type: 2}
   projectileRelease: {fileID: 241484253}
   dashGraphic: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
@@ -3727,6 +3761,7 @@ GameObject:
   - component: {fileID: 1549083958}
   - component: {fileID: 1549083957}
   - component: {fileID: 1549083966}
+  - component: {fileID: 1549083967}
   m_Layer: 6
   m_Name: Wild Monster
   m_TagString: Enemy
@@ -3816,13 +3851,13 @@ MonoBehaviour:
     currentLives: 0
     stabilityValue: 4.1
     skillSlots:
-    - skill: {fileID: 0}
+    - skill: {fileID: 11400000, guid: 29017694855f7394ea9ab418914bdd92, type: 2}
       cooldownTimer: 0
       skillState: 0
-    - skill: {fileID: 0}
+    - skill: {fileID: 11400000, guid: 94b900b8d06eabf4c8ac0cb35124d688, type: 2}
       cooldownTimer: 0
       skillState: 0
-    - skill: {fileID: 0}
+    - skill: {fileID: 11400000, guid: f24f67dea6a56954cb4b41a951f98cc2, type: 2}
       cooldownTimer: 0
       skillState: 0
     - skill: {fileID: 0}
@@ -3842,6 +3877,7 @@ MonoBehaviour:
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
+  projectileRelease: {fileID: 736149722}
   healthComponent: {fileID: 0}
   currentMonster: 0
 --- !u!114 &1549083961
@@ -3934,6 +3970,7 @@ Transform:
   - {fileID: 1347011795}
   - {fileID: 652452305}
   - {fileID: 148897255}
+  - {fileID: 736149722}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3952,6 +3989,21 @@ MonoBehaviour:
   maxTameValue: 100
   currentTameValue: 0
   tameValueBarUI: {fileID: 0}
+--- !u!114 &1549083967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549083956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f94cb8b22f1d1aa4090b070a56859297, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stamina:
+    currentStamina: 100
+    fullStamina: 100
 --- !u!1 &1564576769
 GameObject:
   m_ObjectHideFlags: 0
@@ -4290,7 +4342,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: -0.48, y: 34.38, z: -24.280008}
+  m_LocalPosition: {x: -0.48, y: 34.38, z: -31.680008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -4571,7 +4623,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830030837}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: -0.48, y: 34.38, z: -24.280008}
+  m_LocalPosition: {x: -0.48, y: 34.38, z: -31.680008}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 789864694}
@@ -4837,7 +4889,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

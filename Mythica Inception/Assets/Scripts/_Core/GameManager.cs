@@ -17,9 +17,10 @@ namespace Assets.Scripts._Core
         public Database skillsDatabase;
         public Database itemsDatabase;
         public TextAsset monsterTypeChart;
-        public List<string> attackerTypes;
-        public List<string> defenseTypes;
-        public List<List<float>> typeChart = new List<List<float>>();
+        
+        [HideInInspector] public List<string> attackerTypes;
+        [HideInInspector] public List<string> defenseTypes;
+        [HideInInspector] public List<List<float>> typeChart = new List<List<float>>();
 
         void Awake()
         {

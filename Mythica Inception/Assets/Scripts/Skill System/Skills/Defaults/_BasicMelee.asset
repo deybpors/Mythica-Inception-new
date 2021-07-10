@@ -17,7 +17,7 @@ MonoBehaviour:
   skillName: Melee
   skillType: 0
   skillCategory: 0
-  power: 20
+  power: 1
   cooldownTime: 0
   castRadius: 8
   staminaTake: 0
@@ -27,4 +27,5 @@ MonoBehaviour:
     impact: {fileID: 0}
     muzzle: {fileID: 0}
     targetObject: {fileID: 0}
+  skillAiStrategy: 0
   description: 

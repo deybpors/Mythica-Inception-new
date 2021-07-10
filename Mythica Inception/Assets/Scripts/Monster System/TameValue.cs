@@ -40,7 +40,7 @@ namespace Assets.Scripts.Monster_System
             var newTameValue = GameCalculations.TameValue(_monsterLvl, false, _healthComponent.health.currentHealth, _healthComponent.health.maxHealth);
 
             if (maxTameValue == newTameValue) return;
-            _animator.Play("Change");
+            if(tameValueBarUI.gameObject.activeInHierarchy) _animator.Play("Change");
             maxTameValue = newTameValue;
         }
 

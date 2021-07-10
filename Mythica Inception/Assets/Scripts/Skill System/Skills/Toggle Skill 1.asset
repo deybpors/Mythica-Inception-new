@@ -13,11 +13,19 @@ MonoBehaviour:
   m_Name: Toggle Skill 1
   m_EditorClassIdentifier: 
   ID: c488b291-5043-411d-ab40-f4bf78e9870c
+  tameBeam: 0
   skillName: Toggle skill 1
-  power: 0
+  skillType: 0
   skillCategory: 0
-  castDistance: 0
+  power: 0
   cooldownTime: 0
+  castRadius: 0
   staminaTake: 0
   healthTake: 0
-  delayTime: 0
+  spawnedProjectile:
+    projectile: {fileID: 0}
+    impact: {fileID: 0}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  skillAiStrategy: 0
+  description: 

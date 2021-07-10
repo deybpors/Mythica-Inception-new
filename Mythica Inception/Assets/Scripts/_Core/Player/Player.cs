@@ -134,9 +134,19 @@ namespace Assets.Scripts._Core.Player
             return monsterSlots.ToList();
         }
 
+        public MonsterSlot GetMonsterWithHighestEXP()
+        {
+            var mSlot = new MonsterSlot();
+            foreach (var slot in monsterSlots.Where(slot => mSlot.monster == null || mSlot.currentExp >= slot.currentExp))
+            {
+                mSlot = slot;
+            }
+            return mSlot;
+        }
+
         public Monster GetCurrentMonster()
         {
-            return monsterSlots[inputHandler.currentMonster].monster;
+            return inputHandler.playerSwitch ? null : monsterSlots[inputHandler.currentMonster].monster;
         }
 
         public bool isPlayerSwitched()
@@ -168,7 +178,7 @@ namespace Assets.Scripts._Core.Player
                 SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
                     monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
             
-            var rangeProjectile = projectile.GetComponent<IRange>() ?? projectile.AddComponent<ProjectileMove>();
+            var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
             var deathTime = range ? .25f : .1f;
             var speed = range ? 50f : 30f;
@@ -229,7 +239,7 @@ namespace Assets.Scripts._Core.Player
                 SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
                 tameBeam.projectileGraphics.projectile, projectileRelease.position,
                 Quaternion.identity);
-            var rangeProjectile = projectile.GetComponent<IRange>() ?? projectile.AddComponent<ProjectileMove>();
+            var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 
                 tameBeam.projectileGraphics.muzzle,true, false, transform, selectionManager.selectables[0], 
                 Vector3.zero, 10, 50,1, tameBeam.skill);
@@ -292,16 +302,7 @@ namespace Assets.Scripts._Core.Player
 
         public void Die()
         {
-            if (inputHandler.playerSwitch)
-            {
-                //TODO: Go back to last town
-            }
-            else
-            {
-                //switch to next monster
-                //if no more monster that still has health
-                    //go back to last town
-            }
+            Debug.Log("player dead");
         }
 
         public void TakeStamina(int staminaToTake)

@@ -13,11 +13,20 @@ MonoBehaviour:
   m_Name: Vector Target Skill
   m_EditorClassIdentifier: 
   ID: 35b37e63-db2c-4a9a-9861-1520e55969ca
+  tameBeam: 0
   skillName: Vector target 1
-  power: 0
+  skillType: 0
   skillCategory: 0
-  cooldownTime: 3
+  power: 0
+  cooldownTime: 10
+  castRadius: 20
   staminaTake: 0
   healthTake: 0
-  spawnedProjectile: {fileID: 0}
+  spawnedProjectile:
+    projectile: {fileID: 0}
+    impact: {fileID: 0}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  skillAiStrategy: 0
+  description: 
   width: 5

@@ -4755,6 +4755,7 @@ GameObject:
   - component: {fileID: 1936619017637438855}
   - component: {fileID: 1936619017622253363}
   - component: {fileID: 1936619017623901055}
+  - component: {fileID: 4795283860318790775}
   m_Layer: 0
   m_Name: BulletSmallBlue
   m_TagString: Untagged
@@ -9481,6 +9482,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &4795283860318790775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936619017637676521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34f3b99645936194dabeb1518ec49df2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1936619017637701185
 GameObject:
   m_ObjectHideFlags: 0

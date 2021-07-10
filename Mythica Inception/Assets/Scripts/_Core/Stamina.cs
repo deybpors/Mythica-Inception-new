@@ -24,13 +24,14 @@ namespace Assets.Scripts._Core
             }
         }
 
-        public void UpdateHealth(int updatedFullStamina, int updatedCurrentStamina)
+        public void UpdateStamina(int updatedFullStamina, int updatedCurrentStamina)
         {
             stamina.currentStamina = updatedCurrentStamina;
             stamina.fullStamina = updatedFullStamina;
         }
     }
-
+    
+    [System.Serializable]
     public class EntityStamina
     {
         public int currentStamina;

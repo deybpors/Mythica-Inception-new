@@ -69,6 +69,7 @@ namespace Assets.Scripts._Core
                 {
                     objectToSpawn.transform.parent = parent;
                     objectToSpawn.transform.localPosition = position;
+                    objectToSpawn.transform.rotation = Quaternion.Euler(0,0,0);
                 }
                 else
                 {
@@ -132,6 +133,13 @@ namespace Assets.Scripts._Core
             //put it in the new queue
             objectPool.Enqueue(obj);
             return obj;
+        }
+
+        public void BackToPool(GameObject obj)
+        {
+            obj.SetActive(false);
+            obj.transform.rotation = Quaternion.Euler(0,0,0);
+            obj.transform.parent = null;
         }
     }
 }

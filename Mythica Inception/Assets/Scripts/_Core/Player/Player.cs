@@ -80,8 +80,6 @@ namespace Assets.Scripts._Core.Player
             controller = GetComponent<CharacterController>();
             inputHandler = GetComponent<PlayerInputHandler>();
             inputHandler.ActivatePlayerInputHandler(this);
-            tamer = transform.FindChildWithTag("Tamer").gameObject;
-            currentAnimator = tamer.GetComponent<Animator>();
             _stateController = GetComponent<StateController>();
             _healthComponent = GetComponent<Health>();
         }
@@ -92,7 +90,11 @@ namespace Assets.Scripts._Core.Player
             Debug.Log("Initializing save data...");
             
             
+            
             //after getting all data,
+            tamer = transform.FindChildWithTag("Tamer").gameObject;
+            tamer.layer = LayerMask.NameToLayer("Player");
+            currentAnimator = tamer.GetComponent<Animator>();
             //initialize player's health
             playerHealth.maxHealth = GameCalculations.Stats(
                 GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
@@ -132,6 +134,8 @@ namespace Assets.Scripts._Core.Player
         public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot)
         {
             monsterSlots[slotNum] = newSlot;
+            _monsterManager.RequestPoolMonstersPrefab();
+            _monsterManager.GetMonsterAnimators();
         }
 
         public List<MonsterSlot> GetMonsterSlots()
@@ -181,7 +185,7 @@ namespace Assets.Scripts._Core.Player
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
+                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.Euler(-90,transform.rotation.y,transform.rotation.z));
             
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;

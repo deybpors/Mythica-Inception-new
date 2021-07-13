@@ -35,7 +35,7 @@ namespace Assets.Scripts.Combat_System
         private float _spawnerSV;
         private int _spawnerLevel;
         private IHaveMonsters _haveMonsters;
-        private int _tameBeamPower;
+        private float _tameBeamPower;
         private bool _range;
         private IMovingProjectile _movingProjectile;
         private bool _hitOnTarget;
@@ -110,7 +110,6 @@ namespace Assets.Scripts.Combat_System
                     hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
                 
                 if (hit.transform != _target) continue;
-                
                 if(_tameable == null) continue;
                 Monster monsterToTame = hit.GetComponent<IHaveMonsters>().GetCurrentMonster();
                 _hitOnTarget = true;
@@ -291,7 +290,7 @@ namespace Assets.Scripts.Combat_System
             
             if (isTameBeam)
             {
-                TameBeamData(skill);
+                TameBeamData(skill, whatTarget.GetComponent<ITameable>());
             }
             else
             {
@@ -306,9 +305,10 @@ namespace Assets.Scripts.Combat_System
             _activated = true;
         }
 
-        private void TameBeamData(Skill skill)
+        private void TameBeamData(Skill skill, ITameable targetMonster)
         {
             _tameBeamPower = skill.power;
+            _tameable = targetMonster;
         }
 
         void OnDrawGizmos()

@@ -8,7 +8,7 @@ namespace Assets.Scripts._Core
 {
     public static class GameCalculations
     {
-        public static int Damage(float gamePace, int attackerLvl, int attackerAttack, int targetDefense, int skillPower, int maxSkillPower, float modifier)
+        public static int Damage(float gamePace, int attackerLvl, int attackerAttack, int targetDefense, float skillPower, int maxSkillPower, float modifier)
         {
             return (int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
                 ((float) attackerAttack / targetDefense) + 2) * modifier);
@@ -48,12 +48,12 @@ namespace Assets.Scripts._Core
         public static int TameValue(int wildMonsterLvl, bool statusFX, int wildMonsterCurrentHP, int wildMonsterMaxHP)
         {
             var hp = (float) wildMonsterCurrentHP / wildMonsterMaxHP;
-            if (hp < .5f) { hp = .5f; }
+            //if (hp < .5f) { hp = .5f; }
             var sfx = statusFX ? .75f : 1;
             return (int)(50 + ((Mathf.Pow(wildMonsterLvl, 3)) / 5) * sfx * hp);
         }
         
-        public static int TameBeam(int avgLevel, int tSPower, int wildMonsterTamingResistance , float gamePace)
+        public static int TameBeam(int avgLevel, float tSPower, int wildMonsterTamingResistance , float gamePace)
         { 
             float random = Random.Range(0.85f, 1);
             int tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);

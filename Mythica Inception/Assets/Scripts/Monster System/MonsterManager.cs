@@ -10,16 +10,15 @@ namespace Assets.Scripts.Monster_System
     [RequireComponent(typeof(IHaveMonsters))]
     public class MonsterManager : MonoBehaviour
     {
-        [SerializeField] private bool _activated;
-        [SerializeField] private List<Monster> _monsters;
-
         #region Hidden Fields
 
+        [SerializeField] private bool _activated;
+        [SerializeField] private List<Monster> _monsters;
         [HideInInspector] public bool isPlayer;
         private SkillManager _skillManager;
-        private List<GameObject> _monsterGameObjects;
+        private List<GameObject> _monsterGameObjects = new List<GameObject>();
         private IHaveMonsters _haveMonsters;
-        private List<Animator> _monsterAnimators;
+        private List<Animator> _monsterAnimators = new List<Animator>();
         private GameObject _tamerPrefab;
         private Animator _tamerAnimator;
         private float _timer;
@@ -48,16 +47,25 @@ namespace Assets.Scripts.Monster_System
             }
             
             _skillManager = skillManager;
-            _monsters = _haveMonsters.GetMonsters();
             _monsterGameObjects = new List<GameObject>();
             RequestPoolMonstersPrefab();
-            _monsterAnimators = GetMonsterAnimators();
+            GetMonsterAnimators();
             
             _activated = true;
         }
 
-        private void RequestPoolMonstersPrefab()
+        public void RequestPoolMonstersPrefab()
         {
+            if (_monsterGameObjects.Count > 0)
+            {
+                foreach (var monsterObj in _monsterGameObjects)
+                {
+                    GameManager.instance.pooler.BackToPool(monsterObj);
+                }
+                _monsterGameObjects.Clear();
+            }
+            
+            _monsters = _haveMonsters.GetMonsters();
             for (int i = 0; i < _monsters.Count; i++)
             {
                 if(_monsters[i]==null) continue;
@@ -65,13 +73,21 @@ namespace Assets.Scripts.Monster_System
                 GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
                     _monsters[i].monsterName, _monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
                 monsterObj.SetActive(false);
+                if (isPlayer)
+                {
+                    monsterObj.GetComponentInChildren<Renderer>().gameObject.layer = 11;
+                }
                 _monsterGameObjects.Add(monsterObj);
             }
         }
 
-        private List<Animator> GetMonsterAnimators()
+        public void GetMonsterAnimators()
         {
-            return _monsterGameObjects.Select(monster => monster.GetComponent<Animator>()).ToList();
+            if (_monsterAnimators.Count > 0)
+            {
+                _monsterAnimators.Clear();
+            }
+            _monsterAnimators = _monsterGameObjects.Select(monster => monster.GetComponent<Animator>()).ToList();
         }
 
         void Update()
@@ -117,6 +133,7 @@ namespace Assets.Scripts.Monster_System
         public void SwitchMonster(int slot)
         {
             InactiveAllMonsters();
+            _monsterGameObjects[slot].transform.rotation = transform.rotation;
             _monsterGameObjects[slot].SetActive(true);
             _haveMonsters.SetAnimator(_monsterAnimators[slot]);
             _currentMonster = slot;

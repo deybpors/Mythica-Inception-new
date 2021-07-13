@@ -25,7 +25,7 @@ namespace Assets.Scripts.Skill_System
         public string skillName = "Skill name";
         [ConditionalField(nameof(tameBeam), true)] public MonsterType skillType;
         [ConditionalField(nameof(tameBeam), true)] public SkillCategory skillCategory;
-        public int power = 10;
+        public float power = 10f;
         [ConditionalField(nameof(tameBeam), true)] public float cooldownTime = 10;
         [ConditionalField(nameof(tameBeam), true)] public float castRadius;
         [ConditionalField(nameof(tameBeam), true)] public float staminaTake;

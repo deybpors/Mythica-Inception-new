@@ -66,7 +66,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             stateController.transform.LookAt(faceTo);
             stateController.transform.rotation = new Quaternion(0f, stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
             stateController.player.ReleaseTameBeam();
-            //TODO: Play tamer release tame beam animation
+            stateController.controllerAnimator.SetBool("Attack", true);
         }
 
         private void HandleTurnSmoothTime(StateController stateController)

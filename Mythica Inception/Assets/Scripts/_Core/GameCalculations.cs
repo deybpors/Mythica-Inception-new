@@ -16,8 +16,8 @@ namespace Assets.Scripts._Core
 
         public static float Modifier(bool stab, float attackerMonsterSV, float attackerMonsterType, bool critical)
         {
-            float modifier = (stab ? 1.5f : 1) * (1 + (attackerMonsterSV / 100)) * attackerMonsterType * (critical ? 2 : 1) *
-                             Random.Range(.75f, 1);
+            var modifier = (stab ? 1.5f : 1) * (1 + (attackerMonsterSV / 100)) * attackerMonsterType * (critical ? 2 : 1) *
+                           Random.Range(.75f, 1);
             return modifier;
         }
         
@@ -55,8 +55,8 @@ namespace Assets.Scripts._Core
         
         public static int TameBeam(int avgLevel, float tSPower, int wildMonsterTamingResistance , float gamePace)
         { 
-            float random = Random.Range(0.85f, 1);
-            int tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);
+            var random = Random.Range(0.85f, 1);
+            var tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);
             return tameBeam;
         }
 
@@ -65,9 +65,10 @@ namespace Assets.Scripts._Core
             return (int) Mathf.Pow(exp, 1f / 3f);
         }
         
-        public static int LvlUpRequirement()
+        public static int Experience(int level)
         {
-            return 0;
+            var exp = (int)Mathf.Pow(level, 3);
+            return exp;
         }
         
         public static int ExperienceGain()

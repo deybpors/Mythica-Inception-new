@@ -5,7 +5,7 @@ namespace Assets.Scripts.UI
 {
     public class ProgressBarUI : MonoBehaviour
     {
-        [HideInInspector] public float maxValue;
+        [HideInInspector] public float maxValue = 1;
         [HideInInspector] public float currentValue;
         
         public Image sliderColored;

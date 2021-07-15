@@ -39,10 +39,11 @@ namespace Assets.Scripts.UI
 
         private LTDescr _tweenObject;
         public bool showOnEnable;
-        
+        private CanvasGroup _canvasGroup;
 
         public void OnEnable()
         {
+            _canvasGroup = gameObject.GetComponent<CanvasGroup>();
             if (showOnEnable)
             {
                 Show();
@@ -93,17 +94,17 @@ namespace Assets.Scripts.UI
 
         public void Fade()
         {
-            if (gameObject.GetComponent<CanvasGroup>() == null)
+            if (_canvasGroup == null)
             {
-                gameObject.AddComponent<CanvasGroup>();
+                _canvasGroup = gameObject.AddComponent<CanvasGroup>();
             }
 
             if (startPositionOffset)
             {
-                objectToAnimate.GetComponent<CanvasGroup>().alpha = from;
+                _canvasGroup.alpha = from;
             }
 
-            _tweenObject = LeanTween.alphaCanvas(objectToAnimate.GetComponent<CanvasGroup>(), to, duration);
+            _tweenObject = LeanTween.alphaCanvas(_canvasGroup, to, duration);
         }
 
         public void MoveAbsolute()
@@ -124,9 +125,18 @@ namespace Assets.Scripts.UI
 
         void SwapDirection()
         {
-            var temp = fromState;
-            fromState = toState;
-            toState = temp;
+            if (animationType == UIAnimationType.Scale || animationType == UIAnimationType.Move)
+            {
+                var temp = fromState;
+                fromState = animationType == UIAnimationType.Scale ? transform.localScale : transform.position;
+                toState = temp; 
+            }
+            else
+            {
+                var temp = from;
+                from = objectToAnimate.GetComponent<CanvasGroup>().alpha;
+                to = temp; 
+            }
         }
 
         public void Disable()

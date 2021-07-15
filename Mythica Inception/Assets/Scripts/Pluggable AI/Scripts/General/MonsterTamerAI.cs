@@ -22,7 +22,8 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public Transform projectileRelease;
         
         #region Hidden Fields
-        
+
+        private WildMonsterSpawner _spawner;
         [HideInInspector] public Health healthComponent;
         [HideInInspector] public int currentMonster = 0;
         [HideInInspector] private List<GameObject> _monsterGameObjects;
@@ -33,22 +34,33 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         void OnEnable()
         {
+            if (tamer)
+            {
+                Init();
+            }
+        }
+
+        public void ActivateWildMonster(MonsterSlot newWildMonster, List<Transform> waypoints, WildMonsterSpawner spawner)
+        {
+            monsterSlots.Clear();
+            monsterSlots.Add(newWildMonster);
             Init();
+            gameObject.SetActive(true);
+            _spawner = spawner;
+            stateController.ActivateAI(true, waypoints, null);
         }
 
         private void Init()
         {
             stateController.active = false;
             agent.speed = aiData.movementSpeed;
-            
             _monsterManager = GetComponent<MonsterManager>();
             _skillManager = GetComponent<SkillManager>();
-            _skillManager.ActivateSkillManager(this);
             healthComponent = GetComponent<Health>();
             if (healthComponent == null) { healthComponent = gameObject.AddComponent<Health>(); }
-
             InitializeCurrentMonsterHealth();
             InitializeMonstersData();
+            _skillManager.ActivateSkillManager(this);
             SpawnMonstersFromPool();
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
             stateController.active = true;
@@ -66,17 +78,15 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
 
         private void InitializeMonstersData()
         {
-            if (!tamer) //if wild monster
+            if (!tamer)
             {
-                //TODO: initialize monster's data here (put Monsters in the monsters list)
-                //use the monster's place and get random monsters from the place's monster's list
-                
-                
-                //after initializing data
                 _tameValue = GetComponent<TameValue>();
                 _tameValue.tameValueBarUI = tameValueBarUI;
                 _tameValue.ActivateTameValue(GameCalculations.Level(monsterSlots[0].currentExp), healthComponent, this);
-                return;
+            }
+            else
+            {
+                //initialize data for tamers
             }
         }
 
@@ -117,6 +127,10 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         }
 
         public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot) { }
+        public void ChangeCurrentMonsterSlot(int currentSlot)
+        {
+            currentMonster = currentSlot;
+        }
 
         public List<MonsterSlot> GetMonsterSlots()
         {
@@ -216,6 +230,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             var pos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
+            if (_spawner != null) { _spawner.currentNoOfMonsters--; }
             gameObject.SetActive(false);
         }
         

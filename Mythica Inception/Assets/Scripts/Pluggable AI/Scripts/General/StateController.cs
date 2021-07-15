@@ -50,6 +50,12 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         {
             if(!active) return;
             
+            CheckAnimator();
+            currentState.UpdateState(this);
+        }
+
+        private void CheckAnimator()
+        {
             if (stateMachineType == StateMachineType.Player && controllerAnimator != player.currentAnimator)
             {
                 controllerAnimator = player.currentAnimator;
@@ -58,12 +64,12 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
             {
                 controllerAnimator = aI.currentAnimator;
             }
-            
-            if (controllerAnimator != null && !currentState.stateAnimation.Equals("") && stateMachineType == StateMachineType.Player)
+
+            if (controllerAnimator != null && !currentState.stateAnimation.Equals("") &&
+                stateMachineType == StateMachineType.Player)
             {
                 controllerAnimator.SetBool(currentState.stateAnimation, true);
             }
-            currentState.UpdateState(this);
         }
 
         public void TransitionToState(State nextState)

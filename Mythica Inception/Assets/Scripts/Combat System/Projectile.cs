@@ -180,6 +180,8 @@ namespace Assets.Scripts.Combat_System
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)
         {
+            if (monsterHit == null) return 0;
+            
             var hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[_haveMonsters.CurrentMonsterSlotNumber()].currentExp);
             var attackerAttack = 0;
             var hitDefense = 0;

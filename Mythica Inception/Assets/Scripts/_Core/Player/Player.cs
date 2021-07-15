@@ -100,8 +100,7 @@ namespace Assets.Scripts._Core.Player
                 GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
                 GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
                 GameCalculations.MonstersAvgLevel(monsterSlots.ToList()));
-            _healthComponent.health.maxHealth = playerHealth.maxHealth;
-            _healthComponent.health.currentHealth = playerHealth.currentHealth;
+            _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
         }
 
         public float GetMonsterSwitchRate()
@@ -134,6 +133,8 @@ namespace Assets.Scripts._Core.Player
         public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot)
         {
             monsterSlots[slotNum] = newSlot;
+            monsterSlots[slotNum].slotNumber = slotNum;
+            monsterSlots[slotNum].inParty = true;
             _monsterManager.RequestPoolMonstersPrefab();
             _monsterManager.GetMonsterAnimators();
         }
@@ -212,26 +213,25 @@ namespace Assets.Scripts._Core.Player
 
             if (slot < 0)
             {
-                _healthComponent.health.currentHealth = playerHealth.currentHealth;
                 playerHealth.maxHealth = GameCalculations.Stats(
                     GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
                     GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
                     GameCalculations.MonstersAvgLevel(monsterSlots.ToList())
                     );
-                _healthComponent.health.maxHealth = playerHealth.maxHealth;
+                _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
                 return;
             }
             
             tempSpeed *= monsterSlots[slot].monster.stats.movementSpeed;
             tempAttackRate *= monsterSlots[slot].monster.stats.attackRate;
             //Initialize Monster's health
-            _healthComponent.health.currentHealth = monsterSlots[slot].currentHealth;
-            _healthComponent.health.maxHealth =
+            var maxHealth =
                 GameCalculations.Stats(
                     monsterSlots[slot].monster.stats.baseHealth,
                     monsterSlots[slot].stabilityValue,
                     GameCalculations.Level(monsterSlots[slot].currentExp)
                     );
+            _healthComponent.UpdateHealth(maxHealth, monsterSlots[slot].currentHealth);
         }
 
 
@@ -282,28 +282,33 @@ namespace Assets.Scripts._Core.Player
             }
             monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
             if (monsterSlots[inputHandler.currentMonster].currentHealth > 0) return;
-            
-            var slotToSwitch = 9999999;
-            for (int i = 0; i < monsterSlots.Count; i++)
+            monsterSlots[inputHandler.currentMonster].fainted = true;
+            FindAliveMonsterOrPlayer();
+        }
+
+        private void FindAliveMonsterOrPlayer()
+        {
+            var monsterSlot = new MonsterSlot();
+            foreach (var monster in monsterSlots)
             {
-                if (monsterSlots[i].currentHealth > 0)
+                if (monster.currentHealth > 0 && monster.monster != null)
                 {
-                    slotToSwitch = i;
+                    monsterSlot = monster;
                 }
             }
 
-            if (slotToSwitch > monsterSlots.Count)
+            if (monsterSlot.monster == null)
             {
+                if(inputHandler.playerSwitch) return;
+                
                 inputHandler.playerSwitch = true;
                 _monsterManager.SwitchToTamer();
             }
             else
             {
-                if (_monsterManager != null)
-                {
-                    inputHandler.currentMonster = slotToSwitch;
-                    _monsterManager.SwitchMonster(slotToSwitch);
-                }
+                if (_monsterManager == null) return;
+                inputHandler.currentMonster = monsterSlot.slotNumber;
+                _monsterManager.SwitchMonster(monsterSlot.slotNumber);
             }
         }
 

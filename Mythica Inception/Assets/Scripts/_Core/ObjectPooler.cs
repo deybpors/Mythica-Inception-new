@@ -17,18 +17,23 @@ namespace Assets.Scripts._Core
 
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
-
+        [HideInInspector] public int objectInstatiated;
+        [HideInInspector] public int totalObjectToInstantiate;
+        [HideInInspector] public bool isDone;
 
         void Awake()
         {
             if (pools.Count > 0)
             {
                 PreInstantiate();
+                isDone = true;
             }
         }
 
         private void PreInstantiate()
         {
+            foreach (var pool in pools) { totalObjectToInstantiate += pool.size; }
+            
             foreach (var pool in pools.ToList())
             {
                 if (pool.tag.IsNullOrEmpty())
@@ -111,6 +116,7 @@ namespace Assets.Scripts._Core
                     }
                 }
                 InstantiateAndAddToPool(pool, newPool);
+                objectInstatiated++;
             }
             //add pool to pools
             pools.Add(pool);
@@ -119,9 +125,6 @@ namespace Assets.Scripts._Core
             
             //add it in the pool dictionary
             poolDictionary.Add(newSpawnedTag, newPool);
-            
-            //TODO: instead of debugging, update UI during loading
-            Debug.LogWarning("Pool with tag " + newSpawnedTag + " doesn't exist.\nProceed to adding new pool.");
         }
 
         private GameObject InstantiateAndAddToPool(Pool pool, Queue<GameObject> objectPool)

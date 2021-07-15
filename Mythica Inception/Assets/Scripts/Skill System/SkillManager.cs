@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Assets.Scripts._Core;
 using Assets.Scripts._Core.Player;
 using Assets.Scripts.Monster_System;
@@ -19,7 +20,7 @@ namespace Assets.Scripts.Skill_System
         }
 
         public bool activated;
-        public List<SkillSlot> skillSlots;
+        public List<SkillSlot> skillSlots = new List<SkillSlot>();
 
         #region Hidden Fields
 
@@ -44,10 +45,10 @@ namespace Assets.Scripts.Skill_System
         private void InitializeMonsterSkills()
         {
             skillSlots.Clear();
-            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentMonsterSlotNumber()].skillSlots;
-
+            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentMonsterSlotNumber()].skillSlots.ToList();
             foreach (var skillSlot in currentMonsterSkillSlots)
             {
+                if(skillSlot == null) continue;
                 var currentSkillSlot = new SkillSlot(skillSlot.skill,
                     skillSlot.cooldownTimer, skillSlot.skillState);
                 skillSlots.Add(currentSkillSlot);

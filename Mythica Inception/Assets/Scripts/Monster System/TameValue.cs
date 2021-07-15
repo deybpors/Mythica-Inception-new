@@ -79,10 +79,6 @@ namespace Assets.Scripts.Monster_System
             else
             {
                 var newSlot = _monster.GetMonsterSlots()[_monster.CurrentMonsterSlotNumber()];
-                newSlot.currentHealth = GameCalculations.Stats(
-                    _monster.GetCurrentMonster().stats.baseHealth,
-                    newSlot.stabilityValue,
-                    GameCalculations.Level(newSlot.currentExp));
                 _tamer.AddNewMonsterSlot(slotToFill, newSlot);
                 //play animation something screen to celebrate new monster tamed
                 //ask for nickname of monster

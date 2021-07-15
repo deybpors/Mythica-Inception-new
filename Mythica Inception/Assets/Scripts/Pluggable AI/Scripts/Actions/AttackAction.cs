@@ -14,8 +14,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
     public class AttackAction : Action
     {
         public State fleeState;
-        private float _timer;
-        private bool _attacked = false;
+
         public override void Act(StateController stateController)
         {
             Attack(stateController);
@@ -23,15 +22,9 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
 
         private void Attack(StateController stateController)
         {
-            if (_attacked)
+            if (stateController.stateTimeElapsed > .5f)
             {
-                _timer += Time.deltaTime;
-                if (_timer > .5f)
-                {
-                    stateController.controllerAnimator.SetBool("Attack", false);
-                    _attacked = false;
-                    _timer = 0;
-                }
+                stateController.controllerAnimator.SetBool("Attack", false);
             }
 
             if (!stateController.stateBoolVariable)
@@ -45,10 +38,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             
             if (stateController.HasTimeElapsed(stateController.aI.aiData.combatDecisionEvery))
             {
-                if(_timer <= 0)
-                {               
-                    AttackDecision(stateController);
-                }
+                AttackDecision(stateController);
             }
         }
 
@@ -140,7 +130,6 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
                     
                     monsterTamerAI.ReleaseBasicAttack();
                     stateController.controllerAnimator.SetBool("Attack", true);
-                    _attacked = true;
                     return;
                 }
             }
@@ -149,7 +138,6 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             skillManager.TargetDoneAI(skillsToExecute[skillIndex],
                 stateController.aI.target.position,
                 stateController.aI.target);
-            _attacked = true;
         }
 
         private float SkillStrategyCheck(Skill skill)

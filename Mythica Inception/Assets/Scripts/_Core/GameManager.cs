@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using Assets.Scripts.Databases.Scripts;
-using Assets.Scripts.Monster_System;
-using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts._Core
@@ -17,6 +15,9 @@ namespace Assets.Scripts._Core
         public Database skillsDatabase;
         public Database itemsDatabase;
         public TextAsset monsterTypeChart;
+
+
+        [HideInInspector] public Transform player;
         
         [HideInInspector] public List<string> attackerTypes;
         [HideInInspector] public List<string> defenseTypes;
@@ -33,8 +34,8 @@ namespace Assets.Scripts._Core
             {
                 Destroy(gameObject);
             }
-            
             InitializeTypeChartData();
+            player = FindObjectOfType<Player.Player>().transform;
         }
 
         private void InitializeTypeChartData()

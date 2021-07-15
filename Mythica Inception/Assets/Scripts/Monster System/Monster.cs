@@ -28,6 +28,7 @@ namespace Assets.Scripts.Monster_System
         //this will be the one saved
         public bool inParty;
         public int slotNumber;
+        public bool fainted;
         public string nickName;
         public Monster monster;
         public int currentHealth;
@@ -37,6 +38,22 @@ namespace Assets.Scripts.Monster_System
         public float stabilityValue = 1;
         public SkillSlot[] skillSlots = new SkillSlot[4];
         public InventorySlot[] inventory = new InventorySlot[6];
+
+        public MonsterSlot() { }
+        
+        public MonsterSlot(Monster mon, int xp, int sv)
+        {
+            inParty = false;
+            slotNumber = 0;
+            nickName = "";
+            monster = mon;
+            currentHealth = 0;
+            currentExp = xp;
+            currentLives = monster.stats.maxLives;
+            stabilityValue = sv;
+            skillSlots = new SkillSlot[4];
+            inventory = new InventorySlot[6];
+        }
     }
 
     [System.Serializable]

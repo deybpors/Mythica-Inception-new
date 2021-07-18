@@ -7,15 +7,15 @@ TerrainLayer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Stone Path
-  m_DiffuseTexture: {fileID: 2800000, guid: 9372312f5cd2c274aab91e40b86c8006, type: 3}
+  m_DiffuseTexture: {fileID: 2800000, guid: 16db0fbfc51f6a344b8a1b9a023ce0dd, type: 3}
   m_NormalMapTexture: {fileID: 2800000, guid: e58a14f50990c50468391e4673251136, type: 3}
   m_MaskMapTexture: {fileID: 0}
-  m_TileSize: {x: 2, y: 2}
+  m_TileSize: {x: 5, y: 5}
   m_TileOffset: {x: 0, y: 0}
   m_Specular: {r: 1, g: 1, b: 1, a: 1}
-  m_Metallic: 0.49
-  m_Smoothness: 0
-  m_NormalScale: 0
+  m_Metallic: 0
+  m_Smoothness: 0.3
+  m_NormalScale: 1
   m_DiffuseRemapMin: {x: 0, y: 0, z: 0, w: 0}
   m_DiffuseRemapMax: {x: 1, y: 1, z: 1, w: 1}
   m_MaskMapRemapMin: {x: 0, y: 0, z: 0, w: 0}

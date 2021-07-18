@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts._Core;
+using Assets.Scripts._Core.Others;
 using UnityEngine;
 
 namespace Assets.Scripts.Monster_System

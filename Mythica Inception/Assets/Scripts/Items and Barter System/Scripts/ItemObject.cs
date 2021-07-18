@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Others;
 using UnityEngine;
 
 namespace Assets.Scripts.Items_and_Barter_System.Scripts

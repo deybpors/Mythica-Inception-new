@@ -7,9 +7,10 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e062361777e5049bb67d962dc71308, type: 3}
+  m_Script: {fileID: 11500000, guid: 628ab57a2567e87468e56cc073a499d3, type: 3}
   m_Name: Monsters
   m_EditorClassIdentifier: 
-  monsters: []
+  data:
+  - {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}

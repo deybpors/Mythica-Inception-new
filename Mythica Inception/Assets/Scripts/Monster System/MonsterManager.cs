@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using Assets.Scripts._Core;
+using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Player;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
@@ -26,7 +25,6 @@ namespace Assets.Scripts.Monster_System
         private int _currentMonster;
         private float _tamerTameRadius;
         private Player _player;
-        private bool _tamerBefore;
         
         #endregion
         
@@ -42,7 +40,6 @@ namespace Assets.Scripts.Monster_System
                 _tamerPrefab = _haveMonsters.GetTamer();
                 _player = GetComponent<Player>();
                 _tamerTameRadius = _player.tameRadius;
-                _tamerBefore = true;
                 _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
             }
             
@@ -60,15 +57,20 @@ namespace Assets.Scripts.Monster_System
             {
                 foreach (var monsterObj in _monsterGameObjects)
                 {
+                    if(monsterObj == null) continue;
                     GameManager.instance.pooler.BackToPool(monsterObj);
                 }
                 _monsterGameObjects.Clear();
             }
             
             _monsters = _haveMonsters.GetMonsters();
-            for (int i = 0; i < _monsters.Count; i++)
+            for (var i = 0; i < _monsters.Count; i++)
             {
-                if(_monsters[i]==null) continue;
+                if (_monsters[i]==null)
+                {
+                    _monsterGameObjects.Add(null);
+                    continue;
+                }
                 
                 GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
                     _monsters[i].monsterName, _monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
@@ -87,37 +89,46 @@ namespace Assets.Scripts.Monster_System
             {
                 _monsterAnimators.Clear();
             }
-            _monsterAnimators = _monsterGameObjects.Select(monster => monster.GetComponent<Animator>()).ToList();
-        }
 
-        void Update()
-        {
-            if(!_activated) return;
-            
-            if (_monsters.Count <= 0) return;
-            
-            _timer += Time.deltaTime;
-            if(_timer < _haveMonsters.GetMonsterSwitchRate()) return;
-            
-            if (_haveMonsters.isPlayerSwitched())
+            for (var i = 0; i < _monsterGameObjects.Count; i++)
             {
-                if(_tamerBefore) return;
-                
-                SwitchToTamer();
-                _tamerBefore = true;
-                return;
+                if (_monsterGameObjects[i] == null)
+                {
+                    _monsterAnimators.Add(null);
+                    continue;
+                }
+                _monsterAnimators.Add(_monsterGameObjects[i].GetComponent<Animator>());
             }
-            
-            var monsterSlotSelected = _haveMonsters.CurrentMonsterSlotNumber();
-            if(monsterSlotSelected == _currentMonster) return;
-
-            _tamerBefore = false;
-            SwitchMonster(monsterSlotSelected);
-            _timer = 0;
         }
+
+        // void Update()
+        // {
+        //     if(!_activated) return;
+        //     
+        //     if (_monsters.Count <= 0) return;
+        //     
+        //     _timer += Time.deltaTime;
+        //     if(_timer < _haveMonsters.GetMonsterSwitchRate()) return;
+        //
+        //     var monsterSlotSelected = _haveMonsters.CurrentMonsterSlotNumber();
+        //     if (_haveMonsters.isPlayerSwitched())
+        //     {
+        //         if(_tamerBefore) return;
+        //         
+        //         SwitchToTamer();
+        //         _tamerBefore = true;
+        //         return;
+        //     }
+        //     if(monsterSlotSelected == _currentMonster) return;
+        //     if(_haveMonsters.GetMonsterSlots()[monsterSlotSelected] == null) return;
+        //     _tamerBefore = false;
+        //     SwitchMonster(monsterSlotSelected);
+        //     _timer = 0;
+        // }
 
         public void SwitchToTamer()
         {
+            if(!_activated) return;
             if (_tamerPrefab == null) return;
             InactiveAllMonsters();
             _tamerPrefab.SetActive(true);
@@ -132,6 +143,13 @@ namespace Assets.Scripts.Monster_System
 
         public void SwitchMonster(int slot)
         {
+            if(!_activated) return;
+            if (_haveMonsters.GetMonsterSlots()[slot].monster == null)
+            {
+                _player.inputHandler.currentMonster = _player.inputHandler.previousMonster;
+                Debug.Log("no monster");
+                return;    
+            }
             InactiveAllMonsters();
             _monsterGameObjects[slot].transform.rotation = transform.rotation;
             _monsterGameObjects[slot].SetActive(true);
@@ -147,6 +165,7 @@ namespace Assets.Scripts.Monster_System
         {
             foreach (var monster in _monsterGameObjects)
             {
+                if(monster == null) continue;
                 monster.SetActive(false);
             }
             _tamerPrefab.SetActive(false);

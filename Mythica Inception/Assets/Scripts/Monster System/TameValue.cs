@@ -1,4 +1,6 @@
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Managers;
+using Assets.Scripts._Core.Others;
 using Assets.Scripts.UI;
 using UnityEngine;
 
@@ -14,7 +16,7 @@ namespace Assets.Scripts.Monster_System
         private Health _healthComponent;
         private Animator _animator;
         private IHaveMonsters _tamer;
-        private IHaveMonsters _monster;
+        private IHaveMonsters _haveMonster;
         public void ActivateTameValue(int wildMonsterLvl, Health health, IHaveMonsters mon)
         {
             _animator = tameValueBarUI.GetComponent<Animator>();
@@ -27,7 +29,7 @@ namespace Assets.Scripts.Monster_System
                     _healthComponent.health.currentHealth, 
                     _healthComponent.health.maxHealth
                     );
-            _monster = mon;
+            _haveMonster = mon;
             currentTameValue = 0;
             tameValueBarUI.maxValue = maxTameValue;
             tameValueBarUI.currentValue = currentTameValue;
@@ -78,7 +80,7 @@ namespace Assets.Scripts.Monster_System
             }
             else
             {
-                var newSlot = _monster.GetMonsterSlots()[_monster.CurrentMonsterSlotNumber()];
+                var newSlot = _haveMonster.GetMonsterSlots()[_haveMonster.CurrentSlotNumber()];
                 _tamer.AddNewMonsterSlot(slotToFill, newSlot);
                 //play animation something screen to celebrate new monster tamed
                 //ask for nickname of monster

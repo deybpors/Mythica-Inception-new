@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Managers;
+using Assets.Scripts._Core.Others;
 using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Skill_System;
@@ -127,11 +129,10 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         }
 
         public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot) { }
-        public void ChangeCurrentMonsterSlot(int currentSlot)
+        public int CurrentSlotNumber()
         {
-            currentMonster = currentSlot;
+            return currentMonster;
         }
-
         public List<MonsterSlot> GetMonsterSlots()
         {
             return monsterSlots;
@@ -150,11 +151,6 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
         public Monster GetCurrentMonster()
         {
             return monsterSlots[currentMonster].monster;
-        }
-
-        public bool isPlayerSwitched()
-        {
-            return false;
         }
 
         public void SetAnimator(Animator animatorToChange)

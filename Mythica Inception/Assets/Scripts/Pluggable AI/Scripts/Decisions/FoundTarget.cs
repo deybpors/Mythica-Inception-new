@@ -1,3 +1,4 @@
+using Assets.Scripts._Core.Managers;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using UnityEngine;
 
@@ -13,15 +14,20 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
 
         private bool Look(StateController stateController)
         {
-            FieldOfView fieldOfView = stateController.aI.fieldOfView;
+            var fieldOfView = stateController.aI.fieldOfView;
 
-            if (fieldOfView.visibleTargets.Count > 0)
+            if (fieldOfView.visibleTargets.Count <= 0) return false;
+            stateController.aI.target = fieldOfView.visibleTargets[0];
+            var count = GameManager.instance.enemiesSeePlayer.Count;
+            for (var i = 0; i < count; i++)
             {
-                stateController.aI.target = fieldOfView.visibleTargets[0];
-                return true;
+                if (stateController.transform == GameManager.instance.enemiesSeePlayer[i])
+                {
+                    return true;
+                }
             }
-            
-            return false;
+            GameManager.instance.enemiesSeePlayer.Add(stateController.transform);
+            return true;
         }
     }
 }

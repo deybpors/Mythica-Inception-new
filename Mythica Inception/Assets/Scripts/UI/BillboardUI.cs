@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts._Core;
+using Assets.Scripts._Core.Managers;
 using UnityEngine;
 
 namespace Assets.Scripts.UI

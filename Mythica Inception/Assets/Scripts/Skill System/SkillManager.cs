@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Others;
 using Assets.Scripts._Core.Player;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
@@ -45,7 +46,7 @@ namespace Assets.Scripts.Skill_System
         private void InitializeMonsterSkills()
         {
             skillSlots.Clear();
-            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentMonsterSlotNumber()].skillSlots.ToList();
+            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentSlotNumber()].skillSlots.ToList();
             foreach (var skillSlot in currentMonsterSkillSlots)
             {
                 if(skillSlot == null) continue;

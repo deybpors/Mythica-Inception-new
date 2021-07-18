@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Managers;
+using Assets.Scripts._Core.Others;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using UnityEngine;
 

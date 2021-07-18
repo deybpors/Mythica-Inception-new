@@ -30,7 +30,7 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
             stateController.player.skillManager.skillPoint = faceTo;
             var distance = Vector3.Distance(stateController.transform.position,
                 stateController.player.selectionManager.selectablePosition);
-            if (stateController.player.inputHandler.playerSwitch)
+            if (stateController.player.inputHandler.currentMonster < 0)
             {
                 PlayerReleaseTameBeam(stateController, faceTo, distance);
                 return;

@@ -7,16 +7,13 @@ namespace Assets.Scripts.Monster_System
     public interface IHaveMonsters
     {
         float GetMonsterSwitchRate();
-        int CurrentMonsterSlotNumber();
         List<Monster> GetMonsters();
         void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot);
-        
+        int CurrentSlotNumber();
         List<MonsterSlot> GetMonsterSlots();
         MonsterSlot GetMonsterWithHighestExp();
 
         Monster GetCurrentMonster();
-
-        bool isPlayerSwitched();
 
         void SetAnimator(Animator animatorToChange);
 

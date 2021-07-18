@@ -7,9 +7,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d83fbdbae8c9d74ebf2c07063d99195, type: 3}
+  m_Script: {fileID: 11500000, guid: 628ab57a2567e87468e56cc073a499d3, type: 3}
   m_Name: Items
   m_EditorClassIdentifier: 
-  items: []
+  data: []

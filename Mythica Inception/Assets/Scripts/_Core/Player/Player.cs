@@ -1,7 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core.Input;
+using Assets.Scripts._Core.Managers;
+using Assets.Scripts._Core.Others;
 using Assets.Scripts._Core.Player.Player_FSM;
 using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
@@ -33,7 +34,7 @@ namespace Assets.Scripts._Core.Player
         public GameObject unitIndicator;
 
         #region Hidden Fields
-
+        
         [HideInInspector] public float tempSpeed;
         [HideInInspector] public float tempAttackRate;
         [HideInInspector] public SelectionManager selectionManager;
@@ -46,7 +47,7 @@ namespace Assets.Scripts._Core.Player
         [HideInInspector] public Animator currentAnimator;
         [HideInInspector] public Stamina staminaComponent;
         private StateController _stateController;
-        private MonsterManager _monsterManager;
+        [HideInInspector] public MonsterManager monsterManager;
         
         #endregion
         
@@ -60,7 +61,7 @@ namespace Assets.Scripts._Core.Player
         {
             GetNeededComponents();
             InitializePlayerData();
-            _monsterManager.ActivateMonsterManager(this, skillManager);
+            monsterManager.ActivateMonsterManager(this, skillManager);
             tempSpeed = playerData.speed;
             tempAttackRate = playerData.attackRate;
             unitIndicator.transform.localScale = new Vector3(tameRadius, tameRadius, tameRadius);
@@ -73,7 +74,7 @@ namespace Assets.Scripts._Core.Player
             mainCamera = GameManager.instance.mainCamera;
             skillManager = GetComponent<SkillManager>();
             skillManager.skillSlots.Clear();
-            _monsterManager = GetComponent<MonsterManager>();
+            monsterManager = GetComponent<MonsterManager>();
             staminaComponent = GetComponent<Stamina>();
             selectionManager = GetComponent<SelectionManager>();
             selectionManager.ActivateSelectionManager(this);
@@ -108,20 +109,23 @@ namespace Assets.Scripts._Core.Player
             return playerData.monsterSwitchRate;
         }
 
-        public int CurrentMonsterSlotNumber()
+        public void SwitchMonster(int slot)
         {
-            if (inputHandler.currentMonster < monsterSlots.Count && monsterSlots[inputHandler.currentMonster].monster != null)
+            if (slot < 0)
             {
-                return inputHandler.currentMonster;
+                monsterManager.SwitchToTamer();
             }
-            inputHandler.currentMonster = inputHandler.previousMonster;
-                
-            //TODO: Update UI to send message that there is currently no monsters in the selected slot
-            Debug.Log("Currently no monsters in the selected slot");
-            return inputHandler.previousMonster;
+            else
+            {
+                monsterManager.SwitchMonster(slot);
+            }
+        }
+
+        public int CurrentSlotNumber()
+        {
+            return inputHandler.currentMonster;
         }
         
-
         public List<Monster> GetMonsters()
         {
             var monsters = new List<Monster>();
@@ -135,13 +139,13 @@ namespace Assets.Scripts._Core.Player
             monsterSlots[slotNum] = newSlot;
             monsterSlots[slotNum].slotNumber = slotNum;
             monsterSlots[slotNum].inParty = true;
-            _monsterManager.RequestPoolMonstersPrefab();
-            _monsterManager.GetMonsterAnimators();
+            monsterManager.RequestPoolMonstersPrefab();
+            monsterManager.GetMonsterAnimators();
         }
 
         public List<MonsterSlot> GetMonsterSlots()
         {
-            return monsterSlots.ToList();
+            return monsterSlots;
         }
 
         public MonsterSlot GetMonsterWithHighestExp()
@@ -156,12 +160,12 @@ namespace Assets.Scripts._Core.Player
 
         public Monster GetCurrentMonster()
         {
-            return inputHandler.playerSwitch ? null : monsterSlots[inputHandler.currentMonster].monster;
+            return inputHandler.currentMonster < 0 ? null : monsterSlots[inputHandler.currentMonster].monster;
         }
 
         public bool isPlayerSwitched()
         {
-            return inputHandler.playerSwitch;
+            return inputHandler.currentMonster < 0;
         }
 
         public void SetAnimator(Animator animatorToChange)
@@ -242,7 +246,7 @@ namespace Assets.Scripts._Core.Player
 
         public void ReleaseTameBeam()
         {
-            if(!inputHandler.playerSwitch) return;
+            if(inputHandler.currentMonster >= 0) return;
             if(selectionManager.selectables.Count <= 0) return;
             
             var tameable = selectionManager.selectables[0].GetComponent<ITameable>();
@@ -271,7 +275,7 @@ namespace Assets.Scripts._Core.Player
         public void TakeDamage(int damageToTake)
         {
             _healthComponent.ReduceHealth(damageToTake);
-            if (inputHandler.playerSwitch)
+            if (inputHandler.currentMonster < 0)
             {
                 playerHealth.currentHealth = _healthComponent.health.currentHealth;
                 if (playerHealth.currentHealth <= 0)
@@ -299,23 +303,21 @@ namespace Assets.Scripts._Core.Player
 
             if (monsterSlot.monster == null)
             {
-                if(inputHandler.playerSwitch) return;
-                
-                inputHandler.playerSwitch = true;
-                _monsterManager.SwitchToTamer();
+                if(inputHandler.currentMonster < 0) return;
+                monsterManager.SwitchToTamer();
             }
             else
             {
-                if (_monsterManager == null) return;
+                if (monsterManager == null) return;
                 inputHandler.currentMonster = monsterSlot.slotNumber;
-                _monsterManager.SwitchMonster(monsterSlot.slotNumber);
+                monsterManager.SwitchMonster(monsterSlot.slotNumber);
             }
         }
 
         public void Heal(int amountToHeal)
         {
             _healthComponent.AddHealth(amountToHeal);
-            if (inputHandler.playerSwitch)
+            if (inputHandler.currentMonster < 0)
             {
                 playerHealth.currentHealth = _healthComponent.health.currentHealth;
                 return;

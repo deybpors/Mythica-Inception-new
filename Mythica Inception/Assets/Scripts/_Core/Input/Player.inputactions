@@ -22,6 +22,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "ed6f0b5c-0dbe-40fe-b100-38314cb69fcc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Attack",
                     "type": "Button",
                     "id": "5edf6058-4cb8-4ed1-81e2-040bd9b4cb81",
@@ -336,6 +344,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Player Switch",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3058d002-6208-4128-bd8d-437b1adc1592",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Select",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

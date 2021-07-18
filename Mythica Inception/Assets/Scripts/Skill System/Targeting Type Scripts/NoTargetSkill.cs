@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts._Core;
+using Assets.Scripts._Core.Others;
 
 namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts
 {

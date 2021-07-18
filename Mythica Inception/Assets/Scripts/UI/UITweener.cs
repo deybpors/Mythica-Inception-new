@@ -157,7 +157,7 @@ namespace Assets.Scripts.UI
         }
     }
     
-
+    #if UNITY_EDITOR
     [CustomEditor(typeof(UITweener))]
     public class UITweenerEditor : Editor
     {
@@ -171,4 +171,5 @@ namespace Assets.Scripts.UI
             }
         }
     }
+    #endif
 }

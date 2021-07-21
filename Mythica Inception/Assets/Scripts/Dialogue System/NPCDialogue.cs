@@ -1,3 +1,4 @@
+using _Core.Managers;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Others;
 using Assets.Scripts._Core.Player;

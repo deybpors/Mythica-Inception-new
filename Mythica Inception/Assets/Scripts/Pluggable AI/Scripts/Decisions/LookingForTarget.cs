@@ -1,3 +1,4 @@
+using _Core.Managers;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Player;
 using Assets.Scripts.Pluggable_AI.Scripts.General;

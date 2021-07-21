@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using Assets.Scripts.Pluggable_AI.Scripts.General;
 using MyBox;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.General
+namespace Pluggable_AI.Scripts.General
 {
     [System.Serializable]
     public class WaypointGroupManager : MonoBehaviour

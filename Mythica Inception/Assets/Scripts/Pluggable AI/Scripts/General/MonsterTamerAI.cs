@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using _Core.Managers;
 using Assets.Scripts._Core;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Others;
@@ -7,6 +8,7 @@ using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Skill_System;
 using Assets.Scripts.UI;
+using Monster_System;
 using UnityEngine;
 using UnityEngine.AI;
 

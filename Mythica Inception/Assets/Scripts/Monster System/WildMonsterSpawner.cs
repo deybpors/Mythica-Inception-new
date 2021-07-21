@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Managers;
+using _Core.Managers;
 using Assets.Scripts._Core.Others;
+using Assets.Scripts.Monster_System;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using UnityEngine;
 
-namespace Assets.Scripts.Monster_System
+namespace Monster_System
 {
     public class WildMonsterSpawner : MonoBehaviour
     {
@@ -22,20 +22,23 @@ namespace Assets.Scripts.Monster_System
         public int noOfMonstersLimit;
         public int currentNoOfMonsters;
         private Coroutine _waitSpawn;
+        private Vector3 _spawnerPosition;
         
 
         void Start()
         {
-            InvokeRepeating("SpawnMonsters", 0, 1);
+            _spawnerPosition = transform.position;
+            InvokeRepeating(nameof(SpawnMonsters), 0, 1);
         }
 
-        void SpawnMonsters()
+        private void SpawnMonsters()
         {
             if (!activated) return;
             
             if(currentNoOfMonsters >= noOfMonstersLimit) return;
             
-            var distance = Vector3.Distance(transform.position, GameManager.instance.player.position);
+            if(GameManager.instance.player == null) return;
+            var distance = Vector3.Distance(transform.position, GameManager.instance.player.transform.position);
             if (distance > 30) return;
             
             if(_waitSpawn != null) return;
@@ -44,30 +47,31 @@ namespace Assets.Scripts.Monster_System
             currentNoOfMonsters++;
             _waitSpawn = StartCoroutine(WaitSpawnTime());
         }
+        private void Spawn()
+        {
+            var monsterIndex = Random.Range(0, monsters.Count);
+            var monsterXp = GameCalculations.Experience(Random.Range(lowestLevel, highestLevel));
+            var highX = _spawnerPosition.x + xAxis;
+            var lowX = _spawnerPosition.x - xAxis;
+            var highZ = _spawnerPosition.z + zAxis;
+            var lowZ = _spawnerPosition.z - zAxis;
+            var monsterPos = new Vector3(Random.Range(lowX, highX), _spawnerPosition.y, Random.Range(lowZ, highZ));
+            var monsterObj = 
+                GameManager.instance.pooler.SpawnFromPool(
+                    null, 
+                    wildMonsterPrefab.name, 
+                    wildMonsterPrefab,
+                    monsterPos,
+                    Quaternion.identity);
+            var newMonSlot = new MonsterSlot(monsters[monsterIndex], monsterXp, Random.Range(1, 51));
+            var monTamerAi = monsterObj.GetComponent<MonsterTamerAI>();
+            monTamerAi.ActivateWildMonster(newMonSlot, waypointsList, this);
+        }
 
         private IEnumerator WaitSpawnTime()
         {
             yield return new WaitForSeconds(Random.Range(1, randomSpawnTimeMax+1));
             _waitSpawn = null;
-        }
-
-        private void Spawn()
-        {
-            var monsterIndex = Random.Range(0, monsters.Count);
-            var monsterXp = GameCalculations.Experience(Random.Range(lowestLevel, highestLevel));
-            var highX = transform.position.x + xAxis;
-            var lowX = transform.position.x - xAxis;
-            var highZ = transform.position.z + zAxis;
-            var lowZ = transform.position.z - zAxis;
-            var monsterPos = new Vector3(Random.Range(lowX, highX), transform.position.y, Random.Range(lowZ, highZ));
-
-            var monsterObj = GameManager.instance.pooler.SpawnFromPool(null, wildMonsterPrefab.name, wildMonsterPrefab,
-                monsterPos,
-                Quaternion.identity);
-            var newMonSlot = new MonsterSlot(monsters[monsterIndex], monsterXp, Random.Range(1, 51));
-            var monTamerAi = monsterObj.GetComponent<MonsterTamerAI>();
-            monTamerAi.ActivateWildMonster(newMonSlot, waypointsList, this);
-            Debug.Log("Spawned " + monsters[monsterIndex].name);
         }
     }
 }

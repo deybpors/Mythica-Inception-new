@@ -1,4 +1,5 @@
-﻿using Assets.Scripts._Core;
+﻿using _Core.Managers;
+using Assets.Scripts._Core;
 using Assets.Scripts._Core.Managers;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace Assets.Scripts.UI
 
         void Start()
         {
-            _cameraTransform = GameManager.instance.mainCamera.transform;
+            _cameraTransform = GameManager.instance.currentWorldCamera.transform;
         }
         
         void LateUpdate()

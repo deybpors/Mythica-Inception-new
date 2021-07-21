@@ -3,7 +3,7 @@ using System.Linq;
 using MyBox;
 using UnityEngine;
 
-namespace Assets.Scripts._Core.Managers
+namespace _Core.Managers
 {
     public class ObjectPooler : MonoBehaviour
     {
@@ -15,26 +15,17 @@ namespace Assets.Scripts._Core.Managers
             public int size;
         }
 
+
+        public Transform masterParent;
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
-        [HideInInspector] public int objectInstatiated;
-        [HideInInspector] public int totalObjectToInstantiate;
-        [HideInInspector] public bool isDone;
 
-        void Awake()
+        private void PreInstantiate(List<Pool> p)
         {
-            if (pools.Count > 0)
-            {
-                PreInstantiate();
-                isDone = true;
-            }
-        }
-
-        private void PreInstantiate()
-        {
-            foreach (var pool in pools) { totalObjectToInstantiate += pool.size; }
+            pools = p;
+            if (pools.Count <= 0) return;
             
-            foreach (var pool in pools.ToList())
+            foreach (var pool in p.ToList())
             {
                 if (pool.tag.IsNullOrEmpty())
                 {
@@ -61,7 +52,7 @@ namespace Assets.Scripts._Core.Managers
                     continue;
                 }
 
-                GameObject objectToSpawn = poolDictionary[newSpawnedTag].Dequeue();
+                var objectToSpawn = poolDictionary[newSpawnedTag].Dequeue();
 
                 if (objectToSpawn == null || objectToSpawn.Equals(null))
                 {
@@ -69,7 +60,7 @@ namespace Assets.Scripts._Core.Managers
                 }
                 
                 objectToSpawn.SetActive(true);
-                
+
                 if (parent != null)
                 {
                     objectToSpawn.transform.SetParent(parent);
@@ -78,7 +69,7 @@ namespace Assets.Scripts._Core.Managers
                 }
                 else
                 {
-                    objectToSpawn.transform.SetParent(null);
+                    objectToSpawn.transform.SetParent(masterParent);
                     objectToSpawn.transform.position = position;
                     objectToSpawn.transform.rotation = rotation;
                 }
@@ -96,16 +87,16 @@ namespace Assets.Scripts._Core.Managers
             if(poolDictionary.ContainsKey(newSpawnedTag)) return;
             
             //create a queue of Game objects
-            Queue<GameObject> newPool = new Queue<GameObject>();
+            var newPool = new Queue<GameObject>();
 
-            Pool pool = new Pool
+            var pool = new Pool
             {
                 tag = newSpawnedTag,
                 prefab = prefabCheck,
                 size = size
             };
             //add all the objects in the pool depending on its size
-            for (int i = 0; i < pool.size; i++)
+            for (var i = 0; i < pool.size; i++)
             {
                 if (poolDictionary.Count <= 1)
                 {
@@ -116,7 +107,6 @@ namespace Assets.Scripts._Core.Managers
                     }
                 }
                 InstantiateAndAddToPool(pool, newPool);
-                objectInstatiated++;
             }
             //add pool to pools
             pools.Add(pool);
@@ -130,11 +120,12 @@ namespace Assets.Scripts._Core.Managers
         private GameObject InstantiateAndAddToPool(Pool pool, Queue<GameObject> objectPool)
         {
             //instantiating the object then setting it inactive
-            GameObject obj = Instantiate(pool.prefab);
+            var obj = Instantiate(pool.prefab, masterParent, true);
             obj.SetActive(false);
 
             //put it in the new queue
             objectPool.Enqueue(obj);
+
             return obj;
         }
 
@@ -142,7 +133,7 @@ namespace Assets.Scripts._Core.Managers
         {
             obj.SetActive(false);
             obj.transform.rotation = Quaternion.Euler(0,0,0);
-            obj.transform.parent = null;
+            obj.transform.parent = masterParent;
         }
     }
 }

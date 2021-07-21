@@ -1,14 +1,36 @@
+using _Core.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     public class MinimapCam : MonoBehaviour
     {
-        public Transform target;
+        private Transform _target;
+
+        private void OnEnable()
+        {
+            if (GameManager.instance == null) return;
+            if(GameManager.instance.player == null) return;
+            
+            _target = GameManager.instance.player.transform;
+        }
 
         void Update()
         {
-            transform.position = new Vector3(target.position.x, transform.position.y, target.position.z);
+            if (_target == null)
+            {
+                if(GameManager.instance.player == null) return;
+                var t = GameManager.instance.player.transform;
+                if (t == null)
+                {
+                    return;
+                }
+                _target = t;
+            }
+
+            var mapTransform = transform;
+            var targetPosition = _target.position;
+            mapTransform.position = new Vector3(targetPosition.x, mapTransform.position.y, targetPosition.z);
         }
     }
 }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Core.Managers;
 using Assets.Scripts._Core.Input;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Others;
@@ -71,7 +72,7 @@ namespace Assets.Scripts._Core.Player
 
         private void GetNeededComponents()
         {
-            mainCamera = GameManager.instance.mainCamera;
+            mainCamera = GameManager.instance.currentWorldCamera;
             skillManager = GetComponent<SkillManager>();
             skillManager.skillSlots.Clear();
             monsterManager = GetComponent<MonsterManager>();

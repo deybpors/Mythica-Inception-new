@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Color Palette
+  m_Name: Toon_colorPalette
   m_Shader: {fileID: -6465566751694194690, guid: 561a1b4e42677594f95c215597845f40, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts._Core;
+﻿using _Core.Managers;
+using Assets.Scripts._Core;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using UnityEngine;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Core.Managers;
 using Assets.Scripts._Core.Others;
 using Assets.Scripts.Dialogue_System;
 using UnityEngine;

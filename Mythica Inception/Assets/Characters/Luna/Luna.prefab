@@ -80,7 +80,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.24794793, y: 3.0794678, z: -0.33947274}
+    m_Center: {x: 0.24794793, y: 0, z: -0.33947274}
     m_Extent: {x: 1.3445668, y: 0.49473357, z: 0.39380077}
   m_DirtyAABB: 0
 --- !u!1 &549856411292205290
@@ -163,7 +163,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.022605836, y: 0.70636755, z: -0.10390274}
+    m_Center: {x: -0.022605836, y: 0, z: -0.10390274}
     m_Extent: {x: 0.5823483, y: 0.17275566, z: 0.5393604}
   m_DirtyAABB: 0
 --- !u!1 &1220521076493356071
@@ -246,7 +246,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.10955775, y: 1.5197409, z: -0.124030754}
+    m_Center: {x: 0.10955775, y: 0, z: -0.124030754}
     m_Extent: {x: 1.2515277, y: 0.5676707, z: 0.5254907}
   m_DirtyAABB: 0
 --- !u!1 &2083689132546461138
@@ -329,7 +329,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.028967083, y: -0.29997858, z: -0.09102678}
+    m_Center: {x: 0.028967083, y: 0, z: -0.09102678}
     m_Extent: {x: 1.1125786, y: 0.9192784, z: 0.96566725}
   m_DirtyAABB: 0
 --- !u!1 &3231883076743596506
@@ -412,7 +412,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.1490062, y: 2.031355, z: -0.13247459}
+    m_Center: {x: 0.1490062, y: 0, z: -0.13247459}
     m_Extent: {x: 0.3593567, y: 0.15650105, z: 0.31144345}
   m_DirtyAABB: 0
 --- !u!1 &5052265929632695590
@@ -495,7 +495,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.25490546, y: 3.5354629, z: -0.12084627}
+    m_Center: {x: 0.25490546, y: 0, z: -0.12084627}
     m_Extent: {x: 1.2506608, y: 1.3177725, z: 1.2573607}
   m_DirtyAABB: 0
 --- !u!1 &6361913856854312850
@@ -578,7 +578,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.4622874, y: -3.7673392, z: 0.0024947822}
+    m_Center: {x: -0.4622874, y: 0, z: 0.0024947822}
     m_Extent: {x: 0.98732316, y: 0.45990133, z: 0.7653872}
   m_DirtyAABB: 0
 --- !u!1 &7425855131138677761
@@ -692,7 +692,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: 0.29084647, y: 3.5548882, z: -0.3556112}
+    m_Center: {x: 0.29084647, y: 0, z: -0.3556112}
     m_Extent: {x: 1.3875055, y: 1.4314246, z: 1.5193266}
   m_DirtyAABB: 0
 --- !u!1 &7565443119133257875
@@ -835,7 +835,7 @@ SkinnedMeshRenderer:
   m_BlendShapeWeights: []
   m_RootBone: {fileID: 0}
   m_AABB:
-    m_Center: {x: -0.13857442, y: -1.0635786, z: 0.3139019}
+    m_Center: {x: -0.13857442, y: 0, z: 0.3139019}
     m_Extent: {x: 1.9772382, y: 3.8600645, z: 1.4420822}
   m_DirtyAABB: 0
 --- !u!1001 &7222845536823776790

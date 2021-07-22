@@ -72,7 +72,7 @@ namespace Assets.Scripts._Core.Managers
                 return;
             }
             var distance = Vector3.Distance(_player.transform.position, interactables[0].position);
-            if (distance > 6f)
+            if (distance > 2f)
             {
                 Debug.Log("distance: " + distance + "\nmust go closer");
                 return;

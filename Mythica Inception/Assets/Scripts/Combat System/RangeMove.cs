@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Combat_System
+namespace Combat_System
 {
     public class RangeMove : MonoBehaviour, IMovingProjectile
     {
@@ -9,12 +9,14 @@ namespace Assets.Scripts.Combat_System
             if (!isRange) return;
             if (target != null)
             {
-                var pos = new Vector3(target.position.x, target.position.y + 1.5f, target.position.z);
+                var position = target.position;
+                var pos = new Vector3(position.x, position.y + .5f, position.z);
                 transform.position = Vector3.MoveTowards(transform.position, pos, velocity * Time.deltaTime);
             }
             else
             {
-                transform.position += transform.forward * Time.deltaTime * velocity;
+                var objTrans = transform;
+                objTrans.position += objTrans.forward * (Time.deltaTime * velocity);
             }
         }
     }

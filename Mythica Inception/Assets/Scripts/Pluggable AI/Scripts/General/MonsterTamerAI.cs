@@ -7,6 +7,7 @@ using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Skill_System;
 using Assets.Scripts.UI;
+using Combat_System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -242,9 +243,9 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.General
                     monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var deathTime = range ? 1f : .25f;
-            var speed = range ? 50f : 30f;
+            var speed = range ? 30f : 20f;
             rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
-                monAttacking.basicAttackObjects.muzzle,false, true, transform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,1.5f,monAttacking.basicAttackSkill);
+                monAttacking.basicAttackObjects.muzzle,false, true, transform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,.5f,monAttacking.basicAttackSkill);
         }
     }
 }

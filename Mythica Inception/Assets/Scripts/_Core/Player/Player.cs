@@ -8,6 +8,7 @@ using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using Assets.Scripts.Skill_System;
+using Combat_System;
 using UnityEngine;
 
 namespace Assets.Scripts._Core.Player
@@ -163,7 +164,7 @@ namespace Assets.Scripts._Core.Player
             return inputHandler.currentMonster < 0 ? null : monsterSlots[inputHandler.currentMonster].monster;
         }
 
-        public bool isPlayerSwitched()
+        public bool IsPlayerSwitched()
         {
             return inputHandler.currentMonster < 0;
         }
@@ -195,11 +196,11 @@ namespace Assets.Scripts._Core.Player
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
             var deathTime = range ? .25f : .1f;
-            var speed = range ? 50f : 30f;
+            var speed = range ? 30f : 20f;
             
             rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
                 monAttacking.basicAttackObjects.muzzle,false, true, transform, target,
-                Vector3.zero, deathTime, speed,1.5f,monAttacking.basicAttackSkill);
+                Vector3.zero, deathTime, speed,.5f,monAttacking.basicAttackSkill);
         }
 
         public void SpawnSwitchFX()
@@ -264,7 +265,7 @@ namespace Assets.Scripts._Core.Player
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 
                 tameBeam.projectileGraphics.muzzle,true, false, transform, selectionManager.selectables[0], 
-                Vector3.zero, 10, 50,1, tameBeam.skill);
+                Vector3.zero, 10, 30,1f, tameBeam.skill);
         }
 
         public Animator GetEntityAnimator()
@@ -304,6 +305,7 @@ namespace Assets.Scripts._Core.Player
             if (monsterSlot.monster == null)
             {
                 if(inputHandler.currentMonster < 0) return;
+                inputHandler.currentMonster = -1;
                 monsterManager.SwitchToTamer();
             }
             else

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Combat_System
+namespace Combat_System
 {
     public interface IMovingProjectile
     {

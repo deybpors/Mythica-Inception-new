@@ -1,13 +1,13 @@
 using System.Collections;
-using Assets.Scripts._Core;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Others;
+using Assets.Scripts.Combat_System;
 using Assets.Scripts.Monster_System;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts.Combat_System
+namespace Combat_System
 {
     public class Projectile : MonoBehaviour, IDamageDetection
     {
@@ -38,6 +38,7 @@ namespace Assets.Scripts.Combat_System
         private bool _range;
         private IMovingProjectile _movingProjectile;
         private bool _hitOnTarget;
+        private Collider[] _colliders = new Collider[5];
         void OnEnable()
         {
             Init();
@@ -87,12 +88,7 @@ namespace Assets.Scripts.Combat_System
             }
             else
             {
-                if (_isTame)
-                {
-                    return CheckTameTarget();
-                }
-
-                return CheckByTarget();
+                return _isTame ? CheckTameTarget() : CheckByTarget();
             }
 
             return false;
@@ -100,73 +96,86 @@ namespace Assets.Scripts.Combat_System
 
         private bool CheckTameTarget()
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
-            if (hits.Length <= 0) return false;
-            
-            foreach (var hit in hits)
+            var size = Physics.OverlapSphereNonAlloc(transform.position, _radius, _colliders);
+            if (size <= 0) return false;
+
+            for (var i = 0; i < size; i++)
             {
+                var hit = _colliders[i];
                 if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                     hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
-                
+
                 if (hit.transform != _target) continue;
-                if(_tameable == null) continue;
-                Monster monsterToTame = hit.GetComponent<IHaveMonsters>().GetCurrentMonster();
+                if (_tameable == null) continue;
+                var monsterToTame = hit.GetComponent<IHaveMonsters>().GetCurrentMonster();
                 _hitOnTarget = true;
                 _tameable.AddCurrentTameValue(CalculateTameBeamValue(monsterToTame), _haveMonsters);
                 return true;
             }
-            return true;
-        }
 
-        private int CalculateTameBeamValue(Monster monsterToTame)
-        {
-            var avgLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
-            return GameCalculations.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance, 1);
+            return true;
         }
 
         private bool CheckByTarget()
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
-            if (hits.Length <= 0) return false;
+            var size = Physics.OverlapSphereNonAlloc(transform.position, _radius, _colliders);
+            if (size <= 0) return false;
+            var hitSomething = false;
             
-            foreach (var hit in hits)
+            for (var i = 0; i < size; i++)
             {
+                var hit = _colliders[i];
                 if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
-                if (hit.transform != _target) continue;
-                IHaveHealth damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
-                IHaveMonsters hitHaveMonster = hit.GetComponent<IHaveMonsters>();
-                if(hitHaveMonster == null) continue;
-                Monster monsterHit = hitHaveMonster.GetCurrentMonster();
+                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+                {
+                    hitSomething = true;
+                    continue;
+                }
+
+                if (hit.transform != _target)
+                {
+                    if (hitSomething && i == size - 1)
+                    {
+                        return true;
+                    }
+                    continue;
+                }
+                var damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
+                var hitHaveMonster = hit.GetComponent<IHaveMonsters>();
+                if (hitHaveMonster == null) continue;
+                var monsterHit = hitHaveMonster.GetCurrentMonster();
                 if (_isDamage)
                 {
-                    if (damageable == null) { continue; }
+                    if (damageable == null)
+                    {
+                        continue;
+                    }
 
                     _hitOnTarget = true;
                     damageable.TakeDamage(CalculateDamage(monsterHit, hitHaveMonster));
                     return true;
-                    
                 }
             }
 
-            return true;
+            return hitSomething;
         }
 
         private bool CheckByTag(string opponentTag)
         {
-            Collider[] hits = Physics.OverlapSphere(transform.position, _radius);
-            if (hits.Length <= 0) return false;
-            
-            foreach (var hit in hits)
+            var size = Physics.OverlapSphereNonAlloc(transform.position, _radius, _colliders);
+            if (size <= 0) return false;
+
+            for (var i = 0; i < size; i++)
             {
+                var hit = _colliders[i];
                 if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
                     hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
                 if (!hit.CompareTag(opponentTag)) continue;
-                IHaveHealth damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
+                var damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
                 if (damageable == null) continue;
-                IHaveMonsters hitHaveMonster = hit.GetComponent<IHaveMonsters>();
-                if(hitHaveMonster == null) continue;
-                Monster monsterHit = hitHaveMonster.GetCurrentMonster();
+                var hitHaveMonster = hit.GetComponent<IHaveMonsters>();
+                if (hitHaveMonster == null) continue;
+                var monsterHit = hitHaveMonster.GetCurrentMonster();
                 if (_isDamage)
                 {
                     _target = hit.transform;
@@ -177,6 +186,12 @@ namespace Assets.Scripts.Combat_System
             }
 
             return true;
+        }
+
+        private int CalculateTameBeamValue(Monster monsterToTame)
+        {
+            var avgLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
+            return GameCalculations.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance, 1);
         }
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)

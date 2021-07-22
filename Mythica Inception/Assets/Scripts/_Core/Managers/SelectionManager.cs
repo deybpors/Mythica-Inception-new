@@ -14,6 +14,7 @@ namespace Assets.Scripts._Core.Managers
         public LayerMask layer;
         private Player.Player _player;
         private bool _activated;
+        private RaycastHit[] _hits = new RaycastHit[5];
     
         public void ActivateSelectionManager(Player.Player player)
         {
@@ -32,12 +33,11 @@ namespace Assets.Scripts._Core.Managers
             selectables.Clear();
             interactables.Clear();
             var ray = _player.mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-            var hits = new RaycastHit[5];
-            var size = Physics.SphereCastNonAlloc(ray, 1f, hits, Mathf.Infinity);
+            var size = Physics.SphereCastNonAlloc(ray, 1f, _hits, Mathf.Infinity);
 
             for (var i = 0; i < size; i++)
             {
-                var hit = hits[i];
+                var hit = _hits[i];
                 var selectable = hit.transform.GetComponent<ISelectable>();
                 if (selectable != null)
                 {

@@ -15,13 +15,11 @@ namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
 
         private bool StartDash(StateController stateController)
         {
-            var pos = new Vector3(stateController.transform.position.x, stateController.transform.position.y + 2,
-                stateController.transform.position.z);
             var dashInput = stateController.player.inputHandler.dashInput;
             if (dashInput)
             {
                 var dash = GameManager.instance.pooler.SpawnFromPool(null, stateController.player.dashGraphic.name,
-                    stateController.player.dashGraphic, pos,
+                    stateController.player.dashGraphic, stateController.transform.position,
                     stateController.transform.rotation);
                 dash.GetComponent<ParticleSystem>().Play();
             }

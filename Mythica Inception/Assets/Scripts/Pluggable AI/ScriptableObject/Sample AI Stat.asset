@@ -16,4 +16,4 @@ MonoBehaviour:
   searchDuration: 3
   searchingTurnSpeed: 200
   fleeDuration: 3
-  movementSpeed: 20
+  movementSpeed: 10

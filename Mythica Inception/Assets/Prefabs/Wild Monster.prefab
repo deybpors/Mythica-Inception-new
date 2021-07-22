@@ -366,7 +366,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8265144103910172166}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.98, y: 6.41, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -390,8 +390,8 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 1.5, z: 0}
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!195 &8265144103910172175
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -401,8 +401,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 8265144103910172166}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 3
-  m_Speed: 20
+  m_Radius: 1
+  m_Speed: 10
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 500
@@ -442,6 +442,7 @@ MonoBehaviour:
   monsterSlots:
   - inParty: 0
     slotNumber: 0
+    fainted: 0
     nickName: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
     currentHealth: 0
@@ -815,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 725edb386e421a64cb6d670f2235a850, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 35.91
+  viewRadius: 18
   viewAngle: 83
   reactionTime: 0.1
   targetLayer:

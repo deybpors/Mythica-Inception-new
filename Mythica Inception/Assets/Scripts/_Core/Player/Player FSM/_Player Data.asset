@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: _Player Data
   m_EditorClassIdentifier: 
   turnSmoothTime: 0.08
-  speed: 20
+  speed: 10
   dashTime: 0.05
   dashSpeed: 5
   attackRate: 0.8
   monsterSwitchRate: 0.5
-  temporaryTurnSmoothTime: 0.1
+  temporaryTurnSmoothTime: 0.08

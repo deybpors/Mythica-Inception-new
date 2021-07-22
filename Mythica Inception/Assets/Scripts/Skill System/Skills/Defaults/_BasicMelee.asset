@@ -19,7 +19,7 @@ MonoBehaviour:
   skillCategory: 0
   power: 0.25
   cooldownTime: 0
-  castRadius: 8
+  castRadius: 4
   staminaTake: 0
   healthTake: 0
   spawnedProjectile:

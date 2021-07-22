@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using _Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.Dialogue_System;
+using _Core.Others;
+using Dialogue_System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts._Core.Managers
+namespace _Core.Managers
 {
     public class SelectionManager : MonoBehaviour
     {
@@ -72,7 +71,7 @@ namespace Assets.Scripts._Core.Managers
                 return;
             }
             var distance = Vector3.Distance(_player.transform.position, interactables[0].position);
-            if (distance > 2f)
+            if (distance > 2.2f)
             {
                 Debug.Log("distance: " + distance + "\nmust go closer");
                 return;

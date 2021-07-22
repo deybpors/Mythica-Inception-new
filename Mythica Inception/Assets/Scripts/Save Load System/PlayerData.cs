@@ -1,6 +1,6 @@
-using Assets.Scripts._Core.Player;
+using _Core.Player;
 
-namespace Assets.Scripts.Save_Load_System
+namespace Save_Load_System
 {
     [System.Serializable]
     public class PlayerData

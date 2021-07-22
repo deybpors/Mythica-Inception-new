@@ -14,18 +14,18 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.65080994, g: 0.666729, b: 0.7075472, a: 1}
-  m_FogMode: 3
+  m_Fog: 1
+  m_FogColor: {r: 0.37254903, g: 0.8039216, b: 0.91764706, a: 1}
+  m_FogMode: 1
   m_FogDensity: 0.05
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 1.0717734, g: 1.0717734, b: 1.0717734, a: 1}
+  m_LinearFogStart: 20
+  m_LinearFogEnd: 160
+  m_AmbientSkyColor: {r: 1, g: 1, b: 1, a: 1}
   m_AmbientEquatorColor: {r: 0.891043, g: 0.891043, b: 0.891043, a: 1}
   m_AmbientGroundColor: {r: 0, g: 0.022683593, b: 0.1981132, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 3
-  m_SubtractiveShadowColor: {r: 0.0016464973, g: 0.088499025, b: 0.3490566, a: 1}
+  m_SubtractiveShadowColor: {r: 0.0016464973, g: 0.07450981, b: 0.25490198, a: 1}
   m_SkyboxMaterial: {fileID: 2100000, guid: c051fe5a20f72814f9643eb10ebbd2fc, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
@@ -429,7 +429,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 241484252}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2.2, z: 1.79}
+  m_LocalPosition: {x: 0, y: 1.04, z: 0.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 969145008}
@@ -1221,13 +1221,13 @@ CharacterController:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Height: 3.6
-  m_Radius: 0.6
+  m_Height: 2
+  m_Radius: 0.5
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 1.8, z: 0}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &969145011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3261,13 +3261,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2124097318}
-  m_LocalRotation: {x: 0, y: 0.98657215, z: 0, w: 0.16332604}
-  m_LocalPosition: {x: -2.62, y: 2.52, z: 7.69}
+  m_LocalRotation: {x: 0, y: 0.9848078, z: 0, w: 0.17364825}
+  m_LocalPosition: {x: -2.8, y: 1.43, z: 7.69}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 969145008}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 161.2, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 160, z: 0}
 --- !u!114 &2124097320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3323,10 +3323,10 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 11.64
-  field of view: 5.9
-  orthographic: 1
+  near clip plane: 0.01
+  far clip plane: 8.5
+  field of view: 10
+  orthographic: 0
   orthographic size: 3.42
   m_Depth: 0
   m_CullingMask:
@@ -3373,7 +3373,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
-  m_Intensity: 2
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.802082

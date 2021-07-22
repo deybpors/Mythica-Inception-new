@@ -1,8 +1,8 @@
-using Assets.Scripts.Pluggable_AI.Scripts.General;
-using Assets.Scripts.Pluggable_AI.Scripts.States;
+using Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.States;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
+namespace Pluggable_AI.Scripts.Actions
 {
     [CreateAssetMenu(menuName = "Pluggable AI/Actions/Panic")]
     public class PanicAction : Action

@@ -1,22 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.Combat_System;
-using Assets.Scripts.Monster_System;
-using Assets.Scripts.Skill_System;
-using Assets.Scripts.UI;
-<<<<<<< HEAD
-using Monster_System;
-=======
+using _Core.Others;
 using Combat_System;
->>>>>>> main
+using Monster_System;
+using Skill_System;
+using UI;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.General
+namespace Pluggable_AI.Scripts.General
 {
     [RequireComponent(typeof(StateController))]
     public class MonsterTamerAI : GenericAI, IEntity, IHaveMonsters, IHaveHealth, ISelectable

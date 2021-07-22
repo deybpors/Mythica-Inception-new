@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Others;
-using UnityEngine;
+using _Core.Others;
 
-namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts
+namespace Skill_System.Targeting_Type_Scripts
 {
     public abstract class ToggleTargetSkill : Skill
     {

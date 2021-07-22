@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using _Core.Managers;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts._Core.Player;
-using Assets.Scripts.Skill_System;
+using _Core.Player;
+using Skill_System;
 using UnityEngine;
 
-namespace Assets.Scripts.Monster_System
+namespace Monster_System
 {
     [RequireComponent(typeof(IHaveMonsters))]
     public class MonsterManager : MonoBehaviour

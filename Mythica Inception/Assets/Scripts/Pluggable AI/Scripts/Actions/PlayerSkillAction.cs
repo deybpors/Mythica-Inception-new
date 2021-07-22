@@ -1,8 +1,8 @@
-﻿using Assets.Scripts.Pluggable_AI.Scripts.General;
-using Assets.Scripts.Skill_System;
+﻿using Pluggable_AI.Scripts.General;
+using Skill_System;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
+namespace Pluggable_AI.Scripts.Actions
 {
     [CreateAssetMenu(menuName = "Player FSM/Actions/Skill Execution")]
     public class PlayerSkillAction : Action

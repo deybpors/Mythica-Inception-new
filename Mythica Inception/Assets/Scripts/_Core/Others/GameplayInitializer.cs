@@ -1,4 +1,4 @@
-using Assets.Scripts._Core.Player;
+using _Core.Managers;
 using UnityEngine;
 
 namespace _Core.Others
@@ -6,10 +6,10 @@ namespace _Core.Others
     public class GameplayInitializer : MonoBehaviour
     {
         public Material skybox;
-        public Player player;
+        public Player.Player player;
         private void Start()
         {
-            //initialize player data here
+            GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
         }
     }
 }

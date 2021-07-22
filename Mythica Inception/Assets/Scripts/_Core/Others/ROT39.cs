@@ -1,6 +1,6 @@
 using System;
 
-namespace Assets.Scripts._Core.Others
+namespace _Core.Others
 {
 public class ROT39
 {

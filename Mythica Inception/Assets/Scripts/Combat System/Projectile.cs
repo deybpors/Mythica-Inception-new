@@ -1,14 +1,8 @@
 using System.Collections;
-<<<<<<< HEAD
 using _Core.Managers;
-using Assets.Scripts._Core;
-=======
->>>>>>> main
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.Combat_System;
-using Assets.Scripts.Monster_System;
-using Assets.Scripts.Skill_System;
+using _Core.Others;
+using Monster_System;
+using Skill_System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

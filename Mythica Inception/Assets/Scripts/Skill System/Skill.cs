@@ -1,11 +1,10 @@
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.Combat_System;
-using Assets.Scripts.Monster_System;
+using _Core.Others;
+using Combat_System;
+using Monster_System;
 using MyBox;
 using UnityEngine;
 
-namespace Assets.Scripts.Skill_System
+namespace Skill_System
 {
     public enum SkillCategory
     {

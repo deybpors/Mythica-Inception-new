@@ -1,18 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Core.Input;
 using _Core.Managers;
-using Assets.Scripts._Core.Input;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts._Core.Player.Player_FSM;
-using Assets.Scripts.Combat_System;
-using Assets.Scripts.Monster_System;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
-using Assets.Scripts.Skill_System;
+using _Core.Others;
+using _Core.Player.Player_FSM;
 using Combat_System;
+using Monster_System;
+using Pluggable_AI.Scripts.General;
+using Skill_System;
 using UnityEngine;
 
-namespace Assets.Scripts._Core.Player
+namespace _Core.Player
 {
     [RequireComponent(typeof(StateController))]
     public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame, IHaveStamina
@@ -61,6 +59,7 @@ namespace Assets.Scripts._Core.Player
 
         private void Init()
         {
+            if(GameManager.instance == null) return;
             GetNeededComponents();
             InitializePlayerData();
             monsterManager.ActivateMonsterManager(this, skillManager);

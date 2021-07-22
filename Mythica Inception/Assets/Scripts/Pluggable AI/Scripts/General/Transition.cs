@@ -1,8 +1,7 @@
-using Assets.Scripts.Pluggable_AI.Scripts.Decisions;
-using Assets.Scripts.Pluggable_AI.Scripts.States;
-using UnityEngine;
+using Pluggable_AI.Scripts.Decisions;
+using Pluggable_AI.Scripts.States;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.General
+namespace Pluggable_AI.Scripts.General
 {
     [System.Serializable]
     public class Transition

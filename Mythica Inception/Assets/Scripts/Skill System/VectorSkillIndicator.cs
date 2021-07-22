@@ -1,8 +1,8 @@
-using Assets.Scripts._Core.Player;
+using _Core.Player;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.Skill_System
+namespace Skill_System
 {
     public class VectorSkillIndicator : MonoBehaviour
     {

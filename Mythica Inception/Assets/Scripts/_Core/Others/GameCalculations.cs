@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts.Monster_System;
+using Monster_System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts._Core.Others
+namespace _Core.Others
 {
     public static class GameCalculations
     {

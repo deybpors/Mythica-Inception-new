@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts
+namespace Skill_System
 {
     public class AreaIndicator : MonoBehaviour
     {

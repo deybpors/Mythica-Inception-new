@@ -1,9 +1,7 @@
-using System.Collections;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
-using UnityEngine.AI;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
+namespace Pluggable_AI.Scripts.Decisions
 {
     [CreateAssetMenu(menuName = "Pluggable AI/Decisions/Has Done Fleeing")]
     public class HasDoneFleeing : Decision

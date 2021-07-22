@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Assets.Scripts.Items_and_Barter_System.Scripts
+namespace Items_and_Barter_System.Scripts
 {
     public class PlayerInventory : MonoBehaviour
     {

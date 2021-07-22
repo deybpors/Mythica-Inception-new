@@ -2,7 +2,7 @@
 using MyBox;
 using UnityEngine;
 
-namespace Assets.Scripts._Core.Others
+namespace _Core.Others
 {
     public enum ObjectAnimationType
     {

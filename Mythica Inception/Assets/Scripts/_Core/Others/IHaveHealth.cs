@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts._Core.Others
+﻿namespace _Core.Others
 {
     public interface IHaveHealth
     {

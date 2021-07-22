@@ -1,15 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
-using Assets.Scripts.Pluggable_AI.Scripts.States;
-using Assets.Scripts.Skill_System;
+using _Core.Managers;
+using Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.States;
+using Skill_System;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = System.Random;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
+namespace Pluggable_AI.Scripts.Actions
 {
     [CreateAssetMenu(menuName = "Pluggable AI/Actions/Attack")]
     public class AttackAction : Action

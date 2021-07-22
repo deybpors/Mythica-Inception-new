@@ -1,9 +1,8 @@
-﻿using Assets.Scripts._Core;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts._Core.Player;
+﻿using _Core.Others;
+using _Core.Player;
 using UnityEngine;
 
-namespace Assets.Scripts.Skill_System.Targeting_Type_Scripts
+namespace Skill_System.Targeting_Type_Scripts
 {
     public abstract class UnitAreaTargetSkill : Skill
     {

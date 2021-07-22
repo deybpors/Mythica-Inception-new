@@ -1,9 +1,8 @@
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using _Core.Managers;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
+namespace Pluggable_AI.Scripts.Decisions
 {
     [CreateAssetMenu(menuName = "Pluggable AI/Decisions/Took Damage")]
     public class IsHit : Decision

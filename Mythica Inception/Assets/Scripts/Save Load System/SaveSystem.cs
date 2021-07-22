@@ -1,9 +1,9 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using Assets.Scripts._Core.Player;
+using _Core.Player;
 using UnityEngine;
 
-namespace Assets.Scripts.Save_Load_System
+namespace Save_Load_System
 {
     public static class SaveSystem
     {

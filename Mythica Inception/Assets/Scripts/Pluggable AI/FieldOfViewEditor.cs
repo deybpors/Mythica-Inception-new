@@ -1,8 +1,8 @@
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.General;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI
+namespace Pluggable_AI
 {
 #if UNITY_EDITOR
     [CustomEditor(typeof(FieldOfView))]

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts.Databases.Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts.Databases
+namespace Databases.Scripts
 {
     public class DatabaseManager : MonoBehaviour
     {

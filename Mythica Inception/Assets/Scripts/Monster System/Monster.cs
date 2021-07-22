@@ -1,12 +1,11 @@
 ﻿using System.Collections.Generic;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.Combat_System;
-using Assets.Scripts.Items_and_Barter_System.Scripts;
-using Assets.Scripts.Skill_System;
+using _Core.Others;
+using Combat_System;
+using Items_and_Barter_System.Scripts;
+using Skill_System;
 using UnityEngine;
 
-namespace Assets.Scripts.Monster_System
+namespace Monster_System
 {
     [CreateAssetMenu(menuName = "Monster System/New Monster")]
     public class Monster : ScriptableObjectWithID

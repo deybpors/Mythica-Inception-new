@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts.UI;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -19,6 +18,10 @@ namespace _Core.Managers
         {
             if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
             {
+                if (!uiManager.loadingScreenCamera.isActiveAndEnabled)
+                {
+                    uiManager.loadingScreenCamera.gameObject.SetActive(true);
+                }
                 uiManager.loadingScreen.SetActive(true);
             }
             var worldScene = GameManager.instance.currentWorldScenePath;
@@ -32,6 +35,10 @@ namespace _Core.Managers
         {
             if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
             {
+                if (!uiManager.loadingScreenCamera.isActiveAndEnabled)
+                {
+                    uiManager.loadingScreenCamera.gameObject.SetActive(true);
+                }
                 uiManager.loadingScreen.SetActive(true);
             }
             var op = SceneManager.LoadSceneAsync(addedScene, LoadSceneMode.Additive);
@@ -73,7 +80,8 @@ namespace _Core.Managers
 
         private IEnumerator DisableLoadingScreen()
         {
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(.05f);
+            uiManager.loadingScreenCamera.gameObject.SetActive(false);
             loadingUITweener.Disable();
         }
     }

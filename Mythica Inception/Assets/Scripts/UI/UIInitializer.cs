@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Core.Managers;
-using Assets.Scripts.UI;
+using Dialogue_System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,10 +27,12 @@ namespace UI
         [Header("Loading UI")] 
         public GameObject loadingScreen;
         public ProgressBarUI loadingBar;
+        public Camera loadingScreenCam;
         private void Start()
         {
+            if(GameManager.instance == null) return;
             var ui = GameManager.instance.uiManager;
-            ui.InitLoadingUIRef(loadingScreen,loadingBar);
+            ui.InitLoadingUIRef(loadingScreen,loadingBar, loadingScreenCam);
             ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, playerHealth, monsterExp, partySlots, skills, items);
             ui.InitDialogueUIRef(dialogueUICanvas, dialogueManager);
             ui.startSceneUICanvas = startSceneUICanvas;

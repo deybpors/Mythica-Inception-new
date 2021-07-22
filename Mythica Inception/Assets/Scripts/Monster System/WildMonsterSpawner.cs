@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.Monster_System;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using _Core.Others;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
 namespace Monster_System
@@ -36,7 +35,7 @@ namespace Monster_System
             if (!activated) return;
             
             if(currentNoOfMonsters >= noOfMonstersLimit) return;
-            
+            if(GameManager.instance == null) return;
             if(GameManager.instance.player == null) return;
             var distance = Vector3.Distance(transform.position, GameManager.instance.player.transform.position);
             if (distance > 30) return;

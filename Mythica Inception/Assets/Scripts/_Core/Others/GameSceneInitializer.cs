@@ -1,12 +1,11 @@
 using _Core.Managers;
-using Assets.Scripts._Core.Player;
 using UnityEngine;
 
 namespace _Core.Others
 {
     public class GameSceneInitializer : MonoBehaviour
     {
-        public Player player;
+        public Player.Player player;
         public Camera currentWorldCamera;
         private void Awake()
         {

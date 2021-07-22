@@ -1,9 +1,8 @@
 using System.Collections.Generic;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Others;
+using _Core.Others;
 using UnityEngine;
 
-namespace Assets.Scripts.Items_and_Barter_System.Scripts
+namespace Items_and_Barter_System.Scripts
 {
     public enum ItemType
     {

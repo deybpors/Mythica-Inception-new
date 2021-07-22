@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using _Core.Managers;
-using Assets.Scripts.UI;
+using Dialogue_System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,12 +21,13 @@ namespace UI
         [HideInInspector] public DialogueManager dialogueManager;
         [HideInInspector] public GameObject loadingScreen;
         [HideInInspector] public ProgressBarUI loadingBar;
-
+        [HideInInspector] public Camera loadingScreenCamera;
         
-        public void InitLoadingUIRef(GameObject canvas, ProgressBarUI loadBar)
+        public void InitLoadingUIRef(GameObject canvas, ProgressBarUI loadBar, Camera cam)
         {
             loadingScreen = canvas;
             loadingBar = loadBar;
+            loadingScreenCamera = cam;
             GameManager.instance.gameSceneManager.loadingUITweener = loadingScreen.GetComponent<UITweener>();
         }
 

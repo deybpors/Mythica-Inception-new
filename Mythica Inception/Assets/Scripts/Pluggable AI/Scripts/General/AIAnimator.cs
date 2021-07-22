@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.General
+namespace Pluggable_AI.Scripts.General
 {
     public class AIAnimator : MonoBehaviour
     {

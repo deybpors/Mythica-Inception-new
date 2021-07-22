@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.UI
+namespace UI
 {
     public enum UIAnimationType
     {

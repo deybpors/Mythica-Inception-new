@@ -1,8 +1,6 @@
 using System.Collections.Generic;
 using _Core.Others;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts.Databases;
-using Assets.Scripts._Core.Player;
+using Databases.Scripts;
 using UI;
 using UnityEngine;
 
@@ -21,7 +19,7 @@ namespace _Core.Managers
         [HideInInspector] public List<Transform> enemiesSeePlayer;
         [HideInInspector] public string currentWorldScenePath;
         [HideInInspector] public Camera currentWorldCamera;
-        [HideInInspector] public Player player;
+        [HideInInspector] public Player.Player player;
         
         
         void Awake()
@@ -38,7 +36,7 @@ namespace _Core.Managers
             databaseManager.InitializeTypeChartData();
         }
 
-        public void InitializePlayerReference(Player p)
+        public void InitializePlayerReference(Player.Player p)
         {
             player = p;
         }

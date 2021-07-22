@@ -1,9 +1,8 @@
 using _Core.Managers;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Decisions
+namespace Pluggable_AI.Scripts.Decisions
 {
     [CreateAssetMenu(menuName = "Pluggable AI/Decisions/Found Targets")]
     public class FoundTarget : Decision

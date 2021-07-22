@@ -1,10 +1,10 @@
 using System.Collections.Generic;
-using Assets.Scripts._Core.Player;
-using Assets.Scripts.Pluggable_AI.Scripts.States;
+using _Core.Player;
+using Pluggable_AI.Scripts.States;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.General
+namespace Pluggable_AI.Scripts.General
 {
     public enum StateMachineType
     {

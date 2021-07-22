@@ -1,6 +1,6 @@
-﻿using Assets.Scripts._Core.Player;
+﻿using _Core.Player;
 
-namespace Assets.Scripts.Dialogue_System
+namespace Dialogue_System
 {
     public interface IInteractable
     {

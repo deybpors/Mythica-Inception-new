@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Assets.Scripts._Core.Player.Player_FSM
+namespace _Core.Player.Player_FSM
 {
     [CreateAssetMenu(menuName = "Player FSM/Player FSM Data")]
     public class PlayerFSMData : ScriptableObject

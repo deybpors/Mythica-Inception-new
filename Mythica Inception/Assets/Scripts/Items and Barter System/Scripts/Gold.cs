@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.Scripts.Items_and_Barter_System.Scripts
+namespace Items_and_Barter_System.Scripts
 {
     [CreateAssetMenu(menuName = "Items and Crafting System/New Others/Gold")]
     public class Gold: ItemObject

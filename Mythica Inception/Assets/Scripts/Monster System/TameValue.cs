@@ -1,10 +1,9 @@
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts.UI;
+using _Core.Managers;
+using _Core.Others;
+using UI;
 using UnityEngine;
 
-namespace Assets.Scripts.Monster_System
+namespace Monster_System
 {
     public class TameValue : MonoBehaviour, ITameable
     {

@@ -1,8 +1,7 @@
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.Actions
+namespace Pluggable_AI.Scripts.Actions
 {
     [CreateAssetMenu(menuName = "Player FSM/Actions/Attack Action")]
     public class PlayerAttackAction : Action

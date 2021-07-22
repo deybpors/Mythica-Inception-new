@@ -14,15 +14,15 @@ namespace _Core.Others
             _managerOp = SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
             SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
             SceneManager.LoadSceneAsync(starting.path, LoadSceneMode.Additive);
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         }
 
         private void Update()
         {
-            if (_managerOp.isDone)
-            {
-                GameManager.instance.currentWorldScenePath = starting.path;
-            }
+            if (!_managerOp.isDone) return;
+            GameManager.instance.currentWorldScenePath = starting.path;
+            GameManager.instance.uiManager.DeactivateAllUI();
+            GameManager.instance.uiManager.startSceneUICanvas.SetActive(true);
+            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         }
     }
 }

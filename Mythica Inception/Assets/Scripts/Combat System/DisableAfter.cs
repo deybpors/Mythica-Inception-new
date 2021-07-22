@@ -1,10 +1,8 @@
 using System.Collections;
 using _Core.Managers;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Managers;
 using UnityEngine;
 
-namespace Assets.Scripts.Combat_System
+namespace Combat_System
 {
     public class DisableAfter : MonoBehaviour
     {

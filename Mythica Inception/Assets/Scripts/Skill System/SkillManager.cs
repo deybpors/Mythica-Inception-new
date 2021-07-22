@@ -1,14 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
-using Assets.Scripts._Core;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts._Core.Player;
-using Assets.Scripts.Monster_System;
-using Assets.Scripts.Pluggable_AI.Scripts.General;
-using Assets.Scripts.Skill_System.Targeting_Type_Scripts;
+using _Core.Others;
+using _Core.Player;
+using Monster_System;
+using Pluggable_AI.Scripts.General;
+using Skill_System.Targeting_Type_Scripts;
 using UnityEngine;
 
-namespace Assets.Scripts.Skill_System
+namespace Skill_System
 {
     public class SkillManager : MonoBehaviour
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts._Core.Others
+namespace _Core.Others
 {
     public static class FindChildTag
     {

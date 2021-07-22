@@ -3,7 +3,7 @@ using MyBox;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Assets.Scripts._Core.Managers
+namespace _Core.Managers
 {
     public enum Mood
     {

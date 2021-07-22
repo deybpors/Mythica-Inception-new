@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Assets.Scripts._Core.Others;
+using _Core.Others;
 using UnityEngine;
 
-namespace Assets.Scripts.Databases.Scripts
+namespace Databases.Scripts
 {
     [CreateAssetMenu(menuName = "Database/New Database")]
     public class Database : ScriptableObject

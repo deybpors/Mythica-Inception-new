@@ -1,9 +1,8 @@
 using System.Collections;
-using Assets.Scripts._Core.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Assets.Scripts._Core.Input
+namespace _Core.Input
 {
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerInputHandler : MonoBehaviour

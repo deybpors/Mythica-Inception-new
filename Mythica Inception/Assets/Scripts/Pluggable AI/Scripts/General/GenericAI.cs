@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.General
+namespace Pluggable_AI.Scripts.General
 {
     public class GenericAI : MonoBehaviour
     {

@@ -1,24 +1,28 @@
 using _Core.Managers;
-using Assets.Scripts._Core.Managers;
-using Assets.Scripts._Core.Others;
-using Assets.Scripts._Core.Player;
-using Assets.Scripts.Dialogue_System;
+using _Core.Others;
+using _Core.Player;
 using UnityEngine;
 
-public class NPCDialogue : MonoBehaviour, IInteractable, ISelectable
+namespace Dialogue_System
 {
-    [SerializeField] private string npcName = "No Name";
-    [SerializeField] private TextAsset inkJsonFile;
-    
-    public void Interact(Player player)
+    public class NPCDialogue : MonoBehaviour, IInteractable, ISelectable
     {
-        GameManager.instance.uiManager.gameplayUICanvas.SetActive(false);
-        GameManager.instance.uiManager.dialogueManager.StartDialogue(inkJsonFile, npcName, player);
-        GameManager.instance.uiManager.dialogueUICanvas.SetActive(true);
-        Transform playerTransform;
-        (playerTransform = player.transform).LookAt(transform);
-        transform.LookAt(playerTransform);
-        var eulerAngles = playerTransform.eulerAngles;
-        playerTransform.rotation = Quaternion.Euler(0, eulerAngles.y, eulerAngles.z);
+        [SerializeField] private string npcName = "No Name";
+        [SerializeField] private TextAsset inkJsonFile;
+    
+        public void Interact(Player player)
+        {
+            GameManager.instance.uiManager.gameplayUICanvas.SetActive(false);
+            GameManager.instance.uiManager.dialogueManager.StartDialogue(inkJsonFile, npcName, player);
+            GameManager.instance.uiManager.dialogueUICanvas.SetActive(true);
+            Transform playerTransform;
+            Transform npcTransform;
+            (playerTransform = player.transform).LookAt(transform);
+            (npcTransform = transform).LookAt(playerTransform);
+            var playerEulerAngles = playerTransform.eulerAngles;
+            var npcEulerAngles = npcTransform.eulerAngles;
+            npcTransform.rotation = Quaternion.Euler(0, npcEulerAngles.y, npcEulerAngles.z);
+            playerTransform.rotation = Quaternion.Euler(0, playerEulerAngles.y, playerEulerAngles.z);
+        }
     }
 }

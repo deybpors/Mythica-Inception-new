@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Assets.Scripts.Monster_System
+﻿namespace Monster_System
 {
     public interface ICanTame
     {

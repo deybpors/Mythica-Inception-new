@@ -1,7 +1,7 @@
-using Assets.Scripts.Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
-namespace Assets.Scripts.Pluggable_AI.Scripts.States
+namespace Pluggable_AI.Scripts.States
 {
     [CreateAssetMenu(menuName = "Pluggable AI/State")]
     public class State : ScriptableObject

@@ -47,8 +47,11 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void MonsterAttack(StateController stateController, Vector3 faceTo)
         {
-            stateController.transform.LookAt(faceTo);
-            stateController.transform.rotation = new Quaternion(0f, stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
+            Transform transform;
+            (transform = stateController.transform).LookAt(faceTo);
+            var rotation = transform.rotation;
+            rotation = new Quaternion(0f, rotation.y, 0f, rotation.w);
+            transform.rotation = rotation;
             stateController.player.ReleaseBasicAttack();
             
             if (stateController.player.currentAnimator != null)
@@ -62,8 +65,11 @@ namespace Pluggable_AI.Scripts.Actions
             if (_target == null || !(distance <= stateController.player.tameRadius)) return;
             
             _timer = 0;
-            stateController.transform.LookAt(faceTo);
-            stateController.transform.rotation = new Quaternion(0f, stateController.transform.rotation.y, 0f, stateController.transform.rotation.w);
+            Transform transform;
+            (transform = stateController.transform).LookAt(faceTo);
+            var rotation = transform.rotation;
+            rotation = new Quaternion(0f, rotation.y, 0f, rotation.w);
+            transform.rotation = rotation;
             stateController.player.ReleaseTameBeam();
             stateController.controllerAnimator.SetBool("Attack", true);
         }

@@ -48,6 +48,7 @@ namespace _Core.Player
         [HideInInspector] public Stamina staminaComponent;
         private StateController _stateController;
         [HideInInspector] public MonsterManager monsterManager;
+        private readonly Vector3 zero = Vector3.zero;
         
         #endregion
         
@@ -86,7 +87,7 @@ namespace _Core.Player
             _healthComponent = GetComponent<Health>();
         }
 
-        public void InitializePlayerData()
+        private void InitializePlayerData()
         {
             //TODO: initialize the monsters from player's save data and put it in monsters list
             Debug.Log("Initializing save data...");
@@ -189,9 +190,10 @@ namespace _Core.Player
             var monAttacking = GetCurrentMonster();
 
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
+            var rotation = transform.rotation;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.Euler(-90,transform.rotation.y,transform.rotation.z));
+                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : zero, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
             
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
@@ -200,14 +202,14 @@ namespace _Core.Player
             
             rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
                 monAttacking.basicAttackObjects.muzzle,false, true, transform, target,
-                Vector3.zero, deathTime, speed,.5f,monAttacking.basicAttackSkill);
+                zero, deathTime, speed,.5f,monAttacking.basicAttackSkill);
         }
 
         public void SpawnSwitchFX()
         {
             GameManager.instance.pooler.
                 SpawnFromPool(transform, tameBeam.projectileGraphics.targetObject.name,
-                    tameBeam.projectileGraphics.targetObject, Vector3.zero, 
+                    tameBeam.projectileGraphics.targetObject, zero, 
                     Quaternion.identity);
         }
 
@@ -265,7 +267,7 @@ namespace _Core.Player
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 
                 tameBeam.projectileGraphics.muzzle,true, false, transform, selectionManager.selectables[0], 
-                Vector3.zero, 10, 30,1f, tameBeam.skill);
+                zero, 10, 30,1f, tameBeam.skill);
         }
 
         public Animator GetEntityAnimator()
@@ -294,8 +296,10 @@ namespace _Core.Player
         private void FindAliveMonsterOrPlayer()
         {
             var monsterSlot = new MonsterSlot();
-            foreach (var monster in monsterSlots)
+            var count = monsterSlots.Count;
+            for (var i = 0; i < count; i++)
             {
+                var monster = monsterSlots[i];
                 if (monster.currentHealth > 0 && monster.monster != null)
                 {
                     monsterSlot = monster;

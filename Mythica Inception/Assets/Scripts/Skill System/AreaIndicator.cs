@@ -1,3 +1,4 @@
+using _Core.Managers;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -5,7 +6,6 @@ namespace Skill_System
 {
     public class AreaIndicator : MonoBehaviour
     {
-        private Camera _mainCamera;
         public LayerMask layer;
         private Ray _ray;
         RaycastHit _raycastHit;
@@ -14,7 +14,6 @@ namespace Skill_System
 
         void Awake()
         {
-            _mainCamera = Camera.main;
             transform.localScale = new Vector3(radius, radius, radius);
         }
 
@@ -30,7 +29,7 @@ namespace Skill_System
         
         void Update()
         {
-            _ray = _mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            _ray = GameManager.instance.player.selectionManager.ray;
             if (Physics.Raycast(_ray, out _raycastHit, Mathf.Infinity, layer))
             {
                 transform.position = _raycastHit.point;

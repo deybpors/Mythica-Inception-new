@@ -80,8 +80,27 @@ public class Outline : MonoBehaviour {
 
   private bool needsUpdate;
 
-  void Awake() {
+  void Awake()
+  {
+    Initialize();
+  }
 
+  void OnEnable() 
+  {
+    foreach (var renderer in renderers) {
+
+      // Append outline shaders
+      var materials = renderer.sharedMaterials.ToList();
+
+      materials.Add(outlineMaskMaterial);
+      materials.Add(outlineFillMaterial);
+
+      renderer.materials = materials.ToArray();
+    }
+  }
+
+  private void Initialize()
+  {
     // Cache renderers
     renderers = GetComponentsInChildren<Renderer>();
 
@@ -97,19 +116,6 @@ public class Outline : MonoBehaviour {
 
     // Apply material properties immediately
     needsUpdate = true;
-  }
-
-  void OnEnable() {
-    foreach (var renderer in renderers) {
-
-      // Append outline shaders
-      var materials = renderer.sharedMaterials.ToList();
-
-      materials.Add(outlineMaskMaterial);
-      materials.Add(outlineFillMaterial);
-
-      renderer.materials = materials.ToArray();
-    }
   }
 
   void OnValidate() {
@@ -129,12 +135,12 @@ public class Outline : MonoBehaviour {
     }
   }
 
-  void Update() {
-    if (needsUpdate) {
-      needsUpdate = false;
-
-      UpdateMaterialProperties();
-    }
+  void Update()
+  {
+    if (!needsUpdate) return;
+    
+    needsUpdate = false;
+    UpdateMaterialProperties();
   }
 
   void OnDisable() {
@@ -186,7 +192,7 @@ public class Outline : MonoBehaviour {
       if (!registeredMeshes.Add(meshFilter.sharedMesh)) {
         continue;
       }
-
+      
       // Retrieve or generate smooth normals
       var index = bakeKeys.IndexOf(meshFilter.sharedMesh);
       var smoothNormals = (index >= 0) ? bakeValues[index].data : SmoothNormals(meshFilter.sharedMesh);
@@ -196,10 +202,12 @@ public class Outline : MonoBehaviour {
     }
 
     // Clear UV3 on skinned mesh renderers
-    foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>()) {
-      if (registeredMeshes.Add(skinnedMeshRenderer.sharedMesh)) {
-        skinnedMeshRenderer.sharedMesh.uv4 = new Vector2[skinnedMeshRenderer.sharedMesh.vertexCount];
-      }
+    foreach (var skinnedMeshRenderer in GetComponentsInChildren<SkinnedMeshRenderer>())
+    {
+      if (!registeredMeshes.Add(skinnedMeshRenderer.sharedMesh)) continue;
+      
+      var sharedMesh = skinnedMeshRenderer.sharedMesh;
+      sharedMesh.uv4 = new Vector2[sharedMesh.vertexCount];
     }
   }
 
@@ -220,11 +228,7 @@ public class Outline : MonoBehaviour {
       }
 
       // Calculate the average normal
-      var smoothNormal = Vector3.zero;
-
-      foreach (var pair in group) {
-        smoothNormal += mesh.normals[pair.Value];
-      }
+      var smoothNormal = @group.Aggregate(Vector3.zero, (current, pair) => current + mesh.normals[pair.Value]);
 
       smoothNormal.Normalize();
 

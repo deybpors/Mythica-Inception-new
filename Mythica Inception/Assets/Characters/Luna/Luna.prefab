@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8548069302129629857}
   - component: {fileID: 4150047367314955883}
   m_Layer: 11
-  m_Name: Cube.017
+  m_Name: Luna_ears
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 6443844439501428866}
   - component: {fileID: 6611770892406268969}
   m_Layer: 11
-  m_Name: Cube.009
+  m_Name: Luna_Waist_braces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 3092268107814358523}
   - component: {fileID: 989279016290104230}
   m_Layer: 11
-  m_Name: Cube.002
+  m_Name: Luna_Sleeve_braces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 6671855345189065839}
   - component: {fileID: 1077365312949414681}
   m_Layer: 11
-  m_Name: Cube.001
+  m_Name: Luna_Waist_cloth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 9053062771565137123}
   - component: {fileID: 1551157859447738455}
   m_Layer: 11
-  m_Name: Cube.016
+  m_Name: Luna_Neck_braces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 1225776806532913210}
   - component: {fileID: 1076467946236814442}
   m_Layer: 11
-  m_Name: Cube.010
+  m_Name: Luna_Head
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 6733670046451755147}
   - component: {fileID: 7546193191481347119}
   m_Layer: 11
-  m_Name: Cube.018
+  m_Name: Luna_Knee_braces
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -623,7 +623,7 @@ GameObject:
   - component: {fileID: 8598594056139669594}
   - component: {fileID: 5228254650969665431}
   m_Layer: 11
-  m_Name: Cube.008
+  m_Name: Luna_Hair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -873,7 +873,7 @@ GameObject:
   - component: {fileID: 769978085365773858}
   - component: {fileID: 7273375799840180762}
   m_Layer: 11
-  m_Name: Cube.003
+  m_Name: Luna_body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -996,9 +996,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: -91.183
       objectReference: {fileID: 0}
+    - target: {fileID: 5327012789145988415, guid: b05fcef9aa9c3514889caa6b04611f37, type: 3}
+      propertyPath: m_Name
+      value: Staff
+      objectReference: {fileID: 0}
     - target: {fileID: 5562841878122620611, guid: b05fcef9aa9c3514889caa6b04611f37, type: 3}
       propertyPath: m_Name
       value: Staff
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081708644422721419, guid: b05fcef9aa9c3514889caa6b04611f37, type: 3}
+      propertyPath: m_Name
+      value: Orb
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05fcef9aa9c3514889caa6b04611f37, type: 3}

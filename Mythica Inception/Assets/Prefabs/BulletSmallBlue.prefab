@@ -4756,6 +4756,7 @@ GameObject:
   - component: {fileID: 1936619017622253363}
   - component: {fileID: 1936619017623901055}
   - component: {fileID: 4795283860318790775}
+  - component: {fileID: 5992099539288500984}
   m_Layer: 0
   m_Name: BulletSmallBlue
   m_TagString: Untagged
@@ -9494,6 +9495,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34f3b99645936194dabeb1518ec49df2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5992099539288500984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936619017637676521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f2a1994ceb493f42a8c7f6b452d5275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4552
 --- !u!1 &1936619017637701185
 GameObject:
   m_ObjectHideFlags: 0

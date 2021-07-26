@@ -19,7 +19,7 @@ namespace _Core.Managers
         public Transform masterParent;
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
-
+        private readonly Vector3 zero = Vector3.zero;
         private void PreInstantiate(List<Pool> p)
         {
             pools = p;
@@ -31,7 +31,7 @@ namespace _Core.Managers
                 {
                     pool.tag = pool.prefab.name;
                 }
-                AddNewPoolToDictionary(transform, pool.tag, pool.prefab, pool.size);
+                AddNewPoolToDictionary(transform, pool.tag, pool.prefab, pool.size, zero);
             }
         }
 
@@ -48,7 +48,7 @@ namespace _Core.Managers
 
                 if (!poolDictionary.ContainsKey(newSpawnedTag))
                 {
-                    AddNewPoolToDictionary(parent, newSpawnedTag, prefabCheck, 10);
+                    AddNewPoolToDictionary(parent, newSpawnedTag, prefabCheck, 10, position);
                     continue;
                 }
 
@@ -80,7 +80,7 @@ namespace _Core.Managers
             }
         }
 
-        private void AddNewPoolToDictionary(Transform parent, string newSpawnedTag, GameObject prefabCheck, int size)
+        private void AddNewPoolToDictionary(Transform parent, string newSpawnedTag, GameObject prefabCheck, int size, Vector3 position)
         {
             poolDictionary ??= new Dictionary<string, Queue<GameObject>>();
             
@@ -102,11 +102,11 @@ namespace _Core.Managers
                 {
                     if (i == 0)
                     {
-                        InstantiateAndAddToPool(pool, newPool);
+                        InstantiateAndAddToPool(pool, newPool, position);
                         continue; 
                     }
                 }
-                InstantiateAndAddToPool(pool, newPool);
+                InstantiateAndAddToPool(pool, newPool, position);
             }
             //add pool to pools
             pools.Add(pool);
@@ -117,10 +117,10 @@ namespace _Core.Managers
             poolDictionary.Add(newSpawnedTag, newPool);
         }
 
-        private GameObject InstantiateAndAddToPool(Pool pool, Queue<GameObject> objectPool)
+        private GameObject InstantiateAndAddToPool(Pool pool, Queue<GameObject> objectPool, Vector3 position)
         {
             //instantiating the object then setting it inactive
-            var obj = Instantiate(pool.prefab, masterParent, true);
+            var obj = Instantiate(pool.prefab, position, Quaternion.identity, masterParent);
             obj.SetActive(false);
 
             //put it in the new queue

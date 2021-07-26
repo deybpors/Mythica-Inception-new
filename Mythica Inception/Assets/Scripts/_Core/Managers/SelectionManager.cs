@@ -15,7 +15,7 @@ namespace _Core.Managers
         private Player.Player _player;
         private bool _activated;
         private RaycastHit[] _hits = new RaycastHit[5];
-    
+        [HideInInspector] public Ray ray;
         public void ActivateSelectionManager(Player.Player player)
         {
             _player = player;
@@ -32,7 +32,7 @@ namespace _Core.Managers
         {
             selectables.Clear();
             interactables.Clear();
-            var ray = _player.mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+            ray = _player.mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             var size = Physics.SphereCastNonAlloc(ray, 1f, _hits, Mathf.Infinity);
 
             for (var i = 0; i < size; i++)

@@ -20,8 +20,7 @@ namespace _Core.Managers
         [HideInInspector] public string currentWorldScenePath;
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;
-        
-        
+
         void Awake()
         {
             if (instance == null)

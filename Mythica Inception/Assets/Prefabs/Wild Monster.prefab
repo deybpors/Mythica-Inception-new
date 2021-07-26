@@ -367,7 +367,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8265144103910172166}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.98, y: 6.41, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 8265144104670599809}
@@ -565,6 +565,7 @@ MonoBehaviour:
   targeting: 0
   target: {fileID: 0}
   skillPoint: {x: 0, y: 0, z: 0}
+  pointDistance: 0
   smType: 0
 --- !u!114 &8265144103910172164
 MonoBehaviour:
@@ -1483,6 +1484,7 @@ MonoBehaviour:
   toState: {x: 1.5, y: 1.5, z: 1.5}
   from: 0.5
   to: 1.2
+  objectsToDisableOnDisable: []
   disableAfterSeconds: 1
   disableDuration: 0.5
   showOnEnable: 1

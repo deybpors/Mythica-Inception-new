@@ -15,12 +15,15 @@ EditorBuildSettings:
     path: Assets/Scenes/UI.unity
     guid: d33b65037a46e9f4aa34e25f62f724a2
   - enabled: 1
+    path: Assets/Scenes/Gameplay.unity
+    guid: c1de51e8faf9a354bbf770223eece228
+  - enabled: 1
+    path: Assets/Scenes/World/env_Start.unity
+    guid: 5813ba14a8f45f7418f484d5a096ca11
+  - enabled: 1
     path: Assets/Scenes/World/env_Test.unity
     guid: 95486e0a95277814abafbc9775595296
   - enabled: 1
     path: Assets/Scenes/World/env_Opon.unity
     guid: 077b0c28812c38241a10cb6ec6a949ce
-  - enabled: 1
-    path: Assets/Scenes/Gameplay.unity
-    guid: c1de51e8faf9a354bbf770223eece228
   m_configObjects: {}

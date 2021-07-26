@@ -81,7 +81,6 @@ namespace _Core.Managers
         private IEnumerator DisableLoadingScreen()
         {
             yield return new WaitForSeconds(.05f);
-            uiManager.loadingScreenCamera.gameObject.SetActive(false);
             loadingUITweener.Disable();
         }
     }

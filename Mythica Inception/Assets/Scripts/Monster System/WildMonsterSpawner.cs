@@ -4,6 +4,7 @@ using _Core.Managers;
 using _Core.Others;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Monster_System
 {
@@ -55,6 +56,7 @@ namespace Monster_System
             var highZ = _spawnerPosition.z + zAxis;
             var lowZ = _spawnerPosition.z - zAxis;
             var monsterPos = new Vector3(Random.Range(lowX, highX), _spawnerPosition.y, Random.Range(lowZ, highZ));
+
             var monsterObj = 
                 GameManager.instance.pooler.SpawnFromPool(
                     null, 

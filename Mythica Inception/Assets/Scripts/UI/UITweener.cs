@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
@@ -22,17 +23,23 @@ namespace UI
         public bool loop;
         public bool pingpong;
         public bool startPositionOffset;
+
         [ConditionalField(nameof(animationType), false, UIAnimationType.Scale, UIAnimationType.Move)] 
         public Vector3 fromState;
+
         [ConditionalField(nameof(animationType), false, UIAnimationType.Scale, UIAnimationType.Move)]
         public Vector3 toState;
-        
+
         [ConditionalField(nameof(animationType), false, UIAnimationType.Fade)]
         public float from;
+
         [ConditionalField(nameof(animationType), false, UIAnimationType.Fade)]
         public float to;
 
+
+        public List<GameObject> objectsToDisableOnDisable;
         public bool disableAfterSeconds;
+
         [ConditionalField(nameof(disableAfterSeconds))]
         public float disableDuration;
 
@@ -144,9 +151,22 @@ namespace UI
             HandleTween();
             _tweenObject.setOnComplete(() =>
             {
+                DisableObjectsToDisable();
                 SwapDirection();
                 gameObject.SetActive(false);
             });
+        }
+
+        private void DisableObjectsToDisable()
+        {
+            int objectCount;
+            if((objectCount = objectsToDisableOnDisable.Count)<= 0) return;
+            
+            for (var i = 0; i < objectCount; i++)
+            {
+                var obj = objectsToDisableOnDisable[i];
+                obj.SetActive(false);
+            }
         }
 
         IEnumerator DisableAfter(float time)

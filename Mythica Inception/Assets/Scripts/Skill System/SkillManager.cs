@@ -27,9 +27,12 @@ namespace Skill_System
         [HideInInspector] public bool targeting;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 skillPoint;
+        [HideInInspector] public float pointDistance;
         [HideInInspector] public StateMachineType smType;
-        [HideInInspector] public IHaveMonsters haveMonsters;
+        
+        private readonly Vector3 zero = Vector3.zero;
         private IEntity _entity;
+        private IHaveMonsters haveMonsters;
 
         #endregion
         
@@ -112,7 +115,7 @@ namespace Skill_System
         {
             slot.skill.DoneTargeting(_entity);
             targeting = false;
-
+            
             ActivateWithTargetType(slot);
             
             if (slot.skill is ToggleTargetSkill) return;
@@ -132,80 +135,74 @@ namespace Skill_System
 
         private void ActivateWithTargetType(SkillSlot slot)
         {
-            Skill s = slot.skill;
-            
-            if (s is NoTargetSkill || s is ToggleTargetSkill)
+            var skill = slot.skill;
+            var activate = pointDistance <= slot.skill.castRadius;
+            switch (skill)
             {
-                s.Activate(_entity);
-            }
-            else if (s is AreaTargetSkill || s is VectorTargetSkill)
-            {
-                s.Activate(_entity, skillPoint);
-                transform.LookAt(skillPoint);
-            }
-            else if (s is UnitAreaTargetSkill || s is UnitOnlyTargetSkill)
-            {
-                s.Activate(_entity, target);
-                transform.LookAt(target);
-            }
-            else if (s is PointOrUnitSkill)
-            {
-                if (target == null)
-                {
-                    s.Activate(_entity, skillPoint);
-                    transform.LookAt(skillPoint);
-                }
-                else
-                {
-                    s.Activate(_entity, target);
-                    transform.LookAt(target);
-                }
+                case NoTargetSkill _:
+                case ToggleTargetSkill _:
+                    break;
+                case AreaTargetSkill _:
+                case VectorTargetSkill _:
+                    if (!activate) break;
+                    skill.Activate(_entity, skillPoint);
+                    break;
+                case UnitAreaTargetSkill _:
+                case UnitOnlyTargetSkill _:
+                    if (!activate) break;
+                    skill.Activate(_entity, target);
+                    break;
+                case PointOrUnitSkill _ when target == null:
+                    if (!activate) break;
+                    skill.Activate(_entity, skillPoint);
+                    break;
+                case PointOrUnitSkill _:
+                    if (!activate) break;
+                    skill.Activate(_entity, target);
+                    break;
             }
 
             if (target != null)
             {
-                GameObject targetUnitIndicator = target.GetComponent<MonsterTamerAI>().unitIndicator;
+                var targetUnitIndicator = target.GetComponent<MonsterTamerAI>().unitIndicator;
                 if (!targetUnitIndicator.activeInHierarchy)
                 {
                     targetUnitIndicator.SetActive(true);
                 }
             }
             
-            transform.rotation = new Quaternion(0f,transform.rotation.y, 0f, transform.rotation.w);
-            skillPoint = Vector3.zero;
+            skillPoint = zero;
             target = null;
             _entity.GetEntityAnimator().SetBool("Attack", true);
         }
         
         private void ActivateSkillForAI(SkillSlot slot, Vector3 position, Transform t)
         {
-            Skill s = slot.skill;
+            var skill = slot.skill;
             
-            if (s is NoTargetSkill || s is ToggleTargetSkill)
+            switch (skill)
             {
-                s.Activate(_entity);
-            }
-            else if (s is AreaTargetSkill || s is VectorTargetSkill)
-            {
-                s.Activate(_entity, position);
-            }
-            else if (s is UnitAreaTargetSkill || s is UnitOnlyTargetSkill)
-            {
-                s.Activate(_entity, target);
-            }
-            else if (s is PointOrUnitSkill)
-            {
-                if (target == null)
-                {
-                    s.Activate(_entity, skillPoint);
-                }
-                else
-                {
-                    s.Activate(_entity, target);
-                }
+                case NoTargetSkill _:
+                case ToggleTargetSkill _:
+                    skill.Activate(_entity);
+                    break;
+                case AreaTargetSkill _:
+                case VectorTargetSkill _:
+                    skill.Activate(_entity, position);
+                    break;
+                case UnitAreaTargetSkill _:
+                case UnitOnlyTargetSkill _:
+                    skill.Activate(_entity, target);
+                    break;
+                case PointOrUnitSkill _ when target == null:
+                    skill.Activate(_entity, skillPoint);
+                    break;
+                case PointOrUnitSkill _:
+                    skill.Activate(_entity, target);
+                    break;
             }
             
-            skillPoint = Vector3.zero;
+            skillPoint = zero;
             target = null;
             
             _entity.GetEntityAnimator().SetBool("Attack", true);
@@ -232,8 +229,10 @@ namespace Skill_System
         public List<SkillSlot> GetAllSlots()
         {
             var slots = new List<SkillSlot>();
-            foreach (var slot in skillSlots)
+            var count = skillSlots.Count;
+            for (var i = 0; i < count; i++)
             {
+                var slot = skillSlots[i];
                 if (slot.skill != null)
                 {
                     slots.Add(slot);

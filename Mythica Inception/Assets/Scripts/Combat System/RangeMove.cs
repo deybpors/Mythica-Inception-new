@@ -10,7 +10,7 @@ namespace Combat_System
             if (target != null)
             {
                 var position = target.position;
-                var pos = new Vector3(position.x, position.y + .5f, position.z);
+                var pos = new Vector3(position.x, position.y, position.z);
                 transform.position = Vector3.MoveTowards(transform.position, pos, velocity * Time.deltaTime);
             }
             else

@@ -191,7 +191,7 @@ namespace Combat_System
         private int CalculateTameBeamValue(Monster monsterToTame)
         {
             var avgLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
-            return GameCalculations.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance, 1);
+            return GameCalculations.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance);
         }
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)
@@ -232,7 +232,7 @@ namespace Combat_System
             }
             
             var modifier = GameCalculations.Modifier(stab, spawnerSv, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
-            return GameCalculations.Damage(1, _spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
+            return GameCalculations.Damage(_spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
         }
 
         IEnumerator DestroyAfter(float sec)

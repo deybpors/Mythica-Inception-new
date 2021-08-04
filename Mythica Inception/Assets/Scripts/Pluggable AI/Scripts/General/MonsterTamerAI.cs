@@ -221,13 +221,32 @@ namespace Pluggable_AI.Scripts.General
 
         public void Die()
         {
-            var pos = new Vector3(transform.position.x, transform.position.y + 1.5f, transform.position.z);
+            var monsterTransform = transform;
+            var position = monsterTransform.position;
+            var pos = new Vector3(position.x, position.y + 1.5f, position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
             if (_spawner != null) { _spawner.currentNoOfMonsters--; }
+            
+            UpdateEnemiesSeePlayer(monsterTransform);
+            
             gameObject.SetActive(false);
         }
-        
+
+        private void UpdateEnemiesSeePlayer(Transform monsterTransform)
+        {
+            foreach (var enemy in GameManager.instance.enemiesSeePlayer.Where(enemy => enemy == monsterTransform))
+            {
+                GameManager.instance.enemiesSeePlayer.Remove(enemy);
+            }
+
+            if (GameManager.instance.enemiesSeePlayer.Count != 0) return;
+            
+            GameManager.instance.DifficultyUpdateAdd("Failed Encounters", 0);
+            var player = GameManager.instance.player;
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));
+        }
+
         #endregion
 
 

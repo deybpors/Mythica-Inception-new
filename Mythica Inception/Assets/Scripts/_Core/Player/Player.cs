@@ -95,6 +95,8 @@ namespace _Core.Player
             
             
             //after getting all data,
+            var monsterAvgLvl = GameCalculations.MonstersAvgLevel(monsterSlots);
+            Debug.Log(monsterAvgLvl);
             tamer = transform.FindChildWithTag("Tamer").gameObject;
             tamer.layer = LayerMask.NameToLayer("Player");
             currentAnimator = tamer.GetComponent<Animator>();
@@ -102,8 +104,10 @@ namespace _Core.Player
             playerHealth.maxHealth = GameCalculations.Stats(
                 GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
                 GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                GameCalculations.MonstersAvgLevel(monsterSlots.ToList()));
+                monsterAvgLvl);
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+            //initialize party's avg level
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
         }
 
         public float GetMonsterSwitchRate()

@@ -9,8 +9,9 @@ namespace _Core.Others
 {
     public static class GameCalculations
     {
-        public static int Damage(float gamePace, int attackerLvl, int attackerAttack, int targetDefense, float skillPower, int maxSkillPower, float modifier)
+        public static int Damage(int attackerLvl, int attackerAttack, int targetDefense, float skillPower, int maxSkillPower, float modifier)
         {
+            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
             return (int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
                 ((float) attackerAttack / targetDefense) + 2) * modifier);
         }
@@ -30,13 +31,15 @@ namespace _Core.Others
 
         public static int MonstersAvgLevel(List<MonsterSlot> monsterSlots)
         {
-            var levels = monsterSlots.Select(slot => Level(slot.monster != null ? slot.currentExp : 0)).ToList();
+            var levels = (from slot in monsterSlots where slot.monster != null select Level(slot.currentExp)).ToList();
+
             return (int)levels.Average();
         }
 
         public static int MonstersAvgHealth(List<MonsterSlot> monsterSlots)
         {
-            var health = monsterSlots.Select(slot => slot.monster != null ? slot.monster.stats.baseHealth : 0).ToList();
+            var health = (from slot in monsterSlots where slot != null select slot.currentHealth).ToList();
+
             return (int) health.Average();
         }
 
@@ -54,8 +57,9 @@ namespace _Core.Others
             return (int)(50 + ((Mathf.Pow(wildMonsterLvl, 3)) / 5) * sfx * hp);
         }
         
-        public static int TameBeam(int avgLevel, float tSPower, int wildMonsterTamingResistance , float gamePace)
+        public static int TameBeam(int avgLevel, float tSPower, int wildMonsterTamingResistance)
         { 
+            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
             var random = Random.Range(0.85f, 1);
             var tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);
             return tameBeam;

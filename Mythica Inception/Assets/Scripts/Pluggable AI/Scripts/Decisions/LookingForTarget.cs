@@ -1,4 +1,6 @@
 using _Core.Managers;
+using _Core.Others;
+using _Core.Player;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
@@ -21,16 +23,25 @@ namespace Pluggable_AI.Scripts.Decisions
             return true;
         }
 
-        private static void RemoveFromEnemiesSeePlayer(StateController stateController)
+        private void RemoveFromEnemiesSeePlayer(StateController stateController)
         {
-            for (var i = 0; i < GameManager.instance.enemiesSeePlayer.Count; i++)
+            var enemyCount = GameManager.instance.enemiesSeePlayer.Count;
+            
+            for (var i = 0; i < enemyCount; i++)
             {
                 var enemy = GameManager.instance.enemiesSeePlayer[i];
-                if (enemy == stateController.transform)
-                {
-                    GameManager.instance.enemiesSeePlayer.Remove(enemy);
-                }
+                if (enemy != stateController.transform) continue;
+                
+                GameManager.instance.enemiesSeePlayer.Remove(enemy);
+                enemyCount--;
+                break;
             }
+
+            if (enemyCount != 0) return;
+            
+            GameManager.instance.DifficultyUpdateAdd("Failed Encounters",1);
+            var player = GameManager.instance.player;
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));
         }
     }
 }

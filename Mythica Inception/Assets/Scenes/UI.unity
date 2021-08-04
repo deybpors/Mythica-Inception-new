@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.37254903, g: 0.8039216, b: 0.91764706, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.01
@@ -3564,7 +3564,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Monster Name
+  m_text: Eleo
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: df47b235a29ae044b9cfe077fca34540, type: 2}
   m_sharedMaterial: {fileID: 7709695916145857054, guid: df47b235a29ae044b9cfe077fca34540, type: 2}

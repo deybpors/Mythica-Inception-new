@@ -30,7 +30,7 @@ namespace Combat_System
         private bool _activated;
         private Monster _spawnerMonster;
         private Skill _spawnerSkill;
-        private float _spawnerSV;
+        private float spawnerSv;
         private int _spawnerLevel;
         private IHaveMonsters _haveMonsters;
         private float _tameBeamPower;
@@ -38,6 +38,7 @@ namespace Combat_System
         private IMovingProjectile _movingProjectile;
         private bool _hitOnTarget;
         private Collider[] _colliders = new Collider[5];
+        private Vector3 zero = Vector3.zero;
         void OnEnable()
         {
             Init();
@@ -195,21 +196,17 @@ namespace Combat_System
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)
         {
-            if (monsterHit == null) return 0;
-            
-            var hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[hitHaveMonster.CurrentSlotNumber()].currentExp);
-            var attackerAttack = 0;
-            var hitDefense = 0;
-            var typeComparison = 0f;
-            var modifier = 0f;
+            int hitLevel;
+            int hitDefense;
+            float typeComparison;
             //if the basic attack skill of attacker monster is used or attacker skill type is same with the attacker monster's type
             var stab = _spawnerMonster.basicAttackSkill == _spawnerSkill || _spawnerSkill.skillType == _spawnerMonster.type;
 
-            attackerAttack = GameCalculations.Stats(
+            var attackerAttack = GameCalculations.Stats(
                 _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                     _spawnerMonster.stats.physicalAttack : 
                     _spawnerMonster.stats.specialAttack, 
-                _spawnerSV, 
+                spawnerSv, 
                 _spawnerLevel);
 
             if (monsterHit == null)
@@ -234,7 +231,7 @@ namespace Combat_System
                     hitLevel);
             }
             
-            modifier = GameCalculations.Modifier(stab, _spawnerSV, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
+            var modifier = GameCalculations.Modifier(stab, spawnerSv, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
             return GameCalculations.Damage(1, _spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
         }
 
@@ -251,13 +248,13 @@ namespace Combat_System
             
             if (_impactProj != null)
             {
-                GameObject impact = GameManager.instance.pooler.SpawnFromPool(null, _impactProj.name, _impactProj,
+                var impact = GameManager.instance.pooler.SpawnFromPool(null, _impactProj.name, _impactProj,
                     transform.position, Quaternion.identity);
             }
 
             if (_muzzleProj != null)
             {
-                GameObject muzzle = GameManager.instance.pooler.SpawnFromPool(null, _muzzleProj.name, _muzzleProj,
+                var muzzle = GameManager.instance.pooler.SpawnFromPool(null, _muzzleProj.name, _muzzleProj,
                     transform.position, Quaternion.identity);
             }
 
@@ -265,9 +262,8 @@ namespace Combat_System
             
             if (_target != null && _hitOnTarget)
             {
-                var pos = Vector3.zero;
-                GameObject targetObj = GameManager.instance.pooler.SpawnFromPool(_target, _targetObject.name,
-                    _targetObject, pos, Quaternion.identity);
+                var targetObj = GameManager.instance.pooler.SpawnFromPool(_target, _targetObject.name,
+                    _targetObject, zero, Quaternion.identity);
             }
             
             
@@ -313,7 +309,7 @@ namespace Combat_System
             {
                 
                 _spawnerMonster = _haveMonsters.GetCurrentMonster();
-                _spawnerSV = _haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()].stabilityValue;
+                spawnerSv = _haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()].stabilityValue;
                 _spawnerSkill = skill;
                 _spawnerLevel = GameCalculations.Level(_haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()].currentExp);
             }

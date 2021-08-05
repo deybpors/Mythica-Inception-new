@@ -39,6 +39,7 @@ namespace Combat_System
         private bool _hitOnTarget;
         private Collider[] _colliders = new Collider[5];
         private Vector3 zero = Vector3.zero;
+        private MonsterSlot _spawnerSlot;
         void OnEnable()
         {
             Init();
@@ -153,6 +154,7 @@ namespace Combat_System
 
                     _hitOnTarget = true;
                     damageable.TakeDamage(CalculateDamage(monsterHit, hitHaveMonster));
+                    damageable.RecordDamager(_spawnerSlot);
                     return true;
                 }
             }
@@ -181,6 +183,7 @@ namespace Combat_System
                     _target = hit.transform;
                     _hitOnTarget = true;
                     damageable.TakeDamage(CalculateDamage(monsterHit, hitHaveMonster));
+                    damageable.RecordDamager(_spawnerSlot);
                     return true;
                 }
             }
@@ -298,7 +301,6 @@ namespace Combat_System
                 _targetObjPart = targetObject.GetComponent<ParticleSystem>();
             }
             _destroyOnCollide = destroyOnCollide;
-            
             _haveMonsters = _spawner.GetComponent<IHaveMonsters>();
             
             if (isTameBeam)
@@ -307,11 +309,11 @@ namespace Combat_System
             }
             else
             {
-                
+                _spawnerSlot = _haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()];
                 _spawnerMonster = _haveMonsters.GetCurrentMonster();
-                spawnerSv = _haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()].stabilityValue;
+                spawnerSv = _spawnerSlot.stabilityValue;
                 _spawnerSkill = skill;
-                _spawnerLevel = GameCalculations.Level(_haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()].currentExp);
+                _spawnerLevel = GameCalculations.Level(_spawnerSlot.currentExp);
             }
             
             gameObject.SetActive(true);

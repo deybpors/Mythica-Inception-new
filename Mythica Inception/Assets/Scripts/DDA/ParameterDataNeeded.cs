@@ -18,7 +18,7 @@ namespace DDA
         public bool decreaseDifficultyOnEquals;
         public bool IncreaseDifficulty()
         {
-            if (increaseDifficultyOnEquals && Math.Abs(previousValue - value) < 0)
+            if (increaseDifficultyOnEquals && previousValue.Approximately(value))
             {
                 return true;
             }
@@ -36,7 +36,7 @@ namespace DDA
 
         public bool DecreaseDifficulty()
         {
-            if (decreaseDifficultyOnEquals && Math.Abs(previousValue - value) < 0)
+            if (decreaseDifficultyOnEquals && previousValue.Approximately(value))
             {
                 return true;
             }

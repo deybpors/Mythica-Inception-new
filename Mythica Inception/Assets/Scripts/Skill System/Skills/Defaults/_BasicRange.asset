@@ -17,7 +17,7 @@ MonoBehaviour:
   skillName: Range
   skillType: 0
   skillCategory: 1
-  power: 0.25
+  power: 0.2
   cooldownTime: 0
   castRadius: 8
   staminaTake: 0

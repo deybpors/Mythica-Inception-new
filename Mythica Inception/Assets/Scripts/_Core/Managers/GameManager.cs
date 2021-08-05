@@ -18,7 +18,7 @@ namespace _Core.Managers
         public ScenePicker gameplayScene;
         public DynamicDifficultyAdjustment dynamicDifficultyAdjustment;
         public bool gameplayActive;
-        [HideInInspector] public List<Transform> enemiesSeePlayer;
+        public List<Transform> enemiesSeePlayer;
         [HideInInspector] public string currentWorldScenePath;
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;

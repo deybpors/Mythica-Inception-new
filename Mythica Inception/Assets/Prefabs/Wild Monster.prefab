@@ -477,6 +477,43 @@ MonoBehaviour:
       amountOfItems: 0
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   projectileRelease: {fileID: 8265144103790256580}
+  experienceOrbSpawner: {fileID: 1144196274050720989, guid: 378c2a537a584a8428887f65c560d841, type: 3}
+  monsterAttacker:
+    inParty: 0
+    slotNumber: 0
+    fainted: 0
+    nickName: 
+    monster: {fileID: 0}
+    currentHealth: 0
+    currentExp: 1
+    currentLives: 0
+    stabilityValue: 1
+    skillSlots:
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    inventory:
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
   healthComponent: {fileID: 0}
   currentMonster: 0
 --- !u!114 &8265144103910172169

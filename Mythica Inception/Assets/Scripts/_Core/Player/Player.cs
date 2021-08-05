@@ -49,6 +49,7 @@ namespace _Core.Player
         private StateController _stateController;
         [HideInInspector] public MonsterManager monsterManager;
         private readonly Vector3 zero = Vector3.zero;
+        [HideInInspector] public MonsterSlot monsterAttacker;
         
         #endregion
         
@@ -96,7 +97,6 @@ namespace _Core.Player
             
             //after getting all data,
             var monsterAvgLvl = GameCalculations.MonstersAvgLevel(monsterSlots);
-            Debug.Log(monsterAvgLvl);
             tamer = transform.FindChildWithTag("Tamer").gameObject;
             tamer.layer = LayerMask.NameToLayer("Player");
             currentAnimator = tamer.GetComponent<Animator>();
@@ -335,6 +335,11 @@ namespace _Core.Player
             monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
         }
 
+        public void RecordDamager(MonsterSlot slot)
+        {
+            monsterAttacker = slot;
+        }
+
         public void Die()
         {
             Debug.Log("player dead");
@@ -350,6 +355,11 @@ namespace _Core.Player
         {
             staminaComponent.AddStamina(staminaToAdd);
             playerStamina.currentStamina = staminaComponent.stamina.currentStamina;
+        }
+
+        public void AddExperience(int experienceToAdd, int slotNum)
+        {
+            monsterSlots[slotNum].currentExp += experienceToAdd;
         }
     }
 }

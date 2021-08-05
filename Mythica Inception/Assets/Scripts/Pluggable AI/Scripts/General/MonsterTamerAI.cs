@@ -20,13 +20,15 @@ namespace Pluggable_AI.Scripts.General
         public GameObject deathParticles;
         private TameValue _tameValue;
         public Transform projectileRelease;
-        
+        public GameObject experienceOrbSpawner;
+
         #region Hidden Fields
 
+        [HideInInspector] public MonsterSlot monsterAttacker;
         private WildMonsterSpawner _spawner;
         [HideInInspector] public Health healthComponent;
         [HideInInspector] public int currentMonster = 0;
-        [HideInInspector] private List<GameObject> _monsterGameObjects;
+        private List<GameObject> _monsterGameObjects;
         private SkillManager _skillManager;
         private MonsterManager _monsterManager;
 
@@ -219,6 +221,11 @@ namespace Pluggable_AI.Scripts.General
             healthComponent.AddHealth(amountToHeal);
         }
 
+        public void RecordDamager(MonsterSlot slot)
+        {
+            monsterAttacker = slot;
+        }
+
         public void Die()
         {
             var monsterTransform = transform;
@@ -227,20 +234,43 @@ namespace Pluggable_AI.Scripts.General
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
             if (_spawner != null) { _spawner.currentNoOfMonsters--; }
-            
+
+            ExtractExpOrbs();
+
+
             UpdateEnemiesSeePlayer(monsterTransform);
             
             gameObject.SetActive(false);
         }
 
+        private void ExtractExpOrbs()
+        {
+            var type = GameCalculations.TypeComparison(monsterAttacker.monster.type,
+                monsterSlots[currentMonster].monster.type) < 1;
+            var exp = GameCalculations.ExperienceGain(!tamer, monsterAttacker, type);
+            Debug.Log(exp);
+            var position = transform.position;
+            var newPos = new Vector3(position.x, position.y + 1f, position.z);
+            
+            var spawner = GameManager.instance.pooler.SpawnFromPool(null, experienceOrbSpawner.name, experienceOrbSpawner, newPos,
+                Quaternion.identity);
+            spawner.GetComponent<ExperienceOrbSpawner>().SpawnerSpawned(exp);
+        }
+
         private void UpdateEnemiesSeePlayer(Transform monsterTransform)
         {
-            foreach (var enemy in GameManager.instance.enemiesSeePlayer.Where(enemy => enemy == monsterTransform))
+            var enemyCount = GameManager.instance.enemiesSeePlayer.Count;
+            for (var i = 0; i < enemyCount; i++)
             {
+                var enemy = GameManager.instance.enemiesSeePlayer[i];
+                if (!monsterTransform.Equals(enemy)) continue;
+                
                 GameManager.instance.enemiesSeePlayer.Remove(enemy);
+                enemyCount--;
+                break;
             }
 
-            if (GameManager.instance.enemiesSeePlayer.Count != 0) return;
+            if (enemyCount > 0) return;
             
             GameManager.instance.DifficultyUpdateAdd("Failed Encounters", 0);
             var player = GameManager.instance.player;

@@ -25,7 +25,7 @@ namespace _Core.Others
         
         public static int Stats(int baseValue, float stabilityValue, int monsterCurrentLevel)
         {
-            var stat = (int) (0.01 * (2 * baseValue + (stabilityValue * 2) * monsterCurrentLevel) + monsterCurrentLevel + 10);
+            var stat = (int) (.01f * (2 * baseValue + (stabilityValue * 2) * monsterCurrentLevel) + monsterCurrentLevel + 10);
             return stat;
         }
 
@@ -76,9 +76,33 @@ namespace _Core.Others
             return exp;
         }
         
-        public static int ExperienceGain()
+        public static int ExperienceGain(bool wild, MonsterSlot monsterDefeated, float expBonus, bool evolve, bool type, int mythica)
         {
-            return 0;
+            const int mult = 8;
+            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
+            var wildVal = wild ? 1 : 1.5f;
+            var baseExp = monsterDefeated.monster.stats.baseExpYield;
+            var lvl = (float) Level(monsterDefeated.currentExp);
+            var evolveVal = evolve ? 1.2f : 1;
+            var typeVal = type ? 1.2f : 1;
+            var rand = Random.Range(.9f, 1.2f);
+            
+            return (int) ((gamePace * wildVal * baseExp * (1 + expBonus) * lvl * evolveVal * typeVal * rand) /
+                (mult - (gamePace - .5f)) * mythica);
+        }
+        
+        public static int ExperienceGain(bool wild, MonsterSlot monsterDefeated, bool type)
+        {
+            const int mult = 6;
+            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
+            var wildVal = wild ? 1 : 1.5f;
+            var baseExp = monsterDefeated.monster.stats.baseExpYield;
+            var lvl = (float) Level(monsterDefeated.currentExp);
+            var typeVal = type ? 1.2f : 1;
+            var rand = Random.Range(.9f, 1.2f);
+            
+            return (int) ((gamePace * wildVal * baseExp * lvl * typeVal * rand) /
+                (mult - (gamePace - .5f)));
         }
 
         public static float TypeComparison(MonsterType attackerSkillType, MonsterType monsterHitType)

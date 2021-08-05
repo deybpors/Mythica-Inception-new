@@ -17,7 +17,7 @@ MonoBehaviour:
   skillName: Melee
   skillType: 0
   skillCategory: 0
-  power: 0.25
+  power: 0.2
   cooldownTime: 0
   castRadius: 4
   staminaTake: 0

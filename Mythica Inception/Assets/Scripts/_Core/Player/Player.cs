@@ -9,6 +9,8 @@ using Assets.Scripts.Monster_System;
 using Assets.Scripts.Pluggable_AI.Scripts.General;
 using Assets.Scripts.Skill_System;
 using UnityEngine;
+using System.Collections;
+using Assets.Scripts.Save_Load_System;
 
 namespace Assets.Scripts._Core.Player
 {
@@ -32,6 +34,8 @@ namespace Assets.Scripts._Core.Player
         public Texture2D pointIndicator;
         public GameObject vectorIndicator;
         public GameObject unitIndicator;
+
+        public Quest quest;
 
         #region Hidden Fields
         
@@ -340,6 +344,69 @@ namespace Assets.Scripts._Core.Player
         {
             staminaComponent.AddStamina(staminaToAdd);
             playerStamina.currentStamina = staminaComponent.stamina.currentStamina;
+        }
+
+        void Update()
+        {
+            //float horizontalValue = UnityEngine.Input.GetAxis("Horizontal");
+            //float verticalValue = UnityEngine.Input.GetAxis("Vertical");
+
+            //if (horizontalValue != 0)
+            //{
+            //    if (quest.isActive)
+            //    {
+            //        quest.goal.QuestProgress();
+            //        if (quest.goal.IsReached())
+            //        {
+            //            quest.Complete();
+            //        }
+            //    }
+            //}
+            //if (verticalValue != 0)
+            //{
+            //    if (quest.isActive)
+            //    {
+            //        quest.goal.QuestProgress();
+            //        if (quest.goal.IsReached())
+            //        {
+            //            quest.Complete();
+            //        }
+            //    }
+            //}
+        }
+        private void OnTriggerEnter(Collider col)
+        {
+            if (col.tag == "QuestComplete")
+            {
+                if (quest.isActive)
+                {
+                    quest.goal.QuestProgress();
+                    if (quest.goal.IsReached())
+                    {
+                        GameEvents.current.TriggerComplete();
+                    }
+                }
+            }
+        }
+
+        public void SavePlayer()
+        {
+            SaveSystem.SavePlayer(this);
+            Debug.Log("Saved");
+        }
+        public void LoadPlayer()
+        {
+            controller.enabled = false;
+            PlayerData data = SaveSystem.LoadPlayer();
+
+            Vector3 position;
+            position.x = data.position[0];
+            position.y = data.position[1];
+            position.z = data.position[2];
+            transform.position = position;
+            Debug.Log("Loaded");
+            controller.transform.position = position;
+            controller.enabled = true;
         }
     }
 }

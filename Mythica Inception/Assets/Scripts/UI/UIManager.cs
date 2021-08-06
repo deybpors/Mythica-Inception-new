@@ -1,6 +1,11 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
+using _Core.Others;
 using Dialogue_System;
+using Monster_System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,8 +17,10 @@ namespace UI
         [HideInInspector] public GameObject startSceneUICanvas;
         [HideInInspector] public GameObject gameplayUICanvas;
         [HideInInspector] public GameObject minimapCamera;
-        [HideInInspector] public ProgressBarUI currentPlayerHealth;
-        [HideInInspector] public ProgressBarUI currentMonsterExp;
+        [HideInInspector] public TextMeshProUGUI currentCharacterName;
+        [HideInInspector] public TextMeshProUGUI currentCharacterLevel;
+        [HideInInspector] public ProgressBarUI currentCharacterHealth;
+        [HideInInspector] public ProgressBarUI currentCharacterExp;
         [HideInInspector] public List<PartySlotUI> partySlots;
         [HideInInspector] public List<Image> currentMonsterSkillImages;
         [HideInInspector] public List<Image> currentMonsterItemImages;
@@ -22,7 +29,15 @@ namespace UI
         [HideInInspector] public GameObject loadingScreen;
         [HideInInspector] public ProgressBarUI loadingBar;
         [HideInInspector] public Camera loadingScreenCamera;
-        
+        [HideInInspector] public Texture2D normalCursor;
+        [HideInInspector] public GameObject areaIndicator;
+        [HideInInspector] public Texture2D pointIndicator;
+
+        public Sprite blankSlot;
+        public Color unusedPartyMember;
+
+        #region Initialization
+
         public void InitLoadingUIRef(GameObject canvas, ProgressBarUI loadBar, Camera cam)
         {
             loadingScreen = canvas;
@@ -31,12 +46,21 @@ namespace UI
             GameManager.instance.gameSceneManager.loadingUITweener = loadingScreen.GetComponent<UITweener>();
         }
 
-        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, ProgressBarUI playerHealth, ProgressBarUI monsterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items)
+        public void InitCursors(Texture2D normal, GameObject area, Texture2D point)
+        {
+            normalCursor = normal;
+            areaIndicator = area;
+            pointIndicator = point;
+        }
+
+        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items)
         {
             gameplayUICanvas = canvas;
             minimapCamera = minimapCam;
-            currentPlayerHealth = playerHealth;
-            currentMonsterExp = monsterExp;
+            currentCharacterName = characterName;
+            currentCharacterLevel = characterLevel;
+            currentCharacterHealth = characterHealth;
+            currentCharacterExp = characterExp;
             currentMonsterSkillImages = skills;
             currentMonsterItemImages = items;
             partySlots = party;
@@ -48,6 +72,158 @@ namespace UI
             dialogueManager = manager;
         }
 
+        public void InitGameplayUI(string charName, float currentHealth, float maxHealth, List<MonsterSlot> monsterSlots)
+        {
+            gameplayUICanvas.SetActive(false);
+            currentCharacterName.text = charName;
+            currentCharacterHealth.currentValue = currentHealth;
+            currentCharacterHealth.maxValue = maxHealth;
+            currentCharacterLevel.transform.parent.gameObject.SetActive(false);
+            var monsterCount = monsterSlots.Count;
+            for (var i = 0; i < monsterCount; i++)
+            {
+                if (monsterSlots[i].monster == null)
+                {
+                    partySlots[i].memberPortrait.sprite = blankSlot;
+                    partySlots[i].memberHealth.transform.parent.gameObject.SetActive(false);
+                    continue;
+                }
+
+                var fill = (float) monsterSlots[i].currentHealth / GameCalculations.Stats(
+                    monsterSlots[i].monster.stats.baseHealth, monsterSlots[i].stabilityValue,
+                    GameCalculations.Level(monsterSlots[i].currentExp));
+                partySlots[i].memberHealth.fillAmount = fill;
+                partySlots[i].memberPortrait.sprite = monsterSlots[i].monster.monsterPortrait;
+                partySlots[i].memberPortrait.color = unusedPartyMember;
+            }
+            
+            gameplayUICanvas.SetActive(true);
+        }
+
+        #endregion
+
+
+        public void UpdateCharSwitchUI(string charName, float currentHealth, float maxHealth, float currentExp, float maxExp, int currentSlotNumber, List<Sprite> skills, List<Sprite> items)
+        {
+            gameplayUICanvas.SetActive(false);
+            currentCharacterName.text = charName;
+            currentCharacterHealth.currentValue = currentHealth;
+            currentCharacterHealth.maxValue = maxHealth;
+            currentCharacterExp.currentValue = currentExp;
+            currentCharacterExp.maxValue = maxExp;
+
+            if (currentSlotNumber >= 0)
+            {
+                currentCharacterLevel.transform.parent.gameObject.SetActive(true);
+                currentCharacterLevel.text = GameCalculations.Level(GameManager.instance.player.monsterSlots[currentSlotNumber].currentExp).ToString();
+            }
+            else
+            {
+                currentCharacterLevel.transform.parent.gameObject.SetActive(false);
+            }
+            
+            var partyCount = partySlots.Count;
+            for (var i = 0; i < partyCount; i++)
+            {
+                if (partySlots[i].memberPortrait.sprite != blankSlot)
+                {
+                    partySlots[i].memberPortrait.color = unusedPartyMember;
+                }
+                
+                if (i == currentSlotNumber)
+                {
+                    partySlots[i].memberPortrait.color = Color.white;
+                }
+            }
+            
+            var skillCount = currentMonsterSkillImages.Count;
+            for (var i = 0; i < skillCount; i++)
+            {
+                if (skills[i] == null)
+                {
+                    currentMonsterSkillImages[i].sprite = blankSlot;
+                    currentMonsterSkillImages[i].raycastTarget = false;
+                    continue;
+                }
+                currentMonsterSkillImages[i].sprite = skills[i];
+                currentMonsterSkillImages[i].raycastTarget = true;
+            }
+            
+            var itemCount = currentMonsterItemImages.Count;
+            for (var i = 0; i < itemCount; i++)
+            {
+                if (items[i] == null)
+                {
+                    currentMonsterItemImages[i].sprite = blankSlot;
+                    currentMonsterItemImages[i].raycastTarget = false;
+                    continue;
+                }
+                currentMonsterItemImages[i].sprite = items[i];
+                currentMonsterItemImages[i].raycastTarget = true;
+            }
+            
+            gameplayUICanvas.SetActive(true);
+        }
+
+        public void UpdatePartyUI(MonsterSlot slot)
+        {
+            var num = slot.slotNumber;
+            partySlots[slot.slotNumber].memberHealth.transform.parent.gameObject.SetActive(true);
+            var fill = (float) slot.currentHealth / GameCalculations.Stats(
+                slot.monster.stats.baseHealth, slot.stabilityValue,
+                GameCalculations.Level(slot.currentExp));
+            partySlots[num].memberHealth.fillAmount = fill;
+            partySlots[num].memberPortrait.sprite = slot.monster.monsterPortrait;
+            partySlots[num].memberPortrait.color = unusedPartyMember;
+        }
+        
+        public void UpdateHealthUI(int currentSlotNumber, float currentHealth)
+        {
+            currentCharacterHealth.currentValue = currentHealth;
+
+            if (currentSlotNumber < 0) return;
+            
+            var currentMonster = GameManager.instance.player.monsterSlots[currentSlotNumber];
+            var maxHealth = GameCalculations.Stats(
+                currentMonster.monster.stats.baseHealth,
+                currentMonster.stabilityValue,
+                GameCalculations.Level(currentMonster.currentExp));
+            UpdatePartyMemberHealth(currentSlotNumber, currentHealth, maxHealth);
+        }
+
+        public void UpdatePartyMemberHealth(int slotNumber, float currentHealth, float maxHealth)
+        {
+            partySlots[slotNumber].memberHealth.fillAmount = currentHealth / maxHealth;
+        }
+
+        public void UpdateExpUI(int monsterSlotNum, float addedExp)
+        {
+            var currentExp = currentCharacterExp.currentValue + addedExp;
+            currentCharacterExp.currentValue = currentExp;
+
+            if (currentExp <= currentCharacterExp.maxValue) return;
+
+            var newCurrent = currentExp - currentCharacterExp.maxValue;
+            LevelUp(out var maxExp, monsterSlotNum);
+
+            currentCharacterExp.currentValue = newCurrent;
+            currentCharacterExp.maxValue = maxExp;
+            
+        }
+
+        private void LevelUp(out float maxExp, int slotNum)
+        {
+            var monsterSlots = GameManager.instance.player.monsterSlots;
+            var monsterLevel = GameCalculations.Level(monsterSlots[slotNum].currentExp);
+            maxExp = (float) GameCalculations.Experience( monsterLevel + 1) - GameCalculations.Experience(monsterLevel);
+        }
+
+        IEnumerator DelayAction(float delay, Action action)
+        {
+            yield return new WaitForSeconds(delay);
+            action?.Invoke();
+        }
+        
         public void DeactivateAllUI()
         {
             startSceneUICanvas.SetActive(false);
@@ -56,5 +232,14 @@ namespace UI
             dialogueUICanvas.SetActive(false);
             loadingScreen.SetActive(false);
         }
+        
+        
+    }
+
+    [System.Serializable]
+    public class PartyUIData
+    {
+        public Sprite portrait;
+        public float healthFill;
     }
 }

@@ -24,6 +24,7 @@ namespace Skill_System
         public bool tameBeam;
         public string skillName = "Skill name";
         [ConditionalField(nameof(tameBeam), true)] public MonsterType skillType;
+        [ConditionalField(nameof(tameBeam), true)] public Sprite skillIcon;
         [ConditionalField(nameof(tameBeam), true)] public SkillCategory skillCategory;
         public float power = 10f;
         [ConditionalField(nameof(tameBeam), true)] public float cooldownTime = 10;

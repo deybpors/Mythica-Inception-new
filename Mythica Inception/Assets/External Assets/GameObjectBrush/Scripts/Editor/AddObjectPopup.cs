@@ -3,9 +3,10 @@ using External_Assets.GameObjectBrush.Scripts.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace GameObjectBrush {
 
-    /// <summary>
+namespace GameObjectBrush {
+#if UNITY_EDITOR
+/// <summary>
     /// Class that is responsible for the addition of new brushes to the list of brushObjects in the main editor windo class: "GameObjectBrushEditor"
     /// </summary>
     public class AddObjectPopup : EditorWindow {
@@ -84,4 +85,6 @@ namespace GameObjectBrush {
             }
         }
     }
+#endif
+    
 }

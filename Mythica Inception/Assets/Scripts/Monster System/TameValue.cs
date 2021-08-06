@@ -1,5 +1,6 @@
 using _Core.Managers;
 using _Core.Others;
+using Pluggable_AI.Scripts.General;
 using UI;
 using UnityEngine;
 
@@ -16,8 +17,10 @@ namespace Monster_System
         private Animator _animator;
         private IHaveMonsters _tamer;
         private IHaveMonsters _haveMonster;
+        private MonsterTamerAI tamerAI;
         public void ActivateTameValue(int wildMonsterLvl, Health health, IHaveMonsters mon)
         {
+            tamerAI = GetComponent<MonsterTamerAI>();
             _animator = tameValueBarUI.GetComponent<Animator>();
             _monsterLvl = wildMonsterLvl;
             _healthComponent = health;
@@ -81,6 +84,7 @@ namespace Monster_System
             {
                 var newSlot = _haveMonster.GetMonsterSlots()[_haveMonster.CurrentSlotNumber()];
                 _tamer.AddNewMonsterSlot(slotToFill, newSlot);
+                if (tamerAI.spawner != null) { tamerAI.spawner.currentNoOfMonsters--; }
                 //play animation something screen to celebrate new monster tamed
                 //ask for nickname of monster
             }

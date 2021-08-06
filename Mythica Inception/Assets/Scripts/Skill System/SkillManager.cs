@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using _Core.Managers;
 using _Core.Others;
 using _Core.Player;
 using Monster_System;
@@ -33,7 +34,9 @@ namespace Skill_System
         private readonly Vector3 zero = Vector3.zero;
         private IEntity _entity;
         private IHaveMonsters haveMonsters;
-
+        private int serializedSkillCount;
+        private MonsterSlot currentMonsterSlot;
+        
         #endregion
         
         public void ActivateSkillManager(IHaveMonsters hM)
@@ -42,20 +45,15 @@ namespace Skill_System
             InitializeMonsterSkills();
             _entity = GetComponent<IEntity>();
             smType = _entity.GetStateController().stateMachineType;
+            serializedSkillCount = skillSlots.Count;
             activated = true;
         }
 
         private void InitializeMonsterSkills()
         {
             skillSlots.Clear();
-            var currentMonsterSkillSlots = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentSlotNumber()].skillSlots.ToList();
-            foreach (var skillSlot in currentMonsterSkillSlots)
-            {
-                if(skillSlot == null) continue;
-                var currentSkillSlot = new SkillSlot(skillSlot.skill,
-                    skillSlot.cooldownTimer, skillSlot.skillState);
-                skillSlots.Add(currentSkillSlot);
-            }
+            currentMonsterSlot = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentSlotNumber()];
+            skillSlots = currentMonsterSlot.skillSlots.ToList();
         }
 
         void Update()
@@ -66,8 +64,11 @@ namespace Skill_System
 
         private void CheckTargetingAndOnCooldownSkills()
         {
-            foreach (var slot in skillSlots)
+            for (var i = 0; i < serializedSkillCount; i++)
             {
+                var slot = skillSlots[i];
+                if(slot == null || slot.skill == null) continue;
+                
                 if (slot.skillState == SkillState.targeting)
                 {
                     if (_entity.GetStateController().player.inputHandler.cancelSkill)
@@ -81,32 +82,33 @@ namespace Skill_System
 
                     if (_entity.GetStateController().player.inputHandler.activateSkill)
                     {
-                        Player player = _entity.GetStateController().player;
+                        var player = _entity.GetStateController().player;
                         player.inputHandler.activateSkill = false;
 
-                        target = player.selectionManager.selectables.Count > 0 ? player.selectionManager.selectables[0] : null;
+                        target = player.selectionManager.selectables.Count > 0
+                            ? player.selectionManager.selectables[0]
+                            : null;
 
                         if ((slot.skill is UnitAreaTargetSkill || slot.skill is UnitOnlyTargetSkill) && target == null)
                         {
                             //TODO display message that skill needs to have target
                             continue;
                         }
-                        
+
                         TargetDone(slot);
                     }
                 }
 
-                if (slot.skillState == SkillState.cooldown)
+                if (slot.skillState != SkillState.cooldown) continue;
+                
+                if (slot.cooldownTimer > 0)
                 {
-                    if (slot.cooldownTimer > 0)
-                    {
-                        slot.cooldownTimer -= Time.deltaTime;
-                    }
-                    else
-                    {
-                        slot.cooldownTimer = 0;
-                        slot.skillState = SkillState.ready;
-                    }
+                    slot.cooldownTimer -= Time.deltaTime;
+                }
+                else
+                {
+                    slot.cooldownTimer = 0;
+                    slot.skillState = SkillState.ready;
                 }
             }
         }
@@ -233,13 +235,25 @@ namespace Skill_System
             for (var i = 0; i < count; i++)
             {
                 var slot = skillSlots[i];
-                if (slot.skill != null)
-                {
-                    slots.Add(slot);
-                }
+                slots.Add(slot);
             }
 
             return slots;
+        }
+
+        public void Deactivate()
+        {
+            for (var i = 0; i < serializedSkillCount; i++)
+            {
+                var playerSlot = GameManager.instance.player.monsterSlots[currentMonsterSlot.slotNumber].skillSlots[i];
+
+                if (!targeting) continue;
+                
+                playerSlot.skill.DoneTargeting(_entity);
+                targeting = false;
+            }
+
+            activated = false;
         }
     }
 

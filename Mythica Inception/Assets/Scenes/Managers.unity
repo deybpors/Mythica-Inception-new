@@ -342,7 +342,7 @@ MonoBehaviour:
     value: 0
     previousValue: 0
     increaseDifficulty: 1
-    increaseDifficultyOnEquals: 0
+    increaseDifficultyOnEquals: 1
     decreaseDifficultyOnEquals: 0
 --- !u!1 &1105453172
 GameObject:
@@ -545,8 +545,9 @@ MonoBehaviour:
   startSceneUICanvas: {fileID: 0}
   gameplayUICanvas: {fileID: 0}
   minimapCamera: {fileID: 0}
-  currentPlayerHealth: {fileID: 0}
-  currentMonsterExp: {fileID: 0}
+  currentCharacterName: {fileID: 0}
+  currentCharacterHealth: {fileID: 0}
+  currentCharacterExp: {fileID: 0}
   partySlots: []
   currentMonsterSkillImages: []
   currentMonsterItemImages: []
@@ -555,6 +556,11 @@ MonoBehaviour:
   loadingScreen: {fileID: 0}
   loadingBar: {fileID: 0}
   loadingScreenCamera: {fileID: 0}
+  normalCursor: {fileID: 0}
+  areaIndicator: {fileID: 0}
+  pointIndicator: {fileID: 0}
+  blankSlot: {fileID: 21300000, guid: c08bb85be96b254448ba791e16c3aa62, type: 3}
+  unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
 --- !u!4 &1705896065
 Transform:
   m_ObjectHideFlags: 0

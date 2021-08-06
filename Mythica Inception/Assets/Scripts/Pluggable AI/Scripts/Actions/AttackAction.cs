@@ -62,7 +62,7 @@ namespace Pluggable_AI.Scripts.Actions
             var skillScore = new List<float>();
             foreach (var slot in skillSlots.ToList())
             {
-                if (slot.skill == null)
+                if (slot == null || slot.skill == null)
                 {
                     skillSlots.Remove(slot);
                     continue;

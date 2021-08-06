@@ -14,7 +14,7 @@ namespace Dialogue_System
 		public static event Action<Story> OnCreateStory; 
 	
 		private Player _player;
-		public void StartDialogue (TextAsset inkJSON, string name, Player player)
+		public void StartDialogue (TextAsset inkJSON, string npcTalkerName, Player player)
 		{
 			story = null;
 			if (_canvas == null)
@@ -23,7 +23,9 @@ namespace Dialogue_System
 			}
 			RemoveChildren();
 			_player = player;
-			_name.text = name;
+			_name.text = npcTalkerName;
+			var width = nameContainerSpacing + (npcTalkerName.Length * nameContainerSpacing);
+			_nameRect.sizeDelta = new Vector2(width, _nameRect.sizeDelta.y);
 			inkJSONAsset = inkJSON;
 			story = new Story (inkJSONAsset.text);
 			if(OnCreateStory != null) OnCreateStory(story);
@@ -148,7 +150,9 @@ namespace Dialogue_System
 		private Story story;
 		[SerializeField]
 		private TextMeshProUGUI _name;
-	
+		[SerializeField]
+		private RectTransform _nameRect;
+		
 		[SerializeField]
 		private Canvas _canvas = null;
 	
@@ -160,6 +164,7 @@ namespace Dialogue_System
 		[SerializeField] private Transform textParent;
 		[SerializeField] private Transform buttonParent;
 
+		[SerializeField] private float nameContainerSpacing;
 		private List<Button> _buttons = new List<Button>();
 		private TextMeshProUGUI txt;
 	}

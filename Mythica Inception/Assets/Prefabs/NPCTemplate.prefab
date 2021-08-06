@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc2b0c8bd0a5af4fbc11d495e43e083, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcName: Bush
-  inkJsonFile: {fileID: 4900000, guid: 6cf48bb6d89824cc69e35b43f9a1aca6, type: 3}
+  npcName: Luna
+  inkJsonFile: {fileID: 4900000, guid: c9f07749b2156ee4e988d52fb5b34cdc, type: 3}
+  speed: 6
 --- !u!136 &2389084399226082572
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -182,7 +183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7565443119133257875, guid: 2ff558ed64a7dca43bb89744beb01249, type: 3}
       propertyPath: m_Name
-      value: Luna
+      value: Graphics
       objectReference: {fileID: 0}
     - target: {fileID: 7565443119133257875, guid: 2ff558ed64a7dca43bb89744beb01249, type: 3}
       propertyPath: m_Layer

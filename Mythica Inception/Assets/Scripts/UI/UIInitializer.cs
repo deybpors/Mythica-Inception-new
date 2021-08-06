@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Core.Managers;
 using Dialogue_System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,10 @@ namespace UI
         [Header("Gameplay UI")] 
         public GameObject gameplayUICanvas;
         public GameObject minimapCamera;
-        public ProgressBarUI playerHealth;
-        public ProgressBarUI monsterExp;
+        public TextMeshProUGUI characterName;
+        public ProgressBarUI characterHealth;
+        public ProgressBarUI characterExp;
+        public TextMeshProUGUI characterLevel;
         public List<PartySlotUI> partySlots;
         public List<Image> skills;
         public List<Image> items;
@@ -28,15 +31,25 @@ namespace UI
         public GameObject loadingScreen;
         public ProgressBarUI loadingBar;
         public Camera loadingScreenCam;
-        private void Start()
+        
+        [Header("Cursors and Indicators")]
+        public Texture2D normalCursor;
+        public GameObject areaIndicator;
+        public Texture2D pointIndicator;
+        
+        private void Awake()
         {
             if(GameManager.instance == null) return;
+            
             var ui = GameManager.instance.uiManager;
             ui.InitLoadingUIRef(loadingScreen,loadingBar, loadingScreenCam);
-            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, playerHealth, monsterExp, partySlots, skills, items);
+            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, characterLevel,characterHealth, characterExp, partySlots, skills, items);
             ui.InitDialogueUIRef(dialogueUICanvas, dialogueManager);
             ui.startSceneUICanvas = startSceneUICanvas;
-
+            ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
+            
+            Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
+            
             if (!GameManager.instance.gameplayActive)
             {
                 ui.startSceneUICanvas.SetActive(true);

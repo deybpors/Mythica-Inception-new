@@ -1,4 +1,5 @@
-﻿using _Core.Others;
+﻿using _Core.Managers;
+using _Core.Others;
 using _Core.Player;
 using UnityEngine;
 
@@ -11,24 +12,24 @@ namespace Skill_System.Targeting_Type_Scripts
 
         public override void Target(IEntity entity)
         {
-            Player player = entity.GetStateController().player;
+            var player = entity.GetStateController().player;
             
             if(player == null || !player.skillManager.enabled) return;
             
-            if (!player.areaIndicator.activeInHierarchy)
+            if (!GameManager.instance.uiManager.areaIndicator.activeInHierarchy)
             {
-                player.areaIndicator.GetComponent<AreaIndicator>().radius = radius;
+                GameManager.instance.uiManager.areaIndicator.GetComponent<AreaIndicator>().radius = radius;
             }
                 
             Cursor.visible = false;
-            player.areaIndicator.SetActive(true);
+            GameManager.instance.uiManager.areaIndicator.SetActive(true);
         }
 
         public override void DoneTargeting(IEntity entity)
         {
             Cursor.visible = true;
-            Cursor.SetCursor(entity.GetStateController().player.normalCursor, Vector2.zero, CursorMode.Auto);
-            entity.GetStateController().player.areaIndicator.SetActive(false);
+            Cursor.SetCursor(GameManager.instance.uiManager.normalCursor, Vector2.zero, CursorMode.Auto);
+            GameManager.instance.uiManager.areaIndicator.SetActive(false);
         }
     }
 }

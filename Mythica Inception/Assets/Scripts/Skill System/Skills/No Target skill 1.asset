@@ -13,12 +13,21 @@ MonoBehaviour:
   m_Name: No Target skill 1
   m_EditorClassIdentifier: 
   ID: 23427b9f-07b0-4900-98e9-e6c7adc4b847
+  tameBeam: 0
   skillName: no target skill 1
-  power: 0
+  skillType: 0
+  skillIcon: {fileID: 9152056960786637504, guid: e62779719dcf17648836ac6ddb974074, type: 3}
   skillCategory: 0
-  castDistance: 0
+  power: 0
   cooldownTime: 10
+  castRadius: 0
   staminaTake: 0
   healthTake: 0
-  delayTime: 0
+  spawnedProjectile:
+    projectile: {fileID: 0}
+    impact: {fileID: 0}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  skillAiStrategy: 0
+  description: 
   radius: 0

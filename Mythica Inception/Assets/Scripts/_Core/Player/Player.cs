@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using _Core.Input;
@@ -9,6 +11,7 @@ using Monster_System;
 using Pluggable_AI.Scripts.General;
 using Skill_System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace _Core.Player
 {
@@ -17,6 +20,7 @@ namespace _Core.Player
     {
 
         public List<MonsterSlot> monsterSlots;
+        public string playerName;
         public PlayerFSMData playerData;
         public EntityHealth playerHealth;
         public EntityStamina playerStamina;
@@ -24,17 +28,14 @@ namespace _Core.Player
         public Transform projectileRelease;
         public GameObject dashGraphic;
         public float tameRadius;
-        public GameObject deathParticles;
+        [SerializeField] private GameObject deathParticles;
         
-        [Header("Skill Indicators")] 
-        public Texture2D normalCursor;
-        public GameObject areaIndicator;
-        public Texture2D pointIndicator;
-        public GameObject vectorIndicator;
+        [Header("Indicators")]
         public GameObject unitIndicator;
+        public GameObject vectorIndicator;
 
         #region Hidden Fields
-        
+
         [HideInInspector] public float tempSpeed;
         [HideInInspector] public float tempAttackRate;
         [HideInInspector] public SelectionManager selectionManager;
@@ -50,6 +51,7 @@ namespace _Core.Player
         [HideInInspector] public MonsterManager monsterManager;
         private readonly Vector3 zero = Vector3.zero;
         [HideInInspector] public MonsterSlot monsterAttacker;
+        private Vector3 startingPosition;
         
         #endregion
         
@@ -68,8 +70,8 @@ namespace _Core.Player
             tempSpeed = playerData.speed;
             tempAttackRate = playerData.attackRate;
             unitIndicator.transform.localScale = new Vector3(tameRadius, tameRadius, tameRadius);
-            Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
             _stateController.ActivateAI(true, null, this);
+            GameManager.instance.uiManager.InitGameplayUI(playerName, playerHealth.currentHealth, playerHealth.maxHealth, monsterSlots);
         }
 
         private void GetNeededComponents()
@@ -100,13 +102,14 @@ namespace _Core.Player
             tamer = transform.FindChildWithTag("Tamer").gameObject;
             tamer.layer = LayerMask.NameToLayer("Player");
             currentAnimator = tamer.GetComponent<Animator>();
+            startingPosition = transform.position;
             //initialize player's health
             playerHealth.maxHealth = GameCalculations.Stats(
                 GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
                 GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
                 monsterAvgLvl);
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
-            //initialize party's avg level
+            //initialize party's avg level for difficulty adjustment
             GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
         }
 
@@ -115,16 +118,24 @@ namespace _Core.Player
             return playerData.monsterSwitchRate;
         }
 
-        public void SwitchMonster(int slot)
+        public bool SwitchMonster(int currentSlot, out string message)
         {
-            if (slot < 0)
+            if (currentSlot < 0)
             {
                 monsterManager.SwitchToTamer();
             }
             else
             {
-                monsterManager.SwitchMonster(slot);
+                if (monsterSlots[currentSlot].fainted)
+                {
+                    message = "Monster selected already fainted.";
+                    return false;
+                }
+                monsterManager.SwitchMonster(currentSlot);
             }
+
+            message = string.Empty;
+            return true;
         }
 
         public int CurrentSlotNumber()
@@ -147,6 +158,8 @@ namespace _Core.Player
             monsterSlots[slotNum].inParty = true;
             monsterManager.RequestPoolMonstersPrefab();
             monsterManager.GetMonsterAnimators();
+            //TODO: Fan fare for taming a mythica
+            GameManager.instance.uiManager.UpdatePartyUI(monsterSlots[slotNum]);
         }
 
         public List<MonsterSlot> GetMonsterSlots()
@@ -282,18 +295,23 @@ namespace _Core.Player
         public void TakeDamage(int damageToTake)
         {
             _healthComponent.ReduceHealth(damageToTake);
-            if (inputHandler.currentMonster < 0)
+            var current = inputHandler.currentMonster;
+            if (current < 0)
             {
                 playerHealth.currentHealth = _healthComponent.health.currentHealth;
+                GameManager.instance.uiManager.UpdateHealthUI(current, playerHealth.currentHealth);
+                
                 if (playerHealth.currentHealth <= 0)
                 {
                     Die();
                 }
                 return;
             }
-            monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
-            if (monsterSlots[inputHandler.currentMonster].currentHealth > 0) return;
-            monsterSlots[inputHandler.currentMonster].fainted = true;
+            monsterSlots[current].currentHealth = _healthComponent.health.currentHealth;
+            GameManager.instance.uiManager.UpdateHealthUI(current, monsterSlots[current].currentHealth);
+            
+            if (monsterSlots[current].currentHealth > 0) return;
+            monsterSlots[current].fainted = true;
             FindAliveMonsterOrPlayer();
         }
 
@@ -342,7 +360,61 @@ namespace _Core.Player
 
         public void Die()
         {
-            Debug.Log("player dead");
+            var o = gameObject;
+            tamer.SetActive(false);
+            inputHandler.movementInput = Vector2.zero;
+            inputHandler.activate = false;
+            GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, transform.position,
+                Quaternion.identity);
+            var layer  = o.layer;
+            o.layer = 0;
+            skillManager.targeting = false;
+            Action action = () =>
+            {
+                o.layer = layer;
+                inputHandler.activate = true;
+                tamer.SetActive(true);
+                playerHealth.maxHealth = GameCalculations.Stats(
+                    GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    GameCalculations.MonstersAvgLevel(monsterSlots));
+                playerHealth.currentHealth = playerHealth.maxHealth;
+                _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+                TakeDamage(0);
+                FullyRestoreAllMonsters();
+                GameManager.instance.uiManager.loadingScreen.SetActive(false);
+            };
+            GameManager.instance.uiManager.loadingScreen.SetActive(true);
+            transform.position = startingPosition;
+            StartCoroutine(DelayAction(3f, action));
+        }
+
+        private void FullyRestoreAllMonsters()
+        {
+            var count = monsterSlots.Count;
+            for (var i = 0; i < count; i++)
+            {
+                if(monsterSlots[i].monster == null) continue;
+                var maxHealth = GameCalculations.Stats(monsterSlots[i].monster.stats.baseHealth,
+                    monsterSlots[i].stabilityValue, GameCalculations.Level(monsterSlots[i].currentExp));
+                monsterSlots[i].currentHealth = maxHealth;
+                GameManager.instance.uiManager.UpdatePartyMemberHealth(i, monsterSlots[i].currentHealth, maxHealth);
+                for (var j = 0; j < monsterSlots[i].skillSlots.Length; j++)
+                {
+                    if (monsterSlots[i].skillSlots[j] == null)
+                    {
+                        continue;
+                    }
+                    monsterSlots[i].skillSlots[j].cooldownTimer = 0;
+                    monsterSlots[i].skillSlots[j].skillState = SkillManager.SkillState.ready;
+                }
+            }
+        }
+
+        IEnumerator DelayAction(float delay, Action action)
+        {
+            yield return new WaitForSeconds(delay);
+            action?.Invoke();
         }
 
         public void TakeStamina(int staminaToTake)
@@ -359,7 +431,18 @@ namespace _Core.Player
 
         public void AddExperience(int experienceToAdd, int slotNum)
         {
+            var nextLevelExp = GameCalculations.Experience(GameCalculations.Level(monsterSlots[slotNum].currentExp) + 1);
             monsterSlots[slotNum].currentExp += experienceToAdd;
+
+            if (monsterSlots[slotNum].currentExp > nextLevelExp)
+            {
+                //TODO: display fanfare for level up monster
+            }
+            
+            if (inputHandler.currentMonster == slotNum)
+            {
+                GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
+            }
         }
     }
 }

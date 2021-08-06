@@ -7,7 +7,8 @@ using UnityEngine;
 
 namespace GameObjectBrush
 {
-    [CreateAssetMenu(fileName = "New BrushCollection", menuName = "Tools/Gameobject Brush/Create BrushCollection")]
+#if UNITY_EDITOR
+      [CreateAssetMenu(fileName = "New BrushCollection", menuName = "Tools/Gameobject Brush/Create BrushCollection")]
     public class BrushCollection : ScriptableObject
     {
 
@@ -258,4 +259,5 @@ namespace GameObjectBrush
             }
         }
     }
+#endif
 }

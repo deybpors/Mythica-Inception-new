@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace External_Assets.GameObjectBrush.Scripts.Editor {
-
+#if UNITY_EDITOR
     /// <summary>
     /// The main class of this extension/tool that handles the ui and the brush/paint functionality
     /// </summary>
@@ -666,5 +666,6 @@ namespace External_Assets.GameObjectBrush.Scripts.Editor {
 
         #endregion
     }
+#endif
 }
 

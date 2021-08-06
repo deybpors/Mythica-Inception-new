@@ -30,10 +30,13 @@ namespace _Core.Managers
                 instance = this;
                 DontDestroyOnLoad(instance.gameObject);
             }
-            else if (instance != null || instance != this)
+            else
             {
-                Destroy(gameObject);
+                Destroy(instance.gameObject);
+                instance = this;
+                DontDestroyOnLoad(instance.gameObject);
             }
+            
             databaseManager.InitializeTypeChartData();
         }
 

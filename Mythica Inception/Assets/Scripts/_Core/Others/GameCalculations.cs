@@ -38,14 +38,15 @@ namespace _Core.Others
 
         public static int MonstersAvgHealth(List<MonsterSlot> monsterSlots)
         {
-            var health = (from slot in monsterSlots where slot != null select slot.currentHealth).ToList();
+            var health = (from slot in monsterSlots where slot.monster != null select slot.currentHealth).ToList();
 
             return (int) health.Average();
         }
 
         public static float MonstersAvgStabilityValue(List<MonsterSlot> monsterSlots)
         {
-            var stabilityValue = monsterSlots.Select(slot => slot.monster != null ? slot.stabilityValue : 0).ToList();
+            var stabilityValue = (from slot in monsterSlots where slot.monster != null select slot.stabilityValue).ToList();
+
             return stabilityValue.Average();
         }
         

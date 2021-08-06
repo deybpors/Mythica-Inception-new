@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using _Core.Others;
-using UnityEngine;
+using _Core.Managers;
 
 namespace DDA
 {

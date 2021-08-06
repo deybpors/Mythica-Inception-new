@@ -1,8 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using _Core.Managers;
+using _Core.Others;
 using _Core.Player;
 using Skill_System;
+using UI;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 namespace Monster_System
 {
@@ -25,7 +29,9 @@ namespace Monster_System
         private int _currentMonster;
         private float _tamerTameRadius;
         private Player _player;
-        
+        private List<Sprite> _currentSkills = new List<Sprite>();
+        private List<Sprite> _currentItems = new List<Sprite>();
+
         #endregion
         
         public void ActivateMonsterManager(IHaveMonsters haveMonsters, SkillManager skillManager)
@@ -34,10 +40,10 @@ namespace Monster_System
             _haveMonsters = haveMonsters;
             
             //meaning it is a player since only the player has a tamer
-            if (_haveMonsters.GetTamer() != null)
+            _tamerPrefab = _haveMonsters.GetTamer();
+            if (_tamerPrefab != null)
             {
                 isPlayer = true;
-                _tamerPrefab = _haveMonsters.GetTamer();
                 _player = GetComponent<Player>();
                 _tamerTameRadius = _player.tameRadius;
                 _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
@@ -48,6 +54,7 @@ namespace Monster_System
             RequestPoolMonstersPrefab();
             GetMonsterAnimators();
             
+            _player.playerName = _player.playerName.Equals(string.Empty) ? _tamerPrefab.name : _player.playerName;
             _activated = true;
         }
 
@@ -100,36 +107,12 @@ namespace Monster_System
                 _monsterAnimators.Add(_monsterGameObjects[i].GetComponent<Animator>());
             }
         }
-
-        // void Update()
-        // {
-        //     if(!_activated) return;
-        //     
-        //     if (_monsters.Count <= 0) return;
-        //     
-        //     _timer += Time.deltaTime;
-        //     if(_timer < _haveMonsters.GetMonsterSwitchRate()) return;
-        //
-        //     var monsterSlotSelected = _haveMonsters.CurrentMonsterSlotNumber();
-        //     if (_haveMonsters.isPlayerSwitched())
-        //     {
-        //         if(_tamerBefore) return;
-        //         
-        //         SwitchToTamer();
-        //         _tamerBefore = true;
-        //         return;
-        //     }
-        //     if(monsterSlotSelected == _currentMonster) return;
-        //     if(_haveMonsters.GetMonsterSlots()[monsterSlotSelected] == null) return;
-        //     _tamerBefore = false;
-        //     SwitchMonster(monsterSlotSelected);
-        //     _timer = 0;
-        // }
-
+        
         public void SwitchToTamer()
         {
             if(!_activated) return;
             if (_tamerPrefab == null) return;
+            _skillManager.Deactivate();
             InactiveAllMonsters();
             _tamerPrefab.SetActive(true);
             _haveMonsters.SetAnimator(_tamerAnimator);
@@ -139,6 +122,8 @@ namespace Monster_System
             _currentMonster = -1;
             _haveMonsters.SpawnSwitchFX();
             _haveMonsters.ChangeStatsToMonster(_currentMonster);
+            
+            UpdateGameplayUI(_currentMonster);
         }
 
         public void SwitchMonster(int slot)
@@ -147,9 +132,10 @@ namespace Monster_System
             if (_haveMonsters.GetMonsterSlots()[slot].monster == null)
             {
                 _player.inputHandler.currentMonster = _player.inputHandler.previousMonster;
-                Debug.Log("no monster");
+                Debug.Log("There is no monster in the selected slot.");
                 return;    
             }
+            _skillManager.Deactivate();
             InactiveAllMonsters();
             _monsterGameObjects[slot].transform.rotation = transform.rotation;
             _monsterGameObjects[slot].SetActive(true);
@@ -159,16 +145,76 @@ namespace Monster_System
             _haveMonsters.SpawnSwitchFX();
             _skillManager.ActivateSkillManager(_haveMonsters);
             _haveMonsters.ChangeStatsToMonster(slot);
+            
+            if (isPlayer)
+            {
+                UpdateGameplayUI(slot);
+            }
         }
 
         private void InactiveAllMonsters()
         {
-            foreach (var monster in _monsterGameObjects)
+            var count = _monsterGameObjects.Count;
+            for (var i = 0; i < count; i++)
             {
-                if(monster == null) continue;
+                var monster = _monsterGameObjects[i];
+                if (monster == null) continue;
                 monster.SetActive(false);
             }
+
             _tamerPrefab.SetActive(false);
+        }
+
+        private void UpdateGameplayUI(int slot)
+        {
+            var monsterSlots = _haveMonsters.GetMonsterSlots();
+            _currentSkills.Clear();
+            _currentItems.Clear();
+            
+            if (slot >= 0)
+            {
+                var monsterSlot = monsterSlots[slot];
+                var monsterName = monsterSlot.nickName == "" ? monsterSlot.monster.name : monsterSlot.nickName;
+                var monsterLevel = GameCalculations.Level(monsterSlot.currentExp);
+                var maxHealth = GameCalculations.Stats(monsterSlot.monster.stats.baseHealth, monsterSlot.stabilityValue, monsterLevel);
+                var maxExp = (float) GameCalculations.Experience(monsterLevel + 1) - GameCalculations.Experience(monsterLevel);
+                var currentExp = (float) monsterSlot.currentExp - GameCalculations.Experience(monsterLevel);
+
+                for (var i = 0; i < monsterSlot.skillSlots.Length; i++)
+                {
+                    if (monsterSlot.skillSlots[i] == null || monsterSlot.skillSlots[i].skill == null)
+                    {
+                        _currentSkills.Add(null);
+                        continue;
+                    }
+                    
+                    _currentSkills.Add(monsterSlot.skillSlots[i].skill.skillIcon);    
+                }
+            
+                for (var i = 0; i < monsterSlot.inventory.Length; i++)
+                {
+                    if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
+                    {
+                        _currentItems.Add(null);
+                        continue;
+                    }
+                    
+                    _currentItems.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
+                }
+                GameManager.instance.uiManager.UpdateCharSwitchUI(monsterName, monsterSlot.currentHealth, maxHealth, currentExp, maxExp, slot, _currentSkills, _currentItems);
+            }
+            else
+            {
+                for (var i = 0; i < 6; i++)
+                {
+                    if (i < 4)
+                    {
+                        _currentSkills.Add(null);
+                    }
+                    _currentItems.Add(null);
+                }
+                GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot, _currentSkills, _currentItems);
+            }
         }
     }
 }

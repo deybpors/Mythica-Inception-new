@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 namespace GameObjectBrush {
-
+#if UNITY_EDITOR
     /// <summary>
     /// Class that is responsible for the addition of new brushes to the list of brushObjects in the main editor windo class: "GameObjectBrushEditor"
     /// </summary>
@@ -95,4 +95,6 @@ namespace GameObjectBrush {
             }
         }
     }
+#endif
+    
 }

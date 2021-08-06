@@ -24,8 +24,8 @@ namespace Pluggable_AI.Scripts.General
 
         #region Hidden Fields
 
+        [HideInInspector] public WildMonsterSpawner spawner;
         [HideInInspector] public MonsterSlot monsterAttacker;
-        private WildMonsterSpawner _spawner;
         [HideInInspector] public Health healthComponent;
         [HideInInspector] public int currentMonster = 0;
         private List<GameObject> _monsterGameObjects;
@@ -48,7 +48,7 @@ namespace Pluggable_AI.Scripts.General
             monsterSlots.Add(newWildMonster);
             Init();
             gameObject.SetActive(true);
-            _spawner = spawner;
+            this.spawner = spawner;
             stateController.ActivateAI(true, waypoints, null);
         }
 
@@ -194,6 +194,7 @@ namespace Pluggable_AI.Scripts.General
             if (monsterSlots[currentMonster].currentHealth <= 0)
             {
                 var slotToSwitch = 9999999;
+                ExtractExpOrbs();
                 for (int i = 0; i < monsterSlots.Count; i++)
                 {
                     if (monsterSlots[i].currentHealth > 0)
@@ -211,6 +212,7 @@ namespace Pluggable_AI.Scripts.General
                     if (_monsterManager != null)
                     {
                         _monsterManager.SwitchMonster(slotToSwitch);
+                        currentMonster = slotToSwitch;
                     }
                 }
             }
@@ -233,7 +235,7 @@ namespace Pluggable_AI.Scripts.General
             var pos = new Vector3(position.x, position.y + 1.5f, position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
-            if (_spawner != null) { _spawner.currentNoOfMonsters--; }
+            if (spawner != null) { spawner.currentNoOfMonsters--; }
 
             ExtractExpOrbs();
 
@@ -248,7 +250,6 @@ namespace Pluggable_AI.Scripts.General
             var type = GameCalculations.TypeComparison(monsterAttacker.monster.type,
                 monsterSlots[currentMonster].monster.type) < 1;
             var exp = GameCalculations.ExperienceGain(!tamer, monsterAttacker, type);
-            Debug.Log(exp);
             var position = transform.position;
             var newPos = new Vector3(position.x, position.y + 1f, position.z);
             

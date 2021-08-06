@@ -848,21 +848,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2389084399226082571, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
-      propertyPath: npcName
-      value: Luna
-      objectReference: {fileID: 0}
-    - target: {fileID: 2389084399226082571, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
-      propertyPath: inkJsonFile
-      value: 
-      objectReference: {fileID: 4900000, guid: c9f07749b2156ee4e988d52fb5b34cdc, type: 3}
     - target: {fileID: 2389084399226082573, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_Name
       value: NPCTemplate
-      objectReference: {fileID: 0}
-    - target: {fileID: 2490778199451900213, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
-      propertyPath: m_Name
-      value: Graphics
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 17987edfda2093646bb1833ca079fefb, type: 3}

@@ -1,4 +1,5 @@
-﻿using _Core.Others;
+﻿using _Core.Managers;
+using _Core.Others;
 using _Core.Player;
 using UnityEngine;
 
@@ -12,16 +13,16 @@ namespace Skill_System.Targeting_Type_Scripts
         
         public override void Target(IEntity entity)
         {
-            Player player = entity.GetStateController().player;
+            var player = entity.GetStateController().player;
             
             if(player == null) return;
-            
-            Cursor.SetCursor(player.pointIndicator, new Vector2(player.pointIndicator.width/2, player.pointIndicator.height/2), CursorMode.Auto);
+            var pointIndicator = GameManager.instance.uiManager.pointIndicator;
+            Cursor.SetCursor(pointIndicator, new Vector2(pointIndicator.width/2, pointIndicator.height/2), CursorMode.Auto);
         }
 
         public override void DoneTargeting(IEntity entity)
         {
-            Cursor.SetCursor(entity.GetStateController().player.normalCursor, Vector2.zero, CursorMode.Auto);
+            Cursor.SetCursor(GameManager.instance.uiManager.normalCursor, Vector2.zero, CursorMode.Auto);
         }
     }
 }

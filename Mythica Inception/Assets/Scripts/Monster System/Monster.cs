@@ -12,6 +12,7 @@ namespace Monster_System
     {
         public string monsterName;
         public GameObject monsterPrefab;
+        public Sprite monsterPortrait;
         public MonsterType type;
         public BasicAttackType basicAttackType;
         public Skill basicAttackSkill;

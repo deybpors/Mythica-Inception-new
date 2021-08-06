@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -172,10 +173,19 @@ namespace _Core.Input
 
         private void Switch(int slot)
         {
+            if(slot == currentMonster) return;
+            var tempPrev = previousMonster;
             previousMonster = currentMonster;
             currentMonster = slot;
-            if(previousMonster == currentMonster) return;
-            _player.SwitchMonster(slot);
+
+            if (_player.SwitchMonster(slot, out var message)) return;
+
+            if (!message.Equals(string.Empty))
+            {
+                Debug.Log(message);
+            }
+            currentMonster = previousMonster;
+            previousMonster = tempPrev;
         }
 
         #endregion

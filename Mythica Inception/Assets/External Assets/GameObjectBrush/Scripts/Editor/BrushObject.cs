@@ -5,8 +5,8 @@ using System;
 
 namespace GameObjectBrush
 {
-
-    /// <summary>
+#if UNITY_EDITOR
+     /// <summary>
     /// Class that is responsible for holding information about a brush, such as the prefab/gameobject, size, density, etc.
     /// </summary>
     [System.Serializable]
@@ -109,4 +109,5 @@ namespace GameObjectBrush
             rotOffsetFromPivot = Vector3.zero;
         }
     }
+#endif
 }

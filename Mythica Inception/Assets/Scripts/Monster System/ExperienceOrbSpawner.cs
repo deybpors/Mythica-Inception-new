@@ -82,9 +82,7 @@ namespace Monster_System
             }
             
             if(experienceToGive <= 0) return;
-            
-            Debug.Log(experienceToGive);
-            
+
             experienceGiven += experienceToGive;
             orb.slotNum = slotNum;
             orb.experience = experienceToGive;

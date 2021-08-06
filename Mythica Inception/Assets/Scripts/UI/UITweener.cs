@@ -23,19 +23,22 @@ namespace UI
         public bool loop;
         public bool pingpong;
         public bool startPositionOffset;
-
+        
         [ConditionalField(nameof(animationType), false, UIAnimationType.Scale, UIAnimationType.Move)] 
         public Vector3 fromState;
-
+        private Vector3 origFromState;
+        
         [ConditionalField(nameof(animationType), false, UIAnimationType.Scale, UIAnimationType.Move)]
         public Vector3 toState;
+        private Vector3 origToState;
 
         [ConditionalField(nameof(animationType), false, UIAnimationType.Fade)]
         public float from;
-
+        private float origFrom;
+        
         [ConditionalField(nameof(animationType), false, UIAnimationType.Fade)]
         public float to;
-
+        private float origTo;
 
         public List<GameObject> objectsToDisableOnDisable;
         public bool disableAfterSeconds;
@@ -50,6 +53,12 @@ namespace UI
         public void OnEnable()
         {
             _canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            
+            origFrom = from;
+            origFromState = fromState;
+            origTo = to;
+            origToState = toState;
+            
             if (showOnEnable)
             {
                 Show();
@@ -134,7 +143,8 @@ namespace UI
             if (animationType == UIAnimationType.Scale || animationType == UIAnimationType.Move)
             {
                 var temp = fromState;
-                fromState = animationType == UIAnimationType.Scale ? transform.localScale : transform.position;
+                var transform1 = transform;
+                fromState = animationType == UIAnimationType.Scale ? transform1.localScale : transform1.position;
                 toState = temp; 
             }
             else
@@ -152,7 +162,10 @@ namespace UI
             _tweenObject.setOnComplete(() =>
             {
                 DisableObjectsToDisable();
-                SwapDirection();
+                from = origFrom;
+                to = origTo;
+                fromState = origFromState;
+                toState = origToState;
                 gameObject.SetActive(false);
             });
         }

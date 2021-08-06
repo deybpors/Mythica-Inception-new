@@ -1,4 +1,5 @@
 using System;
+using _Core.Managers;
 using _Core.Player;
 using MyBox;
 using UnityEngine;
@@ -24,7 +25,16 @@ namespace Monster_System
         private Collider[] results = new Collider[5];
         private void OnEnable()
         {
+            player = GameManager.instance.player;
+            playerTransform = player.transform;
             activated = true;
+        }
+
+        private void OnDisable()
+        {
+            orbCollider.isTrigger = false;
+            orbRigidbody.useGravity = true;
+            _moveToPlayer = false;
         }
 
         private void FixedUpdate()
@@ -53,10 +63,8 @@ namespace Monster_System
             var size = Physics.OverlapSphereNonAlloc(transform.position, orbCollider.radius + .5f, results);
             for (var i = 0; i < size; i++)
             {
-                player = results[i].gameObject.GetComponent<Player>();
-                if (player == null) continue;
-            
-                playerTransform = player.GetComponent<Transform>();
+                if (player.gameObject != results[i].gameObject) continue;
+                
                 orbCollider.isTrigger = true;
                 orbRigidbody.useGravity = false;
                 _moveToPlayer = true;

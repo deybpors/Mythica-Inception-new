@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.5500326, g: 0.7960452, b: 0.96930957, a: 1}
+  m_IndirectSpecularColor: {r: 0.35237876, g: 0.72419035, b: 0.95839924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -228,7 +228,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &136568952
 MonoBehaviour:
@@ -673,7 +673,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &655047501
 GameObject:
@@ -1544,41 +1544,6 @@ MonoBehaviour:
     - skill: {fileID: 11400000, guid: 174cfd1737330044186eb8641a7db751, type: 2}
       cooldownTimer: 0
       skillState: 0
-    - skill: {fileID: 11400000, guid: f24f67dea6a56954cb4b41a951f98cc2, type: 2}
-      cooldownTimer: 0
-      skillState: 0
-    inventory:
-    - inventoryItem: {fileID: 0}
-      amountOfItems: 0
-    - inventoryItem: {fileID: 0}
-      amountOfItems: 0
-    - inventoryItem: {fileID: 0}
-      amountOfItems: 0
-    - inventoryItem: {fileID: 0}
-      amountOfItems: 0
-    - inventoryItem: {fileID: 0}
-      amountOfItems: 0
-    - inventoryItem: {fileID: 0}
-      amountOfItems: 0
-  - inParty: 0
-    slotNumber: 0
-    fainted: 0
-    nickName: 
-    monster: {fileID: 0}
-    currentHealth: 0
-    currentExp: 0
-    currentLives: 0
-    stabilityValue: 1
-    skillSlots:
-    - skill: {fileID: 0}
-      cooldownTimer: 0
-      skillState: 0
-    - skill: {fileID: 0}
-      cooldownTimer: 0
-      skillState: 0
-    - skill: {fileID: 0}
-      cooldownTimer: 0
-      skillState: 0
     - skill: {fileID: 0}
       cooldownTimer: 0
       skillState: 0
@@ -1630,6 +1595,42 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
+  - inParty: 0
+    slotNumber: 0
+    fainted: 0
+    nickName: 
+    monster: {fileID: 0}
+    currentHealth: 0
+    currentExp: 0
+    currentLives: 0
+    stabilityValue: 1
+    skillSlots:
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    inventory:
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+  playerName: 
   playerData: {fileID: 11400000, guid: d52b9ce5e8319354c8b076db0f8eeb49, type: 2}
   playerHealth:
     maxHealth: 0
@@ -1642,11 +1643,8 @@ MonoBehaviour:
   dashGraphic: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
   tameRadius: 8
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
-  normalCursor: {fileID: 2800000, guid: a5f9cc9a5efbe894eb85de4851711ba8, type: 3}
-  areaIndicator: {fileID: 1471944091}
-  pointIndicator: {fileID: 2800000, guid: 009bc0f57c177604a90b4697026d8c00, type: 3}
-  vectorIndicator: {fileID: 981958594}
   unitIndicator: {fileID: 682371732}
+  vectorIndicator: {fileID: 981958594}
   tempSpeed: 0
   tempAttackRate: 0
   selectionManager: {fileID: 0}
@@ -1658,6 +1656,42 @@ MonoBehaviour:
   currentAnimator: {fileID: 0}
   staminaComponent: {fileID: 0}
   monsterManager: {fileID: 0}
+  monsterAttacker:
+    inParty: 0
+    slotNumber: 0
+    fainted: 0
+    nickName: 
+    monster: {fileID: 0}
+    currentHealth: 0
+    currentExp: 1
+    currentLives: 0
+    stabilityValue: 1
+    skillSlots:
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    inventory:
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
 --- !u!114 &969145014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2292,11 +2326,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1430930777}
   m_CullTransparentMesh: 1
---- !u!1 &1471944091 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1461744430287290370, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-  m_PrefabInstance: {fileID: 1461744430394887215}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1549083956
 GameObject:
   m_ObjectHideFlags: 0
@@ -2434,6 +2463,43 @@ MonoBehaviour:
       amountOfItems: 0
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   projectileRelease: {fileID: 736149722}
+  experienceOrbSpawner: {fileID: 0}
+  monsterAttacker:
+    inParty: 0
+    slotNumber: 0
+    fainted: 0
+    nickName: 
+    monster: {fileID: 0}
+    currentHealth: 0
+    currentExp: 1
+    currentLives: 0
+    stabilityValue: 1
+    skillSlots:
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    - skill: {fileID: 0}
+      cooldownTimer: 0
+      skillState: 0
+    inventory:
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
+    - inventoryItem: {fileID: 0}
+      amountOfItems: 0
   healthComponent: {fileID: 0}
   currentMonster: 0
 --- !u!114 &1549083961
@@ -2752,7 +2818,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 20.146, y: 195.09, z: 0.001}
 --- !u!114 &1687258586
 MonoBehaviour:
@@ -3004,7 +3070,7 @@ Transform:
   m_Children:
   - {fileID: 789864694}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 55.994, y: 0, z: 0}
 --- !u!1 &1886969970
 GameObject:
@@ -3438,7 +3504,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 140, y: 0, z: 0}
 --- !u!114 &2138677394
 MonoBehaviour:
@@ -3453,60 +3519,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 1
---- !u!1001 &1461744430394887215
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290368, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1461744430287290370, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
-      propertyPath: m_Name
-      value: Area Indicator
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}

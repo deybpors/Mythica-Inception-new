@@ -15,6 +15,7 @@ MonoBehaviour:
   ID: 73cdbd18-9436-4805-a36b-ac224dac93a2
   monsterName: Chuchu
   monsterPrefab: {fileID: 7228921039756510911, guid: b032c970d48a01b46aeaa310d280a5a8, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: d83a8312100b8224f91ea7523c140acd, type: 3}
   type: 0
   basicAttackType: 1
   basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}

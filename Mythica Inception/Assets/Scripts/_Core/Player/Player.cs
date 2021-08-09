@@ -7,11 +7,12 @@ using _Core.Managers;
 using _Core.Others;
 using _Core.Player.Player_FSM;
 using Combat_System;
+using Items_and_Barter_System.Scripts;
 using Monster_System;
 using Pluggable_AI.Scripts.General;
+using Quest_System;
 using Skill_System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace _Core.Player
 {
@@ -29,6 +30,8 @@ namespace _Core.Player
         public GameObject dashGraphic;
         public float tameRadius;
         [SerializeField] private GameObject deathParticles;
+        public List<PlayerAcceptedQuest> activeQuests;
+        public PlayerInventory inventory;
         
         [Header("Indicators")]
         public GameObject unitIndicator;
@@ -443,6 +446,51 @@ namespace _Core.Player
             {
                 GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
             }
+        }
+
+        public void GiveQuestToPlayer(Quest questGiven)
+        {
+            if(PlayerHaveQuest(questGiven)) return;
+            
+            var newQuest = new PlayerAcceptedQuest(questGiven);
+            activeQuests.Add(newQuest);
+        }
+
+        private bool PlayerHaveQuest(Quest quest)
+        {
+            return activeQuests.Any(t => t.quest.ID.Equals(quest.ID));
+        }
+
+        public void RemoveQuestToPlayer(Quest questToRemove)
+        {
+            var count = activeQuests.Count;
+            for (var i = 0; i < count; i++)
+            {
+                if (!activeQuests[i].quest.ID.Equals(questToRemove.ID)) continue;
+                activeQuests.RemoveAt(i);
+                break;
+            }
+        }
+
+        public bool IsQuestFinish(Quest quest)
+        {
+            foreach (var acceptedQuest in activeQuests)
+            {
+                if (acceptedQuest.quest.ID.Equals(quest.ID))
+                {
+                    if (acceptedQuest.currentValue >= acceptedQuest.quest.goals.requiredValue)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        public void GetQuestRewards(Quest quest)
+        {
+            
         }
     }
 }

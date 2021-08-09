@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Core.Others;
 using Databases.Scripts;
 using DDA;
+using Quest_System;
 using UI;
 using UnityEngine;
 
@@ -17,6 +18,7 @@ namespace _Core.Managers
         public ObjectPooler pooler;
         public ScenePicker gameplayScene;
         public DynamicDifficultyAdjustment dynamicDifficultyAdjustment;
+        public QuestManager questManager;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;
         [HideInInspector] public string currentWorldScenePath;

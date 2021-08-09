@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Player;
 using Ink.Runtime;
+using Quest_System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +15,7 @@ namespace Dialogue_System
 		public static event Action<Story> OnCreateStory; 
 	
 		private Player _player;
-		public void StartDialogue (TextAsset inkJSON, string npcTalkerName, Player player)
+		public void StartDialogue (TextAsset inkJSON, string npcTalkerName, Player player, QuestGiver qGiver)
 		{
 			story = null;
 			if (_canvas == null)
@@ -23,6 +24,7 @@ namespace Dialogue_System
 			}
 			RemoveChildren();
 			_player = player;
+			questGiver = qGiver;
 			_name.text = npcTalkerName;
 			var width = nameContainerSpacing + (npcTalkerName.Length * nameContainerSpacing);
 			_nameRect.sizeDelta = new Vector2(width, _nameRect.sizeDelta.y);
@@ -36,8 +38,15 @@ namespace Dialogue_System
 		{
 			RemoveChildren();
 			_canvas.gameObject.SetActive(false);
-			_player.inputHandler.activate = true;
-			GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+			if (questGiver == null)
+			{
+				_player.inputHandler.activate = true;
+				GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+			}
+			else
+			{
+				questGiver.OpenQuestWindow(false);
+			}
 		}
 
 		// This is the main function called every time the story changes. It does a few things:
@@ -167,5 +176,6 @@ namespace Dialogue_System
 		[SerializeField] private float nameContainerSpacing;
 		private List<Button> _buttons = new List<Button>();
 		private TextMeshProUGUI txt;
+		private QuestGiver questGiver;
 	}
 }

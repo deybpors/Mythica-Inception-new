@@ -239,6 +239,10 @@ namespace Pluggable_AI.Scripts.General
 
             ExtractExpOrbs();
 
+            if (!tamer)
+            {
+                GameManager.instance.questManager.UpdateKillQuest();
+            }
 
             UpdateEnemiesSeePlayer(monsterTransform);
             

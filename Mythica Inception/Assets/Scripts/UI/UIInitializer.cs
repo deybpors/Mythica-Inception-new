@@ -19,6 +19,7 @@ namespace UI
         public ProgressBarUI characterHealth;
         public ProgressBarUI characterExp;
         public TextMeshProUGUI characterLevel;
+        public TextMeshProUGUI currentGold;
         public List<PartySlotUI> partySlots;
         public List<Image> skills;
         public List<Image> items;
@@ -26,6 +27,14 @@ namespace UI
         [Header("Dialogue UI")]
         public GameObject dialogueUICanvas;
         public DialogueManager dialogueManager;
+
+        [Header("Quest UI")] 
+        public GameObject questUICanvas;
+        public TextMeshProUGUI questTitle;
+        public TextMeshProUGUI questDescription;
+        public Transform questRewardParent;
+        public TextMeshProUGUI accept;
+        public TextMeshProUGUI decline;
         
         [Header("Loading UI")] 
         public GameObject loadingScreen;
@@ -43,8 +52,9 @@ namespace UI
             
             var ui = GameManager.instance.uiManager;
             ui.InitLoadingUIRef(loadingScreen,loadingBar, loadingScreenCam);
-            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, characterLevel,characterHealth, characterExp, partySlots, skills, items);
+            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items);
             ui.InitDialogueUIRef(dialogueUICanvas, dialogueManager);
+            ui.InitQuestUIRef(questUICanvas, questTitle, questDescription, questRewardParent, accept, decline);
             ui.startSceneUICanvas = startSceneUICanvas;
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
             

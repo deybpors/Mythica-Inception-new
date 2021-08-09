@@ -19,6 +19,7 @@ namespace UI
         [HideInInspector] public GameObject minimapCamera;
         [HideInInspector] public TextMeshProUGUI currentCharacterName;
         [HideInInspector] public TextMeshProUGUI currentCharacterLevel;
+        [HideInInspector] public TextMeshProUGUI currentGold;
         [HideInInspector] public ProgressBarUI currentCharacterHealth;
         [HideInInspector] public ProgressBarUI currentCharacterExp;
         [HideInInspector] public List<PartySlotUI> partySlots;
@@ -26,6 +27,12 @@ namespace UI
         [HideInInspector] public List<Image> currentMonsterItemImages;
         [HideInInspector] public GameObject dialogueUICanvas;
         [HideInInspector] public DialogueManager dialogueManager;
+        [HideInInspector] public GameObject questUICanvas;
+        [HideInInspector] public TextMeshProUGUI questTitle;
+        [HideInInspector] public TextMeshProUGUI questDescription;
+        [HideInInspector] public TextMeshProUGUI questDecline;
+        [HideInInspector] public TextMeshProUGUI questAccept;
+        [HideInInspector] public Transform questReward;
         [HideInInspector] public GameObject loadingScreen;
         [HideInInspector] public ProgressBarUI loadingBar;
         [HideInInspector] public Camera loadingScreenCamera;
@@ -53,10 +60,11 @@ namespace UI
             pointIndicator = point;
         }
 
-        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items)
+        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items)
         {
             gameplayUICanvas = canvas;
             minimapCamera = minimapCam;
+            currentGold = gold;
             currentCharacterName = characterName;
             currentCharacterLevel = characterLevel;
             currentCharacterHealth = characterHealth;
@@ -70,6 +78,16 @@ namespace UI
         {
             dialogueUICanvas = canvas;
             dialogueManager = manager;
+        }
+
+        public void InitQuestUIRef(GameObject questUICanvas, TextMeshProUGUI questTitle, TextMeshProUGUI questDescription, Transform questRewardParent, TextMeshProUGUI accept, TextMeshProUGUI decline)
+        {
+            this.questUICanvas = questUICanvas;
+            this.questTitle = questTitle;
+            this.questDescription = questDescription;
+            questReward = questRewardParent;
+            questAccept = accept;
+            questDecline = decline;
         }
 
         public void InitGameplayUI(string charName, float currentHealth, float maxHealth, List<MonsterSlot> monsterSlots)

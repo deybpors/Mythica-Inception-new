@@ -20,7 +20,20 @@ namespace Items_and_Barter_System.Scripts
             if (itemAdded) return;
             
             var newSlot = new InventorySlot(item, amountToAdd);
-            inventorySlots.Add(newSlot);
+            AddInEmptySlot(newSlot);
+        }
+
+        public void AddInEmptySlot(InventorySlot newSlot)
+        {
+            var slotsCount = inventorySlots.Count;
+            for (var i = 0; i < slotsCount; i++)
+            {
+                if (inventorySlots[i].inventoryItem != null) continue;
+                
+                inventorySlots[i].inventoryItem = newSlot.inventoryItem;
+                inventorySlots[i].amountOfItems = newSlot.amountOfItems;
+                break;
+            }
         }
     }
 }

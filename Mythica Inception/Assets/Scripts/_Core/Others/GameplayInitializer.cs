@@ -7,7 +7,7 @@ namespace _Core.Others
     {
         public Material skybox;
         public Player.Player player;
-        private void Start()
+        private void Awake()
         {
             if(GameManager.instance == null) return;
             if(GameManager.instance.uiManager == null) return;

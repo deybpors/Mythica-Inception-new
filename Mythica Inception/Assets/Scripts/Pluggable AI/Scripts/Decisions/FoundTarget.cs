@@ -15,9 +15,10 @@ namespace Pluggable_AI.Scripts.Decisions
         private bool Look(StateController stateController)
         {
             var fieldOfView = stateController.aI.fieldOfView;
-
+            
             if (fieldOfView.visibleTargets.Count <= 0) return false;
             stateController.aI.target = fieldOfView.visibleTargets[0];
+            
             var count = GameManager.instance.enemiesSeePlayer.Count;
             for (var i = 0; i < count; i++)
             {

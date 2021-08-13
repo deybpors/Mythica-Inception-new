@@ -89,7 +89,24 @@ namespace Monster_System
                 //ask for nickname of monster
             }
             
+            GameManager.instance.UpdateEnemiesSeePlayer(transform, out var enemyCount);
+            
+            var player = GameManager.instance.player;
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));
+            
             gameObject.SetActive(false);
+        }
+        
+        private void UpdateEnemiesSeePlayer(Object monsterTransform)
+        {
+            var enemyCount = GameManager.instance.enemiesSeePlayer.Count;
+            for (var i = 0; i < enemyCount; i++)
+            {
+                var enemy = GameManager.instance.enemiesSeePlayer[i];
+                if (monsterTransform != enemy) continue;
+                GameManager.instance.enemiesSeePlayer.Remove(enemy);
+                break;
+            }
         }
     }
 }

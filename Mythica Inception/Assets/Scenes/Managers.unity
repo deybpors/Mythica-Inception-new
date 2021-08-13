@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35237876, g: 0.72419035, b: 0.95839924, a: 1}
+  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -559,6 +559,8 @@ MonoBehaviour:
   questUICanvas: {fileID: 0}
   questTitle: {fileID: 0}
   questDescription: {fileID: 0}
+  questDecline: {fileID: 0}
+  questAccept: {fileID: 0}
   questReward: {fileID: 0}
   loadingScreen: {fileID: 0}
   loadingBar: {fileID: 0}
@@ -625,3 +627,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d88fb2ecfe4efba2d59d88319f779e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questSelected: {fileID: 0}

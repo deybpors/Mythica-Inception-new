@@ -49,7 +49,7 @@ namespace Items_and_Barter_System.Scripts
         {
             if(!inventoryItem.stackable) return false;
 
-            this.amountOfItems += amountToAdd;
+            amountOfItems += amountToAdd;
             return true;
         }
     }

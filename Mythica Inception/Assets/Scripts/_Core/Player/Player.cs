@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +12,7 @@ using Pluggable_AI.Scripts.General;
 using Quest_System;
 using Skill_System;
 using UnityEngine;
+using Action = System.Action;
 
 namespace _Core.Player
 {
@@ -32,6 +32,8 @@ namespace _Core.Player
         [SerializeField] private GameObject deathParticles;
         public List<PlayerAcceptedQuest> activeQuests;
         public PlayerInventory inventory;
+        [SerializeField]
+        private bool isTesting;
         
         [Header("Indicators")]
         public GameObject unitIndicator;
@@ -75,6 +77,9 @@ namespace _Core.Player
             unitIndicator.transform.localScale = new Vector3(tameRadius, tameRadius, tameRadius);
             _stateController.ActivateAI(true, null, this);
             GameManager.instance.uiManager.InitGameplayUI(playerName, playerHealth.currentHealth, playerHealth.maxHealth, monsterSlots);
+            GameManager.instance.uiManager.loadingScreen.SetActive(false);
+            
+            GameManager.instance.uiManager.loadingScreenCamera.gameObject.SetActive(false);
         }
 
         private void GetNeededComponents()
@@ -363,18 +368,20 @@ namespace _Core.Player
 
         public void Die()
         {
-            var o = gameObject;
+            Debug.Log("Player dies.");
+            if(isTesting) return;
+            var obj = gameObject;
             tamer.SetActive(false);
             inputHandler.movementInput = Vector2.zero;
             inputHandler.activate = false;
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, transform.position,
                 Quaternion.identity);
-            var layer  = o.layer;
-            o.layer = 0;
+            var layer  = obj.layer;
+            obj.layer = 0;
             skillManager.targeting = false;
             Action action = () =>
             {
-                o.layer = layer;
+                obj.layer = layer;
                 inputHandler.activate = true;
                 tamer.SetActive(true);
                 playerHealth.maxHealth = GameCalculations.Stats(
@@ -401,7 +408,8 @@ namespace _Core.Player
                 var maxHealth = GameCalculations.Stats(monsterSlots[i].monster.stats.baseHealth,
                     monsterSlots[i].stabilityValue, GameCalculations.Level(monsterSlots[i].currentExp));
                 monsterSlots[i].currentHealth = maxHealth;
-                GameManager.instance.uiManager.UpdatePartyMemberHealth(i, monsterSlots[i].currentHealth, maxHealth);
+                monsterSlots[i].fainted = false;
+                GameManager.instance.uiManager.UpdatePartyMemberHealth(i, maxHealth, maxHealth);
                 for (var j = 0; j < monsterSlots[i].skillSlots.Length; j++)
                 {
                     if (monsterSlots[i].skillSlots[j] == null)
@@ -434,18 +442,17 @@ namespace _Core.Player
 
         public void AddExperience(int experienceToAdd, int slotNum)
         {
-            var nextLevelExp = GameCalculations.Experience(GameCalculations.Level(monsterSlots[slotNum].currentExp) + 1);
+            var nextLevel = GameCalculations.Level(monsterSlots[slotNum].currentExp) + 1;
+            var nextLevelExp = GameCalculations.Experience(nextLevel);
             monsterSlots[slotNum].currentExp += experienceToAdd;
 
             if (monsterSlots[slotNum].currentExp > nextLevelExp)
             {
                 //TODO: display fanfare for level up monster
             }
-            
-            if (inputHandler.currentMonster == slotNum)
-            {
-                GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
-            }
+
+            if (inputHandler.currentMonster != slotNum) return;
+            GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
         }
 
         public void GiveQuestToPlayer(Quest questGiven)
@@ -490,7 +497,21 @@ namespace _Core.Player
 
         public void GetQuestRewards(Quest quest)
         {
-            
+            for (var i = 0; i < quest.rewards.Count; i++)
+            {
+                if (quest.rewards[i].rewardsType.rewardType != RewardTypes.items) continue;
+                
+                var item = quest.rewards[i].rewardsType.rewardItem;
+                var value = quest.rewards[i].value;
+                inventory.AddItemInPlayerInventory(item, value);
+                
+                if (item is Gold)
+                {
+                    GameManager.instance.uiManager.UpdateGoldUI();
+                }
+            }
         }
+
+       
     }
 }

@@ -18,9 +18,11 @@ namespace UI
         {
             if(GameManager.instance == null) return;
             GameManager.instance.uiManager.DeactivateAllUI();
+            
             var manager = GameManager.instance.gameSceneManager;
-            manager.UnloadCurrentWorldLoadNext(scenePicker.path, true);
-            manager.AddLoadedScene(GameManager.instance.gameplayScene.path, true);
+            manager.AddLoadedScene(scenePicker.path, true, false);
+            manager.UnloadLoadedScene(GameManager.instance.currentWorldScenePath, true, false);
+            manager.AddLoadedScene(GameManager.instance.gameplayScene.path, true, true);
             GameManager.instance.uiManager.minimapCamera.SetActive(true);
         }
 

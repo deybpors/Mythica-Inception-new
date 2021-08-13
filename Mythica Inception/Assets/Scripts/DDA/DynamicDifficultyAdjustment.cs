@@ -42,43 +42,48 @@ namespace DDA
         {
             dataName = dataName.Replace(" ", string.Empty).ToLower();
 
-            if (dictParamDataNeeded.ContainsKey(dataName))
-            {
-                var parametersToAdjust = new List<DifficultyParameter>();
+            if (!dictParamDataNeeded.ContainsKey(dataName)) return;
+            
+            var parametersToAdjust = new List<DifficultyParameter>();
                 
-                //check which parameter has this needed data and add it to parameters to adjust
-                foreach (var parameter in difficultyParameters)
+            //check which parameter has this needed data and add it to parameters to adjust
+            var parametersCount = difficultyParameters.Count;
+            for (var i = 0; i < parametersCount; i++)
+            {
+                var parameter = difficultyParameters[i];
+                var dataNeededInParameterCount = parameter.dataNeeded.Count;
+                for (var j = 0; j < dataNeededInParameterCount; j++)
                 {
-                    foreach (var dataNeededName in parameter.dataNeeded)
+                    var dataNeededName = parameter.dataNeeded[j];
+                    var dataNeededNameLower = dataNeededName.Replace(" ", string.Empty).ToLower();
+
+                    if (dataNeededNameLower.Equals(dataName))
                     {
-                        var dataNeededNameLower = dataNeededName.Replace(" ", string.Empty).ToLower();
-                        
-                        if (dataNeededNameLower.Equals(dataName))
-                        {
-                            parametersToAdjust.Add(parameter);
-                        }
-                    }   
+                        parametersToAdjust.Add(parameter);
+                    }
+                }
+            }
+
+
+            //adjust all data in parameters to adjust
+            var parametersToAdjustCount = parametersToAdjust.Count;
+            for (var i = 0; i < parametersToAdjustCount; i++)
+            {
+                var parameter = parametersToAdjust[i];
+                //check if we should increase difficulty
+                if (dictParamDataNeeded[dataName].IncreaseDifficulty())
+                {
+                    Debug.Log("Increasing difficulty to " + parameter.name);
+                    parameter.AdjustDifficultyParameterValue(Difficulty.higher);
+                    //return;
                 }
 
-
-                //adjust all data in parameters to adjust
-                foreach (var parameter in parametersToAdjust)
+                //check if we should decrease difficulty
+                if (dictParamDataNeeded[dataName].DecreaseDifficulty())
                 {
-                    //check if we should increase difficulty
-                    if (dictParamDataNeeded[dataName].IncreaseDifficulty())
-                    {
-                        Debug.Log("Increasing difficulty to " + parameter.name);
-                        parameter.AdjustDifficultyParameterValue(Difficulty.higher);
-                        //return;
-                    }
-                
-                    //check if we should decrease difficulty
-                    if (dictParamDataNeeded[dataName].DecreaseDifficulty())
-                    {
-                        Debug.Log("Decreasing difficulty to " + parameter.name);
-                        parameter.AdjustDifficultyParameterValue(Difficulty.lower);   
-                        //break;   
-                    }
+                    Debug.Log("Decreasing difficulty to " + parameter.name);
+                    parameter.AdjustDifficultyParameterValue(Difficulty.lower);
+                    //break;   
                 }
             }
         }

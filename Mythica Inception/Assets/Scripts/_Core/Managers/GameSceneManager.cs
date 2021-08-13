@@ -1,6 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using MyBox;
 using UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,10 +10,18 @@ namespace _Core.Managers
     {
         public UIManager uiManager;
         [HideInInspector] public UITweener loadingUITweener;
-        private float _totalSceneProgress;
+        private float _totalSceneProgress = 0f;
         private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
-        private Coroutine _disabling;
-        public void UnloadCurrentWorldLoadNext(string nextWorldScene, bool withLoadingScreen)
+        private bool loading = false;
+        private float _prevSceneProgress = 0f;
+
+        private void Update()
+        {
+            GetSceneLoadProgress();
+        }
+
+
+        public void UnloadCurrentWorldLoadNext(string nextWorldScene, bool withLoadingScreen, bool startLoadProgress)
         {
             if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
             {
@@ -24,36 +31,36 @@ namespace _Core.Managers
                 }
                 uiManager.loadingScreen.SetActive(true);
             }
-            var worldScene = GameManager.instance.currentWorldScenePath;
-            if (!worldScene.Equals(nextWorldScene))
+
+            var currentWorldScene = GameManager.instance.currentWorldScenePath;
+
+            if (!currentWorldScene.Equals(nextWorldScene))
             {
-                _scenesLoading.Add(SceneManager.UnloadSceneAsync(worldScene));
+                _scenesLoading.Add(SceneManager.UnloadSceneAsync(currentWorldScene));
+                _scenesLoading.Add(SceneManager.LoadSceneAsync(nextWorldScene, LoadSceneMode.Additive));
+                GameManager.instance.currentWorldScenePath = nextWorldScene;
             }
-            
-            _scenesLoading.Add(SceneManager.LoadSceneAsync(nextWorldScene, LoadSceneMode.Additive));
-            GameManager.instance.currentWorldScenePath = nextWorldScene;
-            StartCoroutine(GetSceneLoadProgress());
+
+            if (startLoadProgress && !loading)
+            {
+                loading = true;
+            }
         }
-        
-        public void UnloadAllScenesExcept(string sceneName) 
+
+        public void UnloadAllScenesExcept(string sceneName)
         {
             var sceneCount = SceneManager.sceneCount;
-            for (var i = 0; i < sceneCount; i++) 
+            for (var i = 0; i < sceneCount; i++)
             {
                 var scene = SceneManager.GetSceneAt(i);
-                if (scene.name != sceneName) 
+                if (scene.name != sceneName)
                 {
                     SceneManager.UnloadSceneAsync(scene);
                 }
             }
         }
 
-        public void LoadScene(string sceneName)
-        {
-            SceneManager.LoadSceneAsync(sceneName);
-        }
-
-        public AsyncOperation AddLoadedScene(string addedScene, bool withLoadingScreen)
+        public AsyncOperation AddLoadedScene(string addedScene, bool withLoadingScreen, bool startLoadProgress)
         {
             if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
             {
@@ -63,48 +70,77 @@ namespace _Core.Managers
                 }
                 uiManager.loadingScreen.SetActive(true);
             }
-            var op = SceneManager.LoadSceneAsync(addedScene, LoadSceneMode.Additive);
-            _scenesLoading.Add(op);
-            StartCoroutine(GetSceneLoadProgress());
-            return op;
-        }
-    
-        private IEnumerator GetSceneLoadProgress()
-        {
-            var loadingIsActive = false;
-            foreach (var operation in _scenesLoading.ToList())
+
+            var operation = SceneManager.LoadSceneAsync(addedScene, LoadSceneMode.Additive);
+            _scenesLoading.Add(operation);
+
+            if (startLoadProgress && !loading)
             {
-                while (!operation.isDone)
+                loading = true;
+            }
+
+            return operation;
+        }
+        
+        public AsyncOperation UnloadLoadedScene(string loadedScene, bool withLoadingScreen, bool startLoadProgress)
+        {
+            if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
+            {
+                if (!uiManager.loadingScreenCamera.isActiveAndEnabled)
                 {
-                    _totalSceneProgress = 0;
+                    uiManager.loadingScreenCamera.gameObject.SetActive(true);
+                }
+                uiManager.loadingScreen.SetActive(true);
+            }
 
-                    foreach (var scene in _scenesLoading)
-                    {
-                        _totalSceneProgress += scene.progress;
-                    }
+            var operation = SceneManager.UnloadSceneAsync(loadedScene);
+            _scenesLoading.Add(operation);
 
-                    _totalSceneProgress /= _scenesLoading.Count;
-                    if (uiManager.loadingBar.isActiveAndEnabled)
-                    {
-                        loadingIsActive = true;
-                        uiManager.loadingBar.currentValue = _totalSceneProgress;
-                    }
-                    yield return null;
+            if (startLoadProgress && !loading)
+            {
+                loading = true;
+            }
+
+            return operation;
+        }
+
+        private void GetSceneLoadProgress()
+        {
+            if(!loading) return;
+            
+            var sceneCount = _scenesLoading.Count;
+            Debug.Log(sceneCount);
+
+            var sceneDone = 0;
+
+            for (var i = 0; i < sceneCount; i++)
+            {
+                var operation = _scenesLoading[i];
+                if (operation.isDone)
+                {
+                    sceneDone++;
                 }
             }
+            
+            Debug.Log(sceneDone);
+            
+            _prevSceneProgress = _totalSceneProgress;
+            _totalSceneProgress = (float) sceneDone / sceneCount;
 
-            if (loadingIsActive && _disabling == null)
+            Debug.Log(_prevSceneProgress);
+            Debug.Log(_totalSceneProgress);
+            
+            if (_totalSceneProgress.Approximately(_prevSceneProgress))
             {
-                _disabling = StartCoroutine(DisableLoadingScreen());
+                uiManager.loadingBar.maxValue = 1f;
+                uiManager.loadingBar.currentValue = _totalSceneProgress;
             }
-            _scenesLoading.Clear();
-        }
 
-        private IEnumerator DisableLoadingScreen()
-        {
-            yield return new WaitForSeconds(.05f);
+            if (sceneDone != sceneCount) return;
+
             loadingUITweener.Disable();
+            loading = false;
+            _scenesLoading.Clear();
         }
     }
 }
-

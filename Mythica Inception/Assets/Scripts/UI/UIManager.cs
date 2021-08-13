@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
 using Dialogue_System;
+using Items_and_Barter_System.Scripts;
 using Monster_System;
 using TMPro;
 using UnityEngine;
@@ -194,11 +195,11 @@ namespace UI
             partySlots[num].memberPortrait.sprite = slot.monster.monsterPortrait;
             partySlots[num].memberPortrait.color = unusedPartyMember;
         }
-        
+
         public void UpdateHealthUI(int currentSlotNumber, float currentHealth)
         {
             currentCharacterHealth.currentValue = currentHealth;
-
+            
             if (currentSlotNumber < 0) return;
             
             var currentMonster = GameManager.instance.player.monsterSlots[currentSlotNumber];
@@ -212,6 +213,9 @@ namespace UI
         public void UpdatePartyMemberHealth(int slotNumber, float currentHealth, float maxHealth)
         {
             partySlots[slotNumber].memberHealth.fillAmount = currentHealth / maxHealth;
+            
+            if(currentHealth > 0) return;
+            partySlots[slotNumber].memberPortrait.color = Color.red;
         }
 
         public void UpdateExpUI(int monsterSlotNum, float addedExp)
@@ -219,7 +223,7 @@ namespace UI
             var currentExp = currentCharacterExp.currentValue + addedExp;
             currentCharacterExp.currentValue = currentExp;
 
-            if (currentExp <= currentCharacterExp.maxValue) return;
+            if (currentExp < currentCharacterExp.maxValue) return;
 
             var newCurrent = currentExp - currentCharacterExp.maxValue;
             LevelUp(out var maxExp, monsterSlotNum);
@@ -234,6 +238,7 @@ namespace UI
             var monsterSlots = GameManager.instance.player.monsterSlots;
             var monsterLevel = GameCalculations.Level(monsterSlots[slotNum].currentExp);
             maxExp = (float) GameCalculations.Experience( monsterLevel + 1) - GameCalculations.Experience(monsterLevel);
+            currentCharacterLevel.text = monsterLevel.ToString();
         }
 
         IEnumerator DelayAction(float delay, Action action)
@@ -250,8 +255,19 @@ namespace UI
             dialogueUICanvas.SetActive(false);
             loadingScreen.SetActive(false);
         }
-        
-        
+
+        public void UpdateGoldUI()
+        {
+            var inventory = GameManager.instance.player.inventory;
+            var count = inventory.inventorySlots.Count;
+            for (var i = 0; i < count; i++)
+            {
+                if (!(inventory.inventorySlots[i].inventoryItem is Gold)) continue;
+                
+                currentGold.text = inventory.inventorySlots[i].amountOfItems.ToString();
+                break;
+            }
+        }
     }
 
     [System.Serializable]

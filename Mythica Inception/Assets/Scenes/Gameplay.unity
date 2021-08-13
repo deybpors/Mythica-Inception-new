@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.5490406, g: 0.7951933, b: 0.973512, a: 1}
+  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -257,7 +257,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b35abb33d07f13d4dbc9c6a363e866a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenePicker: {fileID: 136568954}
   player: {fileID: 969145013}
   currentWorldCamera: {fileID: 1687258584}
 --- !u!114 &136568954
@@ -1129,7 +1128,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969145007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -130, y: 8.33, z: 388.28}
+  m_LocalPosition: {x: -128.92323, y: 7.8292236, z: 389.1831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2124097319}
@@ -1650,7 +1649,7 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: d52b9ce5e8319354c8b076db0f8eeb49, type: 2}
   playerHealth:
     maxHealth: 0
-    currentHealth: 5
+    currentHealth: 18
   playerStamina:
     currentStamina: 0
     fullStamina: 0
@@ -1661,6 +1660,7 @@ MonoBehaviour:
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   activeQuests: []
   inventory: {fileID: 969145019}
+  isTesting: 0
   unitIndicator: {fileID: 682371732}
   vectorIndicator: {fileID: 981958594}
   tempSpeed: 0
@@ -2906,7 +2906,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: -130, y: 20.33, z: 380.28}
+  m_LocalPosition: {x: -128.92323, y: 19.829224, z: 381.1831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3157,7 +3157,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830030837}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: -130, y: 20.33, z: 380.28}
+  m_LocalPosition: {x: -128.92323, y: 19.829224, z: 381.1831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 789864694}
@@ -3579,7 +3579,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0.7608733, z: 4.5905e-41, w: 0}
+  m_BoundingSphereOverride: {x: 1.83671e-40, y: 9.1835e-41, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0

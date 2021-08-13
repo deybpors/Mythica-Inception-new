@@ -39,6 +39,7 @@ namespace Pluggable_AI.Scripts.Decisions
 
             if (enemyCount != 0) return;
             
+            //whenever we escaped an encounter
             GameManager.instance.DifficultyUpdateAdd("Failed Encounters",1);
             var player = GameManager.instance.player;
             GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));

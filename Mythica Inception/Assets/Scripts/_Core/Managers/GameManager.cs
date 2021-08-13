@@ -21,7 +21,7 @@ namespace _Core.Managers
         public QuestManager questManager;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;
-        [HideInInspector] public string currentWorldScenePath;
+        [HideInInspector] public string currentWorldScenePath = string.Empty;
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;
 
@@ -71,5 +71,18 @@ namespace _Core.Managers
 
         #endregion
         
+        
+        public void UpdateEnemiesSeePlayer(Object enemyTransform, out int enemyCount)
+        {
+            enemyCount = enemiesSeePlayer.Count;
+            for (var i = 0; i < enemyCount; i++)
+            {
+                var enemy = enemiesSeePlayer[i];
+                if (enemyTransform != enemy) continue;
+                enemiesSeePlayer.Remove(enemy);
+                enemyCount--;
+                break;
+            }
+        }
     }
 }

@@ -13,10 +13,12 @@ namespace Quest_System
 
         public void Finish()
         {
-            if (GameManager.instance.player.IsQuestFinish(GameManager.instance.questManager.questSelected))
-            {
-                GameManager.instance.player.GetQuestRewards(GameManager.instance.questManager.questSelected);
-            }   
+            if (!GameManager.instance.player.IsQuestFinish(GameManager.instance.questManager.questSelected)) return;
+            
+            var player = GameManager.instance.player;
+            var questManager = GameManager.instance.questManager;
+            player.RemoveQuestToPlayer(questManager.questSelected);
+            player.GetQuestRewards(questManager.questSelected);
         }
 
         public void Decline()
@@ -25,7 +27,7 @@ namespace Quest_System
             BackToGameplay();
         }
 
-        public void BackToGameplay()
+        private void BackToGameplay()
         {
             GameManager.instance.player.inputHandler.activate = true;
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);

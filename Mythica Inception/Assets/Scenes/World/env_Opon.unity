@@ -818,6 +818,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2389084399226082571, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: npcName
+      value: Cali
+      objectReference: {fileID: 0}
     - target: {fileID: 2389084399226082573, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_Name
       value: NPCTemplate

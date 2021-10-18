@@ -26,7 +26,7 @@ namespace _Core.Player
         public EntityHealth playerHealth;
         public EntityStamina playerStamina;
         public TameBeam tameBeam;
-        public Transform projectileRelease;
+        public ProjectileRelease projectileReleases;
         public GameObject dashGraphic;
         public float tameRadius;
         [SerializeField] private GameObject deathParticles;
@@ -217,8 +217,8 @@ namespace _Core.Player
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
             var rotation = transform.rotation;
             var projectile = GameManager.instance.pooler.
-                SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : zero, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
+                SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
+                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : zero, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
             
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
@@ -287,7 +287,7 @@ namespace _Core.Player
             //spawn projectile
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
-                tameBeam.projectileGraphics.projectile, projectileRelease.position,
+                tameBeam.projectileGraphics.projectile, projectileReleases.front.position,
                 Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject,tameBeam.projectileGraphics.impact, 

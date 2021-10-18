@@ -19,7 +19,7 @@ namespace Pluggable_AI.Scripts.General
         public List<MonsterSlot> monsterSlots;
         public GameObject deathParticles;
         private TameValue _tameValue;
-        public Transform projectileRelease;
+        public ProjectileRelease projectileReleases;
         public GameObject experienceOrbSpawner;
 
         #region Hidden Fields
@@ -278,8 +278,8 @@ namespace Pluggable_AI.Scripts.General
             var monAttacking = GetCurrentMonster();
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
             var projectile = GameManager.instance.pooler.
-                SpawnFromPool(range ? null : projectileRelease.transform, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileRelease.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
+                SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
+                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var deathTime = range ? 1f : .25f;
             var speed = range ? 30f : 20f;

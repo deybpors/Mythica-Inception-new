@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
+  m_IndirectSpecularColor: {r: 0.35237876, g: 0.72419035, b: 0.95839924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2650,7 +2650,11 @@ MonoBehaviour:
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
-  projectileRelease: {fileID: 736149722}
+  projectileReleases:
+    front: {fileID: 0}
+    back: {fileID: 0}
+    left: {fileID: 0}
+    right: {fileID: 0}
   experienceOrbSpawner: {fileID: 0}
   spawner: {fileID: 0}
   monsterAttacker:

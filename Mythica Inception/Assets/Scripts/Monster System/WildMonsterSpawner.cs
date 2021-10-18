@@ -27,7 +27,6 @@ namespace Monster_System
 
         void Start()
         {
-            _spawnerPosition = transform.position;
             InvokeRepeating(nameof(SpawnMonsters), 0, 1);
         }
 
@@ -43,6 +42,8 @@ namespace Monster_System
             
             if(_waitSpawn != null) return;
             
+            _spawnerPosition = transform.position;
+
             Spawn();
             currentNoOfMonsters++;
             _waitSpawn = StartCoroutine(WaitSpawnTime());

@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: b95d1e203d1fcb3469f50be12ccf47a4, type: 2}
+  m_NavMeshData: {fileID: 0}
 --- !u!1 &121033831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,7 +1757,7 @@ MonoBehaviour:
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   activeQuests: []
   inventory: {fileID: 969145019}
-  isTesting: 0
+  isTesting: 1
   unitIndicator: {fileID: 682371732}
   vectorIndicator: {fileID: 981958594}
   tempSpeed: 0
@@ -2915,6 +2915,7 @@ GameObject:
   - component: {fileID: 1687258584}
   - component: {fileID: 1687258586}
   - component: {fileID: 1687258583}
+  - component: {fileID: 1687258582}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2922,6 +2923,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1687258582
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1687258581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde560cc90ffb3649a7e6a7a3553865f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ReferenceObject: {fileID: 969145008}
+  Threshold: 100
+  Use2DDistance: 0
+  UpdateAllScenes: 1
+  UpdateParticles: 1
+  UpdateTrailRenderers: 1
+  UpdateLineRenderers: 1
 --- !u!114 &1687258583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2987,7 +3007,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 7167
+    m_Bits: 15359
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -3672,7 +3692,7 @@ Light:
   m_RenderMode: 2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 6611
+    m_Bits: 14803
   m_RenderingLayerMask: 1
   m_Lightmapping: 1
   m_LightShadowCasterMode: 0

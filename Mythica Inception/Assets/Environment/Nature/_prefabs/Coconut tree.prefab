@@ -15,7 +15,7 @@ GameObject:
   m_Name: Cube.069
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &7111998930587399700
@@ -96,7 +96,7 @@ GameObject:
   m_Name: Plane.017
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
+  m_NavMeshLayer: 1
   m_StaticEditorFlags: 126
   m_IsActive: 1
 --- !u!4 &7838593723038296591

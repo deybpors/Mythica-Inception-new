@@ -987,6 +987,10 @@ PrefabInstance:
       propertyPath: npcName
       value: Cali
       objectReference: {fileID: 0}
+    - target: {fileID: 2389084399226082571, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: inkJsonFile
+      value: 
+      objectReference: {fileID: 4900000, guid: 749dd6360faa98940b3ad3f6200ae727, type: 3}
     - target: {fileID: 2389084399226082573, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_Name
       value: NPCTemplate

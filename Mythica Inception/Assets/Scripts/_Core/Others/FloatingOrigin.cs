@@ -47,7 +47,7 @@ public class FloatingOrigin : MonoBehaviour
 
         if (!(referencePosition.magnitude > Threshold) || GameManager.instance.enemiesSeePlayer.Count > 0) return;
 
-        Debug.Log("repositioning");
+        //Debug.Log("repositioning");
         
         MoveRootTransforms(referencePosition);
 

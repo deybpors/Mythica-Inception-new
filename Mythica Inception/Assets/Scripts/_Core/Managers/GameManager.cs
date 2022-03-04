@@ -17,8 +17,9 @@ namespace _Core.Managers
         public GameSceneManager gameSceneManager;
         public ObjectPooler pooler;
         public ScenePicker gameplayScene;
-        public DynamicDifficultyAdjustment dynamicDifficultyAdjustment;
+        public DynamicDifficultyAdjustment difficultyManager;
         public QuestManager questManager;
+        public SaveManager saveManager;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;
         [HideInInspector] public string currentWorldScenePath = string.Empty;
@@ -56,17 +57,17 @@ namespace _Core.Managers
 
         public void DifficultyUpdateAdd(string dataKey, float valueToAdd)
         {
-            var data = dynamicDifficultyAdjustment.GetDataNeeded(dataKey);
+            var data = difficultyManager.GetDataNeeded(dataKey);
             var dataValue = data.value;
             data.ChangeValue(dataValue + valueToAdd);
-            dynamicDifficultyAdjustment.DataAdjusted(dataKey);
+            difficultyManager.DataAdjusted(dataKey);
         }
         
         public void DifficultyUpdateChange(string dataKey, float newValue)
         {
-            var data = dynamicDifficultyAdjustment.GetDataNeeded(dataKey);
+            var data = difficultyManager.GetDataNeeded(dataKey);
             data.ChangeValue(newValue);
-            dynamicDifficultyAdjustment.DataAdjusted(dataKey);
+            difficultyManager.DataAdjusted(dataKey);
         }
 
         #endregion

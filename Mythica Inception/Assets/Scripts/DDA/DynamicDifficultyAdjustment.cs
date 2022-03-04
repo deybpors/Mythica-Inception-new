@@ -43,10 +43,8 @@ namespace DDA
             dataName = dataName.Replace(" ", string.Empty).ToLower();
 
             if (!dictParamDataNeeded.ContainsKey(dataName)) return;
-            
-            var parametersToAdjust = new List<DifficultyParameter>();
-                
-            //check which parameter has this needed data and add it to parameters to adjust
+
+            //check which parameter has this needed data and adjust the parameter's value
             var parametersCount = difficultyParameters.Count;
             for (var i = 0; i < parametersCount; i++)
             {
@@ -59,33 +57,27 @@ namespace DDA
 
                     if (dataNeededNameLower.Equals(dataName))
                     {
-                        parametersToAdjust.Add(parameter);
+                        AdjustParameter(dataName, parameter);
                     }
                 }
             }
 
+        }
 
-            //adjust all data in parameters to adjust
-            var parametersToAdjustCount = parametersToAdjust.Count;
-            for (var i = 0; i < parametersToAdjustCount; i++)
+        private void AdjustParameter(string dataName, DifficultyParameter parameter)
+        {
+            //check if we should increase difficulty
+            if (dictParamDataNeeded[dataName].IncreaseDifficulty())
             {
-                var parameter = parametersToAdjust[i];
-                //check if we should increase difficulty
-                if (dictParamDataNeeded[dataName].IncreaseDifficulty())
-                {
-                    Debug.Log("Increasing difficulty to " + parameter.name);
-                    parameter.AdjustDifficultyParameterValue(Difficulty.higher);
-                    //return;
-                }
-
-                //check if we should decrease difficulty
-                if (dictParamDataNeeded[dataName].DecreaseDifficulty())
-                {
-                    Debug.Log("Decreasing difficulty to " + parameter.name);
-                    parameter.AdjustDifficultyParameterValue(Difficulty.lower);
-                    //break;   
-                }
+                Debug.Log("Increasing difficulty to " + parameter.name);
+                parameter.AdjustDifficultyParameterValue(Difficulty.higher);
             }
+
+            //check if we should decrease difficulty
+            if (!dictParamDataNeeded[dataName].DecreaseDifficulty()) return;
+            
+            Debug.Log("Decreasing difficulty to " + parameter.name);
+            parameter.AdjustDifficultyParameterValue(Difficulty.lower);
         }
     }
 }

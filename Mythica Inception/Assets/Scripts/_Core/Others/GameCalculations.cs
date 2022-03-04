@@ -11,7 +11,7 @@ namespace _Core.Others
     {
         public static int Damage(int attackerLvl, int attackerAttack, int targetDefense, float skillPower, int maxSkillPower, float modifier)
         {
-            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
+            var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
             return (int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
                 ((float) attackerAttack / targetDefense) + 2) * modifier);
         }
@@ -60,7 +60,7 @@ namespace _Core.Others
         
         public static int TameBeam(int avgLevel, float tSPower, int wildMonsterTamingResistance)
         { 
-            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
+            var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
             var random = Random.Range(0.85f, 1);
             var tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);
             return tameBeam;
@@ -80,7 +80,7 @@ namespace _Core.Others
         public static int ExperienceGain(bool wild, MonsterSlot monsterDefeated, float expBonus, bool evolve, bool type, int mythica)
         {
             const int mult = 8;
-            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
+            var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
             var wildVal = wild ? 1 : 1.5f;
             var baseExp = monsterDefeated.monster.stats.baseExpYield;
             var lvl = (float) Level(monsterDefeated.currentExp);
@@ -95,7 +95,7 @@ namespace _Core.Others
         public static int ExperienceGain(bool wild, MonsterSlot monsterDefeated, bool type)
         {
             const int mult = 6;
-            var gamePace = GameManager.instance.dynamicDifficultyAdjustment.GetParameterValue("GAMEPACE");
+            var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
             var wildVal = wild ? 1 : 1.5f;
             var baseExp = monsterDefeated.monster.stats.baseExpYield;
             var lvl = (float) Level(monsterDefeated.currentExp);

@@ -20,7 +20,7 @@ namespace Quest_System
             {
                 GameManager.instance.uiManager.questAccept.text = "Finish";
                 GameManager.instance.uiManager.questDecline.text = "Close";
-                buttonInteractable = GameManager.instance.player.IsQuestFinish(questToGive);
+                buttonInteractable = GameManager.instance.player.playerQuestManager.IsQuestSucceeded(questToGive);
                 GameManager.instance.uiManager.questAccept.alpha = .5f;
             }
             

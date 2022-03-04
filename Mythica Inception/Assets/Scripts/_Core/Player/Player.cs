@@ -30,7 +30,7 @@ namespace _Core.Player
         public GameObject dashGraphic;
         public float tameRadius;
         [SerializeField] private GameObject deathParticles;
-        public List<PlayerAcceptedQuest> activeQuests;
+        
         public PlayerInventory inventory;
         [SerializeField]
         private bool isTesting;
@@ -52,6 +52,7 @@ namespace _Core.Player
         [HideInInspector] public CharacterController controller;
         [HideInInspector] public Animator currentAnimator;
         [HideInInspector] public Stamina staminaComponent;
+        [HideInInspector] public PlayerQuestManager playerQuestManager;
         private StateController _stateController;
         [HideInInspector] public MonsterManager monsterManager;
         private readonly Vector3 zero = Vector3.zero;
@@ -78,7 +79,6 @@ namespace _Core.Player
             _stateController.ActivateAI(true, null, this);
             GameManager.instance.uiManager.InitGameplayUI(playerName, playerHealth.currentHealth, playerHealth.maxHealth, monsterSlots);
             GameManager.instance.uiManager.loadingScreen.SetActive(false);
-            
             GameManager.instance.uiManager.loadingScreenCamera.gameObject.SetActive(false);
         }
 
@@ -96,6 +96,7 @@ namespace _Core.Player
             inputHandler.ActivatePlayerInputHandler(this);
             _stateController = GetComponent<StateController>();
             _healthComponent = GetComponent<Health>();
+            playerQuestManager = GetComponent<PlayerQuestManager>();
         }
 
         private void InitializePlayerData()
@@ -256,6 +257,7 @@ namespace _Core.Player
             
             tempSpeed *= monsterSlots[slot].monster.stats.movementSpeed;
             tempAttackRate *= monsterSlots[slot].monster.stats.attackRate;
+
             //Initialize Monster's health
             var maxHealth =
                 GameCalculations.Stats(
@@ -455,62 +457,7 @@ namespace _Core.Player
             GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
         }
 
-        public void GiveQuestToPlayer(Quest questGiven)
-        {
-            if(PlayerHaveQuest(questGiven)) return;
-            
-            var newQuest = new PlayerAcceptedQuest(questGiven);
-            activeQuests.Add(newQuest);
-        }
-
-        private bool PlayerHaveQuest(Quest quest)
-        {
-            return activeQuests.Any(t => t.quest.ID.Equals(quest.ID));
-        }
-
-        public void RemoveQuestToPlayer(Quest questToRemove)
-        {
-            var count = activeQuests.Count;
-            for (var i = 0; i < count; i++)
-            {
-                if (!activeQuests[i].quest.ID.Equals(questToRemove.ID)) continue;
-                activeQuests.RemoveAt(i);
-                break;
-            }
-        }
-
-        public bool IsQuestFinish(Quest quest)
-        {
-            foreach (var acceptedQuest in activeQuests)
-            {
-                if (acceptedQuest.quest.ID.Equals(quest.ID))
-                {
-                    if (acceptedQuest.currentValue >= acceptedQuest.quest.goals.requiredValue)
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        public void GetQuestRewards(Quest quest)
-        {
-            for (var i = 0; i < quest.rewards.Count; i++)
-            {
-                if (quest.rewards[i].rewardsType.rewardType != RewardTypes.items) continue;
-                
-                var item = quest.rewards[i].rewardsType.rewardItem;
-                var value = quest.rewards[i].value;
-                inventory.AddItemInPlayerInventory(item, value);
-                
-                if (item is Gold)
-                {
-                    GameManager.instance.uiManager.UpdateGoldUI();
-                }
-            }
-        }
+        
 
        
     }

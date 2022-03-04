@@ -10,7 +10,7 @@ namespace Quest_System
         public Quest questSelected;
         public void UpdateKillQuest()
         {
-            var playerQuests = GameManager.instance.player.activeQuests;
+            var playerQuests = GameManager.instance.player.playerQuestManager.activeQuests;
             foreach (var quest in playerQuests.Where(quest => quest.quest.goals.type == QuestGoalType.kill))
             {
                 quest.currentValue++;
@@ -19,7 +19,7 @@ namespace Quest_System
         
         public bool QuestAcceptedByPlayer(Quest quest)
         {
-            var playerQuests = GameManager.instance.player.activeQuests;
+            var playerQuests = GameManager.instance.player.playerQuestManager.activeQuests;
             var questCount = playerQuests.Count;
             for (var i = 0; i < questCount; i++)
             {

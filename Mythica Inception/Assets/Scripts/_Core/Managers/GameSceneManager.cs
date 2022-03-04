@@ -109,7 +109,7 @@ namespace _Core.Managers
             if(!loading) return;
             
             var sceneCount = _scenesLoading.Count;
-            Debug.Log(sceneCount);
+            //Debug.Log(sceneCount);
 
             var sceneDone = 0;
 
@@ -122,13 +122,13 @@ namespace _Core.Managers
                 }
             }
             
-            Debug.Log(sceneDone);
+            //Debug.Log(sceneDone);
             
             _prevSceneProgress = _totalSceneProgress;
             _totalSceneProgress = (float) sceneDone / sceneCount;
 
-            Debug.Log(_prevSceneProgress);
-            Debug.Log(_totalSceneProgress);
+            //Debug.Log(_prevSceneProgress);
+            //Debug.Log(_totalSceneProgress);
             
             if (_totalSceneProgress.Approximately(_prevSceneProgress))
             {

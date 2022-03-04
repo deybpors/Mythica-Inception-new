@@ -21,8 +21,10 @@ MonoBehaviour:
       rewardItem: {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
       experienceReward: 0
       icon: {fileID: 21300000, guid: 0b11385833634cc468daedbf7f7583a3, type: 3}
-      reward: Gold
+      rewardName: 
     value: 100
   goals:
     type: 0
     requiredValue: 5
+  succeedQuest: {fileID: 0}
+  failedQuest: {fileID: 0}

@@ -7,18 +7,30 @@ namespace Quest_System
     {
         public void Accept()
         {
-            GameManager.instance.player.GiveQuestToPlayer(GameManager.instance.questManager.questSelected);
+            GameManager.instance.player.playerQuestManager.GiveQuestToPlayer(GameManager.instance.questManager.questSelected);
             BackToGameplay();
         }
 
         public void Finish()
         {
-            if (!GameManager.instance.player.IsQuestFinish(GameManager.instance.questManager.questSelected)) return;
-            
+            var questSelected = GameManager.instance.questManager.questSelected;
             var player = GameManager.instance.player;
-            var questManager = GameManager.instance.questManager;
-            player.RemoveQuestToPlayer(questManager.questSelected);
-            player.GetQuestRewards(questManager.questSelected);
+
+            if (!GameManager.instance.player.playerQuestManager.IsQuestSucceeded(questSelected))
+            {
+                if (questSelected.failedQuest == null) return;
+                
+                player.playerQuestManager.RemoveQuestToPlayer(questSelected);
+                player.playerQuestManager.GiveQuestToPlayer(questSelected.failedQuest);
+                
+                return;
+            }
+
+            player.playerQuestManager.RemoveQuestToPlayer(questSelected);
+            player.playerQuestManager.GetQuestRewards(questSelected);
+            
+            if(questSelected.succeedQuest == null) return;
+            player.playerQuestManager.GiveQuestToPlayer(questSelected.succeedQuest);
         }
 
         public void Decline()

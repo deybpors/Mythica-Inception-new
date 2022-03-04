@@ -10,9 +10,16 @@ namespace Quest_System
     public class Quest : ScriptableObjectWithID
     {
         public string title;
+        [TextArea(5,10)]
         public string description;
         public List<Reward> rewards;
         public QuestGoal goals;
+        [Space]
+        [Tooltip("Quest to proceed if ever the current quest succeeds")]
+        public Quest succeedQuest;
+
+        [Tooltip("Quest to proceed if ever the current quest fails")]
+        public Quest failedQuest;
     }
 
     [System.Serializable]

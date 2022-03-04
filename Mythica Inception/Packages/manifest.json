@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.domybest.mybox": "https://github.com/Deadcows/MyBox.git",
+    "com.intothedev.savesystem": "https://github.com/IntoTheDev/Save-System-for-Unity.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.cinemachine": "2.6.5",
     "com.unity.collab-proxy": "1.5.7",

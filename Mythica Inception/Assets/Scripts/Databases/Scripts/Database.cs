@@ -9,10 +9,11 @@ namespace Databases.Scripts
     public class Database : ScriptableObject
     {
         public List<ScriptableObjectWithID> data  = new List<ScriptableObjectWithID>();
-        protected Dictionary<string, ScriptableObjectWithID> dictionary = new Dictionary<string, ScriptableObjectWithID>();
+        public Dictionary<string, ScriptableObjectWithID> dictionary = new Dictionary<string, ScriptableObjectWithID>();
 
         void Awake()
         {
+            //put scriptable objects in dictionary
             foreach (var obj in data)
             {
                 try

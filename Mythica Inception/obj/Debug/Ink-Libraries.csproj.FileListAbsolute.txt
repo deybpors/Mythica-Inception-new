@@ -1,0 +1,2 @@
+D:\Dave\MYTHICA\_project\Mythica Inception\obj\Debug\Ink-Libraries.csproj.AssemblyReference.cache
+D:\Dave\MYTHICA\_project\Mythica Inception\obj\Debug\Ink-Libraries.csproj.CoreCompileInputs.cache

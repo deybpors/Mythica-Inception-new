@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.35237876, g: 0.72419035, b: 0.95839924, a: 1}
+  m_IndirectSpecularColor: {r: 0.5500326, g: 0.7960452, b: 0.96930957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -122,7 +122,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 23800000, guid: b95d1e203d1fcb3469f50be12ccf47a4, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: 882bbc10a9249494c8068f409844fdae, type: 2}
 --- !u!1 &121033831
 GameObject:
   m_ObjectHideFlags: 0
@@ -1203,6 +1203,7 @@ GameObject:
   - component: {fileID: 969145016}
   - component: {fileID: 969145018}
   - component: {fileID: 969145019}
+  - component: {fileID: 969145020}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1218,7 +1219,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969145007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -128.92323, y: 7.8292236, z: 389.1831}
+  m_LocalPosition: {x: 48.75, y: 10.51, z: -148.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2124097319}
@@ -1755,7 +1756,6 @@ MonoBehaviour:
   dashGraphic: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
   tameRadius: 8
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
-  activeQuests: []
   inventory: {fileID: 969145019}
   isTesting: 0
   unitIndicator: {fileID: 682371732}
@@ -1770,6 +1770,7 @@ MonoBehaviour:
   controller: {fileID: 969145010}
   currentAnimator: {fileID: 0}
   staminaComponent: {fileID: 0}
+  playerQuestManager: {fileID: 0}
   monsterManager: {fileID: 0}
   monsterAttacker:
     inParty: 0
@@ -1976,6 +1977,19 @@ MonoBehaviour:
     amountOfItems: 0
   - inventoryItem: {fileID: 0}
     amountOfItems: 0
+--- !u!114 &969145020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969145007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01fe8955bf945a2488bb85e5b7b7c63d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activeQuests: []
 --- !u!1 &981958594
 GameObject:
   m_ObjectHideFlags: 0
@@ -3007,7 +3021,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: -128.92323, y: 19.829224, z: 381.1831}
+  m_LocalPosition: {x: 48.75, y: 22.51, z: -156.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3258,7 +3272,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830030837}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: -128.92323, y: 19.829224, z: 381.1831}
+  m_LocalPosition: {x: 48.75, y: 22.51, z: -156.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 789864694}

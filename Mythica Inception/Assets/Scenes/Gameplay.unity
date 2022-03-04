@@ -1598,11 +1598,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6735b1653b7b87a45ba38575419d9e04, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerName: 
   monsterSlots:
   - inParty: 0
     slotNumber: 0
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 0}
     currentHealth: 0
     currentExp: 0
@@ -1637,7 +1638,7 @@ MonoBehaviour:
   - inParty: 1
     slotNumber: 1
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
     currentHealth: 19
     currentExp: 500
@@ -1672,7 +1673,7 @@ MonoBehaviour:
   - inParty: 0
     slotNumber: 0
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 0}
     currentHealth: 0
     currentExp: 0
@@ -1707,7 +1708,7 @@ MonoBehaviour:
   - inParty: 0
     slotNumber: 0
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 0}
     currentHealth: 0
     currentExp: 0
@@ -1739,14 +1740,12 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
-  playerName: 
-  playerData: {fileID: 11400000, guid: d52b9ce5e8319354c8b076db0f8eeb49, type: 2}
   playerHealth:
     maxHealth: 0
     currentHealth: 18
-  playerStamina:
-    currentStamina: 0
-    fullStamina: 0
+  inventory: {fileID: 969145019}
+  isTesting: 0
+  deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   tameBeam: {fileID: 11400000, guid: a9b12769fd8176d4b916b995a2aced8a, type: 2}
   projectileReleases:
     front: {fileID: 241484253}
@@ -1754,10 +1753,9 @@ MonoBehaviour:
     left: {fileID: 335887106}
     right: {fileID: 883345249}
   dashGraphic: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
+  playerData: {fileID: 11400000, guid: d52b9ce5e8319354c8b076db0f8eeb49, type: 2}
   tameRadius: 8
-  deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
-  inventory: {fileID: 969145019}
-  isTesting: 0
+  tamerSexGfx: {fileID: 11400000, guid: e1b02e9074c6cf74aa33f134d04a1dc9, type: 2}
   unitIndicator: {fileID: 682371732}
   vectorIndicator: {fileID: 981958594}
   tempSpeed: 0
@@ -1776,7 +1774,7 @@ MonoBehaviour:
     inParty: 0
     slotNumber: 0
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 0}
     currentHealth: 0
     currentExp: 1
@@ -2631,7 +2629,7 @@ MonoBehaviour:
   - inParty: 0
     slotNumber: 0
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
     currentHealth: 0
     currentExp: 500
@@ -2675,7 +2673,7 @@ MonoBehaviour:
     inParty: 0
     slotNumber: 0
     fainted: 0
-    nickName: 
+    name: 
     monster: {fileID: 0}
     currentHealth: 0
     currentExp: 1

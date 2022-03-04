@@ -196,7 +196,7 @@ namespace _Core.Input
         {
             if(!activate) return;
             if(!context.started) return;
-            if(_player.CurrentSlotNumber() >= 0) return;
+            if(_player.GetCurrentSlotNumber() >= 0) return;
             if (_player.selectionManager.interactables.Count > 0)
             {
                 attackInput = false;

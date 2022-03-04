@@ -220,17 +220,17 @@ namespace Combat_System
                 hitDefense = GameCalculations.Stats(
                     _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                         monsterHit.stats.physicalDefense : monsterHit.stats.specialDefense, 
-                    hitHaveMonster.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()].stabilityValue, 
+                    hitHaveMonster.GetMonsterSlots()[_haveMonsters.GetCurrentSlotNumber()].stabilityValue, 
                     hitLevel);
             }
             else
             {
-                hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[hitHaveMonster.CurrentSlotNumber()].currentExp);
+                hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[hitHaveMonster.GetCurrentSlotNumber()].currentExp);
                 typeComparison = GameCalculations.TypeComparison(_spawnerMonster.type, monsterHit.type);
                 hitDefense = GameCalculations.Stats(
                     _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                     monsterHit.stats.physicalDefense : monsterHit.stats.specialDefense, 
-                    hitHaveMonster.GetMonsterSlots()[hitHaveMonster.CurrentSlotNumber()].stabilityValue, 
+                    hitHaveMonster.GetMonsterSlots()[hitHaveMonster.GetCurrentSlotNumber()].stabilityValue, 
                     hitLevel);
             }
             
@@ -309,7 +309,7 @@ namespace Combat_System
             }
             else
             {
-                _spawnerSlot = _haveMonsters.GetMonsterSlots()[_haveMonsters.CurrentSlotNumber()];
+                _spawnerSlot = _haveMonsters.GetMonsterSlots()[_haveMonsters.GetCurrentSlotNumber()];
                 _spawnerMonster = _haveMonsters.GetCurrentMonster();
                 spawnerSv = _spawnerSlot.stabilityValue;
                 _spawnerSkill = skill;

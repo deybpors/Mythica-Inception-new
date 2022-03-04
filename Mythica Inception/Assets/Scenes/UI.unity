@@ -6298,6 +6298,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scenePicker: {fileID: 1080838364}
+  saveKey: Player
+  continueButton: {fileID: 1218049041}
 --- !u!114 &1080838364
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -39,7 +39,7 @@ namespace Monster_System
             _currentMonster = -1;
             _haveMonsters = haveMonsters;
             
-            //meaning it is a player since only the player has a tamer
+            //if tamerPrefab is not null, meaning it is a player since only the player has a tamer
             _tamerPrefab = _haveMonsters.GetTamer();
             if (_tamerPrefab != null)
             {
@@ -79,7 +79,7 @@ namespace Monster_System
                     continue;
                 }
                 
-                GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
+                var monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
                     _monsters[i].monsterName, _monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
                 monsterObj.SetActive(false);
                 if (isPlayer)
@@ -174,7 +174,7 @@ namespace Monster_System
             if (slot >= 0)
             {
                 var monsterSlot = monsterSlots[slot];
-                var monsterName = monsterSlot.nickName == "" ? monsterSlot.monster.name : monsterSlot.nickName;
+                var monsterName = monsterSlot.name == "" ? monsterSlot.monster.name : monsterSlot.name;
                 var monsterLevel = GameCalculations.Level(monsterSlot.currentExp);
                 var maxHealth = GameCalculations.Stats(monsterSlot.monster.stats.baseHealth, monsterSlot.stabilityValue, monsterLevel);
                 var maxExp = (float) GameCalculations.Experience(monsterLevel + 1) - GameCalculations.Experience(monsterLevel);

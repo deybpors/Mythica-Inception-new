@@ -82,7 +82,7 @@ namespace Monster_System
             }
             else
             {
-                var newSlot = _haveMonster.GetMonsterSlots()[_haveMonster.CurrentSlotNumber()];
+                var newSlot = _haveMonster.GetMonsterSlots()[_haveMonster.GetCurrentSlotNumber()];
                 _tamer.AddNewMonsterSlot(slotToFill, newSlot);
                 if (tamerAI.spawner != null) { tamerAI.spawner.currentNoOfMonsters--; }
                 //play animation something screen to celebrate new monster tamed

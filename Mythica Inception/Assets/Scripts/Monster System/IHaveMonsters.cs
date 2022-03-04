@@ -8,7 +8,7 @@ namespace Monster_System
         float GetMonsterSwitchRate();
         List<Monster> GetMonsters();
         void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot);
-        int CurrentSlotNumber();
+        int GetCurrentSlotNumber();
         List<MonsterSlot> GetMonsterSlots();
         MonsterSlot GetMonsterWithHighestExp();
 

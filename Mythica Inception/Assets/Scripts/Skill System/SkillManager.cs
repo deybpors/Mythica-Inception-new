@@ -52,7 +52,7 @@ namespace Skill_System
         private void InitializeMonsterSkills()
         {
             skillSlots.Clear();
-            currentMonsterSlot = haveMonsters.GetMonsterSlots()[haveMonsters.CurrentSlotNumber()];
+            currentMonsterSlot = haveMonsters.GetMonsterSlots()[haveMonsters.GetCurrentSlotNumber()];
             skillSlots = currentMonsterSlot.skillSlots.ToList();
         }
 

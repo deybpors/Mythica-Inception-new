@@ -129,7 +129,7 @@ namespace Pluggable_AI.Scripts.General
         }
 
         public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot) { }
-        public int CurrentSlotNumber()
+        public int GetCurrentSlotNumber()
         {
             return currentMonster;
         }

@@ -38,32 +38,6 @@ namespace DDA
             return dictParamDataNeeded.ContainsKey(dataName) ? dictParamDataNeeded[dataName] : null;
         }
 
-        public void DataAdjusted(string dataName)
-        {
-            dataName = dataName.Replace(" ", string.Empty).ToLower();
-
-            if (!dictParamDataNeeded.ContainsKey(dataName)) return;
-
-            //check which parameter has this needed data and adjust the parameter's value
-            var parametersCount = difficultyParameters.Count;
-            for (var i = 0; i < parametersCount; i++)
-            {
-                var parameter = difficultyParameters[i];
-                var dataNeededInParameterCount = parameter.dataNeeded.Count;
-                for (var j = 0; j < dataNeededInParameterCount; j++)
-                {
-                    var dataNeededName = parameter.dataNeeded[j];
-                    var dataNeededNameLower = dataNeededName.Replace(" ", string.Empty).ToLower();
-
-                    if (dataNeededNameLower.Equals(dataName))
-                    {
-                        AdjustParameter(dataName, parameter);
-                    }
-                }
-            }
-
-        }
-
         private void AdjustParameter(string dataName, DifficultyParameter parameter)
         {
             //check if we should increase difficulty
@@ -78,6 +52,33 @@ namespace DDA
             
             Debug.Log("Decreasing difficulty to " + parameter.name);
             parameter.AdjustDifficultyParameterValue(Difficulty.lower);
+        }
+
+
+        //DataAdjusted Method is the main method for adjusting the Difficulty
+        public void DataAdjusted(string dataName)
+        {
+            dataName = dataName.Replace(" ", string.Empty).ToLower();
+
+            if (!dictParamDataNeeded.ContainsKey(dataName)) return;
+
+            //check which parameter has this needed data and adjust the parameter's value
+            var parametersCount = difficultyParameters.Count;
+            for (var i = 0; i < parametersCount; i++)
+            {
+                var parameter = difficultyParameters[i];
+                var dataNeededInParameterCount = parameter.dataNeeded.Count;
+                for (var j = 0; j < dataNeededInParameterCount; j++)
+                {
+                    var dataNeededName = parameter.dataNeeded[j].Replace(" ", string.Empty).ToLower();
+
+                    if (dataNeededName.Equals(dataName))
+                    {
+                        AdjustParameter(dataName, parameter);
+                    }
+                }
+            }
+
         }
     }
 }

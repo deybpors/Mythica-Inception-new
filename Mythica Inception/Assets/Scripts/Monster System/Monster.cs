@@ -30,7 +30,7 @@ namespace Monster_System
         public bool inParty;
         public int slotNumber;
         public bool fainted;
-        public string nickName;
+        public string name;
         public Monster monster;
         public int currentHealth;
         public int currentExp = 1;
@@ -46,7 +46,7 @@ namespace Monster_System
         {
             inParty = false;
             slotNumber = 0;
-            nickName = "";
+            name = "";
             monster = mon;
             currentHealth = 0;
             currentExp = xp;

@@ -41,6 +41,7 @@ namespace UI
         [HideInInspector] public GameObject areaIndicator;
         [HideInInspector] public Texture2D pointIndicator;
 
+        [Header("Monster Party UI")]
         public Sprite blankSlot;
         public Color unusedPartyMember;
 

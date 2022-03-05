@@ -9,7 +9,8 @@ namespace Pluggable_AI.Scripts.General
     public enum StateMachineType
     {
         AI,
-        Player
+        Player,
+        Manager
     }
     public class StateController : MonoBehaviour
     {

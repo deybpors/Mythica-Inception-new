@@ -1,5 +1,6 @@
 using _Core.Managers;
 using _Core.Others;
+using Pluggable_AI.Scripts.States;
 using ToolBox.Serialization;
 using UnityEngine;
 
@@ -10,6 +11,7 @@ namespace UI
         public ScenePicker scenePicker;
         public string saveKey;
         public GameObject continueButton;
+        [SerializeField] private State gameplayState;
         private PlayerSaveData playerSavedData;
         private void Start()
         {
@@ -32,12 +34,13 @@ namespace UI
             GameManager.instance.uiManager.DeactivateAllUI();
             
             var sceneManager = GameManager.instance.gameSceneManager;
-            var scenePath = playerSavedData.Equals(null) ? scenePicker.path : playerSavedData.scenePath;
+            var scenePath = playerSavedData == null ? scenePicker.path : playerSavedData.scenePath;
             
             sceneManager.AddLoadedScene(scenePath, true, false);
             sceneManager.UnloadLoadedScene(GameManager.instance.currentWorldScenePath, false, false);
             sceneManager.AddLoadedScene(GameManager.instance.gameplayScene.path, false, true);
             GameManager.instance.uiManager.minimapCamera.SetActive(true);
+            GameManager.instance.gameStateController.TransitionToState(gameplayState);
 
             if (GameManager.instance.player != null)
             {
@@ -47,7 +50,8 @@ namespace UI
 
         public void NewGame()
         {
-            //TODO: Make new game functionality
+            //TODO: Make new game functionality and erase Continue method call
+            Continue();
         }
 
         public void Options()

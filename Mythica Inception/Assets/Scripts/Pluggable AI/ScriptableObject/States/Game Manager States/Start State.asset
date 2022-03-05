@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e57a45008170eaa4dbb1466d92faa93b, type: 3}
-  m_Name: Sample AI Stat
+  m_Script: {fileID: 11500000, guid: 45818efe249322c44a81c58a4d56dfbc, type: 3}
+  m_Name: Start State
   m_EditorClassIdentifier: 
-  combatDecisionEvery: 1.5
-  searchDuration: 3
-  searchingTurnSpeed: 200
-  fleeDuration: 3
-  movementSpeed: 10
+  actions: []
+  transitions: []
+  stateAnimation: 
+  gizmoColor: {r: 0, g: 0, b: 1, a: 1}

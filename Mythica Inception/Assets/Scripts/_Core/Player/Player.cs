@@ -60,6 +60,7 @@ namespace _Core.Player
         [HideInInspector] public MonsterSlot monsterAttacker;
         [HideInInspector] public PlayerSaveData savedData;
         private Vector3 startingPosition;
+        public float currentGameplayTimeScale = 1;
         
         #endregion
         
@@ -100,9 +101,7 @@ namespace _Core.Player
             _healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
         }
-
-
-
+        
         private void InitializePlayerSavedData()
         {
             //TODO: initialize the monsters from player's save data and put it in monsters list
@@ -472,11 +471,22 @@ namespace _Core.Player
         }
 
         #endregion
-        
+
+        #region Miscellaneous
+
+        public void ChangeTimeScaleGameplay(float scale)
+        {
+            Time.timeScale = scale;
+            currentGameplayTimeScale = scale;
+        }
+
         IEnumerator DelayAction(float delay, Action action)
         {
             yield return new WaitForSeconds(delay);
             action?.Invoke();
         }
+
+        #endregion
+
     }
 }

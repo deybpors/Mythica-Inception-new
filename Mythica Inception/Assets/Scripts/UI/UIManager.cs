@@ -42,7 +42,8 @@ namespace UI
         [HideInInspector] public Texture2D pointIndicator;
 
         [Header("Monster Party UI")]
-        public Sprite blankSlot;
+        public Sprite blankSlotSquare;
+        public Sprite blankSlotCircle;
         public Color unusedPartyMember;
 
         #region Initialization
@@ -104,7 +105,7 @@ namespace UI
             {
                 if (monsterSlots[i].monster == null)
                 {
-                    partySlots[i].memberPortrait.sprite = blankSlot;
+                    partySlots[i].memberPortrait.sprite = blankSlotCircle;
                     partySlots[i].memberHealth.transform.parent.gameObject.SetActive(false);
                     continue;
                 }
@@ -145,7 +146,7 @@ namespace UI
             var partyCount = partySlots.Count;
             for (var i = 0; i < partyCount; i++)
             {
-                if (partySlots[i].memberPortrait.sprite != blankSlot)
+                if (partySlots[i].memberPortrait.sprite != blankSlotCircle)
                 {
                     partySlots[i].memberPortrait.color = unusedPartyMember;
                 }
@@ -161,7 +162,7 @@ namespace UI
             {
                 if (skills[i] == null)
                 {
-                    currentMonsterSkillImages[i].sprite = blankSlot;
+                    currentMonsterSkillImages[i].sprite = blankSlotSquare;
                     currentMonsterSkillImages[i].raycastTarget = false;
                     continue;
                 }
@@ -174,7 +175,7 @@ namespace UI
             {
                 if (items[i] == null)
                 {
-                    currentMonsterItemImages[i].sprite = blankSlot;
+                    currentMonsterItemImages[i].sprite = blankSlotSquare;
                     currentMonsterItemImages[i].raycastTarget = false;
                     continue;
                 }

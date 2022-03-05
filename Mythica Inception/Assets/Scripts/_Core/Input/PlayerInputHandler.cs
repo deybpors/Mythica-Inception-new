@@ -1,5 +1,6 @@
-using System;
 using System.Collections;
+using _Core.Managers;
+using Pluggable_AI.Scripts.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,6 +20,9 @@ namespace _Core.Input
         [HideInInspector] public bool fourthSkillInput;
         [HideInInspector] public bool cancelSkill;
         [HideInInspector] public bool activateSkill;
+        [SerializeField] private PlayerInput playerInput;
+        [SerializeField] private State UIState;
+        [SerializeField] private State gameplayState;
         public int previousMonster;
         public int currentMonster;
         [HideInInspector] public bool playerSwitchDisabled;
@@ -203,6 +207,32 @@ namespace _Core.Input
                 _player.selectionManager.Select();
                 _player.unitIndicator.SetActive(false);
                 movementInput = _zeroVector;   
+            }
+        }
+
+        #endregion
+
+        #region GameStateChanges
+
+        public void OnEnterSettings(InputAction.CallbackContext context)
+        {
+            if (!activate) return;
+            if (context.started)
+            {
+                Debug.Log("Enter Settings");
+                GameManager.instance.gameStateController.TransitionToState(UIState);
+                playerInput.SwitchCurrentActionMap("UI");
+            }
+        }
+
+        public void OnExitSettings(InputAction.CallbackContext context)
+        {
+            if (!activate) return;
+            if (context.started)
+            {
+                Debug.Log("Exit Settings");
+                GameManager.instance.gameStateController.TransitionToState(gameplayState);
+                playerInput.SwitchCurrentActionMap("Gameplay");
             }
         }
 

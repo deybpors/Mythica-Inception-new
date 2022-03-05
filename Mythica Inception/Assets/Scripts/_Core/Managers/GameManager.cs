@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Core.Others;
 using Databases.Scripts;
 using DDA;
+using Pluggable_AI.Scripts.General;
 using Quest_System;
 using UI;
 using UnityEngine;
@@ -20,6 +21,7 @@ namespace _Core.Managers
         public DynamicDifficultyAdjustment difficultyManager;
         public QuestManager questManager;
         public SaveManager saveManager;
+        public StateController gameStateController;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;
         [HideInInspector] public string currentWorldScenePath = string.Empty;

@@ -124,6 +124,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Go to Settings",
+                    "type": "Button",
+                    "id": "30da7bda-27ad-4c6f-9c7b-a5d4892f66fa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -355,6 +363,44 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b92a8eb3-1df6-47dd-a571-49d092953460",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Go to Settings",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "252f3d1a-8fc7-4ea8-a9f1-f7819907298e",
+            "actions": [
+                {
+                    "name": "Exit Settings",
+                    "type": "Button",
+                    "id": "8b1a7eec-2f30-4af2-a9b9-cdbaa8b134aa",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1dcc6fa2-55ec-4566-b6fb-3a2abc245777",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Exit Settings",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

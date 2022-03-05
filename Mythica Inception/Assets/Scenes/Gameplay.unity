@@ -1194,8 +1194,8 @@ GameObject:
   - component: {fileID: 969145008}
   - component: {fileID: 969145010}
   - component: {fileID: 969145011}
-  - component: {fileID: 969145013}
   - component: {fileID: 969145012}
+  - component: {fileID: 969145013}
   - component: {fileID: 969145017}
   - component: {fileID: 969145009}
   - component: {fileID: 969145014}
@@ -1556,8 +1556,40 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ed6f0b5c-0dbe-40fe-b100-38314cb69fcc
     m_ActionName: Gameplay/Select[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 969145012}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnEnterSettings
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 30da7bda-27ad-4c6f-9c7b-a5d4892f66fa
+    m_ActionName: Gameplay/Go to Settings[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 969145012}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnExitSettings
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8b1a7eec-2f30-4af2-a9b9-cdbaa8b134aa
+    m_ActionName: UI/Exit Settings[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
+  m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 1687258584}
@@ -1583,6 +1615,9 @@ MonoBehaviour:
   fourthSkillInput: 0
   cancelSkill: 0
   activateSkill: 0
+  playerInput: {fileID: 969145011}
+  UIState: {fileID: 11400000, guid: acc3cdc9d4b9ea74b83802e6c320474a, type: 2}
+  gameplayState: {fileID: 11400000, guid: 3dad947175dfe8c4f860f67a26064c42, type: 2}
   previousMonster: 0
   currentMonster: 0
   playerSwitchDisabled: 0
@@ -1806,6 +1841,7 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
+  currentGameplayTimeScale: 1
 --- !u!114 &969145014
 MonoBehaviour:
   m_ObjectHideFlags: 0

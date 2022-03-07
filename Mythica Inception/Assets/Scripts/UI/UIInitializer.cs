@@ -11,7 +11,8 @@ namespace UI
     {
         [Header("Start Scene UI")]
         public GameObject startSceneUICanvas;
-        
+        public UITweener startButtonsTweener;
+
         [Header("Gameplay UI")] 
         public GameObject gameplayUICanvas;
         public GameObject minimapCamera;
@@ -45,7 +46,9 @@ namespace UI
         public Texture2D normalCursor;
         public GameObject areaIndicator;
         public Texture2D pointIndicator;
-        
+
+        [Header("New Game Panel")] public NewGamePanelUI newGamePanel;
+
         private void Awake()
         {
             if(GameManager.instance == null) return;
@@ -55,8 +58,9 @@ namespace UI
             ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items);
             ui.InitDialogueUIRef(dialogueUICanvas, dialogueManager);
             ui.InitQuestUIRef(questUICanvas, questTitle, questDescription, questRewardParent, accept, decline);
-            ui.startSceneUICanvas = startSceneUICanvas;
+            ui.InitStartSceneUIRef(startSceneUICanvas, startButtonsTweener);
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
+            ui.newGamePanel = newGamePanel;
             
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
             

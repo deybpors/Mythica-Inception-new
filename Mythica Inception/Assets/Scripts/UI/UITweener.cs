@@ -48,7 +48,7 @@ namespace UI
 
         private LTDescr _tweenObject;
         public bool showOnEnable;
-        private CanvasGroup _canvasGroup;
+        [SerializeField] private CanvasGroup _canvasGroup;
 
         public void OnEnable()
         {
@@ -140,18 +140,21 @@ namespace UI
 
         void SwapDirection()
         {
-            if (animationType == UIAnimationType.Scale || animationType == UIAnimationType.Move)
+            switch (animationType)
             {
-                var temp = fromState;
-                var transform1 = transform;
-                fromState = animationType == UIAnimationType.Scale ? transform1.localScale : transform1.position;
-                toState = temp; 
-            }
-            else
-            {
-                var temp = from;
-                from = objectToAnimate.GetComponent<CanvasGroup>().alpha;
-                to = temp; 
+                case UIAnimationType.Move:
+                    (fromState, toState) = (toState, fromState);
+                    break;
+                case UIAnimationType.Scale:
+                    var temp = fromState;
+                    fromState = transform.localScale;
+                    toState = temp;
+                    break;
+                case UIAnimationType.Fade:
+                    var tempNum = from;
+                    from = _canvasGroup.alpha;
+                    to = tempNum;
+                    break;
             }
         }
 

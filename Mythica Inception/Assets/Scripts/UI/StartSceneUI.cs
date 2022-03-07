@@ -50,8 +50,7 @@ namespace UI
 
         public void NewGame()
         {
-            //TODO: Make new game functionality and erase Continue method call
-            Continue();
+            GameManager.instance.uiManager.newGamePanel.mainSavePanel.SetActive(true);
         }
 
         public void Options()

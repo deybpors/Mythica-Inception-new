@@ -16,6 +16,7 @@ namespace UI
     {
         
         [HideInInspector] public GameObject startSceneUICanvas;
+        [HideInInspector] public UITweener startButtonsTweener;
         [HideInInspector] public GameObject gameplayUICanvas;
         [HideInInspector] public GameObject minimapCamera;
         [HideInInspector] public TextMeshProUGUI currentCharacterName;
@@ -40,6 +41,7 @@ namespace UI
         [HideInInspector] public Texture2D normalCursor;
         [HideInInspector] public GameObject areaIndicator;
         [HideInInspector] public Texture2D pointIndicator;
+        [HideInInspector] public NewGamePanelUI newGamePanel;
 
         [Header("Monster Party UI")]
         public Sprite blankSlotSquare;
@@ -47,6 +49,12 @@ namespace UI
         public Color unusedPartyMember;
 
         #region Initialization
+
+        public void InitStartSceneUIRef(GameObject startScenePanel, UITweener startButtonsTweener)
+        {
+            startSceneUICanvas = startScenePanel;
+            this.startButtonsTweener = startButtonsTweener;
+        }
 
         public void InitLoadingUIRef(GameObject canvas, ProgressBarUI loadBar, Camera cam)
         {

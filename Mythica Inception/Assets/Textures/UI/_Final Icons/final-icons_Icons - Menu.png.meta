@@ -1,7 +1,10 @@
 fileFormatVersion: 2
 guid: f632915d0a33a9b4abbd8758dae8b12f
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 5619369236626045909
+    second: Notes
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -470,6 +473,27 @@ TextureImporter:
       bones: []
       spriteID: 3bef61b3a66711ed0800000000000000
       internalID: -2445042924055494989
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Notes
+      rect:
+        serializedVersion: 2
+        x: 831
+        y: 78
+        width: 251
+        height: 237
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5db7ada4c820cfd40800000000000000
+      internalID: 5619369236626045909
       vertices: []
       indices: 
       edges: []

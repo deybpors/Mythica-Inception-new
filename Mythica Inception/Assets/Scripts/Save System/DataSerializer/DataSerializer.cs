@@ -132,6 +132,12 @@ namespace ToolBox.Serialization
             return loaded;
         }
 
+        public static void DeleteProfileIndex(int profileIndex, string key)
+        {
+            ChangeProfile(profileIndex);
+			DeleteKey(key);
+		}
+
         public static void SaveToProfileIndex<T>(int profileIndex, string key, T dataToSave)
         {
             ChangeProfile(profileIndex);

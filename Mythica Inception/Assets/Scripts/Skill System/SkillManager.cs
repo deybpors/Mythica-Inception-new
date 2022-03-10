@@ -91,7 +91,7 @@ namespace Skill_System
 
                         if ((slot.skill is UnitAreaTargetSkill || slot.skill is UnitOnlyTargetSkill) && target == null)
                         {
-                            //TODO display message that skill needs to have target
+                            //TODO display messageUI that skill needs to have target
                             continue;
                         }
 

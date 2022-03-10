@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
-using Items_and_Barter_System.Scripts;
-using Monster_System;
 using TMPro;
 using ToolBox.Serialization;
 using UI;
@@ -21,17 +18,14 @@ public class NewGamePanelUI : MonoBehaviour
 
     [Header("Create New SavePlayerData File")]
     public GameObject newSaveFilePanel;
-    public Button newSaveFileMinimize;
+    public Sprite verifyIcon;
     public TMP_InputField nameInputField;
     public Button maleButton;
     public Button femaleButton;
-    public UITweener newSaveFileTweener;
     public string startPlacePath;
     private Sex selectedSex = Sex.Male;
 
     [HideInInspector] public bool continueSelected;
-
-    [Header("Verify Modal")] public TextMeshProUGUI info;
 
     void Start()
     {
@@ -63,29 +57,31 @@ public class NewGamePanelUI : MonoBehaviour
             Debug.Log("SavePlayerData File " + saveFileSelected.buttonNum + " has saved data. It will overwrite.");
         }
 
-        var playerPosition = new Vector3(48.75f, 10.51f, -148.57f);
-        PlayerSaveData newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, playerPosition,
+        PlayerSaveData newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, null,
             GameSettings.GetDefaultMonsterSlots(4), new EntityHealth(0, 0), GameSettings.GetDefaultInventorySlots(30), startPlacePath, DateTime.Now, DateTime.Now);
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, GameManager.instance.saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);
     }
 
-    public void VerifyInfo()
+    public void VerifyNewFile()
     {
-        var newName = nameInputField.text;
-        newName = newName.Replace(" ", string.Empty).ToLowerInvariant();
-        newName = char.ToUpperInvariant(newName[0]) + newName.Substring(1);
-        nameInputField.text = newName;
-        info.text = newName + ", ";
+        if(nameInputField.text == string.Empty) return;
+
+        var message = nameInputField.text;
+        message = message.Replace(" ", string.Empty).ToLowerInvariant();
+        message = char.ToUpperInvariant(message[0]) + message.Substring(1);
+        nameInputField.text = message;
         if (selectedSex.Equals(Sex.Male))
         {
-            info.text += "♂";
+            message += ", ♂";
         }
         else
         {
-            info.text += "♀";
+            message += ", ♀";
         }
+
+        GameManager.instance.uiManager.modal.OpenModal(message, verifyIcon, InitializeNewSaveFile);
     }
 
     private void PickSexType(Button whatButton)

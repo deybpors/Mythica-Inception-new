@@ -43,6 +43,7 @@ namespace UI
         [HideInInspector] public GameObject areaIndicator;
         [HideInInspector] public Texture2D pointIndicator;
         [HideInInspector] public NewGamePanelUI newGamePanel;
+        [HideInInspector] public ModalUI modal;
 
         [Header("Monster Party UI")]
         public Sprite blankSlotSquare;
@@ -267,6 +268,7 @@ namespace UI
             dialogueUICanvas.SetActive(false);
             loadingScreen.SetActive(false);
             newGamePanel.gameObject.SetActive(false);
+            modal.CloseModal();
         }
 
         public void UpdateGoldUI()

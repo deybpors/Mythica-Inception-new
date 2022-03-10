@@ -5,6 +5,9 @@ TextureImporter:
   - first:
       213: 5619369236626045909
     second: Notes
+  - first:
+      213: -7961185907103286349
+    second: Trash
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -486,7 +489,7 @@ TextureImporter:
         width: 251
         height: 237
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -494,6 +497,27 @@ TextureImporter:
       bones: []
       spriteID: 5db7ada4c820cfd40800000000000000
       internalID: 5619369236626045909
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Trash
+      rect:
+        serializedVersion: 2
+        x: 1099
+        y: 67
+        width: 212
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3bb3340099f248190800000000000000
+      internalID: -7961185907103286349
       vertices: []
       indices: 
       edges: []

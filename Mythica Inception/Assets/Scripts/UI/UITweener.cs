@@ -48,7 +48,7 @@ namespace UI
 
         private LTDescr _tweenObject;
         public bool showOnEnable;
-        [SerializeField] private CanvasGroup _canvasGroup;
+        private CanvasGroup _canvasGroup;
 
         public void OnEnable()
         {

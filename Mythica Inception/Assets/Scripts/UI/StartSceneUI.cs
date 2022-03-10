@@ -1,3 +1,4 @@
+using System;
 using _Core.Managers;
 using _Core.Others;
 using Pluggable_AI.Scripts.States;
@@ -9,7 +10,6 @@ namespace UI
     public class StartSceneUI : MonoBehaviour
     {
         public ScenePicker scenePicker;
-        public string[] saveKey;
         public GameObject continueButton;
         [SerializeField] private State gameplayState;
         [HideInInspector] public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
@@ -21,16 +21,24 @@ namespace UI
             FillUpSaveFiles();
         }
 
-        private void FillUpSaveFiles()
+        public void FillUpSaveFiles()
         {
             for (var i = 0; i < 5; i++)
             {
-                if (DataSerializer.TryLoadProfile<PlayerSaveData>(i, "playerData", out var playerData))
+                if (!DataSerializer.TryLoadProfile<PlayerSaveData>(i, GameManager.instance.saveManager.playerSaveKey,
+                        out var playerData))
                 {
-                    continueButton.SetActive(true);
-                    playerSavedData[i] = playerData;
-                    GameManager.instance.uiManager.newGamePanel.saveFiles[i].SetSaveFileData(playerData);
+                    var saveFile = GameManager.instance.uiManager.newGamePanel.saveFiles[i];
+                    saveFile.playerSaveData = null;
+                    saveFile.playerName.text = string.Empty;
+                    saveFile.saveFileInfo.text = string.Empty;
+                    saveFile.trashButton.SetActive(false);
+                    continue;
                 }
+                
+                continueButton.SetActive(true);
+                playerSavedData[i] = playerData;
+                GameManager.instance.uiManager.newGamePanel.saveFiles[i].SetSaveFileData(playerData);
             }
         }
 
@@ -39,13 +47,21 @@ namespace UI
             GameManager.instance.uiManager.newGamePanel.continueSelected = selected;
         }
 
-        public void NewGame()
+        public void NewGameContinueFunctionality()
         {
             var newGamePanel = GameManager.instance.uiManager.newGamePanel;
             if (!newGamePanel.gameObject.activeInHierarchy)
                 newGamePanel.gameObject.SetActive(true);
-            newGamePanel.mainSavePanel.SetActive(true);
-            ContinueButtonSelected(false);
+
+            if (!newGamePanel.mainSavePanel.activeInHierarchy)
+            {
+                newGamePanel.mainSavePanel.SetActive(true);
+            }
+            else
+            {
+                newGamePanel.mainSavePanel.SetActive(false);
+                newGamePanel.mainSavePanel.SetActive(true);
+            }
         }
 
         public void Options()
@@ -64,6 +80,7 @@ namespace UI
             }
 
             GameManager.instance.uiManager.DeactivateAllUI();
+            GameManager.instance.loadedSaveData = playerSavedData[profileIndex];
 
             var sceneManager = GameManager.instance.gameSceneManager;
             var savedScenePath = playerSavedData[profileIndex].currentScenePath;
@@ -74,7 +91,6 @@ namespace UI
             GameManager.instance.uiManager.minimapCamera.SetActive(true);
             GameManager.instance.gameStateController.TransitionToState(gameplayState);
             GameManager.instance.currentWorldScenePath = savedScenePath;
-            GameManager.instance.loadedSaveData = playerSavedData[profileIndex];
             GameManager.instance.saveManager.profileIndex = profileIndex;
         }
     }

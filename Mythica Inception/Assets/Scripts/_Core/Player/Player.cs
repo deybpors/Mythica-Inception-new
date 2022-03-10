@@ -70,7 +70,9 @@ namespace _Core.Player
 
         void Awake()
         {
+            savedData = GameManager.instance.loadedSaveData;
             Init();
+            TransferPlayerPositionRotation(savedData.playerWorldPlacement);
         }
 
         private void Init()
@@ -103,17 +105,14 @@ namespace _Core.Player
             _stateController = GetComponent<StateController>();
             _healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
-            savedData = GameManager.instance.loadedSaveData;
         }
         
         private void InitializePlayerSavedData()
         {
-            transform.position = savedData.position;
             playerName = savedData.name;
             monsterSlots = savedData.playerMonsters;
             playerHealth = savedData.playerHealth;
             inventory.inventorySlots = savedData.inventorySlots;
-            //TODO: uncomment if there is already a choice in new game if boy or girl then erase tamer = trans... in SetPlayerSavedData then delete Luna in Unity
             if (savedData.sex.Equals(Sex.Male))
             {
                 male.gameObject.SetActive(true);
@@ -151,7 +150,7 @@ namespace _Core.Player
 
         public PlayerSaveData GetCurrentSaveData()
         {
-            savedData = new PlayerSaveData(savedData.name, savedData.sex, transform.position, monsterSlots, playerHealth,
+            savedData = new PlayerSaveData(savedData.name, savedData.sex, new WorldPlacementData(transform.position, transform.rotation, transform.localScale), monsterSlots, playerHealth,
                 inventory.inventorySlots, GameManager.instance.currentWorldScenePath, savedData.lastOpened,
                 DateTime.Now);
             return savedData;
@@ -308,7 +307,7 @@ namespace _Core.Player
             var tameable = selectionManager.selectables[0].GetComponent<ITameable>();
             if (tameable == null)
             {
-                //TODO: display in UI that the target has to be a Wild monster
+                Debug.Log("Target has to be a wild mythica.");
                 return;
             }
 
@@ -462,7 +461,7 @@ namespace _Core.Player
                 GameManager.instance.uiManager.loadingScreen.SetActive(false);
             };
             GameManager.instance.uiManager.loadingScreen.SetActive(true);
-            transform.position = savedData.position;
+            TransferPlayerPositionRotation(savedData.playerWorldPlacement);
             StartCoroutine(DelayAction(3f, action));
         }
 
@@ -502,6 +501,24 @@ namespace _Core.Player
         {
             yield return new WaitForSeconds(delay);
             action?.Invoke();
+        }
+
+        private void TransferPlayerPositionRotation(WorldPlacementData placementData)
+        {
+            if(placementData == null) return;
+
+            transform.SetPositionAndRotation(placementData.position, placementData.rotation);
+        }
+        public bool SamePosition()
+        {
+            try
+            {
+                return savedData.playerWorldPlacement.position == transform.position;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         #endregion

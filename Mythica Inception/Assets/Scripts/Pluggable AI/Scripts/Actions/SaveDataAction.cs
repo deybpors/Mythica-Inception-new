@@ -8,10 +8,11 @@ public class SaveDataAction : Action
 {
     public override void Act(StateController stateController)
     {
-        if (stateController.HasTimeElapsed(GameManager.instance.saveManager.saveSeconds))
-        {
-            Debug.Log("Saving data...");
-            GameManager.instance.saveManager.SavePlayerData(GameManager.instance.player.GetCurrentSaveData());
-        }
+        if (!stateController.HasTimeElapsed(GameManager.instance.saveManager.saveSeconds)) return;
+
+        if(GameManager.instance.player.SamePosition()) return;
+        
+        Debug.Log("Saving data...");
+        GameManager.instance.saveManager.SavePlayerData(GameManager.instance.player.GetCurrentSaveData());
     }
 }

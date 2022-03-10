@@ -49,6 +49,8 @@ namespace UI
 
         [Header("New Game Panel")] public NewGamePanelUI newGamePanel;
 
+        [Header("Modal")] public ModalUI modal;
+
         private void Awake()
         {
             if(GameManager.instance == null) return;
@@ -61,6 +63,7 @@ namespace UI
             ui.InitStartSceneUIRef(startSceneUICanvas, startButtonsTweener);
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
             ui.newGamePanel = newGamePanel;
+            ui.modal = modal;
             
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
             

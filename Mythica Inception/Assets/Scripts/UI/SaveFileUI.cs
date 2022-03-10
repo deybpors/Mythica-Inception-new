@@ -1,6 +1,7 @@
 ﻿using System;
 using _Core.Managers;
 using TMPro;
+using ToolBox.Serialization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,19 +13,27 @@ namespace UI
         public int buttonNum;
         public TextMeshProUGUI playerName;
         public TextMeshProUGUI saveFileInfo;
+        public GameObject trashButton;
+        public Sprite trashIcon;
         public PlayerSaveData playerSaveData;
 
         void OnEnable()
         {
             button.onClick.AddListener(ContinueOrNew);
+            if (playerSaveData == null)
+            {
+                trashButton.SetActive(false);
+            }
         }
 
         private void ContinueOrNew()
         {
             var newGamePanel = GameManager.instance.uiManager.newGamePanel;
-            
+
             if (!newGamePanel.continueSelected)
             {
+                if (playerSaveData != null) return; //TODO: Play error sound here
+
                 newGamePanel.DisableTweener(GameManager.instance.uiManager.startButtonsTweener);
                 newGamePanel.ShowNewSaveFilePanel();
                 newGamePanel.saveFileSelected = this;
@@ -41,7 +50,21 @@ namespace UI
             var timeSpent = string.Format("{00:%h} : {00:%m} : {00:%s}", span);
             string save = saveData.lastOpened.ToShortDateString() + "\n" + timeSpent;
             saveFileInfo.text = save;
+
             playerSaveData = saveData;
+        }
+
+        public void ConfirmDelete()
+        {
+            var message = "Are you sure you want to delete Player " + playerSaveData.name + " in your files?";
+            GameManager.instance.uiManager.modal.OpenModal(message, trashIcon, DeleteSaveFile);
+        }
+
+        private void DeleteSaveFile()
+        {
+            DataSerializer.DeleteProfileIndex(buttonNum, GameManager.instance.saveManager.playerSaveKey);
+            GameManager.instance.uiManager.startSceneUI.FillUpSaveFiles();
+            GameManager.instance.uiManager.modal.CloseModal();
         }
     }
 }

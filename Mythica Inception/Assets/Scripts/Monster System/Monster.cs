@@ -50,7 +50,7 @@ namespace Monster_System
             monster = mon;
             currentHealth = 0;
             currentExp = xp;
-            currentLives = monster.stats.maxLives;
+            currentLives = monster == null ? 0 : monster.stats.maxLives;
             stabilityValue = sv;
             skillSlots = new SkillSlot[4];
             inventory = new InventorySlot[6];

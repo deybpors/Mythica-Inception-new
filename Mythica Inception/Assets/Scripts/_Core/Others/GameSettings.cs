@@ -1,19 +1,43 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
+using Items_and_Barter_System.Scripts;
 using Monster_System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace _Core.Others
 {
-    public static class GameCalculations
+    public static class GameSettings
     {
         public static int Damage(int attackerLvl, int attackerAttack, int targetDefense, float skillPower, int maxSkillPower, float modifier)
         {
             var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
             return (int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
                 ((float) attackerAttack / targetDefense) + 2) * modifier);
+        }
+
+        public static List<MonsterSlot> GetDefaultMonsterSlots(int capacity)
+        {
+            var slots = new List<MonsterSlot>();
+            for (int i = 0; i < capacity; i++)
+            {
+                slots.Add(new MonsterSlot(null, 0, 0));  
+            }
+
+            return slots;
+        }
+
+        public static List<InventorySlot> GetDefaultInventorySlots(int capacity)
+        {
+            var slots = new List<InventorySlot>();
+            for (int i = 0; i < capacity; i++)
+            {
+                slots.Add(new InventorySlot(null, 0));
+            }
+
+            return slots;
         }
 
         public static float Modifier(bool stab, float attackerMonsterSV, float attackerMonsterType, bool critical)
@@ -25,29 +49,56 @@ namespace _Core.Others
         
         public static int Stats(int baseValue, float stabilityValue, int monsterCurrentLevel)
         {
-            var stat = (int) (.01f * (2 * baseValue + (stabilityValue * 2) * monsterCurrentLevel) + monsterCurrentLevel + 10);
-            return stat;
+            try
+            {
+                var stat = (int) (.01f * (2 * baseValue + (stabilityValue * 2) * monsterCurrentLevel) +
+                                  monsterCurrentLevel + 10);
+                return stat;
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public static int MonstersAvgLevel(List<MonsterSlot> monsterSlots)
         {
-            var levels = (from slot in monsterSlots where slot.monster != null select Level(slot.currentExp)).ToList();
-
-            return (int)levels.Average();
+            try
+            {
+                var levels = (from slot in monsterSlots where slot.monster != null select Level(slot.currentExp)).ToList();
+                return (int)levels.Average();
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public static int MonstersAvgHealth(List<MonsterSlot> monsterSlots)
         {
-            var health = (from slot in monsterSlots where slot.monster != null select slot.currentHealth).ToList();
-
-            return (int) health.Average();
+            try
+            {
+                var health = (from slot in monsterSlots where slot.monster != null select slot.currentHealth).ToList();
+                return (int) health.Average();
+            }
+            catch
+            {
+                return 0;
+            }
         }
 
         public static float MonstersAvgStabilityValue(List<MonsterSlot> monsterSlots)
         {
-            var stabilityValue = (from slot in monsterSlots where slot.monster != null select slot.stabilityValue).ToList();
-
-            return stabilityValue.Average();
+            try
+            {
+                var stabilityValue = (from slot in monsterSlots where slot.monster != null select slot.stabilityValue)
+                    .ToList();
+                return stabilityValue.Average();
+            }
+            catch
+            {
+                return 0;
+            }
         }
         
         public static int TameValue(int wildMonsterLvl, bool statusFX, int wildMonsterCurrentHP, int wildMonsterMaxHP)

@@ -46,5 +46,11 @@ namespace _Core.Managers
     {
         public int maxHealth;
         public int currentHealth;
+
+        public EntityHealth(int maxHealth, int currentHealth)
+        {
+            this.maxHealth = maxHealth;
+            this.currentHealth = currentHealth;
+        }
     }
 }

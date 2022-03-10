@@ -22,6 +22,7 @@ namespace _Core.Others
             GameManager.instance.currentWorldScenePath = starting.path;
             GameManager.instance.uiManager.DeactivateAllUI();
             GameManager.instance.uiManager.startSceneUICanvas.SetActive(true);
+            GameManager.instance.uiManager.newGamePanel.gameObject.SetActive(true);
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
         }
     }

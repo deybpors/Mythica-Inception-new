@@ -42,7 +42,7 @@ namespace Pluggable_AI.Scripts.Decisions
             //whenever we escaped an encounter, change the values of the data needed for the parameters
             GameManager.instance.DifficultyUpdateAdd("Failed Encounters",1);
             var player = GameManager.instance.player;
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
         }
     }
 }

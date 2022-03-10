@@ -16,6 +16,7 @@ namespace UI
     {
         
         [HideInInspector] public GameObject startSceneUICanvas;
+        [HideInInspector] public StartSceneUI startSceneUI;
         [HideInInspector] public UITweener startButtonsTweener;
         [HideInInspector] public GameObject gameplayUICanvas;
         [HideInInspector] public GameObject minimapCamera;
@@ -53,6 +54,7 @@ namespace UI
         public void InitStartSceneUIRef(GameObject startScenePanel, UITweener startButtonsTweener)
         {
             startSceneUICanvas = startScenePanel;
+            startSceneUI = startSceneUICanvas.GetComponent<StartSceneUI>();
             this.startButtonsTweener = startButtonsTweener;
         }
 
@@ -118,9 +120,9 @@ namespace UI
                     continue;
                 }
 
-                var fill = (float) monsterSlots[i].currentHealth / GameCalculations.Stats(
+                var fill = (float) monsterSlots[i].currentHealth / GameSettings.Stats(
                     monsterSlots[i].monster.stats.baseHealth, monsterSlots[i].stabilityValue,
-                    GameCalculations.Level(monsterSlots[i].currentExp));
+                    GameSettings.Level(monsterSlots[i].currentExp));
                 partySlots[i].memberHealth.fillAmount = fill;
                 partySlots[i].memberPortrait.sprite = monsterSlots[i].monster.monsterPortrait;
                 partySlots[i].memberPortrait.color = unusedPartyMember;
@@ -144,7 +146,7 @@ namespace UI
             if (currentSlotNumber >= 0)
             {
                 currentCharacterLevel.transform.parent.gameObject.SetActive(true);
-                currentCharacterLevel.text = GameCalculations.Level(GameManager.instance.player.monsterSlots[currentSlotNumber].currentExp).ToString();
+                currentCharacterLevel.text = GameSettings.Level(GameManager.instance.player.monsterSlots[currentSlotNumber].currentExp).ToString();
             }
             else
             {
@@ -198,9 +200,9 @@ namespace UI
         {
             var num = slot.slotNumber;
             partySlots[slot.slotNumber].memberHealth.transform.parent.gameObject.SetActive(true);
-            var fill = (float) slot.currentHealth / GameCalculations.Stats(
+            var fill = (float) slot.currentHealth / GameSettings.Stats(
                 slot.monster.stats.baseHealth, slot.stabilityValue,
-                GameCalculations.Level(slot.currentExp));
+                GameSettings.Level(slot.currentExp));
             partySlots[num].memberHealth.fillAmount = fill;
             partySlots[num].memberPortrait.sprite = slot.monster.monsterPortrait;
             partySlots[num].memberPortrait.color = unusedPartyMember;
@@ -213,10 +215,10 @@ namespace UI
             if (currentSlotNumber < 0) return;
             
             var currentMonster = GameManager.instance.player.monsterSlots[currentSlotNumber];
-            var maxHealth = GameCalculations.Stats(
+            var maxHealth = GameSettings.Stats(
                 currentMonster.monster.stats.baseHealth,
                 currentMonster.stabilityValue,
-                GameCalculations.Level(currentMonster.currentExp));
+                GameSettings.Level(currentMonster.currentExp));
             UpdatePartyMemberHealth(currentSlotNumber, currentHealth, maxHealth);
         }
 
@@ -246,8 +248,8 @@ namespace UI
         private void LevelUp(out float maxExp, int slotNum)
         {
             var monsterSlots = GameManager.instance.player.monsterSlots;
-            var monsterLevel = GameCalculations.Level(monsterSlots[slotNum].currentExp);
-            maxExp = (float) GameCalculations.Experience( monsterLevel + 1) - GameCalculations.Experience(monsterLevel);
+            var monsterLevel = GameSettings.Level(monsterSlots[slotNum].currentExp);
+            maxExp = (float) GameSettings.Experience( monsterLevel + 1) - GameSettings.Experience(monsterLevel);
             currentCharacterLevel.text = monsterLevel.ToString();
         }
 
@@ -264,6 +266,7 @@ namespace UI
             minimapCamera.SetActive(false);
             dialogueUICanvas.SetActive(false);
             loadingScreen.SetActive(false);
+            newGamePanel.gameObject.SetActive(false);
         }
 
         public void UpdateGoldUI()

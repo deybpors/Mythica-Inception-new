@@ -255,7 +255,7 @@ MonoBehaviour:
   gameplayScene: {fileID: 721566678}
   difficultyManager: {fileID: 980460353}
   questManager: {fileID: 1719308059}
-  saveManager: {fileID: 1779501389}
+  saveManager: {fileID: 1370879023}
   gameStateController: {fileID: 721566679}
   gameplayActive: 1
   enemiesSeePlayer: []
@@ -416,6 +416,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1370879021
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1370879022}
+  - component: {fileID: 1370879023}
+  m_Layer: 0
+  m_Name: Save Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1370879022
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370879021}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1370879023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1370879021}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8952843f02023444c9629a479a7f1962, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1573271813
 GameObject:
   m_ObjectHideFlags: 0
@@ -570,6 +613,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startSceneUICanvas: {fileID: 0}
+  startSceneUI: {fileID: 0}
+  startButtonsTweener: {fileID: 0}
   gameplayUICanvas: {fileID: 0}
   minimapCamera: {fileID: 0}
   currentCharacterName: {fileID: 0}
@@ -594,6 +639,7 @@ MonoBehaviour:
   normalCursor: {fileID: 0}
   areaIndicator: {fileID: 0}
   pointIndicator: {fileID: 0}
+  newGamePanel: {fileID: 0}
   blankSlotSquare: {fileID: 21300000, guid: 69b70aede4f8b4c47a5b58999269e16d, type: 3}
   blankSlotCircle: {fileID: 21300000, guid: 231af341598ab3046818ee1f9a88cfc6, type: 3}
   unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
@@ -655,46 +701,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   questSelected: {fileID: 0}
---- !u!1 &1779501388
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1779501390}
-  - component: {fileID: 1779501389}
-  m_Layer: 0
-  m_Name: Save Manager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1779501389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779501388}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0049ee41b152e2647803b4a3518606e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1779501390
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1779501388}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 9
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

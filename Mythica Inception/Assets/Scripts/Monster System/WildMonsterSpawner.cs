@@ -51,7 +51,7 @@ namespace Monster_System
         {
             var monsterIndex = Random.Range(0, monsters.Count);
             var level = Random.Range(lowestLevel, highestLevel);
-            var monsterXp = GameCalculations.Experience(level);
+            var monsterXp = GameSettings.Experience(level);
             var highX = _spawnerPosition.x + xAxis;
             var lowX = _spawnerPosition.x - xAxis;
             var highZ = _spawnerPosition.z + zAxis;

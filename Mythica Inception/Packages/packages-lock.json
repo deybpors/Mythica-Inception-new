@@ -11,13 +11,6 @@
       },
       "hash": "725b8fb2ca2f88e2998b7e4ad4d38373d6bf9a1f"
     },
-    "com.intothedev.savesystem": {
-      "version": "https://github.com/IntoTheDev/Save-System-for-Unity.git",
-      "depth": 0,
-      "source": "git",
-      "dependencies": {},
-      "hash": "354fe68841a661bc2132321b0c397c736ab5db72"
-    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,

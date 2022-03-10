@@ -25,7 +25,7 @@ namespace Monster_System
             _monsterLvl = wildMonsterLvl;
             _healthComponent = health;
             maxTameValue =
-                GameCalculations.TameValue(
+                GameSettings.TameValue(
                     wildMonsterLvl, 
                     false, 
                     _healthComponent.health.currentHealth, 
@@ -43,7 +43,7 @@ namespace Monster_System
             if(!_activated) return;
             
             //TODO: get if there is statusfx in monsterTamer AI
-            var newTameValue = GameCalculations.TameValue(_monsterLvl, false, _healthComponent.health.currentHealth, _healthComponent.health.maxHealth);
+            var newTameValue = GameSettings.TameValue(_monsterLvl, false, _healthComponent.health.currentHealth, _healthComponent.health.maxHealth);
 
             if (maxTameValue == newTameValue) return;
             if(tameValueBarUI.gameObject.activeInHierarchy) _animator.Play("Change");
@@ -92,7 +92,7 @@ namespace Monster_System
             GameManager.instance.UpdateEnemiesSeePlayer(transform, out var enemyCount);
             
             var player = GameManager.instance.player;
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
             
             gameObject.SetActive(false);
         }

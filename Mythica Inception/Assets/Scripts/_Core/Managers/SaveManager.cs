@@ -1,52 +1,27 @@
-using System.Collections.Generic;
-using _Core.Managers;
-using _Core.Others;
-using Items_and_Barter_System.Scripts;
-using Monster_System;
-using ToolBox.Serialization;
+﻿using ToolBox.Serialization;
 using UnityEngine;
 
-public class SaveManager : MonoBehaviour
+namespace Assets.Scripts._Core.Managers
 {
-    public PlayerSaveData GetPlayerSaveData(string saveKey)
+    
+    public class SaveManager : MonoBehaviour
     {
-        //if no saved data, then return null
-        return DataSerializer.HasKey(saveKey) ? DataSerializer.Load<PlayerSaveData>(saveKey) : null;
-    }
+        public string playerSaveKey = "playerData";
+        public int profileIndex = 0;
+        public float saveSeconds = 3f;
+        public void SavePlayerData(PlayerSaveData savedData)
+        {
+            DataSerializer.SaveToProfileIndex(profileIndex, playerSaveKey, savedData);
+        }
 
-    // This method will be called before application quits
-    private void SavePlayerData(string saveKey, string playerName, Sex playerSex,Vector3 position, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, PlayerInventory inventory, string scenePath)
-    {
-        DataSerializer.Save(saveKey, new PlayerSaveData(playerName, playerSex, position, monsterSlots, playerHealth, inventory, scenePath));
-    }
-}
+        public void SaveOtherData<T>(string saveKey, T objectToSave)
+        {
+            DataSerializer.SaveToProfileIndex(profileIndex, saveKey, objectToSave);
+        }
 
-public class PlayerSaveData
-{
-    [SerializeField] private string _playerName;
-    [SerializeField] private Sex _sex;
-    [SerializeField] private Vector3 _position;
-    [SerializeField] private List<MonsterSlot> _monsterSlots;
-    [SerializeField] private EntityHealth _playerHealth;
-    [SerializeField] private PlayerInventory _inventory;
-    [SerializeField] private string _scenePath;
-
-    public string name => _playerName;
-    public Sex sex => _sex;
-    public Vector3 position => _position;
-    public List<MonsterSlot> playerMonsters => _monsterSlots;
-    public EntityHealth playerHealth => _playerHealth;
-    public PlayerInventory inventory => _inventory;
-    public string scenePath => _scenePath;
-
-    public PlayerSaveData(string playerName, Sex sex, Vector3 position, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, PlayerInventory inventory, string scenePath)
-    {
-        this._playerName = playerName;
-        this._sex = sex;
-        this._position = position;
-        this._monsterSlots = monsterSlots;
-        this._playerHealth = playerHealth;
-        this._inventory = inventory;
-        this._scenePath = scenePath;
+        public bool LoadDataObject<T>(string saveKey, out T loadedObject)
+        {
+            return DataSerializer.TryLoadProfile(profileIndex, saveKey, out loadedObject);
+        }
     }
 }

@@ -18,15 +18,8 @@ namespace Pluggable_AI.Scripts.Decisions
                 return false;
             }
 
-            bool onGround = CheckGround();
-            
             //not moving
             return stateController.player.inputHandler.movementInput == Vector2.zero;
-        }
-        
-        private bool CheckGround()
-        {
-            return false;
         }
     }
 }

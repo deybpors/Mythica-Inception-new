@@ -11,7 +11,7 @@ namespace Monster_System
 
         public void InitializeLevel()
         {
-            currentLevel = GameCalculations.Level(currentExperience);
+            currentLevel = GameSettings.Level(currentExperience);
         }
 
         public void AddExperience(int experienceToAdd)

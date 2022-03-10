@@ -70,10 +70,10 @@ namespace Pluggable_AI.Scripts.General
 
         private void InitializeCurrentMonsterHealth()
         {
-            healthComponent.health.maxHealth = GameCalculations.Stats(
+            healthComponent.health.maxHealth = GameSettings.Stats(
                 monsterSlots[currentMonster].monster.stats.baseHealth,
                 monsterSlots[currentMonster].stabilityValue,
-                GameCalculations.Level(monsterSlots[currentMonster].currentExp));
+                GameSettings.Level(monsterSlots[currentMonster].currentExp));
             healthComponent.health.currentHealth = healthComponent.health.maxHealth;
             monsterSlots[currentMonster].currentHealth = healthComponent.health.maxHealth;
         }
@@ -84,7 +84,7 @@ namespace Pluggable_AI.Scripts.General
             {
                 _tameValue = GetComponent<TameValue>();
                 _tameValue.tameValueBarUI = tameValueBarUI;
-                _tameValue.ActivateTameValue(GameCalculations.Level(monsterSlots[0].currentExp), healthComponent, this);
+                _tameValue.ActivateTameValue(GameSettings.Level(monsterSlots[0].currentExp), healthComponent, this);
             }
             else
             {
@@ -171,10 +171,10 @@ namespace Pluggable_AI.Scripts.General
         {
             agent.speed = aiData.movementSpeed;
             agent.speed *= GetMonsters()[slot].stats.movementSpeed;
-            healthComponent.health.maxHealth = GameCalculations.Stats(
+            healthComponent.health.maxHealth = GameSettings.Stats(
                 monsterSlots[slot].monster.stats.baseHealth,
                 monsterSlots[slot].stabilityValue,
-                GameCalculations.Level(monsterSlots[slot].currentExp));
+                GameSettings.Level(monsterSlots[slot].currentExp));
             healthComponent.health.currentHealth = monsterSlots[slot].currentHealth;
         }
 
@@ -250,16 +250,16 @@ namespace Pluggable_AI.Scripts.General
             //whenever we cleared an encountered
             GameManager.instance.DifficultyUpdateAdd("Failed Encounters", 0);
             var player = GameManager.instance.player;
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameCalculations.MonstersAvgLevel(player.monsterSlots));
+            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
             
             gameObject.SetActive(false);
         }
 
         private void ExtractExpOrbs()
         {
-            var type = GameCalculations.TypeComparison(monsterAttacker.monster.type,
+            var type = GameSettings.TypeComparison(monsterAttacker.monster.type,
                 monsterSlots[currentMonster].monster.type) < 1;
-            var exp = GameCalculations.ExperienceGain(!tamer, monsterAttacker, type);
+            var exp = GameSettings.ExperienceGain(!tamer, monsterAttacker, type);
             var position = transform.position;
             var newPos = new Vector3(position.x, position.y + 1f, position.z);
             

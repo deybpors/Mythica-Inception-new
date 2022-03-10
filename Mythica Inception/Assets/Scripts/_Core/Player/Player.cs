@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,12 +32,13 @@ namespace _Core.Player
         [Header("Settings")]
         [SerializeField] private bool isTesting;
         [SerializeField] private GameObject deathParticles;
+        [SerializeField] private GameObject male;
+        [SerializeField] private GameObject female;
         public TameBeam tameBeam;
         public ProjectileRelease projectileReleases;
         public GameObject dashGraphic;
         public PlayerFSMData playerData;
         public float tameRadius;
-        public TamerSexGFX tamerSexGfx;
         public GameObject unitIndicator;
         public GameObject vectorIndicator;
 
@@ -59,8 +61,9 @@ namespace _Core.Player
         private readonly Vector3 zero = Vector3.zero;
         [HideInInspector] public MonsterSlot monsterAttacker;
         [HideInInspector] public PlayerSaveData savedData;
-        private Vector3 startingPosition;
         public float currentGameplayTimeScale = 1;
+
+
         
         #endregion
         
@@ -100,43 +103,58 @@ namespace _Core.Player
             _stateController = GetComponent<StateController>();
             _healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
+            savedData = GameManager.instance.loadedSaveData;
         }
         
         private void InitializePlayerSavedData()
         {
-            //TODO: initialize the monsters from player's save data and put it in monsters list
-            Debug.Log("Initializing save data...");
-            
-            if (savedData != null)
+            transform.position = savedData.position;
+            playerName = savedData.name;
+            monsterSlots = savedData.playerMonsters;
+            playerHealth = savedData.playerHealth;
+            inventory.inventorySlots = savedData.inventorySlots;
+            //TODO: uncomment if there is already a choice in new game if boy or girl then erase tamer = trans... in SetPlayerSavedData then delete Luna in Unity
+            if (savedData.sex.Equals(Sex.Male))
             {
-                transform.position = savedData.position;
-                playerName = savedData.name;
-                monsterSlots = savedData.playerMonsters;
-                playerHealth = savedData.playerHealth;
-                inventory = savedData.inventory;
-                //TODO: uncomment if there is already a choice in new game if boy or girl then erase tamer = trans... in SetPlayerSavedData then delete Luna in Unity
-                //tamer = Instantiate(tamerSexGfx.GetTamerGFX(savedData.sex), transform);
+                male.gameObject.SetActive(true);
+                tamer = male;
             }
-
+            else
+            {
+                female.gameObject.SetActive(true);
+                tamer = female;
+            }
             SetPlayerSavedData();
         }
 
         private void SetPlayerSavedData()
         {
             //after getting all data,
-            var monsterAvgLvl = GameCalculations.MonstersAvgLevel(monsterSlots);
-            tamer = transform.FindChildWithTag("Tamer").gameObject;
+            var monsterAvgLvl = GameSettings.MonstersAvgLevel(monsterSlots);
             tamer.layer = LayerMask.NameToLayer("Player");
             currentAnimator = tamer.GetComponent<Animator>();
-            startingPosition = transform.position;
             //initialize player's health
-            playerHealth.maxHealth = GameCalculations.Stats(
-                GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
-                GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
+            playerHealth.maxHealth = GameSettings.Stats(
+                GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
                 monsterAvgLvl);
+            
+            if (playerHealth.maxHealth <= 0)
+            {
+                playerHealth.maxHealth = 50;
+            }
+
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             //initialize party's avg level for difficulty adjustment
             GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
+        }
+
+        public PlayerSaveData GetCurrentSaveData()
+        {
+            savedData = new PlayerSaveData(savedData.name, savedData.sex, transform.position, monsterSlots, playerHealth,
+                inventory.inventorySlots, GameManager.instance.currentWorldScenePath, savedData.lastOpened,
+                DateTime.Now);
+            return savedData;
         }
 
         #region Monster
@@ -225,10 +243,10 @@ namespace _Core.Player
 
             if (slot < 0)
             {
-                playerHealth.maxHealth = GameCalculations.Stats(
-                    GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
-                    GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                    GameCalculations.MonstersAvgLevel(monsterSlots.ToList())
+                playerHealth.maxHealth = GameSettings.Stats(
+                    GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgLevel(monsterSlots.ToList())
                 );
                 _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
                 return;
@@ -239,10 +257,10 @@ namespace _Core.Player
 
             //Initialize Monster's health
             var maxHealth =
-                GameCalculations.Stats(
+                GameSettings.Stats(
                     monsterSlots[slot].monster.stats.baseHealth,
                     monsterSlots[slot].stabilityValue,
-                    GameCalculations.Level(monsterSlots[slot].currentExp)
+                    GameSettings.Level(monsterSlots[slot].currentExp)
                 );
             _healthComponent.UpdateHealth(maxHealth, monsterSlots[slot].currentHealth);
         }
@@ -334,8 +352,8 @@ namespace _Core.Player
 
         public void AddExperience(int experienceToAdd, int slotNum)
         {
-            var nextLevel = GameCalculations.Level(monsterSlots[slotNum].currentExp) + 1;
-            var nextLevelExp = GameCalculations.Experience(nextLevel);
+            var nextLevel = GameSettings.Level(monsterSlots[slotNum].currentExp) + 1;
+            var nextLevelExp = GameSettings.Experience(nextLevel);
             monsterSlots[slotNum].currentExp += experienceToAdd;
 
             if (monsterSlots[slotNum].currentExp > nextLevelExp)
@@ -354,8 +372,8 @@ namespace _Core.Player
             for (var i = 0; i < count; i++)
             {
                 if (monsterSlots[i].monster == null) continue;
-                var maxHealth = GameCalculations.Stats(monsterSlots[i].monster.stats.baseHealth,
-                    monsterSlots[i].stabilityValue, GameCalculations.Level(monsterSlots[i].currentExp));
+                var maxHealth = GameSettings.Stats(monsterSlots[i].monster.stats.baseHealth,
+                    monsterSlots[i].stabilityValue, GameSettings.Level(monsterSlots[i].currentExp));
                 monsterSlots[i].currentHealth = maxHealth;
                 monsterSlots[i].fainted = false;
                 GameManager.instance.uiManager.UpdatePartyMemberHealth(i, maxHealth, maxHealth);
@@ -433,10 +451,10 @@ namespace _Core.Player
                 playerGameObject.layer = layer;
                 inputHandler.activate = true;
                 tamer.SetActive(true);
-                playerHealth.maxHealth = GameCalculations.Stats(
-                    GameCalculations.MonstersAvgHealth(monsterSlots.ToList()),
-                    GameCalculations.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                    GameCalculations.MonstersAvgLevel(monsterSlots));
+                playerHealth.maxHealth = GameSettings.Stats(
+                    GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgLevel(monsterSlots));
                 playerHealth.currentHealth = playerHealth.maxHealth;
                 _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
                 TakeDamage(0);
@@ -444,7 +462,7 @@ namespace _Core.Player
                 GameManager.instance.uiManager.loadingScreen.SetActive(false);
             };
             GameManager.instance.uiManager.loadingScreen.SetActive(true);
-            transform.position = startingPosition;
+            transform.position = savedData.position;
             StartCoroutine(DelayAction(3f, action));
         }
 

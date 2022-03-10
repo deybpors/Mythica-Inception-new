@@ -10,7 +10,7 @@ namespace Items_and_Barter_System.Scripts
 
         public void AddItemInPlayerInventory(ItemObject item, int amountToAdd)
         {
-            bool itemAdded = false;
+            var itemAdded = false;
 
             foreach (var slot in inventorySlots.Where(slot => slot.inventoryItem == item))
             {

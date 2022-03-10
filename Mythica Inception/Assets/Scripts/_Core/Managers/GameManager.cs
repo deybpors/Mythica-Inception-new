@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Core.Others;
+using Assets.Scripts._Core.Managers;
 using Databases.Scripts;
 using DDA;
 using Pluggable_AI.Scripts.General;
@@ -27,6 +28,7 @@ namespace _Core.Managers
         [HideInInspector] public string currentWorldScenePath = string.Empty;
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;
+        [HideInInspector] public PlayerSaveData loadedSaveData;
 
         void Awake()
         {

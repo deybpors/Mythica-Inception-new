@@ -175,10 +175,10 @@ namespace Monster_System
             {
                 var monsterSlot = monsterSlots[slot];
                 var monsterName = monsterSlot.name == "" ? monsterSlot.monster.name : monsterSlot.name;
-                var monsterLevel = GameCalculations.Level(monsterSlot.currentExp);
-                var maxHealth = GameCalculations.Stats(monsterSlot.monster.stats.baseHealth, monsterSlot.stabilityValue, monsterLevel);
-                var maxExp = (float) GameCalculations.Experience(monsterLevel + 1) - GameCalculations.Experience(monsterLevel);
-                var currentExp = (float) monsterSlot.currentExp - GameCalculations.Experience(monsterLevel);
+                var monsterLevel = GameSettings.Level(monsterSlot.currentExp);
+                var maxHealth = GameSettings.Stats(monsterSlot.monster.stats.baseHealth, monsterSlot.stabilityValue, monsterLevel);
+                var maxExp = (float) GameSettings.Experience(monsterLevel + 1) - GameSettings.Experience(monsterLevel);
+                var currentExp = (float) monsterSlot.currentExp - GameSettings.Experience(monsterLevel);
 
                 for (var i = 0; i < monsterSlot.skillSlots.Length; i++)
                 {

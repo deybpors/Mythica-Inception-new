@@ -193,8 +193,8 @@ namespace Combat_System
 
         private int CalculateTameBeamValue(Monster monsterToTame)
         {
-            var avgLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
-            return GameCalculations.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance);
+            var avgLevel = GameSettings.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
+            return GameSettings.TameBeam(avgLevel, _tameBeamPower, monsterToTame.stats.tameResistance);
         }
 
         private int CalculateDamage(Monster monsterHit, IHaveMonsters hitHaveMonster)
@@ -205,7 +205,7 @@ namespace Combat_System
             //if the basic attack skill of attacker monster is used or attacker skill type is same with the attacker monster's type
             var stab = _spawnerMonster.basicAttackSkill == _spawnerSkill || _spawnerSkill.skillType == _spawnerMonster.type;
 
-            var attackerAttack = GameCalculations.Stats(
+            var attackerAttack = GameSettings.Stats(
                 _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                     _spawnerMonster.stats.physicalAttack : 
                     _spawnerMonster.stats.specialAttack, 
@@ -214,10 +214,10 @@ namespace Combat_System
 
             if (monsterHit == null)
             {
-                hitLevel = GameCalculations.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
+                hitLevel = GameSettings.MonstersAvgLevel(_haveMonsters.GetMonsterSlots());
                 monsterHit = _haveMonsters.GetMonsterWithHighestExp().monster;
                 typeComparison = 1f;
-                hitDefense = GameCalculations.Stats(
+                hitDefense = GameSettings.Stats(
                     _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                         monsterHit.stats.physicalDefense : monsterHit.stats.specialDefense, 
                     hitHaveMonster.GetMonsterSlots()[_haveMonsters.GetCurrentSlotNumber()].stabilityValue, 
@@ -225,17 +225,17 @@ namespace Combat_System
             }
             else
             {
-                hitLevel = GameCalculations.Level(hitHaveMonster.GetMonsterSlots()[hitHaveMonster.GetCurrentSlotNumber()].currentExp);
-                typeComparison = GameCalculations.TypeComparison(_spawnerMonster.type, monsterHit.type);
-                hitDefense = GameCalculations.Stats(
+                hitLevel = GameSettings.Level(hitHaveMonster.GetMonsterSlots()[hitHaveMonster.GetCurrentSlotNumber()].currentExp);
+                typeComparison = GameSettings.TypeComparison(_spawnerMonster.type, monsterHit.type);
+                hitDefense = GameSettings.Stats(
                     _spawnerSkill.skillCategory == SkillCategory.Physical ? 
                     monsterHit.stats.physicalDefense : monsterHit.stats.specialDefense, 
                     hitHaveMonster.GetMonsterSlots()[hitHaveMonster.GetCurrentSlotNumber()].stabilityValue, 
                     hitLevel);
             }
             
-            var modifier = GameCalculations.Modifier(stab, spawnerSv, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
-            return GameCalculations.Damage(_spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
+            var modifier = GameSettings.Modifier(stab, spawnerSv, typeComparison, Random.Range(0f, 1f) <= _spawnerMonster.stats.criticalChance);
+            return GameSettings.Damage(_spawnerLevel, attackerAttack, hitDefense, _spawnerSkill.power, 255, modifier);
         }
 
         IEnumerator DestroyAfter(float sec)
@@ -313,7 +313,7 @@ namespace Combat_System
                 _spawnerMonster = _haveMonsters.GetCurrentMonster();
                 spawnerSv = _spawnerSlot.stabilityValue;
                 _spawnerSkill = skill;
-                _spawnerLevel = GameCalculations.Level(_spawnerSlot.currentExp);
+                _spawnerLevel = GameSettings.Level(_spawnerSlot.currentExp);
             }
             
             gameObject.SetActive(true);

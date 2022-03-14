@@ -12,6 +12,7 @@ namespace _Core.Managers
 {
     public class GameManager : MonoBehaviour
     {
+
         public static GameManager instance;
         public DatabaseManager databaseManager;
         public UIManager uiManager;
@@ -22,6 +23,7 @@ namespace _Core.Managers
         public DynamicDifficultyAdjustment difficultyManager;
         public QuestManager questManager;
         public SaveManager saveManager;
+        public PauseManager pauseManager;
         public StateController gameStateController;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;

@@ -28,8 +28,7 @@ namespace UI
         [HideInInspector] public List<PartySlotUI> partySlots;
         [HideInInspector] public List<Image> currentMonsterSkillImages;
         [HideInInspector] public List<Image> currentMonsterItemImages;
-        [HideInInspector] public GameObject dialogueUICanvas;
-        [HideInInspector] public DialogueManager dialogueManager;
+        [HideInInspector] public DialogueUI dialogueUI;
         [HideInInspector] public GameObject questUICanvas;
         [HideInInspector] public TextMeshProUGUI questTitle;
         [HideInInspector] public TextMeshProUGUI questDescription;
@@ -44,6 +43,7 @@ namespace UI
         [HideInInspector] public Texture2D pointIndicator;
         [HideInInspector] public NewGamePanelUI newGamePanel;
         [HideInInspector] public ModalUI modal;
+        [HideInInspector] public DebugConsoleUI debugConsole;
 
         [Header("Monster Party UI")]
         public Sprite blankSlotSquare;
@@ -51,6 +51,16 @@ namespace UI
         public Color unusedPartyMember;
 
         #region Initialization
+
+        public void InitDebugConsole(DebugConsoleUI debugConsole)
+        {
+            this.debugConsole = debugConsole;
+        }
+
+        public void InitDialogueUI(DialogueUI dialogueUI)
+        {
+            this.dialogueUI = dialogueUI;
+        }
 
         public void InitStartSceneUIRef(GameObject startScenePanel, UITweener startButtonsTweener)
         {
@@ -86,12 +96,6 @@ namespace UI
             currentMonsterSkillImages = skills;
             currentMonsterItemImages = items;
             partySlots = party;
-        }
-
-        public void InitDialogueUIRef(GameObject canvas, DialogueManager manager)
-        {
-            dialogueUICanvas = canvas;
-            dialogueManager = manager;
         }
 
         public void InitQuestUIRef(GameObject questUICanvas, TextMeshProUGUI questTitle, TextMeshProUGUI questDescription, Transform questRewardParent, TextMeshProUGUI accept, TextMeshProUGUI decline)
@@ -265,7 +269,7 @@ namespace UI
             startSceneUICanvas.SetActive(false);
             gameplayUICanvas.SetActive(false);
             minimapCamera.SetActive(false);
-            dialogueUICanvas.SetActive(false);
+            dialogueUI.gameObject.SetActive(false);
             loadingScreen.SetActive(false);
             newGamePanel.gameObject.SetActive(false);
             modal.CloseModal();
@@ -273,7 +277,7 @@ namespace UI
 
         public void UpdateGoldUI()
         {
-            var inventory = GameManager.instance.player.inventory;
+            var inventory = GameManager.instance.player.playerInventory;
             var count = inventory.inventorySlots.Count;
             for (var i = 0; i < count; i++)
             {
@@ -283,6 +287,7 @@ namespace UI
                 break;
             }
         }
+
     }
 
     [System.Serializable]

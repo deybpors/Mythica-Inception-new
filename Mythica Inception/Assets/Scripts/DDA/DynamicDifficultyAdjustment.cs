@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Core.Managers;
 using UnityEngine;
 
 namespace DDA
@@ -44,6 +45,7 @@ namespace DDA
             if (dictParamDataNeeded[dataName].IncreaseDifficulty())
             {
                 Debug.Log("Increasing difficulty to " + parameter.name);
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI("Increasing difficulty to " + parameter.name);
                 parameter.AdjustDifficultyParameterValue(Difficulty.higher);
             }
 
@@ -51,6 +53,7 @@ namespace DDA
             if (!dictParamDataNeeded[dataName].DecreaseDifficulty()) return;
             
             Debug.Log("Decreasing difficulty to " + parameter.name);
+            GameManager.instance.uiManager.debugConsole.DisplayLogUI("Decreasing difficulty to " + parameter.name);
             parameter.AdjustDifficultyParameterValue(Difficulty.lower);
         }
 

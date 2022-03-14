@@ -256,12 +256,22 @@ MonoBehaviour:
   difficultyManager: {fileID: 980460353}
   questManager: {fileID: 1719308059}
   saveManager: {fileID: 1370879023}
+  pauseManager: {fileID: 1272631770}
   gameStateController: {fileID: 721566679}
   gameplayActive: 1
   enemiesSeePlayer: []
   currentWorldScenePath: 
   currentWorldCamera: {fileID: 0}
   player: {fileID: 0}
+  loadedSaveData:
+    _playerName: 
+    _sex: 0
+    _monsterSlots: []
+    _playerHealth:
+      maxHealth: 0
+      currentHealth: 0
+    _inventorySlots: []
+    _currentScenePath: 
 --- !u!114 &721566678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -416,6 +426,50 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1272631768
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1272631769}
+  - component: {fileID: 1272631770}
+  m_Layer: 0
+  m_Name: Pause Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1272631769
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272631768}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1272631770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272631768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 816367c1b47af3746abbb8eef7efaffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  paused: 1
 --- !u!1 &1370879021
 GameObject:
   m_ObjectHideFlags: 0
@@ -459,6 +513,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8952843f02023444c9629a479a7f1962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerSaveKey: playerData
+  profileIndex: 0
+  saveSeconds: 3
 --- !u!1 &1573271813
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,8 +682,7 @@ MonoBehaviour:
   partySlots: []
   currentMonsterSkillImages: []
   currentMonsterItemImages: []
-  dialogueUICanvas: {fileID: 0}
-  dialogueManager: {fileID: 0}
+  dialogueUI: {fileID: 0}
   questUICanvas: {fileID: 0}
   questTitle: {fileID: 0}
   questDescription: {fileID: 0}
@@ -640,6 +696,7 @@ MonoBehaviour:
   areaIndicator: {fileID: 0}
   pointIndicator: {fileID: 0}
   newGamePanel: {fileID: 0}
+  modal: {fileID: 0}
   blankSlotSquare: {fileID: 21300000, guid: 69b70aede4f8b4c47a5b58999269e16d, type: 3}
   blankSlotCircle: {fileID: 21300000, guid: 231af341598ab3046818ee1f9a88cfc6, type: 3}
   unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}

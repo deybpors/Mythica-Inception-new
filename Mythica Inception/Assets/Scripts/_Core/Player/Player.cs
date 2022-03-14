@@ -25,7 +25,7 @@ namespace _Core.Player
 
         public List<MonsterSlot> monsterSlots;
         public EntityHealth playerHealth;
-        public PlayerInventory inventory;
+        public PlayerInventory playerInventory;
 
         [Space]
 
@@ -54,17 +54,13 @@ namespace _Core.Player
         [HideInInspector] public PlayerInputHandler inputHandler;
         [HideInInspector] public CharacterController controller;
         [HideInInspector] public Animator currentAnimator;
-        [HideInInspector] public Stamina staminaComponent;
         [HideInInspector] public PlayerQuestManager playerQuestManager;
         private StateController _stateController;
         [HideInInspector] public MonsterManager monsterManager;
-        private readonly Vector3 zero = Vector3.zero;
         [HideInInspector] public MonsterSlot monsterAttacker;
         [HideInInspector] public PlayerSaveData savedData;
-        public float currentGameplayTimeScale = 1;
+        private readonly Vector3 _zeroVector = Vector3.zero;
 
-
-        
         #endregion
         
 
@@ -96,7 +92,6 @@ namespace _Core.Player
             skillManager = GetComponent<SkillManager>();
             skillManager.skillSlots.Clear();
             monsterManager = GetComponent<MonsterManager>();
-            staminaComponent = GetComponent<Stamina>();
             selectionManager = GetComponent<SelectionManager>();
             selectionManager.ActivateSelectionManager(this);
             controller = GetComponent<CharacterController>();
@@ -112,7 +107,7 @@ namespace _Core.Player
             playerName = savedData.name;
             monsterSlots = savedData.playerMonsters;
             playerHealth = savedData.playerHealth;
-            inventory.inventorySlots = savedData.inventorySlots;
+            playerInventory.inventorySlots = savedData.inventorySlots;
             if (savedData.sex.Equals(Sex.Male))
             {
                 male.gameObject.SetActive(true);
@@ -132,17 +127,20 @@ namespace _Core.Player
             var monsterAvgLvl = GameSettings.MonstersAvgLevel(monsterSlots);
             tamer.layer = LayerMask.NameToLayer("Player");
             currentAnimator = tamer.GetComponent<Animator>();
-            //initialize player's health
-            playerHealth.maxHealth = GameSettings.Stats(
-                GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
-                GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                monsterAvgLvl);
             
-            if (playerHealth.maxHealth <= 0)
+            //initialize player's health
+            if (GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0)
             {
-                playerHealth.maxHealth = 50;
+                playerHealth.maxHealth = GameManager.instance.saveManager.defaultPlayerHealth;
             }
-
+            else
+            {
+                playerHealth.maxHealth = GameSettings.Stats(
+                    GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    monsterAvgLvl);
+            }
+            
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             //initialize party's avg level for difficulty adjustment
             GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
@@ -151,7 +149,7 @@ namespace _Core.Player
         public PlayerSaveData GetCurrentSaveData()
         {
             savedData = new PlayerSaveData(savedData.name, savedData.sex, new WorldPlacementData(transform.position, transform.rotation, transform.localScale), monsterSlots, playerHealth,
-                inventory.inventorySlots, GameManager.instance.currentWorldScenePath, savedData.lastOpened,
+                playerInventory.inventorySlots, GameManager.instance.currentWorldScenePath, savedData.lastOpened,
                 DateTime.Now);
             return savedData;
         }
@@ -280,7 +278,7 @@ namespace _Core.Player
             var rotation = transform.rotation;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : zero, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
+                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : _zeroVector, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
 
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
@@ -289,14 +287,14 @@ namespace _Core.Player
 
             rangeProjectile.ProjectileData(true, range, monAttacking.basicAttackObjects.targetObject, monAttacking.basicAttackObjects.impact,
                 monAttacking.basicAttackObjects.muzzle, false, true, transform, target,
-                zero, deathTime, speed, .5f, monAttacking.basicAttackSkill);
+                _zeroVector, deathTime, speed, .5f, monAttacking.basicAttackSkill);
         }
 
         public void SpawnSwitchFX()
         {
             GameManager.instance.pooler.
                 SpawnFromPool(transform, tameBeam.projectileGraphics.targetObject.name,
-                    tameBeam.projectileGraphics.targetObject, zero,
+                    tameBeam.projectileGraphics.targetObject, _zeroVector,
                     Quaternion.identity);
         }
         public void ReleaseTameBeam()
@@ -319,7 +317,7 @@ namespace _Core.Player
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject, tameBeam.projectileGraphics.impact,
                 tameBeam.projectileGraphics.muzzle, true, false, transform, selectionManager.selectables[0],
-                zero, 10, 30, 1f, tameBeam.skill);
+                _zeroVector, 10, 30, 1f, tameBeam.skill);
         }
 
         private void FindAliveMonsterOrPlayer()
@@ -445,24 +443,36 @@ namespace _Core.Player
             var layer = playerGameObject.layer;
             playerGameObject.layer = 0;
             skillManager.targeting = false;
-            Action action = () =>
+
+            Action ResetPlayerData = () =>
             {
                 playerGameObject.layer = layer;
                 inputHandler.activate = true;
                 tamer.SetActive(true);
-                playerHealth.maxHealth = GameSettings.Stats(
-                    GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
-                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                    GameSettings.MonstersAvgLevel(monsterSlots));
+
+                if (GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0)
+                {
+                    playerHealth.maxHealth = GameManager.instance.saveManager.defaultPlayerHealth;
+                }
+                else
+                {
+                    playerHealth.maxHealth = GameSettings.Stats(
+                        GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                        GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                        GameSettings.MonstersAvgLevel(monsterSlots));
+                }
+
                 playerHealth.currentHealth = playerHealth.maxHealth;
+
                 _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
                 TakeDamage(0);
                 FullyRestoreAllMonsters();
                 GameManager.instance.uiManager.loadingScreen.SetActive(false);
             };
+
             GameManager.instance.uiManager.loadingScreen.SetActive(true);
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
-            StartCoroutine(DelayAction(3f, action));
+            StartCoroutine(DelayAction(3f, ResetPlayerData));
         }
 
 
@@ -491,18 +501,11 @@ namespace _Core.Player
 
         #region Miscellaneous
 
-        public void ChangeTimeScaleGameplay(float scale)
-        {
-            Time.timeScale = scale;
-            currentGameplayTimeScale = scale;
-        }
-
         IEnumerator DelayAction(float delay, Action action)
         {
             yield return new WaitForSeconds(delay);
             action?.Invoke();
         }
-
         private void TransferPlayerPositionRotation(WorldPlacementData placementData)
         {
             if(placementData == null) return;
@@ -523,5 +526,6 @@ namespace _Core.Player
 
         #endregion
 
+        
     }
 }

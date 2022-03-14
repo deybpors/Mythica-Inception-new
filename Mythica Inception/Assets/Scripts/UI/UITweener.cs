@@ -15,7 +15,7 @@ namespace UI
     public class UITweener : MonoBehaviour
     {
         public GameObject objectToAnimate;
-
+        public bool ignoreTimeScale;
         public UIAnimationType animationType;
         public LeanTweenType easeType;
         public float duration;
@@ -104,6 +104,11 @@ namespace UI
             if (disableAfterSeconds)
             {
                 StartCoroutine("DisableAfter", disableDuration);
+            }
+
+            if (ignoreTimeScale)
+            {
+                _tweenObject.setIgnoreTimeScale(true);
             }
         }
 

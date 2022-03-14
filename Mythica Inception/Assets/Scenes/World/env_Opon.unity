@@ -826,7 +826,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPCTemplate
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2389084399226082571, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
 --- !u!1 &73565547 stripped
 GameObject:

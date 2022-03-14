@@ -35,7 +35,6 @@ namespace _Core.Managers
             }
         }
 
-
         public GameObject SpawnFromPool(Transform parent, string newSpawnedTag, GameObject prefabCheck, Vector3 position, Quaternion rotation)
         {
             while (true)

@@ -7,6 +7,7 @@ namespace Assets.Scripts._Core.Managers
     public class SaveManager : MonoBehaviour
     {
         public string playerSaveKey = "playerData";
+        public int defaultPlayerHealth = 20;
         public int profileIndex = 0;
         public float saveSeconds = 3f;
         public void SavePlayerData(PlayerSaveData savedData)

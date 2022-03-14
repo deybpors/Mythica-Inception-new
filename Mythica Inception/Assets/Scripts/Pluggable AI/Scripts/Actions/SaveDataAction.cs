@@ -13,6 +13,7 @@ public class SaveDataAction : Action
         if(GameManager.instance.player.SamePosition()) return;
         
         Debug.Log("Saving data...");
+        GameManager.instance.uiManager.debugConsole.DisplayLogUI("Saving data...");
         GameManager.instance.saveManager.SavePlayerData(GameManager.instance.player.GetCurrentSaveData());
     }
 }

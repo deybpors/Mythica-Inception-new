@@ -219,7 +219,6 @@ namespace _Core.Input
             if (!activate) return;
             if (context.started)
             {
-                Debug.Log("Enter Settings");
                 GameManager.instance.gameStateController.TransitionToState(UIState);
                 playerInput.SwitchCurrentActionMap("UI");
             }
@@ -230,7 +229,6 @@ namespace _Core.Input
             if (!activate) return;
             if (context.started)
             {
-                Debug.Log("Exit Settings");
                 GameManager.instance.gameStateController.TransitionToState(gameplayState);
                 playerInput.SwitchCurrentActionMap("Gameplay");
             }

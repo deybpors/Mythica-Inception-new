@@ -555,7 +555,6 @@ MonoBehaviour:
   disableAfterSeconds: 1
   disableDuration: 0.5
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
 --- !u!223 &535715243
 Canvas:
   m_ObjectHideFlags: 0
@@ -1851,7 +1850,7 @@ MonoBehaviour:
   playerHealth:
     maxHealth: 0
     currentHealth: 18
-  inventory: {fileID: 969145019}
+  playerInventory: {fileID: 969145019}
   isTesting: 0
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   male: {fileID: 1477458166}
@@ -1876,7 +1875,6 @@ MonoBehaviour:
   inputHandler: {fileID: 969145012}
   controller: {fileID: 969145010}
   currentAnimator: {fileID: 0}
-  staminaComponent: {fileID: 0}
   playerQuestManager: {fileID: 0}
   monsterManager: {fileID: 0}
   monsterAttacker:
@@ -1915,7 +1913,15 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
-  currentGameplayTimeScale: 1
+  savedData:
+    _playerName: 
+    _sex: 0
+    _monsterSlots: []
+    _playerHealth:
+      maxHealth: 0
+      currentHealth: 0
+    _inventorySlots: []
+    _currentScenePath: 
 --- !u!114 &969145014
 MonoBehaviour:
   m_ObjectHideFlags: 0

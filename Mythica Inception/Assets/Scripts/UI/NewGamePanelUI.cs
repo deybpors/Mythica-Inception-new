@@ -57,9 +57,10 @@ public class NewGamePanelUI : MonoBehaviour
             Debug.Log("SavePlayerData File " + saveFileSelected.buttonNum + " has saved data. It will overwrite.");
         }
 
+        var saveManager = GameManager.instance.saveManager;
         PlayerSaveData newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, null,
-            GameSettings.GetDefaultMonsterSlots(4), new EntityHealth(0, 0), GameSettings.GetDefaultInventorySlots(30), startPlacePath, DateTime.Now, DateTime.Now);
-        DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, GameManager.instance.saveManager.playerSaveKey, newPlayerData);
+            GameSettings.GetDefaultMonsterSlots(4), new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth), GameSettings.GetDefaultInventorySlots(30), startPlacePath, DateTime.Now, DateTime.Now);
+        DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);
     }

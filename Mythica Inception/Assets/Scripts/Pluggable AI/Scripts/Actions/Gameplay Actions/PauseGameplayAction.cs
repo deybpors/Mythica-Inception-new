@@ -10,6 +10,6 @@ public class PauseGameplayAction : Action
     public float pauseTimeScale = .1f;
     public override void Act(StateController stateController)
     {
-        GameManager.instance.player.ChangeTimeScaleGameplay(pauseTimeScale);
+        GameManager.instance.pauseManager.PauseGameplay(pauseTimeScale);
     }
 }

@@ -26,8 +26,7 @@ namespace UI
         public List<Image> items;
 
         [Header("Dialogue UI")]
-        public GameObject dialogueUICanvas;
-        public DialogueManager dialogueManager;
+        public DialogueUI dialogueUI;
 
         [Header("Quest UI")] 
         public GameObject questUICanvas;
@@ -51,6 +50,8 @@ namespace UI
 
         [Header("Modal")] public ModalUI modal;
 
+        [Header("Debug Console")] public DebugConsoleUI debugConsole;
+
         private void Awake()
         {
             if(GameManager.instance == null) return;
@@ -58,11 +59,12 @@ namespace UI
             var ui = GameManager.instance.uiManager;
             ui.InitLoadingUIRef(loadingScreen,loadingBar, loadingScreenCam);
             ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items);
-            ui.InitDialogueUIRef(dialogueUICanvas, dialogueManager);
             ui.InitQuestUIRef(questUICanvas, questTitle, questDescription, questRewardParent, accept, decline);
             ui.InitStartSceneUIRef(startSceneUICanvas, startButtonsTweener);
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
+            ui.InitDialogueUI(dialogueUI);
             ui.newGamePanel = newGamePanel;
+            ui.InitDebugConsole(debugConsole);
             ui.modal = modal;
             
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);

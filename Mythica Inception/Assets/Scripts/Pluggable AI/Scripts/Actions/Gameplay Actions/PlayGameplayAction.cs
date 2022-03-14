@@ -8,10 +8,10 @@ public class PlayGameplayAction : Action
 {
     public override void Act(StateController stateController)
     {
-        var player = GameManager.instance.player;
-        if (player != null && player.currentGameplayTimeScale < 1)
+        var pauseManager = GameManager.instance.pauseManager;
+        if (pauseManager.paused)
         {
-            player.ChangeTimeScaleGameplay(1);
+            pauseManager.PauseGameplay(1);
         }
     }
 }

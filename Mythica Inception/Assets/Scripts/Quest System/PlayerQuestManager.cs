@@ -48,7 +48,7 @@ public class PlayerQuestManager : MonoBehaviour
 
             var item = quest.rewards[i].rewardsType.rewardItem;
             var value = quest.rewards[i].value;
-            GameManager.instance.player.inventory.AddItemInPlayerInventory(item, value);
+            GameManager.instance.player.playerInventory.AddItemInPlayerInventory(item, value);
 
             if (item is Gold)
             {

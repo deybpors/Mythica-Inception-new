@@ -1,3 +1,4 @@
+using _Core.Managers;
 using TMPro;
 using UnityEngine;
 
@@ -9,16 +10,10 @@ public class DebugConsoleUI : MonoBehaviour
 
     void OnEnable()
     {
-        Application.logMessageReceived += HandleLog;
         debugConsoleInputTrans = debugConsoleInput.transform;
     }
 
-    void OnDisable()
-    {
-        Application.logMessageReceived -= HandleLog;
-    }
-
-    void HandleLog(string logString, string stackTrace, LogType type)
+    public void DisplayLogUI(string logString)
     {
         var consoleItem = Instantiate(debugConsoleItem, transform);
         consoleItem.text = logString;

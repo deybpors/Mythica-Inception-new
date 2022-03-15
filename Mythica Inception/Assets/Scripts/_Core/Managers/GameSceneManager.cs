@@ -138,7 +138,8 @@ namespace _Core.Managers
 
             if (sceneDone != sceneCount) return;
 
-            loadingUITweener.Disable();
+            if (loadingUITweener != null) loadingUITweener.Disable();
+
             loading = false;
             _scenesLoading.Clear();
         }

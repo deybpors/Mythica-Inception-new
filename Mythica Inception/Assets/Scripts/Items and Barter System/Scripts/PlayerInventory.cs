@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using _Core.Managers;
+using _Core.Others;
+using Monster_System;
 using UnityEngine;
 
 namespace Items_and_Barter_System.Scripts

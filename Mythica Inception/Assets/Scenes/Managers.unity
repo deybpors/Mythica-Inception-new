@@ -152,9 +152,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45343e6e344323149a840d1abdf8f5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monstersDatabase: {fileID: 11400000, guid: 63d558cf0ee7424498525f3f88a223a8, type: 2}
-  skillsDatabase: {fileID: 11400000, guid: 64fd20c5bb585b84e92fab97ab5566d4, type: 2}
-  itemsDatabase: {fileID: 11400000, guid: 8345848d14f52ed41b0962bcb763ea6d, type: 2}
+  monsters:
+  - {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
+  skills:
+  - {fileID: 11400000, guid: eec92638661d31d4da9c8f4b8afe5734, type: 2}
+  - {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
+  - {fileID: 11400000, guid: c1a4315de9c454744a63d7856f686d8b, type: 2}
+  - {fileID: 11400000, guid: 29017694855f7394ea9ab418914bdd92, type: 2}
+  - {fileID: 11400000, guid: 1c210741d7809ae48b3646cbd0dd065d, type: 2}
+  - {fileID: 11400000, guid: d92b841842770b545b83ce9919b8653e, type: 2}
+  - {fileID: 11400000, guid: 174cfd1737330044186eb8641a7db751, type: 2}
+  - {fileID: 11400000, guid: f24f67dea6a56954cb4b41a951f98cc2, type: 2}
+  - {fileID: 11400000, guid: 94b900b8d06eabf4c8ac0cb35124d688, type: 2}
+  items:
+  - {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
   _monsterTypeChart: {fileID: 4900000, guid: 3cb97fd2c2956dc41a8ecb5e39ab199b, type: 3}
   attackerTypes: []
   defenseTypes: []
@@ -514,6 +525,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSaveKey: playerData
+  defaultPlayerHealth: 20
   profileIndex: 0
   saveSeconds: 3
 --- !u!1 &1573271813
@@ -697,6 +709,7 @@ MonoBehaviour:
   pointIndicator: {fileID: 0}
   newGamePanel: {fileID: 0}
   modal: {fileID: 0}
+  debugConsole: {fileID: 0}
   blankSlotSquare: {fileID: 21300000, guid: 69b70aede4f8b4c47a5b58999269e16d, type: 3}
   blankSlotCircle: {fileID: 21300000, guid: 231af341598ab3046818ee1f9a88cfc6, type: 3}
   unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}

@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using MyBox;
+using TMPro;
+using UI;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DialogueUI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Image speaker;
+    public RectTransform speakerHolder;
+    public TextMeshProUGUI dialogueText;
+    public TextMeshProUGUI nameText;
+    public RectTransform nameHolder;
+    public UITweener nextLineTweener;
+    public UITweener choiceTweener;
+    public Button[] choiceButtons;
 
-    // Update is called once per frame
-    void Update()
+    public void DisableTweener(UITweener tweener)
     {
-        
+        tweener.Disable();
     }
 }

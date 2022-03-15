@@ -15,11 +15,11 @@ namespace Quest_System
         public List<Reward> rewards;
         public QuestGoal goals;
         [Space]
-        [Tooltip("Quest to proceed if ever the current quest succeeds")]
-        public Quest succeedQuest;
+        [Tooltip("Quests to proceed if ever the current quest succeeds")]
+        public Quest[] succeedQuests;
 
-        [Tooltip("Quest to proceed if ever the current quest fails")]
-        public Quest failedQuest;
+        [Tooltip("Quests to proceed if ever the current quest fails")]
+        public Quest[] failedQuests;
     }
 
     [System.Serializable]

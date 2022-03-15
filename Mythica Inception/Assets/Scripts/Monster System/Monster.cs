@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using _Core.Managers;
 using _Core.Others;
 using Combat_System;
 using Items_and_Barter_System.Scripts;
@@ -22,7 +24,7 @@ namespace Monster_System
         [TextArea(15,20)]
         public string description;
     }
-    
+
     [System.Serializable]
     public class MonsterSlot
     {

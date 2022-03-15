@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
+using Items_and_Barter_System.Scripts;
+using Monster_System;
 using TMPro;
 using ToolBox.Serialization;
 using UI;
@@ -31,7 +34,10 @@ public class NewGamePanelUI : MonoBehaviour
     {
         maleButton.onClick.AddListener(() => PickSexType(maleButton));
         femaleButton.onClick.AddListener(() => PickSexType(femaleButton));
-        startPlacePath = GameManager.instance.uiManager.startSceneUI.scenePicker.path;
+        try
+        {
+            startPlacePath = GameManager.instance.uiManager.startSceneUI.scenePicker.path;
+        } catch{}
     }
 
     public void ShowTweener(UITweener tweener)
@@ -58,8 +64,9 @@ public class NewGamePanelUI : MonoBehaviour
         }
 
         var saveManager = GameManager.instance.saveManager;
-        PlayerSaveData newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, null,
-            GameSettings.GetDefaultMonsterSlots(4), new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth), GameSettings.GetDefaultInventorySlots(30), startPlacePath, DateTime.Now, DateTime.Now);
+
+        PlayerSaveData newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, null, GameSettings.GetDefaultMonsterSlots(4)
+            , new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth), GameSettings.GetDefaultInventorySlots(30), startPlacePath, DateTime.Now, DateTime.Now);
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);

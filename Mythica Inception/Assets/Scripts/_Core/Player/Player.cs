@@ -127,7 +127,7 @@ namespace _Core.Player
             var monsterAvgLvl = GameSettings.MonstersAvgLevel(monsterSlots);
             tamer.layer = LayerMask.NameToLayer("Player");
             currentAnimator = tamer.GetComponent<Animator>();
-            
+
             //initialize player's health
             if (GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0)
             {
@@ -155,6 +155,7 @@ namespace _Core.Player
         }
 
         #region Monster
+
         public int GetCurrentSlotNumber()
         {
             return inputHandler.currentMonster;

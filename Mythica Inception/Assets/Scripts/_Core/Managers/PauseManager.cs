@@ -6,6 +6,6 @@ public class PauseManager : MonoBehaviour
     public bool paused;
     public void PauseGameplay(float timeScale)
     {
-        Time.timeScale = timeScale;
+        Time.timeScale = 1 * timeScale;
     }
 }

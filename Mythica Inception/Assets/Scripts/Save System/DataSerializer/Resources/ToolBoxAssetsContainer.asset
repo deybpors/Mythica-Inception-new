@@ -112,4 +112,4 @@ MonoBehaviour:
   - _guid: 94b900b8d06eabf4c8ac0cb35124d688
     _asset: {fileID: 11400000, guid: 94b900b8d06eabf4c8ac0cb35124d688, type: 2}
   _paths:
-  - Assets/Scriptable Objects
+  - Assets/ScriptableObjects

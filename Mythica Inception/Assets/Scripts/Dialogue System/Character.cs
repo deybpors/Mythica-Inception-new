@@ -10,7 +10,7 @@ using Debug = UnityEngine.Debug;
 public class Character : ScriptableObjectWithID
 {
     public string fullName;
-    public List<Mood> moods;
+    public List<CharacterMood> moods;
 
     [SerializeField, HideInInspector] private bool _hasBeenInitialized = false;
 
@@ -23,7 +23,7 @@ public class Character : ScriptableObjectWithID
 
         for (var i = 0; i < emotionMemberCount; i++)
         {
-            var moodToAdd = new Mood(Enum.GetName(typeof(Emotion), i), (Emotion)i, null);
+            var moodToAdd = new CharacterMood(Enum.GetName(typeof(Emotion), i), (Emotion)i, null);
             moods.Add(moodToAdd);
         }
 
@@ -32,13 +32,13 @@ public class Character : ScriptableObjectWithID
 }
 
 [System.Serializable] 
-public class Mood
+public class CharacterMood
 {
     [HideInInspector] public string name;
     public Emotion emotion;
     public Sprite graphic;
 
-    public Mood(string name, Emotion emotion, Sprite graphic)
+    public CharacterMood(string name, Emotion emotion, Sprite graphic)
     {
         this.name = name;
         this.emotion = emotion;

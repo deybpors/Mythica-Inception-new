@@ -152,20 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45343e6e344323149a840d1abdf8f5c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsters:
-  - {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
-  skills:
-  - {fileID: 11400000, guid: eec92638661d31d4da9c8f4b8afe5734, type: 2}
-  - {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
-  - {fileID: 11400000, guid: c1a4315de9c454744a63d7856f686d8b, type: 2}
-  - {fileID: 11400000, guid: 29017694855f7394ea9ab418914bdd92, type: 2}
-  - {fileID: 11400000, guid: 1c210741d7809ae48b3646cbd0dd065d, type: 2}
-  - {fileID: 11400000, guid: d92b841842770b545b83ce9919b8653e, type: 2}
-  - {fileID: 11400000, guid: 174cfd1737330044186eb8641a7db751, type: 2}
-  - {fileID: 11400000, guid: f24f67dea6a56954cb4b41a951f98cc2, type: 2}
-  - {fileID: 11400000, guid: 94b900b8d06eabf4c8ac0cb35124d688, type: 2}
-  items:
-  - {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
   _monsterTypeChart: {fileID: 4900000, guid: 3cb97fd2c2956dc41a8ecb5e39ab199b, type: 3}
   attackerTypes: []
   defenseTypes: []
@@ -181,37 +167,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &717111221
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 717111222}
-  m_Layer: 0
-  m_Name: Master Parent
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &717111222
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 717111221}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &721566675
 GameObject:
@@ -244,7 +200,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &721566677
 MonoBehaviour:
@@ -348,7 +304,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &980460353
 MonoBehaviour:
@@ -435,7 +391,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1272631768
 GameObject:
@@ -466,7 +422,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1272631770
 MonoBehaviour:
@@ -510,7 +466,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1370879023
 MonoBehaviour:
@@ -557,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78fea9d402868b944bd002acf4313a5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  masterParent: {fileID: 717111222}
+  masterParent: {fileID: 1573271815}
   pools:
   - tag: 
     prefab: {fileID: 7466845484337942068, guid: 4e0604656336ee340a79ad616bfc1f5a, type: 3}
@@ -604,7 +560,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1666776875
 GameObject:
@@ -635,9 +591,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7332f47e2c72f743a7ad6e89667e7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volume: 1
-  music: []
-  soundFX: []
+  _masterVolume: 1
+  _musicList: []
+  _musicFadeTime: 1.25
+  _ambiences: []
+  ambienceFadeTime: 2.5
+  _soundFx: []
 --- !u!4 &1666776877
 Transform:
   m_ObjectHideFlags: 0
@@ -650,7 +609,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1705896063
 GameObject:
@@ -725,7 +684,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1719308057
 GameObject:
@@ -756,7 +715,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1719308059
 MonoBehaviour:

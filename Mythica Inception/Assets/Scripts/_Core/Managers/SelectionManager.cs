@@ -32,6 +32,7 @@ namespace _Core.Managers
         {
             selectables.Clear();
             interactables.Clear();
+
             ray = _player.mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             var size = Physics.SphereCastNonAlloc(ray, 1f, _hits, Mathf.Infinity);
 

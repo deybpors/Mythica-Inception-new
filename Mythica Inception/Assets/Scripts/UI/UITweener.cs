@@ -68,6 +68,12 @@ namespace UI
         {
             HandleTween();
         }
+
+        public LTDescr GetTweenObject()
+        {
+            return _tweenObject;
+        }
+
         public void HandleTween()
         {
             if (objectToAnimate == null)

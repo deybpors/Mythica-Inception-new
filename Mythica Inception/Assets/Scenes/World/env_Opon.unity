@@ -4614,22 +4614,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1677190415}
     m_Modifications:
-    - target: {fileID: 1740281015779734533, guid: 158fee85537db6d43a6750d4ed5a5836, type: 3}
-      propertyPath: m_BoundingSphereOverride.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740281015779734533, guid: 158fee85537db6d43a6750d4ed5a5836, type: 3}
-      propertyPath: m_BoundingSphereOverride.x
-      value: 6.7e-44
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740281015779734533, guid: 158fee85537db6d43a6750d4ed5a5836, type: 3}
-      propertyPath: m_BoundingSphereOverride.y
-      value: 33
-      objectReference: {fileID: 0}
-    - target: {fileID: 1740281015779734533, guid: 158fee85537db6d43a6750d4ed5a5836, type: 3}
-      propertyPath: m_BoundingSphereOverride.z
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 4710543585406664828, guid: 158fee85537db6d43a6750d4ed5a5836, type: 3}
       propertyPath: m_Name
       value: Kubo 1 (2)

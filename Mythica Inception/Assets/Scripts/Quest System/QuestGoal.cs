@@ -1,15 +1,10 @@
-﻿namespace Quest_System
+﻿using UnityEngine;
+
+namespace Quest_System
 {
-    public enum QuestGoalType
+
+    public abstract class QuestGoal : ScriptableObject
     {
-        kill, gather
-    }
-    
-    [System.Serializable]
-    public class QuestGoal
-    {
-        public QuestGoalType type;
         public int requiredValue;
     }
-
 }

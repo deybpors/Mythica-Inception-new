@@ -43,6 +43,7 @@ namespace UI
         [HideInInspector] public NewGamePanelUI newGamePanel;
         [HideInInspector] public ModalUI modal;
         [HideInInspector] public DebugConsoleUI debugConsole;
+        [HideInInspector] public TooltipUI tooltip;
 
         [Header("Monster Party UI")]
         public Sprite blankSlotSquare;
@@ -278,6 +279,8 @@ namespace UI
         {
             var inventory = GameManager.instance.player.playerInventory;
             var count = inventory.inventorySlots.Count;
+            
+            //find Gold in inventory
             for (var i = 0; i < count; i++)
             {
                 if (!(inventory.inventorySlots[i].inventoryItem is Gold)) continue;

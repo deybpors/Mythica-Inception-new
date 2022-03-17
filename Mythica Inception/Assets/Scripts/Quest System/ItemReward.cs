@@ -7,10 +7,10 @@ namespace Quest_System
     [System.Serializable]
     public class QuestRewardsType
     {
-        public RewardTypes rewardType;
-        [ConditionalField(nameof(rewardType), false, RewardTypes.items)]
+        public RewardTypes typeOfReward;
+        [ConditionalField(nameof(typeOfReward), false, RewardTypes.Items)]
         public ItemObject rewardItem;
-        [ConditionalField(nameof(rewardType), false, RewardTypes.experience)]
+        [ConditionalField(nameof(typeOfReward), false, RewardTypes.Experience)]
         public int experienceReward;
         public Sprite icon;
         public string rewardName;

@@ -10,7 +10,8 @@ namespace Assets.Scripts.Dialogue_System
     {
         public Character speaker;
         public Line[] lines;
-        public Choice[] choice;
+        [Tooltip("Displays with the last line of the conversation. Note: Please limit choices to at most 5.")]
+        public Choice[] choices;
     }
 
     [System.Serializable]

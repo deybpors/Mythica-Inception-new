@@ -7,36 +7,35 @@ using UnityEngine;
 
 public class PlayerQuestManager : MonoBehaviour
 {
-    public List<PlayerAcceptedQuest> activeQuests;
+    public Dictionary<string, PlayerAcceptedQuest> activeQuests;
 
     public void GiveQuestToPlayer(Quest questGiven)
     {
         if (PlayerHaveQuest(questGiven)) return;
 
         var newQuest = new PlayerAcceptedQuest(questGiven);
-        activeQuests.Add(newQuest);
+        activeQuests.Add(newQuest.quest.ID, newQuest);
     }
 
     private bool PlayerHaveQuest(Quest quest)
     {
-        return activeQuests.Any(playerAcceptedQuest => playerAcceptedQuest.quest.ID.Equals(quest.ID));
+        return activeQuests.TryGetValue(quest.ID, out var playerQuest);
     }
 
     public void RemoveQuestToPlayer(Quest questToRemove)
     {
-        var count = activeQuests.Count;
-        for (var i = 0; i < count; i++)
-        {
-            if (!activeQuests[i].quest.ID.Equals(questToRemove.ID)) continue;
-            activeQuests.RemoveAt(i);
-            break;
-        }
+        activeQuests.Remove(questToRemove.ID);
     }
 
     public bool IsQuestSucceeded(Quest quest)
     {
         //check whether the passed quest is finished
-        return activeQuests.Where(acceptedQuest => acceptedQuest.quest.ID.Equals(quest.ID)).Any(acceptedQuest => acceptedQuest.currentValue >= acceptedQuest.quest.goals.requiredValue);
+        if (activeQuests.TryGetValue(quest.ID, out var playerQuest))
+        {
+            return playerQuest.currentValue >= playerQuest.quest.goal.requiredValue;
+        }
+
+        return false;
     }
 
     public void GetQuestRewards(Quest quest)
@@ -44,16 +43,23 @@ public class PlayerQuestManager : MonoBehaviour
         var rewardsCount = quest.rewards.Count;
         for (var i = 0; i < rewardsCount; i++)
         {
-            if (quest.rewards[i].rewardsType.rewardType != RewardTypes.items) continue;
-
-            var item = quest.rewards[i].rewardsType.rewardItem;
-            var value = quest.rewards[i].value;
-            GameManager.instance.player.playerInventory.AddItemInPlayerInventory(item, value);
-
-            if (item is Gold)
+            var questReward = quest.rewards[i];
+            switch (questReward.rewardsType.typeOfReward)
             {
-                GameManager.instance.uiManager.UpdateGoldUI();
+                case RewardTypes.Items:
+                    var item = questReward.rewardsType.rewardItem;
+                    var value = questReward.value;
+                    GameManager.instance.player.playerInventory.AddItemInPlayerInventory(item, value);
+                    
+                    if (item is Gold)
+                    {
+                        GameManager.instance.uiManager.UpdateGoldUI();
+                    }
+                    break;
+                case RewardTypes.Experience:
+                    break;
             }
         }
+
     }
 }

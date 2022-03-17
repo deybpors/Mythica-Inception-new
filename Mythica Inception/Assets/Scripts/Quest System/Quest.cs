@@ -13,7 +13,7 @@ namespace Quest_System
         [TextArea(5,10)]
         public string description;
         public List<Reward> rewards;
-        public QuestGoal goals;
+        public QuestGoal goal;
         [Space]
         [Tooltip("Quests to proceed if ever the current quest succeeds")]
         public Quest[] succeedQuests;
@@ -44,6 +44,6 @@ namespace Quest_System
 
     public enum RewardTypes
     {
-        items, experience,
+        Items, Experience,
     }
 }

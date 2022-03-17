@@ -239,9 +239,11 @@ namespace Pluggable_AI.Scripts.General
 
             GameManager.instance.UpdateEnemiesSeePlayer(monsterTransform, out var enemyCount);
             
+            //if this object is a wild mythica
             if (!tamer)
             {
-                GameManager.instance.questManager.UpdateKillQuest();
+                //TODO: Update Kill Quest Type here
+                //GameManager.instance.questManager.UpdateKillQuest();
             }
             
             

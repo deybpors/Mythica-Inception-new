@@ -51,6 +51,8 @@ namespace UI
 
         [Header("Debug Console")] public DebugConsoleUI debugConsole;
 
+        [Header("Tooltip UI")] public TooltipUI tooltip;
+
         private void Awake()
         {
             if(GameManager.instance == null) return;
@@ -65,6 +67,7 @@ namespace UI
             ui.newGamePanel = newGamePanel;
             ui.InitDebugConsole(debugConsole);
             ui.modal = modal;
+            ui.tooltip = tooltip;
             
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
             

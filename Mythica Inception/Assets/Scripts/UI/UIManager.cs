@@ -18,6 +18,7 @@ namespace UI
         [HideInInspector] public StartSceneUI startSceneUI;
         [HideInInspector] public UITweener startButtonsTweener;
         [HideInInspector] public GameObject gameplayUICanvas;
+        [HideInInspector] public UITweener gameplayTweener;
         [HideInInspector] public GameObject minimapCamera;
         [HideInInspector] public TextMeshProUGUI currentCharacterName;
         [HideInInspector] public TextMeshProUGUI currentCharacterLevel;
@@ -87,6 +88,7 @@ namespace UI
         public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items)
         {
             gameplayUICanvas = canvas;
+            gameplayTweener = canvas.GetComponent<UITweener>();
             minimapCamera = minimapCam;
             currentGold = gold;
             currentCharacterName = characterName;

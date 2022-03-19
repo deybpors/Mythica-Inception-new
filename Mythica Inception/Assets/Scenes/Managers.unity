@@ -227,18 +227,12 @@ MonoBehaviour:
   gameStateController: {fileID: 721566679}
   gameplayActive: 1
   enemiesSeePlayer: []
+  gameplayState: {fileID: 11400000, guid: 3dad947175dfe8c4f860f67a26064c42, type: 2}
+  UIState: {fileID: 11400000, guid: acc3cdc9d4b9ea74b83802e6c320474a, type: 2}
+  dialogueState: {fileID: 11400000, guid: 0e56e5b56cd8ea446a4d417c8dacc386, type: 2}
   currentWorldScenePath: 
   currentWorldCamera: {fileID: 0}
   player: {fileID: 0}
-  loadedSaveData:
-    _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!114 &721566678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -669,6 +663,7 @@ MonoBehaviour:
   newGamePanel: {fileID: 0}
   modal: {fileID: 0}
   debugConsole: {fileID: 0}
+  tooltip: {fileID: 0}
   blankSlotSquare: {fileID: 21300000, guid: 69b70aede4f8b4c47a5b58999269e16d, type: 3}
   blankSlotCircle: {fileID: 21300000, guid: 231af341598ab3046818ee1f9a88cfc6, type: 3}
   unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}

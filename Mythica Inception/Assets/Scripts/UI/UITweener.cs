@@ -40,7 +40,7 @@ namespace UI
         public float to;
         private float origTo;
 
-        public List<GameObject> objectsToDisableOnDisable;
+        public List<UITweener> objectsToDisableOnDisable;
         public bool disableAfterSeconds;
 
         [ConditionalField(nameof(disableAfterSeconds))]
@@ -192,7 +192,7 @@ namespace UI
             for (var i = 0; i < objectCount; i++)
             {
                 var obj = objectsToDisableOnDisable[i];
-                obj.SetActive(false);
+                obj.Disable();
             }
         }
 

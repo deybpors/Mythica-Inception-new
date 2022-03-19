@@ -126,6 +126,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "9856e4a8-a7ef-4aac-8f26-93a9b1e9bda7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Go to Settings",
                     "type": "Button",
                     "id": "30da7bda-27ad-4c6f-9c7b-a5d4892f66fa",
@@ -376,6 +384,17 @@
                     "action": "Go to Settings",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d760266-5b53-4f8b-acdd-73a4242cf289",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -401,6 +420,55 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Exit Settings",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Dialogue",
+            "id": "6d58ac13-8651-4bb2-8d9e-8787ec16298b",
+            "actions": [
+                {
+                    "name": "Next Line",
+                    "type": "Button",
+                    "id": "8ac1d841-fff5-46c7-b8c9-6864024799a2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "89975098-c3d4-4cc3-a6ef-e8a77d37cc2c",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next Line",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3b473f6-d4a4-4af3-bfd5-af82d1b5362c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next Line",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c1ae3ff3-2231-4b83-a250-ab3897e9e51f",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Next Line",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

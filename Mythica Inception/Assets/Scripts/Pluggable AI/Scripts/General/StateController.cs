@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Core.Player;
 using Pluggable_AI.Scripts.States;
@@ -66,20 +67,25 @@ namespace Pluggable_AI.Scripts.General
                 controllerAnimator = aI.currentAnimator;
             }
 
-            if (controllerAnimator != null && !currentState.stateAnimation.Equals("") &&
-                stateMachineType == StateMachineType.Player)
-            {
-                controllerAnimator.SetBool(currentState.stateAnimation, true);
-            }
+            if (controllerAnimator == null || currentState.stateAnimation.Equals(string.Empty) ||
+                stateMachineType != StateMachineType.Player) return;
+
+            if (player.inputHandler.currentMonster >= 0 && currentState.stateAnimation.Equals("Roll")) return;
+
+            controllerAnimator.SetBool(currentState.stateAnimation, true);
         }
 
         public void TransitionToState(State nextState)
         {
             if (nextState == remainState) return;
-            
-            if (controllerAnimator != null && !currentState.stateAnimation.Equals(""))
+
+            if (controllerAnimator != null && !currentState.stateAnimation.Equals(string.Empty))
             {
-                controllerAnimator.SetBool(currentState.stateAnimation, false);
+                if (stateMachineType != StateMachineType.Player || player.inputHandler.currentMonster < 0 ||
+                    !currentState.stateAnimation.Equals("Roll"))
+                {
+                    controllerAnimator.SetBool(currentState.stateAnimation, false);
+                }
             }
             
             currentState = nextState;

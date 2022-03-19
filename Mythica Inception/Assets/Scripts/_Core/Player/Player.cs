@@ -52,13 +52,14 @@ namespace _Core.Player
         private Health _healthComponent;
         [HideInInspector] public SkillManager skillManager;
         [HideInInspector] public PlayerInputHandler inputHandler;
-        [HideInInspector] public CharacterController controller;
+        [HideInInspector] public Rigidbody rgdbody;
         [HideInInspector] public Animator currentAnimator;
         [HideInInspector] public PlayerQuestManager playerQuestManager;
         private StateController _stateController;
         [HideInInspector] public MonsterManager monsterManager;
         [HideInInspector] public MonsterSlot monsterAttacker;
         [HideInInspector] public PlayerSaveData savedData;
+        [HideInInspector] public Vector3 colliderExtents;
         private readonly Vector3 _zeroVector = Vector3.zero;
 
         #endregion
@@ -94,12 +95,13 @@ namespace _Core.Player
             monsterManager = GetComponent<MonsterManager>();
             selectionManager = GetComponent<SelectionManager>();
             selectionManager.ActivateSelectionManager(this);
-            controller = GetComponent<CharacterController>();
             inputHandler = GetComponent<PlayerInputHandler>();
+            rgdbody = GetComponent<Rigidbody>();
             inputHandler.ActivatePlayerInputHandler(this);
             _stateController = GetComponent<StateController>();
             _healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
+            colliderExtents = GetComponent<Collider>().bounds.extents;
         }
         
         private void InitializePlayerSavedData()
@@ -393,11 +395,12 @@ namespace _Core.Player
         public void TakeDamage(int damageToTake)
         {
             _healthComponent.ReduceHealth(damageToTake);
-            var current = inputHandler.currentMonster;
-            if (current <= 0)
+            var currentMonster = inputHandler.currentMonster;
+
+            if (currentMonster < 0)
             {
                 playerHealth.currentHealth = _healthComponent.health.currentHealth;
-                GameManager.instance.uiManager.UpdateHealthUI(current, playerHealth.currentHealth);
+                GameManager.instance.uiManager.UpdateHealthUI(currentMonster, playerHealth.currentHealth);
 
                 if (playerHealth.currentHealth <= 0)
                 {
@@ -405,12 +408,12 @@ namespace _Core.Player
                 }
                 return;
             }
-            monsterSlots[current].currentHealth = _healthComponent.health.currentHealth;
-            GameManager.instance.uiManager.UpdateHealthUI(current, monsterSlots[current].currentHealth);
+            monsterSlots[currentMonster].currentHealth = _healthComponent.health.currentHealth;
+            GameManager.instance.uiManager.UpdateHealthUI(currentMonster, monsterSlots[currentMonster].currentHealth);
 
-            if (monsterSlots[current].currentHealth > 0) return;
-            monsterSlots[current].fainted = true;
-            monsterSlots[current].currentLives--;
+            if (monsterSlots[currentMonster].currentHealth > 0) return;
+            monsterSlots[currentMonster].fainted = true;
+            monsterSlots[currentMonster].currentLives--;
             FindAliveMonsterOrPlayer();
         }
 

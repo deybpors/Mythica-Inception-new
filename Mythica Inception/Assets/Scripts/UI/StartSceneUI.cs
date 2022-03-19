@@ -12,7 +12,7 @@ namespace UI
         public ScenePicker scenePicker;
         public GameObject continueButton;
         [SerializeField] private State gameplayState;
-        [HideInInspector] public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
+        public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
         private void Start()
         {
             if(GameManager.instance == null) return;

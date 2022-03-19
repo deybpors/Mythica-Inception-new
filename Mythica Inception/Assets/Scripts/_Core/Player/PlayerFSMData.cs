@@ -6,6 +6,7 @@ namespace _Core.Player.Player_FSM
     public class PlayerFSMData : ScriptableObject
     {
         public float turnSmoothTime;
+        public float moveRotationSpeed = 5f;
         public float speed;
         public float dashTime;
         public float dashSpeed;

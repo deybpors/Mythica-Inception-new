@@ -1,4 +1,5 @@
-﻿using Pluggable_AI.Scripts.General;
+﻿using _Core.Player;
+using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
 namespace Pluggable_AI.Scripts.Actions
@@ -6,8 +7,8 @@ namespace Pluggable_AI.Scripts.Actions
     [CreateAssetMenu(menuName = "Player FSM/Actions/Move Action")]
     public class PlayerMoveAction : Action
     {
-        private Vector3 _moveVector;
-        private float _turnSmoothVelocity;
+
+        private readonly Vector3 _zero = Vector3.zero;
         public override void Act(StateController stateController)
         {
             Move(stateController);
@@ -15,18 +16,40 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void Move(StateController stateController)
         {
-            _moveVector = new Vector3(stateController.player.inputHandler.movementInput.x, 0f,
-                stateController.player.inputHandler.movementInput.y);
+
+            var player = stateController.player;
             
-            if (!(_moveVector.magnitude >= 0.1f)) return;
+            if (player.rgdbody.isKinematic)
+            {
+                player.rgdbody.isKinematic = false;
+            }
+
+            var inputHandlerMovementInput = player.inputHandler.movementInput;
             
-            float targetAngle = Mathf.Atan2(_moveVector.x, _moveVector.z) * Mathf.Rad2Deg + stateController.player.mainCamera.transform.eulerAngles.y;
-            float newAngle = Mathf.SmoothDampAngle(stateController.transform.eulerAngles.y, targetAngle, ref _turnSmoothVelocity,
-                stateController.player.playerData.temporaryTurnSmoothTime);
-            stateController.transform.rotation = Quaternion.Euler(0f, newAngle, 0f);
-            _moveVector = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            stateController.player.controller.Move(_moveVector.normalized * stateController.player.tempSpeed * Time.deltaTime);
+            //get moveVector from input
+            var inputVector = new Vector3(inputHandlerMovementInput.x, 0f, inputHandlerMovementInput.y);
+
+            //Move and get Target vector then rotate towards the target vector
+            RotateTowardsTargetVector(player, MoveAndGetTargetVector(player, inputVector));
+        }
+
+        private void RotateTowardsTargetVector(Player player, Vector3 targetVector)
+        {
+            if(targetVector == _zero) return;
+
+            var targetRotation = Quaternion.LookRotation(targetVector);
+            player.transform.rotation =
+                Quaternion.RotateTowards(player.transform.rotation, targetRotation, player.playerData.moveRotationSpeed);
+        }
+
+        private Vector3 MoveAndGetTargetVector(Player player, Vector3 inputVector)
+        {
+            var speed = player.tempSpeed * Time.deltaTime;
             
+            var targetVector = Quaternion.Euler(0, player.mainCamera.transform.eulerAngles.y, 0) * inputVector;
+            var targetPosition = player.transform.position + targetVector * speed;
+            player.transform.position = targetPosition;
+            return targetVector;
         }
     }
 }

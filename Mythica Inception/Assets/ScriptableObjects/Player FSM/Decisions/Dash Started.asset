@@ -10,5 +10,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 00d030c95973e5d42874effeb4f7efb0, type: 3}
-  m_Name: Start Dash
+  m_Name: Dash Started
   m_EditorClassIdentifier: 

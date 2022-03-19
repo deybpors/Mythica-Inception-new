@@ -826,6 +826,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPCTemplate
       objectReference: {fileID: 0}
+    - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: _character
+      value: 
+      objectReference: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: _conversation
+      value: 
+      objectReference: {fileID: 11400000, guid: 42c82ea2d13a5b54dbb51b2867a397f0, type: 2}
+    - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: _interactableDistance
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2389084399226082571, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
@@ -12024,6 +12036,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 73565551}
     m_Modifications:
+    - target: {fileID: -1342666733173685987, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
+      propertyPath: outlineMode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342666733173685987, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
+      propertyPath: outlineWidth
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342666733173685987, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
+      propertyPath: outlineColor.b
+      value: 0.98614675
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342666733173685987, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
+      propertyPath: outlineColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1342666733173685987, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
+      propertyPath: outlineColor.r
+      value: 0.5990566
+      objectReference: {fileID: 0}
     - target: {fileID: 3303390207776683523, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
       propertyPath: m_Layer
       value: 0

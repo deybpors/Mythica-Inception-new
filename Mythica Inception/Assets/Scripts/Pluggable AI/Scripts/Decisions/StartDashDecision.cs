@@ -14,13 +14,14 @@ namespace Pluggable_AI.Scripts.Decisions
 
         private bool StartDash(StateController stateController)
         {
-            var dashInput = stateController.player.inputHandler.dashInput;
-            if (dashInput)
+            var playerInputHandler = stateController.player.inputHandler;
+            var dashInput = playerInputHandler.dashInput;
+            
+            if (dashInput && playerInputHandler.currentMonster < 0)
             {
-                var dash = GameManager.instance.pooler.SpawnFromPool(null, stateController.player.dashGraphic.name,
+                GameManager.instance.pooler.SpawnFromPool(null, stateController.player.dashGraphic.name,
                     stateController.player.dashGraphic, stateController.transform.position,
                     stateController.transform.rotation);
-                dash.GetComponent<ParticleSystem>().Play();
             }
             return dashInput;
         }

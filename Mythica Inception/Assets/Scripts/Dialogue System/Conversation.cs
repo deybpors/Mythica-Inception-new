@@ -30,7 +30,7 @@ namespace Assets.Scripts.Dialogue_System
         public string text;
         public Conversation conversation;
         public bool addAQuest;
-        [ConditionalField(nameof(addAQuest))] public CollectionWrapper<Quest> quests;
+        [ConditionalField(nameof(addAQuest))] public Quest quest;
     }
 
     public enum SpeakerDirection

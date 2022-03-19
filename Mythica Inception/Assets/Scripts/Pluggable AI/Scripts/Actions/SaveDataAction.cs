@@ -11,6 +11,8 @@ public class SaveDataAction : Action
         if (!stateController.HasTimeElapsed(GameManager.instance.saveManager.saveSeconds)) return;
 
         if(GameManager.instance.player.SamePosition()) return;
+
+        if(GameManager.instance.gameStateController.currentState != GameManager.instance.gameplayState) return;
         
         Debug.Log("Saving data...");
         GameManager.instance.uiManager.debugConsole.DisplayLogUI("Saving data...");

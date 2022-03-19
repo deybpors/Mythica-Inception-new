@@ -38,6 +38,8 @@ public class TooltipUI : MonoBehaviour
 
     public void ShowToolTip(string title, string content)
     {
+        if(title.Equals(string.Empty) && content.Equals(string.Empty)) return;
+
         titleField.text = title;
         contentField.text = content;
 

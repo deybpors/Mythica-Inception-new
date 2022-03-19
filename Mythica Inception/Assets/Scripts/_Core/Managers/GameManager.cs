@@ -4,6 +4,7 @@ using Assets.Scripts._Core.Managers;
 using Databases.Scripts;
 using DDA;
 using Pluggable_AI.Scripts.General;
+using Pluggable_AI.Scripts.States;
 using Quest_System;
 using SoundSystem;
 using UI;
@@ -28,6 +29,12 @@ namespace _Core.Managers
         public StateController gameStateController;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;
+
+        [Header("Game States")]
+        public State gameplayState;
+        public State UIState;
+        public State dialogueState;
+
         [HideInInspector] public string currentWorldScenePath = string.Empty;
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;

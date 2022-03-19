@@ -2503,7 +2503,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -235.553, y: 0}
+  m_SizeDelta: {x: -632.425, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &318435798
 MonoBehaviour:
@@ -2556,7 +2556,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 100
+  m_fontSizeMin: 20
   m_fontSizeMax: 120
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -2749,12 +2749,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tmpText: {fileID: 318435798}
   duration: 0.1
-  delay: 0.05
-  progress: 0
+  delay: 0.01
+  progress: 1
   playWhenReady: 1
   loop: 0
   playForever: 0
-  animationControlled: 1
+  animationControlled: 0
 --- !u!1 &334546811
 GameObject:
   m_ObjectHideFlags: 0
@@ -6265,6 +6265,7 @@ GameObject:
   - component: {fileID: 668133625}
   - component: {fileID: 668133627}
   - component: {fileID: 668133624}
+  - component: {fileID: 668133628}
   m_Layer: 0
   m_Name: Dialogue
   m_TagString: Untagged
@@ -6306,6 +6307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf40c1c55f9cedb41b8e3183d62cf17e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _secondsPerCharacter: 0.05
   speaker: {fileID: 1905090601}
   speakerHolder: {fileID: 1591009430}
   dialogueText: {fileID: 318435798}
@@ -6381,6 +6383,38 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &668133628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 668133622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0404e7821baec4f89f7d5fd37b2c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToAnimate: {fileID: 0}
+  ignoreTimeScale: 1
+  animationType: 2
+  easeType: 0
+  duration: 0
+  delay: 1
+  loop: 0
+  pingpong: 0
+  startPositionOffset: 1
+  fromState: {x: 0, y: 0, z: 0}
+  toState: {x: 0, y: 0, z: 0}
+  from: 0
+  to: 1
+  objectsToDisableOnDisable:
+  - {fileID: 1905090603}
+  - {fileID: 810890958}
+  - {fileID: 2015913981}
+  disableAfterSeconds: 0
+  disableDuration: 0
+  showOnEnable: 1
 --- !u!1 &685683533
 GameObject:
   m_ObjectHideFlags: 0
@@ -7574,12 +7608,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2159315624691524536, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
   m_PrefabInstance: {fileID: 754458439}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 754458442}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3b40d648d47d5488800d9a78572978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &754458442 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4625687672955568714, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
+  m_PrefabInstance: {fileID: 754458439}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &754458443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 754458442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ecc7341ffc0145bf7515464106a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  content: 
 --- !u!1 &760518311
 GameObject:
   m_ObjectHideFlags: 0
@@ -9346,6 +9399,7 @@ GameObject:
   - component: {fileID: 895411455}
   - component: {fileID: 895411454}
   - component: {fileID: 895411453}
+  - component: {fileID: 895411457}
   m_Layer: 5
   m_Name: Gameplay
   m_TagString: Untagged
@@ -9442,6 +9496,35 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &895411457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895411452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0404e7821baec4f89f7d5fd37b2c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToAnimate: {fileID: 0}
+  ignoreTimeScale: 1
+  animationType: 2
+  easeType: 4
+  duration: 0.5
+  delay: 0
+  loop: 0
+  pingpong: 0
+  startPositionOffset: 0
+  fromState: {x: 0, y: 0, z: 0}
+  toState: {x: 0, y: 0, z: 0}
+  from: 0
+  to: 1
+  objectsToDisableOnDisable: []
+  disableAfterSeconds: 0
+  disableDuration: 0
+  showOnEnable: 1
 --- !u!1 &909228563
 GameObject:
   m_ObjectHideFlags: 0
@@ -11111,47 +11194,6 @@ MonoBehaviour:
   scenePicker: {fileID: 1080838364}
   continueButton: {fileID: 1218049041}
   gameplayState: {fileID: 11400000, guid: 3dad947175dfe8c4f860f67a26064c42, type: 2}
-  playerSavedData:
-  - _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
-  - _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
-  - _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
-  - _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
-  - _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!114 &1080838364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11396,7 +11438,7 @@ MonoBehaviour:
   from: 0
   to: 1
   objectsToDisableOnDisable:
-  - {fileID: 1656557091}
+  - {fileID: 0}
   disableAfterSeconds: 0
   disableDuration: 0
   showOnEnable: 1
@@ -12693,12 +12735,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2159315624691524536, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
   m_PrefabInstance: {fileID: 1268224349}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1268224352}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3b40d648d47d5488800d9a78572978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1268224352 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4625687672955568714, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
+  m_PrefabInstance: {fileID: 1268224349}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1268224353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268224352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ecc7341ffc0145bf7515464106a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  content: 
 --- !u!1 &1305448051
 GameObject:
   m_ObjectHideFlags: 0
@@ -14330,15 +14391,6 @@ MonoBehaviour:
   saveFileInfo: {fileID: 1265416230}
   trashButton: {fileID: 252920298}
   trashIcon: {fileID: -7961185907103286349, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
-  playerSaveData:
-    _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!1 &1452144855
 GameObject:
   m_ObjectHideFlags: 0
@@ -14655,12 +14707,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2159315624691524536, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
   m_PrefabInstance: {fileID: 1459545049}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1459545052}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3b40d648d47d5488800d9a78572978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1459545052 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4625687672955568714, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
+  m_PrefabInstance: {fileID: 1459545049}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1459545053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459545052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ecc7341ffc0145bf7515464106a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  content: 
 --- !u!1 &1471944091 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1461744430287290370, guid: 3d03c21a0c2590042b8d8e48ad8dc469, type: 3}
@@ -15378,6 +15449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1591009430}
   - component: {fileID: 1591009431}
+  - component: {fileID: 1591009432}
   m_Layer: 0
   m_Name: Speaker Image
   m_TagString: Untagged
@@ -15413,6 +15485,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1591009429}
   m_CullTransparentMesh: 1
+--- !u!114 &1591009432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591009429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d0404e7821baec4f89f7d5fd37b2c85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  objectToAnimate: {fileID: 0}
+  ignoreTimeScale: 1
+  animationType: 2
+  easeType: 0
+  duration: 0
+  delay: 0
+  loop: 0
+  pingpong: 0
+  startPositionOffset: 1
+  fromState: {x: 0, y: 0, z: 0}
+  toState: {x: 0, y: 0, z: 0}
+  from: 0
+  to: 1
+  objectsToDisableOnDisable: []
+  disableAfterSeconds: 0
+  disableDuration: 0
+  showOnEnable: 1
 --- !u!1 &1601741685
 GameObject:
   m_ObjectHideFlags: 0
@@ -16897,15 +16998,6 @@ MonoBehaviour:
   saveFileInfo: {fileID: 531886440}
   trashButton: {fileID: 1221183413}
   trashIcon: {fileID: -7961185907103286349, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
-  playerSaveData:
-    _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!1 &1728190321
 GameObject:
   m_ObjectHideFlags: 0
@@ -17188,12 +17280,31 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2159315624691524536, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
   m_PrefabInstance: {fileID: 1728711833}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1728711836}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3b40d648d47d5488800d9a78572978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1728711836 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4625687672955568714, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
+  m_PrefabInstance: {fileID: 1728711833}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1728711837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1728711836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ecc7341ffc0145bf7515464106a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  content: 
 --- !u!1 &1751492967
 GameObject:
   m_ObjectHideFlags: 0
@@ -17435,7 +17546,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2159315624691524536, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
   m_PrefabInstance: {fileID: 1763659495}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1763659498}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3b40d648d47d5488800d9a78572978, type: 3}
@@ -17446,6 +17557,25 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 4625687672955568709, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
   m_PrefabInstance: {fileID: 1763659495}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1763659498 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4625687672955568714, guid: 0e409c8efb045d440a78753b8ff012ce, type: 3}
+  m_PrefabInstance: {fileID: 1763659495}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1763659499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1763659498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc4ecc7341ffc0145bf7515464106a87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  title: 
+  content: 
 --- !u!1 &1775776992
 GameObject:
   m_ObjectHideFlags: 0
@@ -18409,7 +18539,8 @@ MonoBehaviour:
   toState: {x: 800, y: 900, z: 0}
   from: 0
   to: 0
-  objectsToDisableOnDisable: []
+  objectsToDisableOnDisable:
+  - {fileID: 1591009432}
   disableAfterSeconds: 0
   disableDuration: 0
   showOnEnable: 1
@@ -19634,15 +19765,6 @@ MonoBehaviour:
   saveFileInfo: {fileID: 1121868645}
   trashButton: {fileID: 892329319}
   trashIcon: {fileID: -7961185907103286349, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
-  playerSaveData:
-    _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!1 &2015913976
 GameObject:
   m_ObjectHideFlags: 0
@@ -20309,15 +20431,6 @@ MonoBehaviour:
   saveFileInfo: {fileID: 1670110866}
   trashButton: {fileID: 275157965}
   trashIcon: {fileID: -7961185907103286349, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
-  playerSaveData:
-    _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!1 &2049598863
 GameObject:
   m_ObjectHideFlags: 0
@@ -20356,15 +20469,6 @@ MonoBehaviour:
   saveFileInfo: {fileID: 55763239}
   trashButton: {fileID: 184051967}
   trashIcon: {fileID: -7961185907103286349, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
-  playerSaveData:
-    _playerName: 
-    _sex: 0
-    _monsterSlots: []
-    _playerHealth:
-      maxHealth: 0
-      currentHealth: 0
-    _inventorySlots: []
-    _currentScenePath: 
 --- !u!224 &2049598865
 RectTransform:
   m_ObjectHideFlags: 0

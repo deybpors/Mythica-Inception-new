@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2860437644553269171}
   - component: {fileID: 2694019353840118967}
   - component: {fileID: 2695187250932575645}
+  - component: {fileID: 8348104236970931316}
   m_Layer: 0
   m_Name: Dash
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2856564803941483247}
   m_LocalRotation: {x: -0.0000009089707, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.2860222, y: 0, z: -1.4619951}
+  m_LocalPosition: {x: -3.2860222, y: 0, z: -2}
   m_LocalScale: {x: 1.82095, y: 1.82095, z: 1.82095}
   m_Children:
   - {fileID: 2860679749139816217}
@@ -44,7 +45,7 @@ ParticleSystem:
   serializedVersion: 7
   lengthInSec: 2.5
   simulationSpeed: 1
-  stopAction: 0
+  stopAction: 1
   cullingMode: 3
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
@@ -4904,6 +4905,19 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &8348104236970931316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2856564803941483247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247288e674a6a024b8cd0fc0a04b5a8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playOnEnable: 1
 --- !u!1 &2857248696224662129
 GameObject:
   m_ObjectHideFlags: 0
@@ -4930,7 +4944,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2857248696224662129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.241}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2860437644553269171}
@@ -9813,7 +9827,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2857397778263280767}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.241}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2860437644553269171}

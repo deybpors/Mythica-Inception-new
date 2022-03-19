@@ -9,6 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83b04129ba66b5646beec40bca3f1b9e, type: 3}
-  m_Name: End Dash
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Sample Conversation 2
   m_EditorClassIdentifier: 
+  ID: afb4ca94-88c7-4168-b70b-da880e6dcdae
+  speaker: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+  lines: []
+  choices: []

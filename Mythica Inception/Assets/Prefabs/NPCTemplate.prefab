@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2389084399226082570}
   - component: {fileID: 2389084399226082572}
+  - component: {fileID: 6416975622831540403}
   m_Layer: 0
   m_Name: NPCTemplate
   m_TagString: Untagged
@@ -45,3 +46,18 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!114 &6416975622831540403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389084399226082573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26f253709d1c0e24692fd968a8540237, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _character: {fileID: 0}
+  _conversation: {fileID: 0}
+  _rotateTime: 0.25

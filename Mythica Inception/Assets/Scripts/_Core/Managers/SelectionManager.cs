@@ -9,7 +9,7 @@ namespace _Core.Managers
     public class SelectionManager : MonoBehaviour
     {
         public List<Transform> selectables;
-        public List<Transform> interactables;
+        public List<IInteractable> interactables = new List<IInteractable>();
         public Vector3 selectablePosition;
         public LayerMask layer;
         private Player.Player _player;
@@ -31,7 +31,9 @@ namespace _Core.Managers
         private void GetSelection()
         {
             selectables.Clear();
+            selectables.TrimExcess();
             interactables.Clear();
+            interactables.TrimExcess();
 
             ray = _player.mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
             var size = Physics.SphereCastNonAlloc(ray, 1f, _hits, Mathf.Infinity);
@@ -39,17 +41,17 @@ namespace _Core.Managers
             for (var i = 0; i < size; i++)
             {
                 var hit = _hits[i];
-                var selectable = hit.transform.GetComponent<ISelectable>();
-                if (selectable != null)
-                {
-                    selectables.Add(hit.transform);
-                }
+                var hitTransform = hit.transform;
                 
-                var interactable = hit.transform.GetComponent<IInteractable>();
-                if (interactable != null)
-                {
-                    interactables.Add(hit.transform);
-                }
+                if (hitTransform == null) continue;
+
+                var selectable = hitTransform.GetComponent<ISelectable>();
+                var interactable = hitTransform.GetComponent<IInteractable>();
+
+                if (selectable != null) selectables.Add(hitTransform);
+
+                if (interactable == null) continue;
+                interactables.Add(interactable);
             }
 
             if (selectables.Count <= 0)
@@ -68,17 +70,13 @@ namespace _Core.Managers
             if (interactables.Count <= 0) return;
             if (GameManager.instance.enemiesSeePlayer.Count > 0)
             {
-                Debug.Log("you must not be in battle");
+                var message = "You must not be in battle";
+                Debug.Log(message);
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI(message);
                 return;
             }
-            var distance = Vector3.Distance(_player.transform.position, interactables[0].position);
-            if (distance > 2.2f)
-            {
-                Debug.Log("distance: " + distance + "\nmust go closer");
-                return;
-            }
-            interactables[0].GetComponent<IInteractable>().Interact(_player);
-            _player.inputHandler.activate = false;
+            
+            interactables[0].Interact(_player);
         }
     }
 }

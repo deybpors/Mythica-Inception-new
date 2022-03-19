@@ -5,8 +5,6 @@ using _Core.Others;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
 using UnityEngine;
-
-[System.Serializable]
 public class PlayerSaveData
 {
     [SerializeField] private string _playerName;

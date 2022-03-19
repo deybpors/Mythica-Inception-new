@@ -6,7 +6,6 @@ namespace Pluggable_AI.Scripts.Actions
     [CreateAssetMenu(menuName = "Player FSM/Actions/Dash")]
     public class DashAction : Action
     {
-        private Vector3 _dashVector;
         public override void Act(StateController stateController)
         {
             Dash(stateController);
@@ -14,8 +13,19 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void Dash(StateController stateController)
         {
-            _dashVector = stateController.transform.rotation * Vector3.forward * stateController.player.playerData.speed * (stateController.player.playerData.dashSpeed);
-            stateController.player.controller.Move( _dashVector * Time.deltaTime);
+            var player = stateController.player;
+
+            if (player == null) return;
+
+            if(player.inputHandler.currentMonster >= 0) return;
+            
+            if (!player.inputHandler.dashInput) return;
+            
+            if (player.rgdbody.isKinematic) player.rgdbody.isKinematic = false;
+
+            var force = stateController.transform.forward * player.playerData.dashSpeed *
+                        player.playerData.speed * .1f;
+            player.rgdbody.AddForce(force, ForceMode.VelocityChange);
         }
     }
 }

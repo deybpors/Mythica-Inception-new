@@ -20,9 +20,8 @@ namespace _Core.Input
         [HideInInspector] public bool fourthSkillInput;
         [HideInInspector] public bool cancelSkill;
         [HideInInspector] public bool activateSkill;
-        [SerializeField] private PlayerInput playerInput;
-        [SerializeField] private State UIState;
-        [SerializeField] private State gameplayState;
+        [HideInInspector] public bool interact;
+        [SerializeField] private PlayerInput _playerInputSettings;
         public int previousMonster;
         public int currentMonster;
         [HideInInspector] public bool playerSwitchDisabled;
@@ -36,6 +35,11 @@ namespace _Core.Input
             currentMonster = -1;
             _player = player;
             activate = true;
+        }
+
+        public PlayerInput GetPlayerInputSettings()
+        {
+            return _playerInputSettings;
         }
 
         #region Move
@@ -187,7 +191,9 @@ namespace _Core.Input
             if (!message.Equals(string.Empty))
             {
                 Debug.Log(message);
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI(message);
             }
+
             currentMonster = previousMonster;
             previousMonster = tempPrev;
         }
@@ -196,42 +202,55 @@ namespace _Core.Input
 
         #region Interaction
 
+        public void Interact(InputAction.CallbackContext context)
+        {
+            if (!activate) return;
+            if (!context.started) return;
+            if(currentMonster >= 0) return;
+            interact = true;
+        }
+
         public void Select(InputAction.CallbackContext context)
         {
             if(!activate) return;
             if(!context.started) return;
             if(_player.GetCurrentSlotNumber() >= 0) return;
-            if (_player.selectionManager.interactables.Count > 0)
-            {
-                attackInput = false;
-                _player.selectionManager.Select();
-                _player.unitIndicator.SetActive(false);
-                movementInput = _zeroVector;   
-            }
+            if (_player.selectionManager.interactables.Count <= 0) return;
+            
+            attackInput = false;
+            _player.selectionManager.Select();
+            _player.unitIndicator.SetActive(false);
+            movementInput = _zeroVector;
         }
 
         #endregion
 
-        #region GameStateChanges
+        #region UI
+
+        public void OnNextLineDialogue(InputAction.CallbackContext context)
+        {
+            if (!activate) return;
+            if (!context.started) return;
+        }
 
         public void OnEnterSettings(InputAction.CallbackContext context)
         {
             if (!activate) return;
-            if (context.started)
-            {
-                GameManager.instance.gameStateController.TransitionToState(UIState);
-                playerInput.SwitchCurrentActionMap("UI");
-            }
+            if (!context.started) return;
+
+            GameManager.instance.gameStateController.TransitionToState(GameManager.instance.UIState);
+            _playerInputSettings.SwitchCurrentActionMap("UI");
+            GameManager.instance.uiManager.gameplayTweener.Disable();
         }
 
         public void OnExitSettings(InputAction.CallbackContext context)
         {
             if (!activate) return;
-            if (context.started)
-            {
-                GameManager.instance.gameStateController.TransitionToState(gameplayState);
-                playerInput.SwitchCurrentActionMap("Gameplay");
-            }
+            if (!context.started) return;
+            
+            GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState);
+            GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+            _playerInputSettings.SwitchCurrentActionMap("Gameplay");
         }
 
         #endregion

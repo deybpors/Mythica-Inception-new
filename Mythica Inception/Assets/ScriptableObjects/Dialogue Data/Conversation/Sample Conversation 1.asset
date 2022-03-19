@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Sample Conversation 1
+  m_EditorClassIdentifier: 
+  ID: 8dec64b4-f959-40da-a8ae-ddd7353e526d
+  speaker: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+  lines:
+  - character: {fileID: 11400000, guid: dc294b3d38d3cf44a89299dcdfd7cb7d, type: 2}
+    text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat
+      odio a sem interdum pulvinar. Curabitur nec blandit est, ac pellentesque erat.
+      Vestibulum ut accumsan lacus.
+    emotion: 0
+    speakerDirection: 0
+  - character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    text: Curabitur lobortis dui id felis rhoncus, congue finibus felis eleifend.
+      Maecenas aliquam, velit sed finibus viverra, tellus est semper augue, eget
+      aliquam erat felis vulputate risus.
+    emotion: 0
+    speakerDirection: 1
+  choices:
+  - text: What the fuck?
+    conversation: {fileID: 0}
+    addAQuest: 0
+    quest: {fileID: 0}
+  - text: Yeah baby. ugh
+    conversation: {fileID: 11400000, guid: 0baed14d7c9bcb94bbdb2038fd8eef91, type: 2}
+    addAQuest: 0
+    quest: {fileID: 0}

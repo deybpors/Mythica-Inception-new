@@ -231,6 +231,25 @@ namespace _Core.Input
         {
             if (!activate) return;
             if (!context.started) return;
+            var dialogueUi = GameManager.instance.uiManager.dialogueUI;
+
+            if (dialogueUi.TextJuicerPlaying())
+            {
+                dialogueUi.CompleteTextJuicer();
+            }
+            else
+            {
+                if (dialogueUi.IsEnd())
+                {
+                    if (dialogueUi.CurrentConversationHasChoice()) return;
+                    
+                    dialogueUi.mainDialogueTweener.Disable();
+                    OnEnterGameplay(context);
+                    return;
+                }
+
+                dialogueUi.ContinueExistingDialogue();
+            }
         }
 
         public void OnEnterSettings(InputAction.CallbackContext context)
@@ -243,13 +262,19 @@ namespace _Core.Input
             GameManager.instance.uiManager.gameplayTweener.Disable();
         }
 
-        public void OnExitSettings(InputAction.CallbackContext context)
+        public void OnEnterGameplay(InputAction.CallbackContext context)
         {
             if (!activate) return;
             if (!context.started) return;
-            
+
+            EnterGameplay();
+        }
+
+        public void EnterGameplay()
+        {
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState);
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+            GameManager.instance.uiManager.tooltip.tooltipTweener.gameObject.SetActive(false);
             _playerInputSettings.SwitchCurrentActionMap("Gameplay");
         }
 

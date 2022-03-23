@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Monster_System
 {
-    //TODO: change to inherit item class soon
     [CreateAssetMenu(menuName = "Monster System/Tame Beam")]
     public class TameBeam : ScriptableObjectWithID
     {

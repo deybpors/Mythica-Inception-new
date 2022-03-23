@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 721566677}
   - component: {fileID: 721566678}
   - component: {fileID: 721566679}
+  - component: {fileID: 721566680}
   m_Layer: 0
   m_Name: Game Manager
   m_TagString: Untagged
@@ -224,6 +225,7 @@ MonoBehaviour:
   questManager: {fileID: 1719308059}
   saveManager: {fileID: 1370879023}
   pauseManager: {fileID: 1272631770}
+  timelineManager: {fileID: 0}
   gameStateController: {fileID: 721566679}
   gameplayActive: 1
   enemiesSeePlayer: []
@@ -269,6 +271,14 @@ MonoBehaviour:
   stateBoolVariable: 0
   stateTimeElapsed: 0
   active: 1
+--- !u!81 &721566680
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 721566675}
+  m_Enabled: 1
 --- !u!1 &980460351
 GameObject:
   m_ObjectHideFlags: 0
@@ -567,7 +577,7 @@ GameObject:
   - component: {fileID: 1666776877}
   - component: {fileID: 1666776876}
   m_Layer: 0
-  m_Name: AudioManager
+  m_Name: Audio Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -591,6 +601,215 @@ MonoBehaviour:
   _ambiences: []
   ambienceFadeTime: 2.5
   _soundFx: []
+  _dialogueSfx:
+  - name: A
+    clip: {fileID: 8300000, guid: 1e3c0ee5a8139e741a56880b21aaecfe, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: B
+    clip: {fileID: 8300000, guid: f2c742c930f5ee340a3a49754b397819, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: C
+    clip: {fileID: 8300000, guid: a006760aad8eaa54b83f32a075182333, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: D
+    clip: {fileID: 8300000, guid: e4de78b1f4fce9d499e8384b8fc08410, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: E
+    clip: {fileID: 8300000, guid: c196106357e5ec146945b0739b609033, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: F
+    clip: {fileID: 8300000, guid: 1d4f6e59b1540e34d9f65bd1b61d0b8d, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: G
+    clip: {fileID: 8300000, guid: fec54660355c36748ad67538a81dc58d, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: H
+    clip: {fileID: 8300000, guid: ddc922457897a654781ab13fb5533903, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: I
+    clip: {fileID: 8300000, guid: 7d208edc4413735478431b631b7cd84a, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: J
+    clip: {fileID: 8300000, guid: 5174dccb87eef414f84066f9476d1d0b, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: K
+    clip: {fileID: 8300000, guid: 32a9231223484fb4183fc6177144adfa, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: L
+    clip: {fileID: 8300000, guid: c6df657c489c912488f405a51df63d99, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: M
+    clip: {fileID: 8300000, guid: 38fcd0c12f96d5f4ab949c4b493ca9f5, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: N
+    clip: {fileID: 8300000, guid: f5c1b57094872a9489c103083da13cd3, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: O
+    clip: {fileID: 8300000, guid: e48e1b2126c4cf54ca27fe4779c66425, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: P
+    clip: {fileID: 8300000, guid: 2a6fc9417c012224d91e29b7b273562a, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Q
+    clip: {fileID: 8300000, guid: 610a997b76a9a74428930959aede38fc, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: R
+    clip: {fileID: 8300000, guid: 05c2105326d9e114bbafe84456f2ce4f, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: S
+    clip: {fileID: 8300000, guid: be9f8521f8d3ef24abb172f95f25a981, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: T
+    clip: {fileID: 8300000, guid: 10fce6556cdd5524a923a39c3e723c44, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: U
+    clip: {fileID: 8300000, guid: 8993f209c6e17bb4eaba2c43bfc736eb, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: V
+    clip: {fileID: 8300000, guid: d4a326b16474ea34fa48c39780cf21de, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: W
+    clip: {fileID: 8300000, guid: bb50627fb77144443a527a20a9b70a0b, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: X
+    clip: {fileID: 8300000, guid: 517de289475efbd41bb69229d7e7b018, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Y
+    clip: {fileID: 8300000, guid: fb269c3d33eda3549a3e7a3eb1feb638, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Z
+    clip: {fileID: 8300000, guid: f10fd4c8ac849b742bea332a624adb85, type: 3}
+    volume: 0.25
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
 --- !u!4 &1666776877
 Transform:
   m_ObjectHideFlags: 0
@@ -638,6 +857,7 @@ MonoBehaviour:
   startSceneUI: {fileID: 0}
   startButtonsTweener: {fileID: 0}
   gameplayUICanvas: {fileID: 0}
+  gameplayTweener: {fileID: 0}
   minimapCamera: {fileID: 0}
   currentCharacterName: {fileID: 0}
   currentCharacterLevel: {fileID: 0}

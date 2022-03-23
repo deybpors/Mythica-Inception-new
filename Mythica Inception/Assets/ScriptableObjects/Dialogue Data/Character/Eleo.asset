@@ -17,7 +17,7 @@ MonoBehaviour:
   moods:
   - name: Normal
     emotion: 0
-    graphic: {fileID: 3542127132570728493, guid: cac3a607e34414e468aff4a4232cb187, type: 3}
+    graphic: {fileID: 21300000, guid: 8139793b413df954db1f6d3b128e8303, type: 3}
   - name: Happy
     emotion: 1
     graphic: {fileID: 0}
@@ -40,3 +40,4 @@ MonoBehaviour:
     emotion: 7
     graphic: {fileID: 0}
   _hasBeenInitialized: 1
+  dialoguePitch: 0.8

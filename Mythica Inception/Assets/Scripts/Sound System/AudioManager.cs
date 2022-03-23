@@ -34,11 +34,12 @@ namespace SoundSystem
         [SerializeField] private float ambienceFadeTime = 2.5f;
 
         [SerializeField] private Sfx[] _soundFx;
+        [SerializeField] private Sfx[] _dialogueSfx;
 
-        private readonly Dictionary<string, Music> _musicDict;
-        private readonly Dictionary<string, Ambience> _ambienceDict;
-        private readonly Dictionary<string, Sfx> _sfxDict;
-        private readonly Dictionary<string, Audio> _master;
+        private Dictionary<string, Music> _musicDict;
+        private Dictionary<string, Ambience> _ambienceDict;
+        private Dictionary<string, Sfx> _sfxDict;
+        private Dictionary<string, Audio> _master;
 
         public AudioManager(Dictionary<string, Audio> master, Dictionary<string, Sfx> sfxDict, Dictionary<string, Ambience> ambienceDict, Dictionary<string, Music> musicDict)
         {
@@ -50,6 +51,11 @@ namespace SoundSystem
 
         void Awake()
         {
+            _musicDict = new Dictionary<string, Music>();
+            _ambienceDict = new Dictionary<string, Ambience>();
+            _sfxDict = new Dictionary<string, Sfx>();
+            _master = new Dictionary<string, Audio>();
+
             foreach (var music in _musicList)
             {
                 music.source = gameObject.AddComponent<AudioSource>();
@@ -78,12 +84,21 @@ namespace SoundSystem
                 _ambienceDict.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
                 _master.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
             }
+
+            foreach (var dialogue in _dialogueSfx)
+            {
+                dialogue.source = gameObject.AddComponent<AudioSource>();
+                dialogue.source.clip = dialogue.clip;
+                dialogue.source.volume = dialogue.volume;
+                _sfxDict.Add(dialogue.name, dialogue);
+                _master.Add(dialogue.name, dialogue);
+            }
         }
 
         void Start()
         {
             if(_musicList.Length <= 0) return;
-            PlayMusicViaMood(MusicMood.Calm);
+            PlayMusic(MusicMood.Calm);
             ChangeMasterVolume(_masterVolume);
         }
 
@@ -96,7 +111,7 @@ namespace SoundSystem
             }
         }
 
-        public void PlayAmbienceViaName(string ambienceName)
+        public void PlayAmbience(string ambienceName)
         {
             if (!_ambienceDict.TryGetValue(ambienceName.ToUpperInvariant().Replace(" ", string.Empty), out var ambience)) return;
 
@@ -105,7 +120,7 @@ namespace SoundSystem
             _currentAmbience = ambience;
         }
 
-        public void PlayMusicViaName(string musicName)
+        public void PlayMusic(string musicName)
         {
             if (!_musicDict.TryGetValue(musicName.ToUpperInvariant().Replace(" ", string.Empty), out var music)) return;
 
@@ -114,7 +129,7 @@ namespace SoundSystem
             _currentMusic = music;
         }
 
-        public void PlayMusicViaMood(MusicMood musicMood)
+        public void PlayMusic(MusicMood musicMood)
         {
             var musicInMood = new List<Music>();
 
@@ -136,6 +151,14 @@ namespace SoundSystem
             if (!_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx)) return;
             
             sfx.source.pitch = sfx.randomPitch ? Random.Range(sfx.min, sfx.max) : sfx.pitch;
+            sfx.source.Play();
+        }
+
+        public void PlaySFX(string soundName, float pitch)
+        {
+            if (!_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx)) return;
+
+            sfx.source.pitch = sfx.pitch * pitch;
             sfx.source.Play();
         }
 

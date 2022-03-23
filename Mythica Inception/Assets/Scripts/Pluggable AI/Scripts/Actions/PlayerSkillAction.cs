@@ -1,4 +1,5 @@
-﻿using Pluggable_AI.Scripts.General;
+﻿using _Core.Managers;
+using Pluggable_AI.Scripts.General;
 using Skill_System;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace Pluggable_AI.Scripts.Actions
             
             if (stateController.player.skillManager.targeting)
             {
-                //TODO: display messageUI for player still targeting
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI("Player is still targeting.");
                 MakeAllSkillInputFalse(stateController);
                 return;
             }
@@ -63,8 +64,7 @@ namespace Pluggable_AI.Scripts.Actions
 
             if (skillSlot.skill == null)
             {
-                //TODO: display messageUI for no skill currently in slot
-                Debug.Log("No skill");
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI("No skill currently in the slot.");
                 return;
             }
             

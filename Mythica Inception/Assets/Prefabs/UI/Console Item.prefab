@@ -151,11 +151,11 @@ MonoBehaviour:
   ignoreTimeScale: 1
   animationType: 2
   easeType: 1
-  duration: 5
+  duration: 2
   delay: 0
   loop: 0
   pingpong: 0
-  startPositionOffset: 0
+  startPositionOffset: 1
   fromState: {x: 0, y: 0, z: 0}
   toState: {x: 0, y: 0, z: 0}
   from: 1
@@ -163,4 +163,6 @@ MonoBehaviour:
   objectsToDisableOnDisable: []
   disableAfterSeconds: 0
   disableDuration: 1
+  inactiveAfterDone: 1
   showOnEnable: 1
+  _canvasGroup: {fileID: 0}

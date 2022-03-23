@@ -1,21 +1,21 @@
-using _Core.Managers;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
 public class DebugConsoleUI : MonoBehaviour
 {
-    public TextMeshProUGUI debugConsoleItem;
-    public GameObject debugConsoleInput;
-    private Transform debugConsoleInputTrans;
+    public List<TextMeshProUGUI> debugConsoleItems;
 
-    void OnEnable()
+    TextMeshProUGUI FindInactive()
     {
-        debugConsoleInputTrans = debugConsoleInput.transform;
+        return debugConsoleItems.FirstOrDefault(consoleItem => !consoleItem.gameObject.activeInHierarchy);
     }
 
     public void DisplayLogUI(string logString)
     {
-        var consoleItem = Instantiate(debugConsoleItem, transform);
+        var consoleItem = FindInactive();
         consoleItem.text = logString;
+        consoleItem.gameObject.SetActive(true);
     }
 }

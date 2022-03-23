@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Sample Conversation 2
   m_EditorClassIdentifier: 
   ID: afb4ca94-88c7-4168-b70b-da880e6dcdae
-  speaker: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
-  lines: []
+  lines:
+  - character: {fileID: 11400000, guid: dc294b3d38d3cf44a89299dcdfd7cb7d, type: 2}
+    text: Nulla mollis, justo quis tempus molestie, nisl tellus euismod tortor, quis
+      commodo urna libero a tortor.
+    emotion: 0
+    speakerDirection: 0
   choices: []

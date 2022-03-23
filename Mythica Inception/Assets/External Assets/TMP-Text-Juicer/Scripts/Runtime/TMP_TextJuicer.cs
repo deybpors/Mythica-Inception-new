@@ -76,6 +76,9 @@ namespace BrunoMikoski.TextJuicer
             get { return isPlaying; }
         }
 
+        public float Duration => duration;
+        public float Delay => delay;
+
         private CharacterData[] charactersData;
         private TextJuicerVertexModifier[] vertexModifiers;
         private TMP_MeshInfo[] cachedMeshInfo;

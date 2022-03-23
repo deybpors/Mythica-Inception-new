@@ -40,3 +40,4 @@ MonoBehaviour:
     emotion: 7
     graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
   _hasBeenInitialized: 1
+  dialoguePitch: 1.5

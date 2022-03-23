@@ -26,6 +26,7 @@ namespace _Core.Managers
         public QuestManager questManager;
         public SaveManager saveManager;
         public PauseManager pauseManager;
+        public TimelineManager timelineManager;
         public StateController gameStateController;
         public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;

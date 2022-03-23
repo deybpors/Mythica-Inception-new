@@ -4,6 +4,7 @@ using _Core.Managers;
 using _Core.Others;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
+using Quest_System;
 using UnityEngine;
 public class PlayerSaveData
 {
@@ -13,6 +14,8 @@ public class PlayerSaveData
     [SerializeField] private EntityHealth _playerHealth;
     [SerializeField] private List<InventorySlot> _inventorySlots;
     [SerializeField] private string _currentScenePath;
+    [SerializeField] private Dictionary<string, PlayerAcceptedQuest> _activeQuests;
+    [SerializeField] private Dictionary<string, Quest> _finishedQuests;
     [SerializeField] private DateTime _lastOpened;
     [SerializeField] private DateTime _lastClosed;
 
@@ -25,8 +28,10 @@ public class PlayerSaveData
     public EntityHealth playerHealth => _playerHealth;
     public List<InventorySlot> inventorySlots => _inventorySlots;
     public string currentScenePath => _currentScenePath;
+    public Dictionary<string, PlayerAcceptedQuest> activeQuests => _activeQuests;
+    public Dictionary<string, Quest> finishedQuests => _finishedQuests;
 
-    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, DateTime lastOpened, DateTime lastClosed)
+    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, Quest> finishedQuests, DateTime lastOpened, DateTime lastClosed)
     {
         _playerName = playerName;
         _sex = sex; 
@@ -37,5 +42,7 @@ public class PlayerSaveData
         _currentScenePath = currentScenePath;
         _lastOpened = lastOpened;
         _lastClosed = lastClosed;
+        _activeQuests = activeQuests;
+        _finishedQuests = finishedQuests;
     }
 }

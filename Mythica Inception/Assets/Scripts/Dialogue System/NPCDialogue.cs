@@ -10,7 +10,6 @@ namespace Assets.Scripts.Dialogue_System
 {
     public class NPCDialogue : MonoBehaviour, IInteractable
     {
-        [SerializeField] private Character _character;
         [SerializeField] private Conversation _conversation;
         [SerializeField] private float _rotateTime = .25f;
         [SerializeField] private float _interactableDistance = 1f;
@@ -75,7 +74,7 @@ namespace Assets.Scripts.Dialogue_System
         public void Interact(Player player)
         {
             if(!_isInteractable) return;
-            if(_conversation == null || _character == null) return;
+            if(_conversation == null) return;
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
             GameManager.instance.player.inputHandler.GetPlayerInputSettings().SwitchCurrentActionMap("Dialogue");
@@ -91,7 +90,7 @@ namespace Assets.Scripts.Dialogue_System
             StopAllCoroutines();
             StartCoroutine(LookTowards(npcRotateTo, playerRotateTo));
             GameManager.instance.uiManager.gameplayTweener.Disable();
-            GameManager.instance.uiManager.dialogueUI.DisplayDialogue(_conversation, _character);
+            GameManager.instance.uiManager.dialogueUI.StartDialogue(_conversation);
         }
 
         private IEnumerator LookTowards(Quaternion npcRotateTo, Quaternion playerRotateTo)

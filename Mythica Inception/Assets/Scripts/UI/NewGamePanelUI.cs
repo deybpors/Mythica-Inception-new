@@ -4,6 +4,7 @@ using _Core.Managers;
 using _Core.Others;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
+using Quest_System;
 using TMPro;
 using ToolBox.Serialization;
 using UI;
@@ -36,6 +37,7 @@ public class NewGamePanelUI : MonoBehaviour
         femaleButton.onClick.AddListener(() => PickSexType(femaleButton));
         try
         {
+            //TODO: Change to env_Tutorial
             startPlacePath = GameManager.instance.uiManager.startSceneUI.scenePicker.path;
         } catch{}
     }
@@ -65,8 +67,8 @@ public class NewGamePanelUI : MonoBehaviour
 
         var saveManager = GameManager.instance.saveManager;
 
-        PlayerSaveData newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, null, GameSettings.GetDefaultMonsterSlots(4)
-            , new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth), GameSettings.GetDefaultInventorySlots(30), startPlacePath, DateTime.Now, DateTime.Now);
+        var newPlayerData = new PlayerSaveData(nameInputField.text, selectedSex, null, GameSettings.GetDefaultMonsterSlots(4)
+            , new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth), GameSettings.GetDefaultInventorySlots(30), startPlacePath, new Dictionary<string, PlayerAcceptedQuest>(), new Dictionary<string, Quest>(),DateTime.Now, DateTime.Now);
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);

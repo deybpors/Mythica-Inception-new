@@ -110,6 +110,9 @@ namespace _Core.Player
             monsterSlots = savedData.playerMonsters;
             playerHealth = savedData.playerHealth;
             playerInventory.inventorySlots = savedData.inventorySlots;
+            playerQuestManager.activeQuests = savedData.activeQuests;
+            playerQuestManager.finishedQuests = savedData.finishedQuests;
+
             if (savedData.sex.Equals(Sex.Male))
             {
                 male.gameObject.SetActive(true);
@@ -151,8 +154,7 @@ namespace _Core.Player
         public PlayerSaveData GetCurrentSaveData()
         {
             savedData = new PlayerSaveData(savedData.name, savedData.sex, new WorldPlacementData(transform.position, transform.rotation, transform.localScale), monsterSlots, playerHealth,
-                playerInventory.inventorySlots, GameManager.instance.currentWorldScenePath, savedData.lastOpened,
-                DateTime.Now);
+                playerInventory.inventorySlots, GameManager.instance.currentWorldScenePath, playerQuestManager.activeQuests, playerQuestManager.finishedQuests, savedData.lastOpened, DateTime.Now);
             return savedData;
         }
 
@@ -358,7 +360,7 @@ namespace _Core.Player
 
             if (monsterSlots[slotNum].currentExp > nextLevelExp)
             {
-                //TODO: display fanfare for level up monster
+                //TODO: sound for leveling up
             }
 
             if (inputHandler.currentMonster != slotNum) return;

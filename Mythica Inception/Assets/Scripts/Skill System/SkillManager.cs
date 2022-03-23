@@ -91,7 +91,7 @@ namespace Skill_System
 
                         if ((slot.skill is UnitAreaTargetSkill || slot.skill is UnitOnlyTargetSkill) && target == null)
                         {
-                            //TODO display messageUI that skill needs to have target
+                            GameManager.instance.uiManager.debugConsole.DisplayLogUI("This skill needs a target.");
                             continue;
                         }
 
@@ -217,7 +217,7 @@ namespace Skill_System
             
             if (slot.cooldownTimer > 0)
             {
-                //TODO: update UI that skill is still in cooldown
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI("Skill still on cooldown.");
                 return;
             }
             

@@ -133,6 +133,7 @@ namespace Monster_System
             {
                 _player.inputHandler.currentMonster = _player.inputHandler.previousMonster;
                 Debug.Log("There is no monster in the selected slot.");
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI("There is no monster in the selected slot.");
                 return;    
             }
             _skillManager.Deactivate();

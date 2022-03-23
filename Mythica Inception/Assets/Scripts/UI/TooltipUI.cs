@@ -40,6 +40,7 @@ public class TooltipUI : MonoBehaviour
     {
         if(title.Equals(string.Empty) && content.Equals(string.Empty)) return;
 
+        tooltipTweener.enabled = true;
         titleField.text = title;
         contentField.text = content;
 
@@ -49,6 +50,7 @@ public class TooltipUI : MonoBehaviour
 
     public void HideToolTip()
     {
+        tooltipTweener.enabled = false;
         toolTipTransform.gameObject.SetActive(false);
     }
 

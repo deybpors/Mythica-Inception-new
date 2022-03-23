@@ -15,7 +15,6 @@ namespace Pluggable_AI.Scripts.General
     }
     public class StateController : MonoBehaviour
     {
-        //TODO: update this so suitable for object pooling
         
         public StateMachineType stateMachineType;
         public Transform machineEyes;

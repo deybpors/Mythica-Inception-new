@@ -8,9 +8,8 @@ namespace Assets.Scripts.Dialogue_System
     [CreateAssetMenu(menuName = "Dialogue System/Conversation")]
     public class Conversation : ScriptableObjectWithID
     {
-        public Character speaker;
         public Line[] lines;
-        [Tooltip("Displays with the last line of the conversation. Note: Please limit choices to at most 5.")]
+        [Tooltip("Displays with the last line of the nextConversation. Note: Please limit responseChoices to at most 5.")]
         public Choice[] choices;
     }
 
@@ -28,7 +27,7 @@ namespace Assets.Scripts.Dialogue_System
     public struct Choice
     {
         public string text;
-        public Conversation conversation;
+        public Conversation nextConversation;
         public bool addAQuest;
         [ConditionalField(nameof(addAQuest))] public Quest quest;
     }

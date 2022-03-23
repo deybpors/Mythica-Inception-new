@@ -7,7 +7,8 @@ using UnityEngine;
 
 public class PlayerQuestManager : MonoBehaviour
 {
-    public Dictionary<string, PlayerAcceptedQuest> activeQuests;
+    public Dictionary<string, PlayerAcceptedQuest> activeQuests = new Dictionary<string, PlayerAcceptedQuest>();
+    public Dictionary<string, Quest> finishedQuests = new Dictionary<string, Quest>();
 
     public void GiveQuestToPlayer(Quest questGiven)
     {
@@ -61,5 +62,13 @@ public class PlayerQuestManager : MonoBehaviour
             }
         }
 
+        try
+        {
+            finishedQuests.Add(quest.ID, quest);
+        }
+        catch
+        {
+            //ignored
+        }
     }
 }

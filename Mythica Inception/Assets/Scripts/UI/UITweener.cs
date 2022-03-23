@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UI
 {
@@ -23,7 +25,7 @@ namespace UI
         public bool loop;
         public bool pingpong;
         public bool startPositionOffset;
-        
+
         [ConditionalField(nameof(animationType), false, UIAnimationType.Scale, UIAnimationType.Move)] 
         public Vector3 fromState;
         private Vector3 origFromState;
@@ -46,19 +48,25 @@ namespace UI
         [ConditionalField(nameof(disableAfterSeconds))]
         public float disableDuration;
 
+        public bool inactiveAfterDone;
+
         private LTDescr _tweenObject;
         public bool showOnEnable;
-        private CanvasGroup _canvasGroup;
+        [SerializeField] private CanvasGroup _canvasGroup;
+
+        void Awake()
+        {
+            origFrom = from;
+            origTo = to;
+        }
 
         public void OnEnable()
         {
-            _canvasGroup = gameObject.GetComponent<CanvasGroup>();
-            
-            origFrom = from;
-            origFromState = fromState;
-            origTo = to;
-            origToState = toState;
-            
+            if (_canvasGroup == null)
+            {
+                _canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            }
+
             if (showOnEnable)
             {
                 Show();
@@ -116,6 +124,12 @@ namespace UI
             {
                 _tweenObject.setIgnoreTimeScale(true);
             }
+
+            if (inactiveAfterDone)
+            {
+                Action disableObject = () => gameObject.SetActive(false);
+                _tweenObject.setOnComplete(disableObject);
+            }
         }
 
         public void Fade()
@@ -135,8 +149,9 @@ namespace UI
 
         public void MoveAbsolute()
         {
-            objectToAnimate.GetComponent<RectTransform>().anchoredPosition = fromState;
-            _tweenObject = LeanTween.move(objectToAnimate.GetComponent<RectTransform>(), toState, duration);
+            var rectTransform = objectToAnimate.GetComponent<RectTransform>();
+            rectTransform.anchoredPosition = fromState;
+            _tweenObject = LeanTween.move(rectTransform, toState, duration);
         }
 
         public void Scale()
@@ -151,20 +166,28 @@ namespace UI
 
         void SwapDirection()
         {
+            
             switch (animationType)
             {
                 case UIAnimationType.Move:
-                    (fromState, toState) = (toState, fromState);
+                    (fromState, toState) = (origToState, origFromState);
                     break;
                 case UIAnimationType.Scale:
-                    var temp = fromState;
+                    var temp = origFromState;
                     fromState = transform.localScale;
                     toState = temp;
                     break;
                 case UIAnimationType.Fade:
-                    var tempNum = from;
-                    from = _canvasGroup.alpha;
-                    to = tempNum;
+                    try
+                    {
+                        var tempNum = origFrom;
+                        from = _canvasGroup.alpha;
+                        to = tempNum;
+                    }
+                    catch
+                    {
+                        //ignored
+                    }
                     break;
             }
         }
@@ -178,8 +201,6 @@ namespace UI
                 DisableObjectsToDisable();
                 from = origFrom;
                 to = origTo;
-                fromState = origFromState;
-                toState = origToState;
                 gameObject.SetActive(false);
             });
         }

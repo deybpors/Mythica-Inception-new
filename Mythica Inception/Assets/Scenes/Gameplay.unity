@@ -555,7 +555,9 @@ MonoBehaviour:
   objectsToDisableOnDisable: []
   disableAfterSeconds: 1
   disableDuration: 0.5
+  inactiveAfterDone: 0
   showOnEnable: 1
+  _canvasGroup: {fileID: 0}
 --- !u!223 &535715243
 Canvas:
   m_ObjectHideFlags: 0
@@ -1646,7 +1648,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 969145012}
         m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
-        m_MethodName: OnExitSettings
+        m_MethodName: OnEnterGameplay
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

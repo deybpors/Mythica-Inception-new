@@ -42,7 +42,6 @@ namespace Monster_System
         {
             if(!_activated) return;
             
-            //TODO: get if there is statusfx in monsterTamer AI
             var newTameValue = GameSettings.TameValue(_monsterLvl, false, _healthComponent.health.currentHealth, _healthComponent.health.maxHealth);
 
             if (maxTameValue == newTameValue) return;
@@ -78,7 +77,7 @@ namespace Monster_System
 
             if (slotToFill >= 4)
             {
-                //TODO: store in box or somewhere hehe
+                //TODO: store monster somewhere in-game
             }
             else
             {

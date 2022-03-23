@@ -11,21 +11,18 @@ public class DialogueChoiceUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _choiceText;
     public TooltipTrigger tooltipTrigger;
 
+    void Start()
+    {
+        if (tooltipTrigger == null)
+        {
+            tooltipTrigger = GetComponent<TooltipTrigger>();
+        }
+    }
+
     public void SetTextActionOnClickButton(UnityAction action, string text)
     {
         _choiceButton.onClick.RemoveAllListeners();
         _choiceButton.onClick.AddListener(action);
         _choiceText.text = text;
-    }
-
-    public void SetTooltipTrigger(string title, string content)
-    {
-        GameManager.instance.uiManager.tooltip.titleField.gameObject.SetActive(true);
-        GameManager.instance.uiManager.tooltip.contentField.gameObject.SetActive(true);
-
-        if (title.Equals(string.Empty))
-            GameManager.instance.uiManager.tooltip.titleField.gameObject.SetActive(false);
-        if(content.Equals(string.Empty))
-            GameManager.instance.uiManager.tooltip.contentField.gameObject.SetActive(false);
     }
 }

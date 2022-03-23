@@ -13,6 +13,7 @@ public class Character : ScriptableObjectWithID
     public List<CharacterMood> moods;
 
     [SerializeField, HideInInspector] private bool _hasBeenInitialized = false;
+    public float dialoguePitch = 1f;
 
     [Conditional("UNITY_EDITOR")]
     private void OnValidate()

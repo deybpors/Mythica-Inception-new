@@ -21,7 +21,6 @@ namespace Skill_System.Targeting_Type_Scripts
                 }
                 else
                 {
-                    //TODO change UI skill slot to activated skill
                     entity.GetStateController().player.skillManager.TargetDone(slot);
                     slot.skillState = SkillManager.SkillState.active;
                 }

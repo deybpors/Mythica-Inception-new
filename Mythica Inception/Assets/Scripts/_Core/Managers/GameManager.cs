@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Core.Input;
 using _Core.Others;
 using Assets.Scripts._Core.Managers;
 using Databases.Scripts;
@@ -26,9 +27,9 @@ namespace _Core.Managers
         public QuestManager questManager;
         public SaveManager saveManager;
         public PauseManager pauseManager;
+        public PlayerInputHandler inputHandler;
         public TimelineManager timelineManager;
         public StateController gameStateController;
-        public bool gameplayActive;
         public List<Transform> enemiesSeePlayer;
 
         [Header("Game States")]

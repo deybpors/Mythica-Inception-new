@@ -6,12 +6,17 @@ using _Core.Input;
 using _Core.Managers;
 using _Core.Others;
 using _Core.Player.Player_FSM;
+using Assets.Scripts._Core.Player;
 using Combat_System;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
+using MyBox;
 using Pluggable_AI.Scripts.General;
+using Quest_System;
 using Skill_System;
+using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using Action = System.Action;
 
 namespace _Core.Player
@@ -26,21 +31,16 @@ namespace _Core.Player
         public List<MonsterSlot> monsterSlots;
         public EntityHealth playerHealth;
         public PlayerInventory playerInventory;
+        [HideInInspector] public bool notDie;
 
         [Space]
 
         [Header("Settings")]
-        [SerializeField] private bool isTesting;
-        [SerializeField] private GameObject deathParticles;
-        [SerializeField] private GameObject male;
-        [SerializeField] private GameObject female;
-        public TameBeam tameBeam;
+        public PlayerSettings playerSettings;
         public ProjectileRelease projectileReleases;
-        public GameObject dashGraphic;
-        public PlayerFSMData playerData;
-        public float tameRadius;
         public GameObject unitIndicator;
         public GameObject vectorIndicator;
+
 
         #region Hidden Fields
 
@@ -51,7 +51,7 @@ namespace _Core.Player
         [HideInInspector] public GameObject tamer;
         private Health _healthComponent;
         [HideInInspector] public SkillManager skillManager;
-        [HideInInspector] public PlayerInputHandler inputHandler;
+        [HideInInspector] private PlayerInputHandler _inputHandler;
         [HideInInspector] public Rigidbody rgdbody;
         [HideInInspector] public Animator currentAnimator;
         [HideInInspector] public PlayerQuestManager playerQuestManager;
@@ -60,8 +60,9 @@ namespace _Core.Player
         [HideInInspector] public MonsterSlot monsterAttacker;
         [HideInInspector] public PlayerSaveData savedData;
         [HideInInspector] public Vector3 colliderExtents;
+        private Transform _playerTransform;
         private readonly Vector3 _zeroVector = Vector3.zero;
-
+        private DateTime _dateOpened;
         #endregion
         
 
@@ -75,16 +76,16 @@ namespace _Core.Player
         private void Init()
         {
             if(GameManager.instance == null) return;
+            _playerTransform = transform;
             GetNeededComponents();
             InitializePlayerSavedData();
             monsterManager.ActivateMonsterManager(this, skillManager);
-            tempSpeed = playerData.speed;
-            tempAttackRate = playerData.attackRate;
-            unitIndicator.transform.localScale = new Vector3(tameRadius, tameRadius, tameRadius);
+            tempSpeed = playerSettings.playerData.speed;
+            tempAttackRate = playerSettings.playerData.attackRate;
+            unitIndicator.transform.localScale = new Vector3(playerSettings.tameRadius, playerSettings.tameRadius, playerSettings.tameRadius);
             _stateController.ActivateAI(true, null, this);
             GameManager.instance.uiManager.InitGameplayUI(playerName, playerHealth.currentHealth, playerHealth.maxHealth, monsterSlots);
-            GameManager.instance.uiManager.loadingScreen.SetActive(false);
-            GameManager.instance.uiManager.loadingScreenCamera.gameObject.SetActive(false);
+            GameManager.instance.uiManager.loadingScreen.gameObject.SetActive(false);
         }
 
         private void GetNeededComponents()
@@ -95,9 +96,10 @@ namespace _Core.Player
             monsterManager = GetComponent<MonsterManager>();
             selectionManager = GetComponent<SelectionManager>();
             selectionManager.ActivateSelectionManager(this);
-            inputHandler = GetComponent<PlayerInputHandler>();
+            _inputHandler = GameManager.instance.inputHandler;
             rgdbody = GetComponent<Rigidbody>();
-            inputHandler.ActivatePlayerInputHandler(this);
+            _inputHandler.ActivatePlayerInputHandler(this, mainCamera);
+            _inputHandler.EnterGameplay();
             _stateController = GetComponent<StateController>();
             _healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
@@ -111,18 +113,11 @@ namespace _Core.Player
             playerHealth = savedData.playerHealth;
             playerInventory.inventorySlots = savedData.inventorySlots;
             playerQuestManager.activeQuests = savedData.activeQuests;
+            GameManager.instance.uiManager.questUI.UpdateQuestIcons(savedData.activeQuests.Values.ToList());
             playerQuestManager.finishedQuests = savedData.finishedQuests;
 
-            if (savedData.sex.Equals(Sex.Male))
-            {
-                male.gameObject.SetActive(true);
-                tamer = male;
-            }
-            else
-            {
-                female.gameObject.SetActive(true);
-                tamer = female;
-            }
+            var playerGFX = Instantiate(savedData.sex.Equals(Sex.Male) ? playerSettings.male : playerSettings.female, _playerTransform);
+            tamer = playerGFX;
             SetPlayerSavedData();
         }
 
@@ -149,12 +144,23 @@ namespace _Core.Player
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             //initialize party's avg level for difficulty adjustment
             GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
+            _dateOpened = DateTime.Now;
         }
 
         public PlayerSaveData GetCurrentSaveData()
         {
-            savedData = new PlayerSaveData(savedData.name, savedData.sex, new WorldPlacementData(transform.position, transform.rotation, transform.localScale), monsterSlots, playerHealth,
-                playerInventory.inventorySlots, GameManager.instance.currentWorldScenePath, playerQuestManager.activeQuests, playerQuestManager.finishedQuests, savedData.lastOpened, DateTime.Now);
+            savedData = new PlayerSaveData(savedData.name,
+                savedData.sex,
+                new WorldPlacementData(_playerTransform.position, _playerTransform.rotation, _playerTransform.localScale),
+                monsterSlots,
+                playerHealth,
+                playerInventory.inventorySlots,
+                GameManager.instance.currentWorldScenePath,
+                playerQuestManager.activeQuests,
+                playerQuestManager.finishedQuests,
+                savedData.timeSpent + (DateTime.Now - _dateOpened), 
+                DateTime.Now
+                );
             return savedData;
         }
 
@@ -162,12 +168,12 @@ namespace _Core.Player
 
         public int GetCurrentSlotNumber()
         {
-            return inputHandler.currentMonster;
+            return _inputHandler.currentMonster;
         }
 
         public float GetMonsterSwitchRate()
         {
-            return playerData.monsterSwitchRate;
+            return playerSettings.playerData.monsterSwitchRate;
         }
 
         public bool SwitchMonster(int currentSlot, out string message)
@@ -226,12 +232,12 @@ namespace _Core.Player
 
         public Monster GetCurrentMonster()
         {
-            return inputHandler.currentMonster < 0 ? null : monsterSlots[inputHandler.currentMonster].monster;
+            return _inputHandler.currentMonster < 0 ? null : monsterSlots[_inputHandler.currentMonster].monster;
         }
 
         public bool IsPlayerSwitched()
         {
-            return inputHandler.currentMonster < 0;
+            return _inputHandler.currentMonster < 0;
         }
         public GameObject GetTamer()
         {
@@ -240,8 +246,8 @@ namespace _Core.Player
 
         public void ChangeStatsToMonster(int slot)
         {
-            tempSpeed = playerData.speed;
-            tempAttackRate = playerData.attackRate;
+            tempSpeed = playerSettings.playerData.speed;
+            tempAttackRate = playerSettings.playerData.attackRate;
 
             if (slot < 0)
             {
@@ -280,7 +286,7 @@ namespace _Core.Player
             var monAttacking = GetCurrentMonster();
 
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
-            var rotation = transform.rotation;
+            var rotation = _playerTransform.rotation;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
                     monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : _zeroVector, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
@@ -291,20 +297,20 @@ namespace _Core.Player
             var speed = range ? 30f : 20f;
 
             rangeProjectile.ProjectileData(true, range, monAttacking.basicAttackObjects.targetObject, monAttacking.basicAttackObjects.impact,
-                monAttacking.basicAttackObjects.muzzle, false, true, transform, target,
+                monAttacking.basicAttackObjects.muzzle, false, true, _playerTransform, target,
                 _zeroVector, deathTime, speed, .5f, monAttacking.basicAttackSkill);
         }
 
         public void SpawnSwitchFX()
         {
             GameManager.instance.pooler.
-                SpawnFromPool(transform, tameBeam.projectileGraphics.targetObject.name,
-                    tameBeam.projectileGraphics.targetObject, _zeroVector,
+                SpawnFromPool(_playerTransform, playerSettings.tameBeam.projectileGraphics.targetObject.name,
+                    playerSettings.tameBeam.projectileGraphics.targetObject, _zeroVector,
                     Quaternion.identity);
         }
         public void ReleaseTameBeam()
         {
-            if (inputHandler.currentMonster >= 0) return;
+            if (_inputHandler.currentMonster >= 0) return;
             if (selectionManager.selectables.Count <= 0) return;
 
             var tameable = selectionManager.selectables[0].GetComponent<ITameable>();
@@ -316,13 +322,13 @@ namespace _Core.Player
 
             //spawn projectile
             var projectile = GameManager.instance.pooler.
-                SpawnFromPool(null, tameBeam.projectileGraphics.projectile.name,
-                tameBeam.projectileGraphics.projectile, projectileReleases.front.position,
+                SpawnFromPool(null, playerSettings.tameBeam.projectileGraphics.projectile.name,
+                playerSettings.tameBeam.projectileGraphics.projectile, projectileReleases.front.position,
                 Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
-            rangeProjectile.ProjectileData(true, true, tameBeam.projectileGraphics.targetObject, tameBeam.projectileGraphics.impact,
-                tameBeam.projectileGraphics.muzzle, true, false, transform, selectionManager.selectables[0],
-                _zeroVector, 10, 30, 1f, tameBeam.skill);
+            rangeProjectile.ProjectileData(true, true, playerSettings.tameBeam.projectileGraphics.targetObject, playerSettings.tameBeam.projectileGraphics.impact,
+                playerSettings.tameBeam.projectileGraphics.muzzle, true, false, _playerTransform, selectionManager.selectables[0],
+                _zeroVector, 10, 30, 1f, playerSettings.tameBeam.skill);
         }
 
         private void FindAliveMonsterOrPlayer()
@@ -340,14 +346,14 @@ namespace _Core.Player
 
             if (monsterSlot.monster == null)
             {
-                if (inputHandler.currentMonster < 0) return;
-                inputHandler.currentMonster = -1;
+                if (_inputHandler.currentMonster < 0) return;
+                _inputHandler.currentMonster = -1;
                 monsterManager.SwitchToTamer();
             }
             else
             {
                 if (monsterManager == null) return;
-                inputHandler.currentMonster = monsterSlot.slotNumber;
+                _inputHandler.currentMonster = monsterSlot.slotNumber;
                 monsterManager.SwitchMonster(monsterSlot.slotNumber);
             }
         }
@@ -363,7 +369,7 @@ namespace _Core.Player
                 //TODO: sound for leveling up
             }
 
-            if (inputHandler.currentMonster != slotNum) return;
+            if (_inputHandler.currentMonster != slotNum) return;
             GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
         }
 
@@ -397,7 +403,7 @@ namespace _Core.Player
         public void TakeDamage(int damageToTake)
         {
             _healthComponent.ReduceHealth(damageToTake);
-            var currentMonster = inputHandler.currentMonster;
+            var currentMonster = _inputHandler.currentMonster;
 
             if (currentMonster < 0)
             {
@@ -422,12 +428,12 @@ namespace _Core.Player
         public void Heal(int amountToHeal)
         {
             _healthComponent.AddHealth(amountToHeal);
-            if (inputHandler.currentMonster < 0)
+            if (_inputHandler.currentMonster < 0)
             {
                 playerHealth.currentHealth = _healthComponent.health.currentHealth;
                 return;
             }
-            monsterSlots[inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
+            monsterSlots[_inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
         }
 
         public void RecordDamager(MonsterSlot slot)
@@ -437,48 +443,49 @@ namespace _Core.Player
 
         public void Die()
         {
+            if (notDie) return;
             Debug.Log("Player dies.");
-            if (isTesting) return;
 
             var playerGameObject = gameObject;
             tamer.SetActive(false);
-            inputHandler.movementInput = Vector2.zero;
-            inputHandler.activate = false;
-            GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, transform.position,
+            _inputHandler.movementInput = Vector2.zero;
+            _inputHandler.activate = false;
+            GameManager.instance.pooler.SpawnFromPool(null, playerSettings.deathParticles.name, playerSettings.deathParticles, _playerTransform.position,
                 Quaternion.identity);
-            var layer = playerGameObject.layer;
             playerGameObject.layer = 0;
             skillManager.targeting = false;
 
-            Action ResetPlayerData = () =>
-            {
-                playerGameObject.layer = layer;
-                inputHandler.activate = true;
-                tamer.SetActive(true);
+            void Reset() => ResetGame(playerGameObject, playerGameObject.layer);
+            GameManager.instance.uiManager.modal.OpenModal("Game Over", playerSettings.deathIcon, Reset);
 
-                if (GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0)
-                {
-                    playerHealth.maxHealth = GameManager.instance.saveManager.defaultPlayerHealth;
-                }
-                else
-                {
-                    playerHealth.maxHealth = GameSettings.Stats(
-                        GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
-                        GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                        GameSettings.MonstersAvgLevel(monsterSlots));
-                }
+        }
 
-                playerHealth.currentHealth = playerHealth.maxHealth;
+        private void ResetGame(GameObject player, int layer)
+        {
+            GameManager.instance.uiManager.loadingScreen.gameObject.SetActive(true);
+            player.layer = layer;
+            _inputHandler.activate = true;
+            tamer.SetActive(true);
 
-                _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
-                TakeDamage(0);
-                FullyRestoreAllMonsters();
-                GameManager.instance.uiManager.loadingScreen.SetActive(false);
-            };
+            playerHealth.maxHealth = GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0 ?
+                GameManager.instance.saveManager.defaultPlayerHealth :
+                GameSettings.Stats(GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgLevel(monsterSlots));
+            playerHealth.currentHealth = playerHealth.maxHealth;
 
-            GameManager.instance.uiManager.loadingScreen.SetActive(true);
-            TransferPlayerPositionRotation(savedData.playerWorldPlacement);
-            StartCoroutine(DelayAction(3f, ResetPlayerData));
+            _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+            TakeDamage(0);
+            FullyRestoreAllMonsters();
+            
+
+            UnityAction resetPosition = () => TransferPlayerPositionRotation(savedData.playerWorldPlacement);
+            UnityAction disableLoadingScreen = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
+
+            StopAllCoroutines();
+            StartCoroutine(DelayAction(GameManager.instance.uiManager.loadingScreen.tweener.duration, resetPosition));
+            StartCoroutine(DelayAction(GameManager.instance.uiManager.loadingScreen.tweener.duration * 2, disableLoadingScreen));
+            GameManager.instance.uiManager.modal.CloseModal();
         }
 
 
@@ -507,22 +514,23 @@ namespace _Core.Player
 
         #region Miscellaneous
 
-        IEnumerator DelayAction(float delay, Action action)
+        IEnumerator DelayAction(float delay, UnityAction action)
         {
             yield return new WaitForSeconds(delay);
             action?.Invoke();
         }
+
         private void TransferPlayerPositionRotation(WorldPlacementData placementData)
         {
             if(placementData == null) return;
 
-            transform.SetPositionAndRotation(placementData.position, placementData.rotation);
+            _playerTransform.SetPositionAndRotation(placementData.position, placementData.rotation);
         }
         public bool SamePosition()
         {
             try
             {
-                return savedData.playerWorldPlacement.position == transform.position;
+                return savedData.playerWorldPlacement.position.Approximately(_playerTransform.position);
             }
             catch
             {

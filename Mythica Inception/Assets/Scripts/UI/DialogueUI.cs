@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using _Core.Managers;
+using _Core.Others;
 using Assets.Scripts.Dialogue_System;
 using BrunoMikoski.TextJuicer;
 using MyBox;
@@ -25,6 +26,8 @@ public class DialogueUI : MonoBehaviour
     public RectTransform choiceHolder;
     public DialogueChoiceUI[] choiceButtons;
 
+    [SerializeField] private string _playerNameTag = "<PLAYER_NAME>";
+    [SerializeField] private string _firstPartyMythicaTag = "<MYTHICA_NICKNAME>";
     [SerializeField] private TMP_TextJuicer _dialogueTextJuicer;
     private Conversation _currentConversation;
     private Character _currentCharacter;
@@ -66,7 +69,7 @@ public class DialogueUI : MonoBehaviour
             _currentConversation = conversationToDisplay;
         }
 
-        //if it's the last line in the nextConversation
+        //if it's the last lineToDisplay in the nextConversation
         if (_lineCount == conversationToDisplay.lines.Length - 1)
         {
             EndConversation(conversationToDisplay.choices);
@@ -95,11 +98,39 @@ public class DialogueUI : MonoBehaviour
         }
 
         //change dialogue text
-        dialogueText.text = conversationToDisplay.lines[_lineCount].text;
+        ManageDialogueString(conversationToDisplay.lines[_lineCount].text);
 
         _lineCount++;
 
         SetDialogueUiTextJuicer();
+    }
+
+    private void ManageDialogueString(string lineToDisplay)
+    {
+        //change player tag
+        if (GameManager.instance.loadedSaveData != null)
+        {
+            lineToDisplay = lineToDisplay.Replace(_playerNameTag, GameManager.instance.loadedSaveData.name);
+        }
+
+        //change mythica tag to first party mythica
+        if (GameManager.instance.player != null)
+        {
+            try
+            {
+                var nickName = GameManager.instance.player.monsterSlots[0].name != string.Empty
+                    ? GameManager.instance.player.monsterSlots[0].name
+                    : GameManager.instance.player.monsterSlots[0].monster.monsterName;
+                lineToDisplay = lineToDisplay.Replace(_firstPartyMythicaTag, nickName);
+            }
+            catch
+            {
+                //ignore
+            }
+        }
+
+
+        dialogueText.text = lineToDisplay;
     }
 
     private Sprite GetEmotionGraphic(Character character, Emotion lineEmotion)
@@ -169,32 +200,40 @@ public class DialogueUI : MonoBehaviour
         StartCoroutine(PlayDialogueSound());
     }
 
-    public void StartDialogue(Line line, Choice[] choices)
+    public void StartDialogue(Line line, Choice[] choices, bool displayCharPic)
     {
         //initialize current dialogue ui
         _dialogueTextJuicer.SetDirty();
         _lineCount = 0;
         _currentConversation = null;
         _currentCharacter = line.character;
+        speakerHolder.gameObject.SetActive(false);
+        nameHolder.SetActive(false);
 
         //initialize choices
-        if (choices != null)
+        if (choices != null && choices.Length > 0)
         {
             EndConversation(choices);
         }
 
-        //set name if it value is still not the character's name
-        if (!nameText.text.Equals(line.character.name))
+        var lineCharacter = line.character;
+        if (lineCharacter != null && displayCharPic)
         {
-            nameText.text = line.character.name;
+            //change name box if its not the same value already
+            if (!nameText.text.Equals(lineCharacter.name))
+            {
+                nameText.text = lineCharacter.name;
+            }
+
+            nameHolder.SetActive(true);
+            //get the mood graphic of the character and initialize speaker picture placement
+            var characterMoodGraphic = GetEmotionGraphic(lineCharacter, line.emotion);
+            InitializeSpeakerPicture(characterMoodGraphic, line.speakerDirection);
+            speakerHolder.gameObject.SetActive(true);
         }
 
-        //change the line of the text
-        dialogueText.text = line.text;
-
-        //get the mood graphic of the character and initialize speaker picture placement
-        var characterMoodGraphic = GetEmotionGraphic(line.character, line.emotion);
-        InitializeSpeakerPicture(characterMoodGraphic, line.speakerDirection);
+        //change the lineToDisplay of the text
+        ManageDialogueString(line.text);
 
         SetDialogueUiTextJuicer();
     }
@@ -211,7 +250,14 @@ public class DialogueUI : MonoBehaviour
 
     public bool IsEnd()
     {
-        return _lineCount >= _currentConversation.lines.Length;
+        try
+        {
+            return _lineCount >= _currentConversation.lines.Length;
+        }
+        catch
+        {
+            return true;
+        }
     }
 
     public void ContinueExistingDialogue()
@@ -266,7 +312,7 @@ public class DialogueUI : MonoBehaviour
         
         if (choice.addAQuest && choice.quest != null)
         {
-            GameManager.instance.player.playerQuestManager.GiveQuestToPlayer(choice.quest);
+            GameManager.instance.player.playerQuestManager.GiveQuestToPlayer(choice.quest, _currentCharacter);
         }
 
         if (choice.nextConversation != null)
@@ -276,7 +322,7 @@ public class DialogueUI : MonoBehaviour
         else
         {
             mainDialogueTweener.Disable();
-            GameManager.instance.player.inputHandler.EnterGameplay();
+            GameManager.instance.inputHandler.EnterGameplay();
             _lineCount = 0;
             _currentConversation = null;
         }
@@ -290,8 +336,13 @@ public class DialogueUI : MonoBehaviour
         var index = 0;
         while (_dialogueTextJuicer.IsPlaying)
         {
-            if(!Char.IsPunctuation(text[index]))
-                GameManager.instance.audioManager.PlaySFX(text[index].ToString(), _currentCharacter.dialoguePitch); 
+            if (!Char.IsPunctuation(text[index]) && !Char.IsWhiteSpace(text[index]) && _currentCharacter != null)
+            {
+                var dialogueSFXName = _currentCharacter.sexOfCharacter == Sex.Male
+                    ? text[index] + "_MALE".ToUpperInvariant()
+                    : text[index] + "_FEMALE".ToUpperInvariant();
+                GameManager.instance.audioManager.PlaySFX(dialogueSFXName, _currentCharacter.dialoguePitch);
+            }
             yield return new WaitForSeconds(_dialogueTextJuicer.Delay * 2.5f);
             index++;
         }

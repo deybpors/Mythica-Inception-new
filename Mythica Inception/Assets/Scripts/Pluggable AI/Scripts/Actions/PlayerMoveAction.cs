@@ -1,4 +1,5 @@
-﻿using _Core.Player;
+﻿using _Core.Managers;
+using _Core.Player;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ namespace Pluggable_AI.Scripts.Actions
                 player.rgdbody.isKinematic = false;
             }
 
-            var inputHandlerMovementInput = player.inputHandler.movementInput;
+            var inputHandlerMovementInput = GameManager.instance.inputHandler.movementInput;
             
             //get moveVector from input
             var inputVector = new Vector3(inputHandlerMovementInput.x, 0f, inputHandlerMovementInput.y);
@@ -39,7 +40,7 @@ namespace Pluggable_AI.Scripts.Actions
 
             var targetRotation = Quaternion.LookRotation(targetVector);
             player.transform.rotation =
-                Quaternion.RotateTowards(player.transform.rotation, targetRotation, player.playerData.moveRotationSpeed);
+                Quaternion.RotateTowards(player.transform.rotation, targetRotation, player.playerSettings.playerData.moveRotationSpeed);
         }
 
         private Vector3 MoveAndGetTargetVector(Player player, Vector3 inputVector)

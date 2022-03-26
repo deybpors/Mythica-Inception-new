@@ -33,11 +33,13 @@ namespace Quest_System
     public class PlayerAcceptedQuest
     {
         public Quest quest;
+        public Character questGiver;
         public int currentValue;
 
-        public PlayerAcceptedQuest(Quest newQuest)
+        public PlayerAcceptedQuest(Quest newQuest, Character questGiver)
         {
             quest = newQuest;
+            this.questGiver = questGiver;
             currentValue = 0;
         }
     }

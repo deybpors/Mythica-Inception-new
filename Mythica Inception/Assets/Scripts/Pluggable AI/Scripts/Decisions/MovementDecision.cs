@@ -1,3 +1,4 @@
+using _Core.Managers;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Pluggable_AI.Scripts.Decisions
 
         private bool ToMove(StateController stateController)
         {
-            if (stateController.player.inputHandler == null)
+            if (GameManager.instance.inputHandler == null)
             {
                 return false;
             }
@@ -22,7 +23,7 @@ namespace Pluggable_AI.Scripts.Decisions
             
             
             //player input
-            return stateController.player.inputHandler.movementInput != Vector2.zero;
+            return GameManager.instance.inputHandler.movementInput != Vector2.zero;
         }
 
         private bool CheckGround()

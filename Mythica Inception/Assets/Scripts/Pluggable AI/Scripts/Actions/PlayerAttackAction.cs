@@ -1,3 +1,4 @@
+using _Core.Managers;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
@@ -18,8 +19,8 @@ namespace Pluggable_AI.Scripts.Actions
             _timer += Time.deltaTime;
             HandleTurnSmoothTime(stateController);
             
-            if (!stateController.player.inputHandler.attackInput) { return; }
-            stateController.player.inputHandler.attackInput = false;
+            if (!GameManager.instance.inputHandler.attackInput) { return; }
+            GameManager.instance.inputHandler.attackInput = false;
             
             if (stateController.player.selectionManager.selectables.Count > 0)
             {
@@ -30,13 +31,13 @@ namespace Pluggable_AI.Scripts.Actions
             var pointDistance = Vector3.Distance(stateController.transform.position,
                 pointPosition);
             
-            if (stateController.player.inputHandler.currentMonster < 0)
+            if (GameManager.instance.inputHandler.currentMonster < 0)
             {
                 PlayerReleaseTameBeam(stateController, pointPosition, pointDistance);
                 return;
             }
 
-            var currentMonster = stateController.player.inputHandler.currentMonster;
+            var currentMonster = GameManager.instance.inputHandler.currentMonster;
             
             stateController.player.skillManager.skillPoint = pointPosition;
             stateController.player.skillManager.pointDistance = pointDistance;
@@ -64,7 +65,7 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void PlayerReleaseTameBeam(StateController stateController, Vector3 faceTo, float distance)
         {
-            if (_target == null || !(distance <= stateController.player.tameRadius)) return;
+            if (_target == null || !(distance <= stateController.player.playerSettings.tameRadius)) return;
             
             _timer = 0;
             FaceToPoint(stateController, faceTo);
@@ -85,8 +86,8 @@ namespace Pluggable_AI.Scripts.Actions
         {
             if (_timer >= stateController.player.tempAttackRate)
             {
-                stateController.player.playerData.temporaryTurnSmoothTime =
-                    stateController.player.playerData.turnSmoothTime;
+                stateController.player.playerSettings.playerData.temporaryTurnSmoothTime =
+                    stateController.player.playerSettings.playerData.turnSmoothTime;
                 if (stateController.player.currentAnimator != null)
                 {
                     stateController.player.currentAnimator.SetBool("Attack", false);
@@ -94,8 +95,8 @@ namespace Pluggable_AI.Scripts.Actions
             }
             else
             {
-                stateController.player.playerData.temporaryTurnSmoothTime =
-                    stateController.player.playerData.turnSmoothTime * 8;
+                stateController.player.playerSettings.playerData.temporaryTurnSmoothTime =
+                    stateController.player.playerSettings.playerData.turnSmoothTime * 8;
             }
         }
     }

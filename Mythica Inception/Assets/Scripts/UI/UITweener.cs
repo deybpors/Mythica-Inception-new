@@ -52,10 +52,14 @@ namespace UI
 
         private LTDescr _tweenObject;
         public bool showOnEnable;
-        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField, HideInInspector] private CanvasGroup _canvasGroup;
+
+        [HideInInspector] public bool disabled;
 
         void Awake()
         {
+            origFromState = fromState;
+            origToState = toState;
             origFrom = from;
             origTo = to;
         }
@@ -71,6 +75,7 @@ namespace UI
             {
                 Show();
             }
+            disabled = false;
         }
         private void Show()
         {
@@ -80,6 +85,14 @@ namespace UI
         public LTDescr GetTweenObject()
         {
             return _tweenObject;
+        }
+
+        public CanvasGroup GetCanvasGroup()
+        {
+            if (_canvasGroup != null) return _canvasGroup;
+            
+            _canvasGroup = GetComponent<CanvasGroup>();
+            return _canvasGroup;
         }
 
         public void HandleTween()
@@ -123,12 +136,6 @@ namespace UI
             if (ignoreTimeScale)
             {
                 _tweenObject.setIgnoreTimeScale(true);
-            }
-
-            if (inactiveAfterDone)
-            {
-                Action disableObject = () => gameObject.SetActive(false);
-                _tweenObject.setOnComplete(disableObject);
             }
         }
 
@@ -194,14 +201,20 @@ namespace UI
 
         public void Disable()
         {
+            disabled = true;
             SwapDirection();
             HandleTween();
             _tweenObject.setOnComplete(() =>
             {
                 DisableObjectsToDisable();
+                fromState = origFromState;
+                toState = origToState;
                 from = origFrom;
                 to = origTo;
-                gameObject.SetActive(false);
+                if (inactiveAfterDone)
+                {
+                    gameObject.SetActive(false);
+                }
             });
         }
 

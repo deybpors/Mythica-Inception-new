@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
+using Assets.Scripts.UI;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
 using TMPro;
@@ -29,15 +30,8 @@ namespace UI
         [HideInInspector] public List<Image> currentMonsterSkillImages;
         [HideInInspector] public List<Image> currentMonsterItemImages;
         [HideInInspector] public DialogueUI dialogueUI;
-        [HideInInspector] public GameObject questUICanvas;
-        [HideInInspector] public TextMeshProUGUI questTitle;
-        [HideInInspector] public TextMeshProUGUI questDescription;
-        [HideInInspector] public TextMeshProUGUI questDecline;
-        [HideInInspector] public TextMeshProUGUI questAccept;
-        [HideInInspector] public Transform questReward;
-        [HideInInspector] public GameObject loadingScreen;
-        [HideInInspector] public ProgressBarUI loadingBar;
-        [HideInInspector] public Camera loadingScreenCamera;
+        [HideInInspector] public QuestUI questUI;
+        [HideInInspector] public LoadingScreenUI loadingScreen;
         [HideInInspector] public Texture2D normalCursor;
         [HideInInspector] public GameObject areaIndicator;
         [HideInInspector] public Texture2D pointIndicator;
@@ -53,29 +47,11 @@ namespace UI
 
         #region Initialization
 
-        public void InitDebugConsole(DebugConsoleUI debugConsole)
-        {
-            this.debugConsole = debugConsole;
-        }
-
-        public void InitDialogueUI(DialogueUI dialogueUI)
-        {
-            this.dialogueUI = dialogueUI;
-        }
-
         public void InitStartSceneUIRef(GameObject startScenePanel, UITweener startButtonsTweener)
         {
             startSceneUICanvas = startScenePanel;
             startSceneUI = startSceneUICanvas.GetComponent<StartSceneUI>();
             this.startButtonsTweener = startButtonsTweener;
-        }
-
-        public void InitLoadingUIRef(GameObject canvas, ProgressBarUI loadBar, Camera cam)
-        {
-            loadingScreen = canvas;
-            loadingBar = loadBar;
-            loadingScreenCamera = cam;
-            GameManager.instance.gameSceneManager.loadingUITweener = loadingScreen.GetComponent<UITweener>();
         }
 
         public void InitCursors(Texture2D normal, GameObject area, Texture2D point)
@@ -98,16 +74,6 @@ namespace UI
             currentMonsterSkillImages = skills;
             currentMonsterItemImages = items;
             partySlots = party;
-        }
-
-        public void InitQuestUIRef(GameObject questUICanvas, TextMeshProUGUI questTitle, TextMeshProUGUI questDescription, Transform questRewardParent, TextMeshProUGUI accept, TextMeshProUGUI decline)
-        {
-            this.questUICanvas = questUICanvas;
-            this.questTitle = questTitle;
-            this.questDescription = questDescription;
-            questReward = questRewardParent;
-            questAccept = accept;
-            questDecline = decline;
         }
 
         public void InitGameplayUI(string charName, float currentHealth, float maxHealth, List<MonsterSlot> monsterSlots)
@@ -272,7 +238,7 @@ namespace UI
             gameplayUICanvas.SetActive(false);
             minimapCamera.SetActive(false);
             dialogueUI.gameObject.SetActive(false);
-            loadingScreen.SetActive(false);
+            loadingScreen.gameObject.SetActive(false);
             newGamePanel.gameObject.SetActive(false);
             modal.CloseModal();
         }

@@ -16,8 +16,6 @@ namespace UI
         private void Start()
         {
             if(GameManager.instance == null) return;
-            GameManager.instance.gameplayActive = false;
-
             FillUpSaveFiles();
         }
 
@@ -85,13 +83,16 @@ namespace UI
             var sceneManager = GameManager.instance.gameSceneManager;
             var savedScenePath = playerSavedData[profileIndex].currentScenePath;
 
-            sceneManager.AddLoadedScene(savedScenePath, true, false);
-            sceneManager.UnloadLoadedScene(GameManager.instance.currentWorldScenePath, false, false);
-            sceneManager.AddLoadedScene(GameManager.instance.gameplayScene.path, false, true);
+            sceneManager.LoadScene(savedScenePath, true);
+            sceneManager.UnloadScene(GameManager.instance.currentWorldScenePath, false);
+            sceneManager.LoadScene(GameManager.instance.gameplayScene.path, false);
+            
             GameManager.instance.uiManager.minimapCamera.SetActive(true);
-            GameManager.instance.gameStateController.TransitionToState(gameplayState);
             GameManager.instance.currentWorldScenePath = savedScenePath;
             GameManager.instance.saveManager.profileIndex = profileIndex;
+
+            //TODO: transition state depending on the situation
+            GameManager.instance.gameStateController.TransitionToState(gameplayState);
         }
     }
 }

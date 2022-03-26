@@ -13,5 +13,10 @@ public class PlayGameplayAction : Action
         {
             pauseManager.PauseGameplay(1);
         }
+
+        if (!GameManager.instance.uiManager.gameplayUICanvas.activeInHierarchy)
+        {
+            GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+        }
     }
 }

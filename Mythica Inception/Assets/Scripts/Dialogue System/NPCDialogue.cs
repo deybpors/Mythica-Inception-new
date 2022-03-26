@@ -55,7 +55,7 @@ namespace Assets.Scripts.Dialogue_System
                 _outline.enabled = true;
                 _outline.OutlineMode = Outline.Mode.OutlineVisible;
                 
-                if(player.inputHandler.currentMonster >= 0) return;
+                if(GameManager.instance.inputHandler.currentMonster >= 0) return;
 
                 _isInteractable = true;
             }
@@ -65,9 +65,9 @@ namespace Assets.Scripts.Dialogue_System
                 _isInteractable = false;
             }
 
-            if (!player.inputHandler.interact) return;
+            if (!GameManager.instance.inputHandler.interact) return;
             
-            player.inputHandler.interact = false;
+            GameManager.instance.inputHandler.interact = false;
             Interact(player);
         }
 
@@ -77,7 +77,7 @@ namespace Assets.Scripts.Dialogue_System
             if(_conversation == null) return;
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
-            GameManager.instance.player.inputHandler.GetPlayerInputSettings().SwitchCurrentActionMap("Dialogue");
+            GameManager.instance.inputHandler.SwitchActionMap("Dialogue");
 
             var npcLookPosition = _playerTransform.position - _npcTransform.position;
             npcLookPosition.y = 0;

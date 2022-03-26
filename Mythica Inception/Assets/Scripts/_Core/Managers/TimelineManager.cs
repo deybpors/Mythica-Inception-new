@@ -7,11 +7,27 @@ namespace Assets.Scripts._Core.Managers
 {
     public class TimelineManager : MonoBehaviour
     {
+        private PlayableDirector _activeDirector;
+
+        public void SwitchActiveDirector(PlayableDirector newDirector)
+        {
+            _activeDirector = newDirector;
+        }
+        
         public void PauseTimelineForDialogue(PlayableDirector director)
         {
-            director.playableGraph.GetRootPlayable(0).SetSpeed(0d);
+            _activeDirector = director;
+            if(director == null) return;
+
+            _activeDirector.playableGraph.GetRootPlayable(0).SetSpeed(0d);
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
-            GameManager.instance.player.inputHandler.GetPlayerInputSettings().SwitchCurrentActionMap("Dialogue");
+            GameManager.instance.inputHandler.SwitchActionMap("Dialogue");
+        }
+
+        public void ResumeTimelineForDialogue()
+        {
+            if(_activeDirector == null) return;
+            _activeDirector.playableGraph.GetRootPlayable(0).SetSpeed(1d);
         }
     }
 }

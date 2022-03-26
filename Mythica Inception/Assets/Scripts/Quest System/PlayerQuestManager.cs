@@ -10,22 +10,25 @@ public class PlayerQuestManager : MonoBehaviour
     public Dictionary<string, PlayerAcceptedQuest> activeQuests = new Dictionary<string, PlayerAcceptedQuest>();
     public Dictionary<string, Quest> finishedQuests = new Dictionary<string, Quest>();
 
-    public void GiveQuestToPlayer(Quest questGiven)
+    public void GiveQuestToPlayer(Quest questGiven, Character questGiver)
     {
+        GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
         if (PlayerHaveQuest(questGiven)) return;
 
-        var newQuest = new PlayerAcceptedQuest(questGiven);
+        var newQuest = new PlayerAcceptedQuest(questGiven, questGiver);
         activeQuests.Add(newQuest.quest.ID, newQuest);
+        GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
     }
 
     private bool PlayerHaveQuest(Quest quest)
     {
-        return activeQuests.TryGetValue(quest.ID, out var playerQuest);
+        return activeQuests.ContainsKey(quest.ID);
     }
 
     public void RemoveQuestToPlayer(Quest questToRemove)
     {
         activeQuests.Remove(questToRemove.ID);
+        GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
     }
 
     public bool IsQuestSucceeded(Quest quest)

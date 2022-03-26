@@ -28,34 +28,34 @@ namespace Pluggable_AI.Scripts.Actions
                 return;
             }
             
-            if (stateController.player.inputHandler.firstSkillInput)
+            if (GameManager.instance.inputHandler.firstSkillInput)
             {
-                stateController.player.inputHandler.firstSkillInput = false;
+                GameManager.instance.inputHandler.firstSkillInput = false;
                 PickSkill(stateController, 0);
             }
-            else if (stateController.player.inputHandler.secondSkillInput)
+            else if (GameManager.instance.inputHandler.secondSkillInput)
             {
-                stateController.player.inputHandler.secondSkillInput = false;
+                GameManager.instance.inputHandler.secondSkillInput = false;
                 PickSkill(stateController, 1);
             }
-            else if (stateController.player.inputHandler.thirdSkillInput)
+            else if (GameManager.instance.inputHandler.thirdSkillInput)
             {
-                stateController.player.inputHandler.thirdSkillInput = false;
+                GameManager.instance.inputHandler.thirdSkillInput = false;
                 PickSkill(stateController, 2);
             }
-            else if (stateController.player.inputHandler.fourthSkillInput)
+            else if (GameManager.instance.inputHandler.fourthSkillInput)
             {
-                stateController.player.inputHandler.fourthSkillInput = false;
+                GameManager.instance.inputHandler.fourthSkillInput = false;
                 PickSkill(stateController, 3);
             }
         }
 
         private static void MakeAllSkillInputFalse(StateController stateController)
         {
-            stateController.player.inputHandler.firstSkillInput = false;
-            stateController.player.inputHandler.secondSkillInput = false;
-            stateController.player.inputHandler.thirdSkillInput = false;
-            stateController.player.inputHandler.fourthSkillInput = false;
+            GameManager.instance.inputHandler.firstSkillInput = false;
+            GameManager.instance.inputHandler.secondSkillInput = false;
+            GameManager.instance.inputHandler.thirdSkillInput = false;
+            GameManager.instance.inputHandler.fourthSkillInput = false;
         }
 
         private void PickSkill(StateController stateController, int slotNum)

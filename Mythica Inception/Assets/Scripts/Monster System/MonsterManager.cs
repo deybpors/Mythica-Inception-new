@@ -45,7 +45,7 @@ namespace Monster_System
             {
                 isPlayer = true;
                 _player = GetComponent<Player>();
-                _tamerTameRadius = _player.tameRadius;
+                _tamerTameRadius = _player.playerSettings.tameRadius;
                 _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
             }
             
@@ -131,7 +131,7 @@ namespace Monster_System
             if(!_activated) return;
             if (_haveMonsters.GetMonsterSlots()[slot].monster == null)
             {
-                _player.inputHandler.currentMonster = _player.inputHandler.previousMonster;
+                GameManager.instance.inputHandler.currentMonster = GameManager.instance.inputHandler.previousMonster;
                 Debug.Log("There is no monster in the selected slot.");
                 GameManager.instance.uiManager.debugConsole.DisplayLogUI("There is no monster in the selected slot.");
                 return;    

@@ -10,9 +10,11 @@ using Debug = UnityEngine.Debug;
 public class Character : ScriptableObjectWithID
 {
     public string fullName;
+    public Sprite facePicture;
     public List<CharacterMood> moods;
 
     [SerializeField, HideInInspector] private bool _hasBeenInitialized = false;
+    public Sex sexOfCharacter;
     public float dialoguePitch = 1f;
 
     [Conditional("UNITY_EDITOR")]

@@ -25,6 +25,8 @@ public class ModalUI : MonoBehaviour
 
     public void CloseModal()
     {
+        if(!modalWhole.gameObject.activeInHierarchy && !overlay.gameObject.activeInHierarchy) return;
+
         try
         {
             overlay.Disable();

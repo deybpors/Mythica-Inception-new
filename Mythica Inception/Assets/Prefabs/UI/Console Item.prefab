@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &8243778633130717993
 RectTransform:
   m_ObjectHideFlags: 0
@@ -162,7 +162,8 @@ MonoBehaviour:
   to: 0
   objectsToDisableOnDisable: []
   disableAfterSeconds: 0
-  disableDuration: 1
+  disableDuration: 2
   inactiveAfterDone: 1
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
+  disabled: 0

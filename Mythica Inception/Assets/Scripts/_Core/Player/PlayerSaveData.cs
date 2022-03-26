@@ -16,12 +16,10 @@ public class PlayerSaveData
     [SerializeField] private string _currentScenePath;
     [SerializeField] private Dictionary<string, PlayerAcceptedQuest> _activeQuests;
     [SerializeField] private Dictionary<string, Quest> _finishedQuests;
+    [SerializeField] private TimeSpan _timeSpent;
     [SerializeField] private DateTime _lastOpened;
-    [SerializeField] private DateTime _lastClosed;
 
     public string name => _playerName;
-    public DateTime lastOpened => _lastOpened;
-    public DateTime lastClosed => _lastClosed;
     public Sex sex => _sex;
     public WorldPlacementData playerWorldPlacement;
     public List<MonsterSlot> playerMonsters => _monsterSlots;
@@ -30,8 +28,10 @@ public class PlayerSaveData
     public string currentScenePath => _currentScenePath;
     public Dictionary<string, PlayerAcceptedQuest> activeQuests => _activeQuests;
     public Dictionary<string, Quest> finishedQuests => _finishedQuests;
+    public TimeSpan timeSpent => _timeSpent;
+    public DateTime lastOpened => _lastOpened;
 
-    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, Quest> finishedQuests, DateTime lastOpened, DateTime lastClosed)
+    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, Quest> finishedQuests, TimeSpan timeSpent, DateTime lastOpened)
     {
         _playerName = playerName;
         _sex = sex; 
@@ -40,9 +40,9 @@ public class PlayerSaveData
         _playerHealth = playerHealth;
         _inventorySlots = inventorySlots;
         _currentScenePath = currentScenePath;
-        _lastOpened = lastOpened;
-        _lastClosed = lastClosed;
         _activeQuests = activeQuests;
         _finishedQuests = finishedQuests;
+        _timeSpent = timeSpent;
+        _lastOpened = lastOpened;
     }
 }

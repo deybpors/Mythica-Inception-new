@@ -71,19 +71,19 @@ namespace Skill_System
                 
                 if (slot.skillState == SkillState.targeting)
                 {
-                    if (_entity.GetStateController().player.inputHandler.cancelSkill)
+                    if (GameManager.instance.inputHandler.cancelSkill)
                     {
-                        _entity.GetStateController().player.inputHandler.cancelSkill = false;
+                        GameManager.instance.inputHandler.cancelSkill = false;
                         slot.skill.DoneTargeting(_entity);
                         slot.skillState = SkillState.ready;
                         targeting = false;
                         continue;
                     }
 
-                    if (_entity.GetStateController().player.inputHandler.activateSkill)
+                    if (GameManager.instance.inputHandler.activateSkill)
                     {
                         var player = _entity.GetStateController().player;
-                        player.inputHandler.activateSkill = false;
+                        GameManager.instance.inputHandler.activateSkill = false;
 
                         target = player.selectionManager.selectables.Count > 0
                             ? player.selectionManager.selectables[0]

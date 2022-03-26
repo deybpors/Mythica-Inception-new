@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using _Core.Managers;
+using Assets.Scripts.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -28,17 +29,10 @@ namespace UI
         public DialogueUI dialogueUI;
 
         [Header("Quest UI")] 
-        public GameObject questUICanvas;
-        public TextMeshProUGUI questTitle;
-        public TextMeshProUGUI questDescription;
-        public Transform questRewardParent;
-        public TextMeshProUGUI accept;
-        public TextMeshProUGUI decline;
-        
-        [Header("Loading UI")] 
-        public GameObject loadingScreen;
-        public ProgressBarUI loadingBar;
-        public Camera loadingScreenCam;
+        public QuestUI questUI;
+
+        [Header("Loading UI")]
+        public LoadingScreenUI loadingScreen;
         
         [Header("Cursors and Indicators")]
         public Texture2D normalCursor;
@@ -58,27 +52,19 @@ namespace UI
             if(GameManager.instance == null) return;
             
             var ui = GameManager.instance.uiManager;
-            ui.InitLoadingUIRef(loadingScreen,loadingBar, loadingScreenCam);
+            GameManager.instance.inputHandler.SwitchActionMap("UI");
+            ui.loadingScreen = loadingScreen;
             ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items);
-            ui.InitQuestUIRef(questUICanvas, questTitle, questDescription, questRewardParent, accept, decline);
+            ui.questUI = questUI;
             ui.InitStartSceneUIRef(startSceneUICanvas, startButtonsTweener);
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
-            ui.InitDialogueUI(dialogueUI);
+            ui.dialogueUI = dialogueUI;
             ui.newGamePanel = newGamePanel;
-            ui.InitDebugConsole(debugConsole);
+            ui.debugConsole = debugConsole;
             ui.modal = modal;
             ui.tooltip = tooltip;
             
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
-            
-            if (!GameManager.instance.gameplayActive)
-            {
-                ui.startSceneUICanvas.SetActive(true);
-                return;
-            }
-            
-            ui.gameplayUICanvas.SetActive(true);
-            ui.minimapCamera.SetActive(true);
         }
     }
 }

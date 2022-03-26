@@ -20,7 +20,7 @@ MonoBehaviour:
       aliquam erat felis vulputate risus.
     emotion: 0
     speakerDirection: 0
-  - character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+  - character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
     text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat
       odio a sem interdum pulvinar. Curabitur nec blandit est, ac pellentesque erat.
       Vestibulum ut accumsan lacus.

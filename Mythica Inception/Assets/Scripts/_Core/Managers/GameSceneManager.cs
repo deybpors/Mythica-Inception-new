@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using MyBox;
 using UI;
 using UnityEngine;
@@ -9,139 +12,93 @@ namespace _Core.Managers
     public class GameSceneManager : MonoBehaviour
     {
         public UIManager uiManager;
-        [HideInInspector] public UITweener loadingUITweener;
-        private float _totalSceneProgress = 0f;
-        private List<AsyncOperation> _scenesLoading = new List<AsyncOperation>();
-        private bool loading = false;
-        private float _prevSceneProgress = 0f;
+        private float _target;
+        private Dictionary<string, AsyncOperation> _scenesLoading = new Dictionary<string, AsyncOperation>();
 
-        private void Update()
+        void Update()
         {
-            GetSceneLoadProgress();
-        }
-
-
-        public void UnloadCurrentWorldLoadNext(string nextWorldScene, bool withLoadingScreen, bool startLoadProgress)
-        {
-            if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
+            uiManager.loadingScreen.progressBar.currentValue = _target;
+            if (!uiManager.loadingScreen.gameObject.activeInHierarchy)
             {
-                if (!uiManager.loadingScreenCamera.isActiveAndEnabled)
-                {
-                    uiManager.loadingScreenCamera.gameObject.SetActive(true);
-                }
-                uiManager.loadingScreen.SetActive(true);
-            }
-
-            var currentWorldScene = GameManager.instance.currentWorldScenePath;
-
-            if (!currentWorldScene.Equals(nextWorldScene))
-            {
-                _scenesLoading.Add(SceneManager.UnloadSceneAsync(currentWorldScene));
-                _scenesLoading.Add(SceneManager.LoadSceneAsync(nextWorldScene, LoadSceneMode.Additive));
-                GameManager.instance.currentWorldScenePath = nextWorldScene;
-            }
-
-            if (startLoadProgress && !loading)
-            {
-                loading = true;
+                uiManager.loadingScreen.loadingScreenCamera.gameObject.SetActive(false);
             }
         }
 
-        public void UnloadAllScenesExcept(string sceneName)
+        public async void LoadScene(string sceneToAdd, bool withLoadingScreen)
         {
-            var sceneCount = SceneManager.sceneCount;
-            for (var i = 0; i < sceneCount; i++)
-            {
-                var scene = SceneManager.GetSceneAt(i);
-                if (scene.name != sceneName)
-                {
-                    SceneManager.UnloadSceneAsync(scene);
-                }
-            }
-        }
+            _target = 0;
+            uiManager.loadingScreen.progressBar.currentValue = 0;
 
-        public AsyncOperation AddLoadedScene(string addedScene, bool withLoadingScreen, bool startLoadProgress)
-        {
-            if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
+            var scene = SceneManager.LoadSceneAsync(sceneToAdd, LoadSceneMode.Additive);
+            _scenesLoading.Add(sceneToAdd, scene);
+            scene.allowSceneActivation = false;
+
+            if (withLoadingScreen && !uiManager.loadingScreen.gameObject.activeInHierarchy)
             {
-                if (!uiManager.loadingScreenCamera.isActiveAndEnabled)
-                {
-                    uiManager.loadingScreenCamera.gameObject.SetActive(true);
-                }
-                uiManager.loadingScreen.SetActive(true);
+                uiManager.loadingScreen.loadingScreenCamera.gameObject.SetActive(true);
+                uiManager.loadingScreen.gameObject.SetActive(true);
             }
 
-            var operation = SceneManager.LoadSceneAsync(addedScene, LoadSceneMode.Additive);
-            _scenesLoading.Add(operation);
-
-            if (startLoadProgress && !loading)
+            do
             {
-                loading = true;
+                await Task.Delay(100);
+
+                if (!withLoadingScreen) continue;
+                _target = GetSceneLoadProgress();
             }
+            while (scene.progress < .9f);
 
-            return operation;
-        }
-        
-        public AsyncOperation UnloadLoadedScene(string loadedScene, bool withLoadingScreen, bool startLoadProgress)
-        {
-            if (!uiManager.loadingScreen.activeInHierarchy && withLoadingScreen)
-            {
-                if (!uiManager.loadingScreenCamera.isActiveAndEnabled)
-                {
-                    uiManager.loadingScreenCamera.gameObject.SetActive(true);
-                }
-                uiManager.loadingScreen.SetActive(true);
-            }
+            scene.allowSceneActivation = true;
 
-            var operation = SceneManager.UnloadSceneAsync(loadedScene);
-            _scenesLoading.Add(operation);
-
-            if (startLoadProgress && !loading)
-            {
-                loading = true;
-            }
-
-            return operation;
-        }
-
-        private void GetSceneLoadProgress()
-        {
-            if(!loading) return;
+            if (!GetSceneLoadProgress().Approximately(1f) || !withLoadingScreen) return;
             
+            uiManager.loadingScreen.tweener.Disable();
+        }
+
+        public async void UnloadScene(string loadedScene, bool withLoadingScreen)
+        {
+            _target = 0;
+            uiManager.loadingScreen.progressBar.currentValue = 0;
+
+            var scene = SceneManager.UnloadSceneAsync(loadedScene);
+            _scenesLoading.Add(loadedScene, scene);
+            scene.allowSceneActivation = false;
+
+            if (withLoadingScreen && !uiManager.loadingScreen.gameObject.activeInHierarchy)
+            {
+                uiManager.loadingScreen.loadingScreenCamera.gameObject.SetActive(true);
+                uiManager.loadingScreen.gameObject.SetActive(true);
+            }
+            
+            do
+            {
+                await Task.Delay(100);
+
+                if (!withLoadingScreen) continue;
+                _target = GetSceneLoadProgress();
+            }
+            while (scene.progress < .9f);
+
+            scene.allowSceneActivation = true;
+
+            if (!GetSceneLoadProgress().Approximately(1f) || !withLoadingScreen) return;
+            
+            uiManager.loadingScreen.loadingScreenCamera.gameObject.SetActive(false);
+        }
+
+        private float GetSceneLoadProgress()
+        {
             var sceneCount = _scenesLoading.Count;
-            //Debug.Log(sceneCount);
-
-            var sceneDone = 0;
+            var sceneDone = 0f;
+            var currentScenesLoading = _scenesLoading.Values.ToList();
 
             for (var i = 0; i < sceneCount; i++)
             {
-                var operation = _scenesLoading[i];
-                if (operation.isDone)
-                {
-                    sceneDone++;
-                }
-            }
-            
-            //Debug.Log(sceneDone);
-            
-            _prevSceneProgress = _totalSceneProgress;
-            _totalSceneProgress = (float) sceneDone / sceneCount;
-
-            //Debug.Log(_prevSceneProgress);
-            //Debug.Log(_totalSceneProgress);
-            
-            if (_totalSceneProgress.Approximately(_prevSceneProgress))
-            {
-                uiManager.loadingBar.maxValue = 1f;
-                uiManager.loadingBar.currentValue = _totalSceneProgress;
+                var scene = currentScenesLoading[i];
+                sceneDone += scene.progress;
             }
 
-            if (sceneDone != sceneCount) return;
-
-            if (loadingUITweener != null) loadingUITweener.Disable();
-
-            loading = false;
-            _scenesLoading.Clear();
+            return sceneDone / sceneCount;
         }
     }
 }

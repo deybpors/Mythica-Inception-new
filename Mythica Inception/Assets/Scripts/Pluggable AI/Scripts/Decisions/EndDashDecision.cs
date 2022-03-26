@@ -1,4 +1,4 @@
-﻿using _Core.Player;
+﻿using _Core.Managers;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 
@@ -9,17 +9,17 @@ namespace Pluggable_AI.Scripts.Decisions
     {
         public override bool Decide(StateController stateController)
         {
-            var dashTime = stateController.player.inputHandler.currentMonster < 0 ? stateController.player.playerData.dashTime : 0;
+            var dashTime = GameManager.instance.inputHandler.currentMonster < 0 ? stateController.player.playerSettings.playerData.dashTime : 0;
 
             var dashTimeDone = stateController.HasTimeElapsed(dashTime);
-            stateController.player.inputHandler.dashInput = !dashTimeDone;
+            GameManager.instance.inputHandler.dashInput = !dashTimeDone;
             
-            if (dashTimeDone && stateController.player.inputHandler.currentMonster < 0)
+            if (dashTimeDone && GameManager.instance.inputHandler.currentMonster < 0)
             {
                 StopDash(stateController.player.rgdbody);
             }
             
-            return !stateController.player.inputHandler.dashInput;
+            return !GameManager.instance.inputHandler.dashInput;
         }
 
         private void StopDash(Rigidbody rigidbody)

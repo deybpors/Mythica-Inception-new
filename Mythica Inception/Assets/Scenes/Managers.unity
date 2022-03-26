@@ -225,9 +225,9 @@ MonoBehaviour:
   questManager: {fileID: 1719308059}
   saveManager: {fileID: 1370879023}
   pauseManager: {fileID: 1272631770}
-  timelineManager: {fileID: 0}
+  inputHandler: {fileID: 1387560523}
+  timelineManager: {fileID: 1596128048}
   gameStateController: {fileID: 721566679}
-  gameplayActive: 1
   enemiesSeePlayer: []
   gameplayState: {fileID: 11400000, guid: 3dad947175dfe8c4f860f67a26064c42, type: 2}
   UIState: {fileID: 11400000, guid: acc3cdc9d4b9ea74b83802e6c320474a, type: 2}
@@ -382,7 +382,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1705896064}
-  loadingUITweener: {fileID: 0}
 --- !u!4 &1105453174
 Transform:
   m_ObjectHideFlags: 0
@@ -488,6 +487,400 @@ MonoBehaviour:
   defaultPlayerHealth: 20
   profileIndex: 0
   saveSeconds: 3
+--- !u!1 &1387560522
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1387560525}
+  - component: {fileID: 1387560524}
+  - component: {fileID: 1387560523}
+  m_Layer: 0
+  m_Name: Input Handler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1387560523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387560522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe759c7c85903f4b809831e38a33b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activate: 0
+  movementInput: {x: 0, y: 0}
+  dashInput: 0
+  attackInput: 0
+  firstSkillInput: 0
+  secondSkillInput: 0
+  thirdSkillInput: 0
+  fourthSkillInput: 0
+  cancelSkill: 0
+  activateSkill: 0
+  interact: 0
+  previousMonster: 0
+  currentMonster: 0
+  playerSwitchDisabled: 0
+  _playerInputSettings: {fileID: 1387560524}
+  previousActionMap: 
+--- !u!114 &1387560524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387560522}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 860fdb043168c384aa2c1975b7923217, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnMoveInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0d968b41-7293-48ce-add7-e4aaefff893f
+    m_ActionName: Gameplay/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnDashInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5c0c7c43-1858-4c3f-9e74-a543de0594ae
+    m_ActionName: Gameplay/Dash[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5edf6058-4cb8-4ed1-81e2-040bd9b4cb81
+    m_ActionName: Gameplay/Attack[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnFirstSkill
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 92772ac3-2548-4de4-8127-2456fc2aad22
+    m_ActionName: Gameplay/Skill 1[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnSecondSkill
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 28a1b70e-17fe-4438-b560-923aee3d2143
+    m_ActionName: Gameplay/Skill 2[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnThirdSkill
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 61044576-4054-4545-a173-b4b7d54c5f31
+    m_ActionName: Gameplay/Skill 3[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnFourthSkill
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ed7b9b12-6170-4c06-96d0-5df6b8c99182
+    m_ActionName: Gameplay/Skill 4[/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnCancelSkill
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7d5cc992-39b5-4955-bd8c-f8ae6e0f509e
+    m_ActionName: Gameplay/Cancel Skill[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnActivateSkill
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ab3d1432-209d-40ec-86e0-11619207469f
+    m_ActionName: Gameplay/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: SwitchMonster1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c4e9454b-c039-42b4-bcb5-81e744f0443e
+    m_ActionName: Gameplay/Monster 1[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: SwitchMonster2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9746ceb2-f4fd-42c4-b68c-deeae2b834d3
+    m_ActionName: Gameplay/Monster 2[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: SwitchMonster3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0b70782d-8a91-4612-8ba0-e16c708e673f
+    m_ActionName: Gameplay/Monster 3[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: SwitchMonster4
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 46477d54-d759-493e-820b-991b1675ce1e
+    m_ActionName: Gameplay/Monster 4[/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: SwitchTamer
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 053771ac-3071-43a6-9524-f89c56648ff9
+    m_ActionName: Gameplay/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: Select
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ed6f0b5c-0dbe-40fe-b100-38314cb69fcc
+    m_ActionName: Gameplay/Select[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnEnterSettings
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 30da7bda-27ad-4c6f-9c7b-a5d4892f66fa
+    m_ActionName: Gameplay/Go to Settings[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnEnterGameplay
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8b1a7eec-2f30-4af2-a9b9-cdbaa8b134aa
+    m_ActionName: UI/Exit Settings[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: Interact
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9856e4a8-a7ef-4aac-8f26-93a9b1e9bda7
+    m_ActionName: Gameplay/Interact[/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnNextLineDialogue
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 8ac1d841-fff5-46c7-b8c9-6864024799a2
+    m_ActionName: Dialogue/Next Line[/Keyboard/space,/Keyboard/e,/Mouse/leftButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Keyboard
+  m_DefaultActionMap: Gameplay
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
+--- !u!4 &1387560525
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387560522}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1573271813
 GameObject:
   m_ObjectHideFlags: 0
@@ -566,6 +959,49 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1596128047
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1596128049}
+  - component: {fileID: 1596128048}
+  m_Layer: 0
+  m_Name: Timeline Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1596128048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596128047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0717f7afdaca4d42823d8e614c25e40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1596128049
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1596128047}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1666776875
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,210 +1037,19 @@ MonoBehaviour:
   _ambiences: []
   ambienceFadeTime: 2.5
   _soundFx: []
-  _dialogueSfx:
-  - name: A
-    clip: {fileID: 8300000, guid: 1e3c0ee5a8139e741a56880b21aaecfe, type: 3}
-    volume: 0.25
+  _maleDialogueSfx:
+  - name: 
+    clip: {fileID: 0}
+    volume: 0.5
     source: {fileID: 0}
     randomPitch: 0
     min: 0
     max: 0
     pitch: 1
-  - name: B
-    clip: {fileID: 8300000, guid: f2c742c930f5ee340a3a49754b397819, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: C
-    clip: {fileID: 8300000, guid: a006760aad8eaa54b83f32a075182333, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: D
-    clip: {fileID: 8300000, guid: e4de78b1f4fce9d499e8384b8fc08410, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: E
-    clip: {fileID: 8300000, guid: c196106357e5ec146945b0739b609033, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: F
-    clip: {fileID: 8300000, guid: 1d4f6e59b1540e34d9f65bd1b61d0b8d, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: G
-    clip: {fileID: 8300000, guid: fec54660355c36748ad67538a81dc58d, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: H
-    clip: {fileID: 8300000, guid: ddc922457897a654781ab13fb5533903, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: I
-    clip: {fileID: 8300000, guid: 7d208edc4413735478431b631b7cd84a, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: J
-    clip: {fileID: 8300000, guid: 5174dccb87eef414f84066f9476d1d0b, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: K
-    clip: {fileID: 8300000, guid: 32a9231223484fb4183fc6177144adfa, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: L
-    clip: {fileID: 8300000, guid: c6df657c489c912488f405a51df63d99, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: M
-    clip: {fileID: 8300000, guid: 38fcd0c12f96d5f4ab949c4b493ca9f5, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: N
-    clip: {fileID: 8300000, guid: f5c1b57094872a9489c103083da13cd3, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: O
-    clip: {fileID: 8300000, guid: e48e1b2126c4cf54ca27fe4779c66425, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: P
-    clip: {fileID: 8300000, guid: 2a6fc9417c012224d91e29b7b273562a, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: Q
-    clip: {fileID: 8300000, guid: 610a997b76a9a74428930959aede38fc, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: R
-    clip: {fileID: 8300000, guid: 05c2105326d9e114bbafe84456f2ce4f, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: S
-    clip: {fileID: 8300000, guid: be9f8521f8d3ef24abb172f95f25a981, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: T
-    clip: {fileID: 8300000, guid: 10fce6556cdd5524a923a39c3e723c44, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: U
-    clip: {fileID: 8300000, guid: 8993f209c6e17bb4eaba2c43bfc736eb, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: V
-    clip: {fileID: 8300000, guid: d4a326b16474ea34fa48c39780cf21de, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: W
-    clip: {fileID: 8300000, guid: bb50627fb77144443a527a20a9b70a0b, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: X
-    clip: {fileID: 8300000, guid: 517de289475efbd41bb69229d7e7b018, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: Y
-    clip: {fileID: 8300000, guid: fb269c3d33eda3549a3e7a3eb1feb638, type: 3}
-    volume: 0.25
-    source: {fileID: 0}
-    randomPitch: 0
-    min: 0
-    max: 0
-    pitch: 1
-  - name: Z
-    clip: {fileID: 8300000, guid: f10fd4c8ac849b742bea332a624adb85, type: 3}
-    volume: 0.25
+  _femaleDialogueSfx:
+  - name: 
+    clip: {fileID: 0}
+    volume: 0.5
     source: {fileID: 0}
     randomPitch: 0
     min: 0
@@ -868,15 +1113,8 @@ MonoBehaviour:
   currentMonsterSkillImages: []
   currentMonsterItemImages: []
   dialogueUI: {fileID: 0}
-  questUICanvas: {fileID: 0}
-  questTitle: {fileID: 0}
-  questDescription: {fileID: 0}
-  questDecline: {fileID: 0}
-  questAccept: {fileID: 0}
-  questReward: {fileID: 0}
+  questUI: {fileID: 0}
   loadingScreen: {fileID: 0}
-  loadingBar: {fileID: 0}
-  loadingScreenCamera: {fileID: 0}
   normalCursor: {fileID: 0}
   areaIndicator: {fileID: 0}
   pointIndicator: {fileID: 0}

@@ -1,6 +1,5 @@
 using System.Collections;
 using _Core.Managers;
-using Pluggable_AI.Scripts.States;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +8,7 @@ namespace _Core.Input
     [RequireComponent(typeof(PlayerInput))]
     public class PlayerInputHandler : MonoBehaviour
     {
-        private _Core.Player.Player _player;
+        private Player.Player _player;
         [HideInInspector] public bool activate;
         [HideInInspector] public Vector2 movementInput;
         [HideInInspector] public bool dashInput;
@@ -21,20 +20,21 @@ namespace _Core.Input
         [HideInInspector] public bool cancelSkill;
         [HideInInspector] public bool activateSkill;
         [HideInInspector] public bool interact;
-        [SerializeField] private PlayerInput _playerInputSettings;
-        public int previousMonster;
-        public int currentMonster;
+        [HideInInspector] public int previousMonster;
+        [HideInInspector] public int currentMonster;
         [HideInInspector] public bool playerSwitchDisabled;
-
+        [SerializeField] private PlayerInput _playerInputSettings;
+        [HideInInspector] public string previousActionMap;
         private Vector3 _zeroVector = new Vector3(0, 0, 0);
         private bool _canAttack = true;
 
-        public void ActivatePlayerInputHandler(Player.Player player)
+        public void ActivatePlayerInputHandler(Player.Player player, Camera cam)
         {
             previousMonster = -1;
             currentMonster = -1;
             _player = player;
             activate = true;
+            _playerInputSettings.camera = cam;
         }
 
         public PlayerInput GetPlayerInputSettings()
@@ -84,7 +84,7 @@ namespace _Core.Input
         
         IEnumerator CanAttack()
         {
-            yield return new WaitForSeconds(_player.playerData.attackRate);
+            yield return new WaitForSeconds(_player.playerSettings.playerData.attackRate);
             _canAttack = true;
         }
         
@@ -231,6 +231,7 @@ namespace _Core.Input
         {
             if (!activate) return;
             if (!context.started) return;
+
             var dialogueUi = GameManager.instance.uiManager.dialogueUI;
 
             if (dialogueUi.TextJuicerPlaying())
@@ -244,11 +245,37 @@ namespace _Core.Input
                     if (dialogueUi.CurrentConversationHasChoice()) return;
                     
                     dialogueUi.mainDialogueTweener.Disable();
-                    OnEnterGameplay(context);
+                    SwitchToPreviousActionMap(context);
+                    GameManager.instance.timelineManager.ResumeTimelineForDialogue();
+
                     return;
                 }
 
                 dialogueUi.ContinueExistingDialogue();
+            }
+        }
+
+        void SwitchToPreviousActionMap(InputAction.CallbackContext context)
+        {
+            var actionMap = string.Empty;
+            switch (previousActionMap)
+            {
+                case "Gameplay":
+                OnEnterGameplay(context);
+                break;
+
+                case "UI":
+                    actionMap = "UI";
+                    break;
+
+                case "Dialogue":
+                    actionMap = "Dialogue";
+                    break;
+            }
+
+            if (actionMap != string.Empty)
+            {
+                SwitchActionMap(actionMap);
             }
         }
 
@@ -258,7 +285,9 @@ namespace _Core.Input
             if (!context.started) return;
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.UIState);
-            _playerInputSettings.SwitchCurrentActionMap("UI");
+            
+            previousActionMap = _playerInputSettings.currentActionMap.name;
+            SwitchActionMap("UI");
             GameManager.instance.uiManager.gameplayTweener.Disable();
         }
 
@@ -273,9 +302,26 @@ namespace _Core.Input
         public void EnterGameplay()
         {
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState);
+            GameManager.instance.uiManager.gameplayUICanvas.SetActive(false);
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
             GameManager.instance.uiManager.tooltip.tooltipTweener.gameObject.SetActive(false);
-            _playerInputSettings.SwitchCurrentActionMap("Gameplay");
+            previousActionMap = _playerInputSettings.currentActionMap.name;
+            SwitchActionMap("Gameplay");
+        }
+
+        public void SwitchActionMap(string newActionMap)
+        {
+            if(newActionMap == _playerInputSettings.currentActionMap.name) return;
+
+            previousActionMap = _playerInputSettings.currentActionMap.name;
+            try
+            {
+                _playerInputSettings.SwitchCurrentActionMap(newActionMap);
+            }
+            catch
+            {
+                //ignored
+            }
         }
 
         #endregion

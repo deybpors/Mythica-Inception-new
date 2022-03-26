@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using _Core.Managers;
 using _Core.Player;
 using Pluggable_AI.Scripts.States;
 using UnityEngine;
@@ -69,7 +70,7 @@ namespace Pluggable_AI.Scripts.General
             if (controllerAnimator == null || currentState.stateAnimation.Equals(string.Empty) ||
                 stateMachineType != StateMachineType.Player) return;
 
-            if (player.inputHandler.currentMonster >= 0 && currentState.stateAnimation.Equals("Roll")) return;
+            if (GameManager.instance.inputHandler.currentMonster >= 0 && currentState.stateAnimation.Equals("Roll")) return;
 
             controllerAnimator.SetBool(currentState.stateAnimation, true);
         }
@@ -80,7 +81,7 @@ namespace Pluggable_AI.Scripts.General
 
             if (controllerAnimator != null && !currentState.stateAnimation.Equals(string.Empty))
             {
-                if (stateMachineType != StateMachineType.Player || player.inputHandler.currentMonster < 0 ||
+                if (stateMachineType != StateMachineType.Player || GameManager.instance.inputHandler.currentMonster < 0 ||
                     !currentState.stateAnimation.Equals("Roll"))
                 {
                     controllerAnimator.SetBool(currentState.stateAnimation, false);

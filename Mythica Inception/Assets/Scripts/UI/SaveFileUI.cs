@@ -19,6 +19,7 @@ namespace UI
 
         void OnEnable()
         {
+            button.onClick.RemoveAllListeners();
             button.onClick.AddListener(ContinueOrNew);
             if (playerSaveData == null)
             {
@@ -46,9 +47,8 @@ namespace UI
         public void SetSaveFileData(PlayerSaveData saveData)
         {
             playerName.text = saveData.name;
-            TimeSpan span = (saveData.lastOpened - saveData.lastClosed);
-            var timeSpent = string.Format("{00:%h} : {00:%m} : {00:%s}", span);
-            string save = saveData.lastOpened.ToShortDateString() + "\n" + timeSpent;
+            var timeSpent = string.Format("{00:%h} : {00:%m} : {00:%s}", saveData.timeSpent);
+            var save = saveData.lastOpened.ToShortDateString() + "\n" + timeSpent;
             saveFileInfo.text = save;
 
             playerSaveData = saveData;

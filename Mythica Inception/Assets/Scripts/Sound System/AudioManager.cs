@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using _Core.Managers;
 using Assets.Scripts.Sound_System;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -34,7 +35,8 @@ namespace SoundSystem
         [SerializeField] private float ambienceFadeTime = 2.5f;
 
         [SerializeField] private Sfx[] _soundFx;
-        [SerializeField] private Sfx[] _dialogueSfx;
+        [SerializeField] private Sfx[] _maleDialogueSfx;
+        [SerializeField] private Sfx[] _femaleDialogueSfx;
 
         private Dictionary<string, Music> _musicDict;
         private Dictionary<string, Ambience> _ambienceDict;
@@ -58,40 +60,76 @@ namespace SoundSystem
 
             foreach (var music in _musicList)
             {
+                if (music.clip == null) continue;
                 music.source = gameObject.AddComponent<AudioSource>();
                 music.source.clip = music.clip;
                 music.source.volume = music.volume;
                 music.source.loop = music.loop;
+                if (music.name == string.Empty)
+                {
+                    music.name = music.clip.name;
+                }
                 _musicDict.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
                 _master.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
             }
 
             foreach (var sound in _soundFx)
             {
+                if (sound.clip == null) continue;
                 sound.source = gameObject.AddComponent<AudioSource>();
                 sound.source.clip = sound.clip;
                 sound.source.volume = sound.volume;
+                if (sound.name == string.Empty)
+                {
+                    sound.name = sound.clip.name;
+                }
                 _sfxDict.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
                 _master.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
             }
 
             foreach (var ambience in _ambiences)
             {
+                if (ambience.clip == null) continue;
                 ambience.source = gameObject.AddComponent<AudioSource>();
                 ambience.source.clip = ambience.clip;
                 ambience.source.volume = ambience.volume;
                 ambience.source.loop = ambience.loop;
+                if (ambience.name == string.Empty)
+                {
+                    ambience.name = ambience.clip.name;
+                }
                 _ambienceDict.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
                 _master.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
             }
 
-            foreach (var dialogue in _dialogueSfx)
+            foreach (var maleDialogue in _maleDialogueSfx)
             {
-                dialogue.source = gameObject.AddComponent<AudioSource>();
-                dialogue.source.clip = dialogue.clip;
-                dialogue.source.volume = dialogue.volume;
-                _sfxDict.Add(dialogue.name, dialogue);
-                _master.Add(dialogue.name, dialogue);
+                if (maleDialogue.clip == null) continue;
+                maleDialogue.source = gameObject.AddComponent<AudioSource>();
+                maleDialogue.source.clip = maleDialogue.clip;
+                maleDialogue.source.volume = maleDialogue.volume;
+                if (maleDialogue.name == string.Empty)
+                {
+                    maleDialogue.name = maleDialogue.clip.name;
+                }
+                var dialogueName = maleDialogue.name + "_MALE";
+                _sfxDict.Add(dialogueName, maleDialogue);
+                _master.Add(dialogueName, maleDialogue);
+            }
+
+            foreach (var femaleDialogue in _femaleDialogueSfx)
+            {
+                if(femaleDialogue.clip == null) continue;
+                femaleDialogue.source = gameObject.AddComponent<AudioSource>();
+                femaleDialogue.source.clip = femaleDialogue.clip;
+                femaleDialogue.source.volume = femaleDialogue.volume;
+                if (femaleDialogue.name == string.Empty)
+                {
+                    femaleDialogue.name = femaleDialogue.clip.name;
+                }
+                var dialogueName = femaleDialogue.name + "_FEMALE";
+                _sfxDict.Add(dialogueName, femaleDialogue);
+                _master.Add(dialogueName, femaleDialogue);
             }
         }
 
@@ -114,6 +152,7 @@ namespace SoundSystem
         public void PlayAmbience(string ambienceName)
         {
             if (!_ambienceDict.TryGetValue(ambienceName.ToUpperInvariant().Replace(" ", string.Empty), out var ambience)) return;
+            if(_currentAmbience.name == ambienceName) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(ambience));
@@ -123,6 +162,7 @@ namespace SoundSystem
         public void PlayMusic(string musicName)
         {
             if (!_musicDict.TryGetValue(musicName.ToUpperInvariant().Replace(" ", string.Empty), out var music)) return;
+            if (_currentMusic.name == musicName) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(music));
@@ -141,6 +181,8 @@ namespace SoundSystem
 
             var musicToPlay = musicInMood[Random.Range(0, musicInMood.Count)];
 
+            if(_currentMusic.name == musicToPlay.name) return;
+
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
             _currentMusic = musicToPlay;
@@ -148,7 +190,7 @@ namespace SoundSystem
 
         public void PlaySFX(string soundName)
         {
-            if (!_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx)) return;
+            if (!_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx)) { return; }
             
             sfx.source.pitch = sfx.randomPitch ? Random.Range(sfx.min, sfx.max) : sfx.pitch;
             sfx.source.Play();
@@ -156,7 +198,7 @@ namespace SoundSystem
 
         public void PlaySFX(string soundName, float pitch)
         {
-            if (!_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx)) return;
+            if (!_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx)) { return; }
 
             sfx.source.pitch = sfx.pitch * pitch;
             sfx.source.Play();

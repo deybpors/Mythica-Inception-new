@@ -51,8 +51,21 @@ public class DialogueBehavior : PlayableBehaviour
             _pauseScheduled = false;
             GameManager.instance.timelineManager.PauseTimelineForDialogue(_director);
         }
-
         _clipPlayed = false;
+
+        //if application ends return
+        if (!Application.isPlaying) return;
+
+
+        //Check if its the end of clip
+        var duration = playable.GetDuration();
+        var time = playable.GetTime();
+        var count = time + info.deltaTime;
+
+        if ((info.effectivePlayState != PlayState.Paused || !(count > duration)) &&
+            !Mathf.Approximately((float) time, (float) duration)) return;
+        
+        if(!hasToPause) GameManager.instance.uiManager.dialogueUI.OnDialogueEnd();
     }
 
     private void InitiateDialogueUI()

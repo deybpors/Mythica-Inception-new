@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using _Core.Managers;
 using Assets.Scripts.UI;
+using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +10,11 @@ namespace UI
 {
     public class UIInitializer : MonoBehaviour
     {
-        [Header("Start Scene UI")]
+        [Foldout("Start Scene UI", true)]
         public GameObject startSceneUICanvas;
         public UITweener startButtonsTweener;
 
-        [Header("Gameplay UI")] 
+        [Foldout("Gameplay UI", true)]
         public GameObject gameplayUICanvas;
         public GameObject minimapCamera;
         public TextMeshProUGUI characterName;
@@ -25,27 +26,35 @@ namespace UI
         public List<Image> skills;
         public List<Image> items;
 
-        [Header("Dialogue UI")]
+        [Foldout("Options UI", true)]
+        public Button optionsButton;
+        public Button optionsMinimizeButton;
+        public OptionsUI generalOptionsUI;
+
+        [Foldout("Dialogue UI", true)]
         public DialogueUI dialogueUI;
 
-        [Header("Quest UI")] 
+        [Foldout("Quest UI", true)]
         public QuestUI questUI;
 
-        [Header("Loading UI")]
+        [Foldout("Loading UI", true)]
         public LoadingScreenUI loadingScreen;
-        
-        [Header("Cursors and Indicators")]
+
+        [Foldout("New Game Panel UI")] public NewGamePanelUI newGamePanel;
+
+
+        [Foldout("Modal UI")] public ModalUI modal;
+
+
+        [Foldout("Debug Console")] public DebugConsoleUI debugConsole;
+
+
+        [Foldout("Tooltip UI")] public TooltipUI tooltip;
+
+        [Foldout("Cursors and Indicators", true)]
         public Texture2D normalCursor;
         public GameObject areaIndicator;
         public Texture2D pointIndicator;
-
-        [Header("New Game Panel")] public NewGamePanelUI newGamePanel;
-
-        [Header("Modal")] public ModalUI modal;
-
-        [Header("Debug Console")] public DebugConsoleUI debugConsole;
-
-        [Header("Tooltip UI")] public TooltipUI tooltip;
 
         private void Awake()
         {
@@ -54,7 +63,7 @@ namespace UI
             var ui = GameManager.instance.uiManager;
             GameManager.instance.inputHandler.SwitchActionMap("UI");
             ui.loadingScreen = loadingScreen;
-            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items);
+            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items, optionsButton);
             ui.questUI = questUI;
             ui.InitStartSceneUIRef(startSceneUICanvas, startButtonsTweener);
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
@@ -63,7 +72,9 @@ namespace UI
             ui.debugConsole = debugConsole;
             ui.modal = modal;
             ui.tooltip = tooltip;
-            
+            ui.optionsMinimizeButton = optionsMinimizeButton;
+            ui.generalOptionsUi = generalOptionsUI;
+
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
         }
     }

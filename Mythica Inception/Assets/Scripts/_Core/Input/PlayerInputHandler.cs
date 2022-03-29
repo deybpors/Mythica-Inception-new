@@ -243,11 +243,9 @@ namespace _Core.Input
                 if (dialogueUi.IsEnd())
                 {
                     if (dialogueUi.CurrentConversationHasChoice()) return;
-                    
-                    dialogueUi.mainDialogueTweener.Disable();
-                    SwitchToPreviousActionMap(context);
-                    GameManager.instance.timelineManager.ResumeTimelineForDialogue();
 
+                    dialogueUi.OnDialogueEnd();
+                    SwitchToPreviousActionMap(context);
                     return;
                 }
 
@@ -279,13 +277,18 @@ namespace _Core.Input
             }
         }
 
-        public void OnEnterSettings(InputAction.CallbackContext context)
+        public void OnEnterOptions(InputAction.CallbackContext context)
         {
             if (!activate) return;
             if (!context.started) return;
 
+            GameManager.instance.uiManager.optionsButton.onClick.Invoke();
+        }
+
+        public void EnterOptions()
+        {
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.UIState);
-            
+
             previousActionMap = _playerInputSettings.currentActionMap.name;
             SwitchActionMap("UI");
             GameManager.instance.uiManager.gameplayTweener.Disable();
@@ -296,7 +299,7 @@ namespace _Core.Input
             if (!activate) return;
             if (!context.started) return;
 
-            EnterGameplay();
+            GameManager.instance.uiManager.optionsMinimizeButton.onClick.Invoke();
         }
 
         public void EnterGameplay()

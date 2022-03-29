@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 642c382d-7edb-4105-92ea-05c9c3d3f889
   tameBeam: 0
   skillName: unit area 1
-  skillType: 0
+  skillType: 3
   skillIcon: {fileID: 7228785389488148030, guid: e62779719dcf17648836ac6ddb974074, type: 3}
   skillCategory: 0
   power: 0
@@ -29,5 +29,5 @@ MonoBehaviour:
     muzzle: {fileID: 0}
     targetObject: {fileID: 0}
   skillAiStrategy: 0
-  description: 
+  description: This is the unit area
   radius: 5

@@ -5,42 +5,35 @@ using System.Linq;
 using _Core.Input;
 using _Core.Managers;
 using _Core.Others;
-using _Core.Player.Player_FSM;
 using Assets.Scripts._Core.Player;
 using Combat_System;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
 using MyBox;
 using Pluggable_AI.Scripts.General;
-using Quest_System;
 using Skill_System;
-using UI;
 using UnityEngine;
 using UnityEngine.Events;
-using Action = System.Action;
 
 namespace _Core.Player
 {
     [RequireComponent(typeof(StateController))]
     public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame
     {
-        public string playerName;
-        
-        [Space]
-
-        public List<MonsterSlot> monsterSlots;
-        public EntityHealth playerHealth;
-        public PlayerInventory playerInventory;
-        [HideInInspector] public bool notDie;
+        [Foldout("Data", true)]
+        [ReadOnly] public string playerName;
+         public List<MonsterSlot> monsterSlots;
+        [ReadOnly] public EntityHealth playerHealth;
+        [ReadOnly] public PlayerInventory playerInventory;
+        public Dictionary<string, Monster> discoveredMonsters = new Dictionary<string, Monster>();
 
         [Space]
 
-        [Header("Settings")]
-        public PlayerSettings playerSettings;
-        public ProjectileRelease projectileReleases;
-        public GameObject unitIndicator;
-        public GameObject vectorIndicator;
-
+        [Foldout("Settings", true)]
+        [DisplayInspector] public PlayerSettings playerSettings;
+        [ReadOnly] public ProjectileRelease projectileReleases;
+        [ReadOnly] public GameObject unitIndicator;
+        [ReadOnly] public GameObject vectorIndicator;
 
         #region Hidden Fields
 
@@ -63,19 +56,26 @@ namespace _Core.Player
         private Transform _playerTransform;
         private readonly Vector3 _zeroVector = Vector3.zero;
         private DateTime _dateOpened;
+        [SerializeField] private bool _tamerInvulnerable = false;
+        private readonly Color _white = Color.white;
+
         #endregion
-        
+
 
         void Awake()
         {
             savedData = GameManager.instance.loadedSaveData;
+            GameManager.instance.uiManager.generalOptionsUi.ChangeUIValues();
+
             Init();
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
         }
 
+        #region Initialization
+
         private void Init()
         {
-            if(GameManager.instance == null) return;
+            if (GameManager.instance == null) return;
             _playerTransform = transform;
             GetNeededComponents();
             InitializePlayerSavedData();
@@ -87,7 +87,6 @@ namespace _Core.Player
             GameManager.instance.uiManager.InitGameplayUI(playerName, playerHealth.currentHealth, playerHealth.maxHealth, monsterSlots);
             GameManager.instance.uiManager.loadingScreen.gameObject.SetActive(false);
         }
-
         private void GetNeededComponents()
         {
             mainCamera = GameManager.instance.currentWorldCamera;
@@ -105,9 +104,10 @@ namespace _Core.Player
             playerQuestManager = GetComponent<PlayerQuestManager>();
             colliderExtents = GetComponent<Collider>().bounds.extents;
         }
-        
         private void InitializePlayerSavedData()
         {
+            if (savedData == null) return;
+
             playerName = savedData.name;
             monsterSlots = savedData.playerMonsters;
             playerHealth = savedData.playerHealth;
@@ -115,12 +115,11 @@ namespace _Core.Player
             playerQuestManager.activeQuests = savedData.activeQuests;
             GameManager.instance.uiManager.questUI.UpdateQuestIcons(savedData.activeQuests.Values.ToList());
             playerQuestManager.finishedQuests = savedData.finishedQuests;
-
+            discoveredMonsters = savedData.discoveredMonsters;
             var playerGFX = Instantiate(savedData.sex.Equals(Sex.Male) ? playerSettings.male : playerSettings.female, _playerTransform);
             tamer = playerGFX;
             SetPlayerSavedData();
         }
-
         private void SetPlayerSavedData()
         {
             //after getting all data,
@@ -140,29 +139,40 @@ namespace _Core.Player
                     GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
                     monsterAvgLvl);
             }
-            
+
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             //initialize party's avg level for difficulty adjustment
             GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
             _dateOpened = DateTime.Now;
         }
-
         public PlayerSaveData GetCurrentSaveData()
         {
-            savedData = new PlayerSaveData(savedData.name,
-                savedData.sex,
-                new WorldPlacementData(_playerTransform.position, _playerTransform.rotation, _playerTransform.localScale),
-                monsterSlots,
-                playerHealth,
-                playerInventory.inventorySlots,
-                GameManager.instance.currentWorldScenePath,
-                playerQuestManager.activeQuests,
-                playerQuestManager.finishedQuests,
-                savedData.timeSpent + (DateTime.Now - _dateOpened), 
-                DateTime.Now
-                );
+            try
+            {
+                savedData = new PlayerSaveData(savedData.name,
+                    savedData.sex,
+                    new WorldPlacementData(_playerTransform.position, _playerTransform.rotation,
+                        _playerTransform.localScale),
+                    monsterSlots,
+                    playerHealth,
+                    playerInventory.inventorySlots,
+                    GameManager.instance.currentWorldScenePath,
+                    discoveredMonsters,
+                    playerQuestManager.activeQuests,
+                    playerQuestManager.finishedQuests,
+                    savedData.timeSpent + (DateTime.Now - _dateOpened),
+                    DateTime.Now,
+                    GameManager.instance.uiManager.generalOptionsUi.GetCurrentOptionsData());
+            }
+            catch
+            {
+                //ignored
+            }
+            
             return savedData;
         }
+
+        #endregion
 
         #region Monster
 
@@ -235,10 +245,6 @@ namespace _Core.Player
             return _inputHandler.currentMonster < 0 ? null : monsterSlots[_inputHandler.currentMonster].monster;
         }
 
-        public bool IsPlayerSwitched()
-        {
-            return _inputHandler.currentMonster < 0;
-        }
         public GameObject GetTamer()
         {
             return tamer;
@@ -272,6 +278,19 @@ namespace _Core.Player
                 );
             _healthComponent.UpdateHealth(maxHealth, monsterSlots[slot].currentHealth);
         }
+
+        public void AddToDiscoveredMonsters(Monster monster)
+        {
+            try
+            {
+                discoveredMonsters.Add(monster.ID, monster);
+            }
+            catch
+            {
+                //ignored
+            }
+        }
+
         #endregion
 
         #region Combat
@@ -308,6 +327,7 @@ namespace _Core.Player
                     playerSettings.tameBeam.projectileGraphics.targetObject, _zeroVector,
                     Quaternion.identity);
         }
+
         public void ReleaseTameBeam()
         {
             if (_inputHandler.currentMonster >= 0) return;
@@ -373,33 +393,10 @@ namespace _Core.Player
             GameManager.instance.uiManager.UpdateExpUI(slotNum, experienceToAdd);
         }
 
-
-        private void FullyRestoreAllMonsters()
-        {
-            var count = monsterSlots.Count;
-            for (var i = 0; i < count; i++)
-            {
-                if (monsterSlots[i].monster == null) continue;
-                var maxHealth = GameSettings.Stats(monsterSlots[i].monster.stats.baseHealth,
-                    monsterSlots[i].stabilityValue, GameSettings.Level(monsterSlots[i].currentExp));
-                monsterSlots[i].currentHealth = maxHealth;
-                monsterSlots[i].fainted = false;
-                GameManager.instance.uiManager.UpdatePartyMemberHealth(i, maxHealth, maxHealth);
-                for (var j = 0; j < monsterSlots[i].skillSlots.Length; j++)
-                {
-                    if (monsterSlots[i].skillSlots[j] == null)
-                    {
-                        continue;
-                    }
-                    monsterSlots[i].skillSlots[j].cooldownTimer = 0;
-                    monsterSlots[i].skillSlots[j].skillState = SkillManager.SkillState.ready;
-                }
-            }
-        }
-
         #endregion
 
         #region Health
+
         public void TakeDamage(int damageToTake)
         {
             _healthComponent.ReduceHealth(damageToTake);
@@ -443,51 +440,52 @@ namespace _Core.Player
 
         public void Die()
         {
-            if (notDie) return;
+            if (_tamerInvulnerable) return;
             Debug.Log("Player dies.");
 
             var playerGameObject = gameObject;
             tamer.SetActive(false);
             _inputHandler.movementInput = Vector2.zero;
             _inputHandler.activate = false;
+            rgdbody.isKinematic = true;
             GameManager.instance.pooler.SpawnFromPool(null, playerSettings.deathParticles.name, playerSettings.deathParticles, _playerTransform.position,
                 Quaternion.identity);
+            var playerOrigLayer = playerGameObject.layer;
             playerGameObject.layer = 0;
             skillManager.targeting = false;
+            GameManager.instance.saveManager.activated = false;
 
-            void Reset() => ResetGame(playerGameObject, playerGameObject.layer);
-            GameManager.instance.uiManager.modal.OpenModal("Game Over", playerSettings.deathIcon, Reset);
-
+            void Reset() => ResetGame(playerGameObject, playerOrigLayer);
+            GameManager.instance.uiManager.modal.OpenModal("<color=#f48989>Game Over</color>", playerSettings.deathIcon, _white, Reset);
         }
 
-        private void ResetGame(GameObject player, int layer)
+        private void FullyRestoreAllMonsters()
         {
-            GameManager.instance.uiManager.loadingScreen.gameObject.SetActive(true);
-            player.layer = layer;
-            _inputHandler.activate = true;
-            tamer.SetActive(true);
-
-            playerHealth.maxHealth = GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0 ?
-                GameManager.instance.saveManager.defaultPlayerHealth :
-                GameSettings.Stats(GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
-                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
-                    GameSettings.MonstersAvgLevel(monsterSlots));
-            playerHealth.currentHealth = playerHealth.maxHealth;
-
-            _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
-            TakeDamage(0);
-            FullyRestoreAllMonsters();
-            
-
-            UnityAction resetPosition = () => TransferPlayerPositionRotation(savedData.playerWorldPlacement);
-            UnityAction disableLoadingScreen = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
-
-            StopAllCoroutines();
-            StartCoroutine(DelayAction(GameManager.instance.uiManager.loadingScreen.tweener.duration, resetPosition));
-            StartCoroutine(DelayAction(GameManager.instance.uiManager.loadingScreen.tweener.duration * 2, disableLoadingScreen));
-            GameManager.instance.uiManager.modal.CloseModal();
+            var count = monsterSlots.Count;
+            for (var i = 0; i < count; i++)
+            {
+                if (monsterSlots[i].monster == null) continue;
+                var maxHealth = GameSettings.Stats(monsterSlots[i].monster.stats.baseHealth,
+                    monsterSlots[i].stabilityValue, GameSettings.Level(monsterSlots[i].currentExp));
+                monsterSlots[i].currentHealth = maxHealth;
+                monsterSlots[i].fainted = false;
+                GameManager.instance.uiManager.UpdatePartyMemberHealth(i, maxHealth, maxHealth);
+                for (var j = 0; j < monsterSlots[i].skillSlots.Length; j++)
+                {
+                    if (monsterSlots[i].skillSlots[j] == null)
+                    {
+                        continue;
+                    }
+                    monsterSlots[i].skillSlots[j].cooldownTimer = 0;
+                    monsterSlots[i].skillSlots[j].skillState = SkillManager.SkillState.ready;
+                }
+            }
         }
 
+        public void TickTamerInvulnerability()
+        {
+            _tamerInvulnerable = !_tamerInvulnerable;
+        }
 
         #endregion
 
@@ -514,6 +512,36 @@ namespace _Core.Player
 
         #region Miscellaneous
 
+        private void ResetGame(GameObject player, int layer)
+        {
+            GameManager.instance.uiManager.loadingScreen.gameObject.SetActive(true);
+            player.layer = layer;
+            _inputHandler.activate = true;
+            GameManager.instance.saveManager.activated = true;
+            tamer.SetActive(true);
+            rgdbody.isKinematic = false;
+            playerHealth.maxHealth = GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0 ?
+                GameManager.instance.saveManager.defaultPlayerHealth :
+                GameSettings.Stats(GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
+                    GameSettings.MonstersAvgLevel(monsterSlots));
+            
+            playerHealth.currentHealth = playerHealth.maxHealth;
+            _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+            
+            FullyRestoreAllMonsters();
+
+
+            UnityAction resetPosition = () => TransferPlayerPositionRotation(savedData.playerWorldPlacement);
+            UnityAction disableLoadingScreen = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
+
+            StopAllCoroutines();
+            StartCoroutine(DelayAction(GameManager.instance.uiManager.loadingScreen.tweener.duration, resetPosition));
+            StartCoroutine(DelayAction(2, disableLoadingScreen));
+            GameManager.instance.uiManager.modal.CloseModal();
+        }
+
+
         IEnumerator DelayAction(float delay, UnityAction action)
         {
             yield return new WaitForSeconds(delay);
@@ -526,7 +554,7 @@ namespace _Core.Player
 
             _playerTransform.SetPositionAndRotation(placementData.position, placementData.rotation);
         }
-        public bool SamePosition()
+        public bool SamePositionFromSaved()
         {
             try
             {

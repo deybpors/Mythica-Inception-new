@@ -166,8 +166,8 @@ MonoBehaviour:
     line:
       character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
       text: There are formidable creatures existing alongside human beings called
-        mythicas. Their dynamics are complex. Yet in this world, these two species
-        are not in perfect harmony.
+        <color=#97e4ff><b>mythicas</b></color>. Their dynamics are complex. Yet in
+        this world, these two species are not in perfect harmony.
       emotion: 0
       speakerDirection: 0
     responseChoices: []
@@ -870,7 +870,8 @@ MonoBehaviour:
     displayCharPic: 0
     line:
       character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
-      text: Liberation is what they chant. Where mythicas are granted their own disposition.
+      text: <color=#ffef7d><b>Liberation</b></color> is what they chant. Where mythicas
+        are granted their own disposition.
       emotion: 0
       speakerDirection: 0
     responseChoices: []
@@ -896,10 +897,10 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 2.1166666666666667
+    m_Start: 3.9
     m_ClipIn: 0
     m_Asset: {fileID: 7578608277366845375}
-    m_Duration: 5.75
+    m_Duration: 3.9666666666666686
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5539129614623112583}
     m_EaseInDuration: 0
@@ -1313,7 +1314,7 @@ MonoBehaviour:
     m_Start: 36.8
     m_ClipIn: 0
     m_Asset: {fileID: 1966161899923796646}
-    m_Duration: 3.1999999999999993
+    m_Duration: 2.1666666666666714
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5539129614623112583}
     m_EaseInDuration: 0
@@ -1379,10 +1380,10 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: DialogueClip
   - m_Version: 1
-    m_Start: 40.75
+    m_Start: 43.11666666666667
     m_ClipIn: 0
     m_Asset: {fileID: -7085533048385476166}
-    m_Duration: 3.1999999999999993
+    m_Duration: 1.9833333333333378
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5539129614623112583}
     m_EaseInDuration: 0
@@ -1448,10 +1449,148 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: DialogueClip
   - m_Version: 1
-    m_Start: 44.95
+    m_Start: 46.083333333333336
     m_ClipIn: 0
     m_Asset: {fileID: 2818569086545313880}
-    m_Duration: 2.9666666666666615
+    m_Duration: 1.8333333333333286
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -5539129614623112583}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: DialogueClip
+  - m_Version: 1
+    m_Start: 0.4666666666666667
+    m_ClipIn: 0
+    m_Asset: {fileID: 1004583786879531809}
+    m_Duration: 2.1166666666666667
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: -5539129614623112583}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: DialogueClip
+  - m_Version: 1
+    m_Start: 40
+    m_ClipIn: 0
+    m_Asset: {fileID: 8028070700657917895}
+    m_Duration: 2.099999999999998
     m_TimeScale: 1
     m_ParentTrack: {fileID: -5539129614623112583}
     m_EaseInDuration: 0
@@ -2172,6 +2311,27 @@ MonoBehaviour:
   m_Clips: []
   m_Markers:
     m_Objects: []
+--- !u!114 &1004583786879531809
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8c3450c29bdd048ad3820065dd9fea, type: 3}
+  m_Name: DialogueClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  behaviorTemplate:
+    hasToPause: 0
+    displayCharPic: 0
+    line:
+      character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
+      text: "<i>D\xE1mg\xF3</i>...."
+      emotion: 0
+      speakerDirection: 0
+    responseChoices: []
 --- !u!114 &1065707258139351517
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2477,12 +2637,11 @@ MonoBehaviour:
   m_Name: DialogueClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
   m_EditorClassIdentifier: 
   behaviorTemplate:
-    hasToPause: 1
+    hasToPause: 0
     displayCharPic: 0
     line:
       character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
-      text: <PLAYER_NAME>. You have been chosen to enforce this ideology. To make
-        this world of humans and mythicas in consonance.
+      text: <b><PLAYER_NAME></b>.
       emotion: 0
       speakerDirection: 0
     responseChoices: []
@@ -4119,8 +4278,30 @@ MonoBehaviour:
     displayCharPic: 0
     line:
       character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
-      text: "D\xE1mg\xF3. Dreams are ventures full of prodigies and mythical experiences.
-        Yet human beings take them at face value, without looking beyond the surface."
+      text: Dreams are ventures full of prodigies and mythical experiences. Yet human
+        beings take them at face value, without looking beyond the surface.
+      emotion: 0
+      speakerDirection: 0
+    responseChoices: []
+--- !u!114 &8028070700657917895
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8c3450c29bdd048ad3820065dd9fea, type: 3}
+  m_Name: DialogueClip(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  behaviorTemplate:
+    hasToPause: 1
+    displayCharPic: 0
+    line:
+      character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
+      text: You have been chosen to enforce my ideology. To make this world of humans
+        and mythicas in <color=#f48989><b>harmony</b></color>.
       emotion: 0
       speakerDirection: 0
     responseChoices: []

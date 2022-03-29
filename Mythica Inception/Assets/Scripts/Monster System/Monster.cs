@@ -12,6 +12,7 @@ namespace Monster_System
     [CreateAssetMenu(menuName = "Monster System/New Monster")]
     public class Monster : ScriptableObjectWithID
     {
+        public int monsterNum;
         public string monsterName;
         public GameObject monsterPrefab;
         public Sprite monsterPortrait;

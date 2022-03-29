@@ -42,4 +42,4 @@ MonoBehaviour:
     graphic: {fileID: 0}
   _hasBeenInitialized: 1
   sexOfCharacter: 1
-  dialoguePitch: 0.5
+  dialoguePitch: 0.3

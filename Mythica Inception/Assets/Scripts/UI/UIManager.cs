@@ -6,6 +6,7 @@ using _Core.Others;
 using Assets.Scripts.UI;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
+using MyBox;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,36 +15,49 @@ namespace UI
 {
     public class UIManager : MonoBehaviour
     {
-        
-        [HideInInspector] public GameObject startSceneUICanvas;
-        [HideInInspector] public StartSceneUI startSceneUI;
-        [HideInInspector] public UITweener startButtonsTweener;
-        [HideInInspector] public GameObject gameplayUICanvas;
-        [HideInInspector] public UITweener gameplayTweener;
-        [HideInInspector] public GameObject minimapCamera;
-        [HideInInspector] public TextMeshProUGUI currentCharacterName;
-        [HideInInspector] public TextMeshProUGUI currentCharacterLevel;
-        [HideInInspector] public TextMeshProUGUI currentGold;
-        [HideInInspector] public ProgressBarUI currentCharacterHealth;
-        [HideInInspector] public ProgressBarUI currentCharacterExp;
-        [HideInInspector] public List<PartySlotUI> partySlots;
-        [HideInInspector] public List<Image> currentMonsterSkillImages;
-        [HideInInspector] public List<Image> currentMonsterItemImages;
-        [HideInInspector] public DialogueUI dialogueUI;
-        [HideInInspector] public QuestUI questUI;
-        [HideInInspector] public LoadingScreenUI loadingScreen;
-        [HideInInspector] public Texture2D normalCursor;
-        [HideInInspector] public GameObject areaIndicator;
-        [HideInInspector] public Texture2D pointIndicator;
-        [HideInInspector] public NewGamePanelUI newGamePanel;
-        [HideInInspector] public ModalUI modal;
-        [HideInInspector] public DebugConsoleUI debugConsole;
-        [HideInInspector] public TooltipUI tooltip;
+        #region Hidden Fields
+            [HideInInspector] public GameObject startSceneUICanvas;
+            [HideInInspector] public StartSceneUI startSceneUI;
+            [HideInInspector] public UITweener startButtonsTweener;
+            [HideInInspector] public GameObject gameplayUICanvas;
+            [HideInInspector] public Button optionsButton;
+            [HideInInspector] public UITweener gameplayTweener;
+            [HideInInspector] public GameObject minimapCamera;
+            [HideInInspector] public TextMeshProUGUI currentCharacterName;
+            [HideInInspector] public TextMeshProUGUI currentCharacterLevel;
+            [HideInInspector] public TextMeshProUGUI currentGold;
+            [HideInInspector] public ProgressBarUI currentCharacterHealth;
+            [HideInInspector] public ProgressBarUI currentCharacterExp;
+            [HideInInspector] public List<PartySlotUI> partySlots;
+            [HideInInspector] public List<Image> currentMonsterSkillImages;
+            [HideInInspector] public List<Image> currentMonsterItemImages;
+            [HideInInspector] public DialogueUI dialogueUI;
+            [HideInInspector] public QuestUI questUI;
+            [HideInInspector] public LoadingScreenUI loadingScreen;
+            [HideInInspector] public Texture2D normalCursor;
+            [HideInInspector] public GameObject areaIndicator;
+            [HideInInspector] public Texture2D pointIndicator;
+            [HideInInspector] public NewGamePanelUI newGamePanel;
+            [HideInInspector] public ModalUI modal;
+            [HideInInspector] public DebugConsoleUI debugConsole;
+            [HideInInspector] public TooltipUI tooltip;
+            [HideInInspector] public Button optionsMinimizeButton;
+            [HideInInspector] public OptionsUI generalOptionsUi;
+        #endregion
 
-        [Header("Monster Party UI")]
+
+        [Foldout("Monster Party UI", true)]
         public Sprite blankSlotSquare;
         public Sprite blankSlotCircle;
         public Color unusedPartyMember;
+
+        [Foldout("Mythica Type Icons", true)]
+        public Sprite piercer;
+        public Sprite brawler;
+        public Sprite slasher;
+        public Sprite charger;
+        public Sprite emitter;
+        public Sprite keeper;
 
         #region Initialization
 
@@ -61,7 +75,7 @@ namespace UI
             pointIndicator = point;
         }
 
-        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items)
+        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items, Button optionsButton)
         {
             gameplayUICanvas = canvas;
             gameplayTweener = canvas.GetComponent<UITweener>();
@@ -74,6 +88,7 @@ namespace UI
             currentMonsterSkillImages = skills;
             currentMonsterItemImages = items;
             partySlots = party;
+            this.optionsButton = optionsButton;
         }
 
         public void InitGameplayUI(string charName, float currentHealth, float maxHealth, List<MonsterSlot> monsterSlots)
@@ -106,7 +121,7 @@ namespace UI
 
         #endregion
 
-
+        #region Update
         public void UpdateCharSwitchUI(string charName, float currentHealth, float maxHealth, float currentExp, float maxExp, int currentSlotNumber, List<Sprite> skills, List<Sprite> items)
         {
             gameplayUICanvas.SetActive(false);
@@ -125,7 +140,7 @@ namespace UI
             {
                 currentCharacterLevel.transform.parent.gameObject.SetActive(false);
             }
-            
+
             var partyCount = partySlots.Count;
             for (var i = 0; i < partyCount; i++)
             {
@@ -133,13 +148,13 @@ namespace UI
                 {
                     partySlots[i].memberPortrait.color = unusedPartyMember;
                 }
-                
+
                 if (i == currentSlotNumber)
                 {
                     partySlots[i].memberPortrait.color = Color.white;
                 }
             }
-            
+
             var skillCount = currentMonsterSkillImages.Count;
             for (var i = 0; i < skillCount; i++)
             {
@@ -152,7 +167,7 @@ namespace UI
                 currentMonsterSkillImages[i].sprite = skills[i];
                 currentMonsterSkillImages[i].raycastTarget = true;
             }
-            
+
             var itemCount = currentMonsterItemImages.Count;
             for (var i = 0; i < itemCount; i++)
             {
@@ -165,7 +180,7 @@ namespace UI
                 currentMonsterItemImages[i].sprite = items[i];
                 currentMonsterItemImages[i].raycastTarget = true;
             }
-            
+
             gameplayUICanvas.SetActive(true);
         }
 
@@ -173,7 +188,7 @@ namespace UI
         {
             var num = slot.slotNumber;
             partySlots[slot.slotNumber].memberHealth.transform.parent.gameObject.SetActive(true);
-            var fill = (float) slot.currentHealth / GameSettings.Stats(
+            var fill = (float)slot.currentHealth / GameSettings.Stats(
                 slot.monster.stats.baseHealth, slot.stabilityValue,
                 GameSettings.Level(slot.currentExp));
             partySlots[num].memberHealth.fillAmount = fill;
@@ -184,9 +199,9 @@ namespace UI
         public void UpdateHealthUI(int currentSlotNumber, float currentHealth)
         {
             currentCharacterHealth.currentValue = currentHealth;
-            
+
             if (currentSlotNumber < 0) return;
-            
+
             var currentMonster = GameManager.instance.player.monsterSlots[currentSlotNumber];
             var maxHealth = GameSettings.Stats(
                 currentMonster.monster.stats.baseHealth,
@@ -198,8 +213,8 @@ namespace UI
         public void UpdatePartyMemberHealth(int slotNumber, float currentHealth, float maxHealth)
         {
             partySlots[slotNumber].memberHealth.fillAmount = currentHealth / maxHealth;
-            
-            if(currentHealth > 0) return;
+
+            if (currentHealth > 0) return;
             partySlots[slotNumber].memberPortrait.color = Color.red;
         }
 
@@ -215,14 +230,14 @@ namespace UI
 
             currentCharacterExp.currentValue = newCurrent;
             currentCharacterExp.maxValue = maxExp;
-            
+
         }
 
         private void LevelUp(out float maxExp, int slotNum)
         {
             var monsterSlots = GameManager.instance.player.monsterSlots;
             var monsterLevel = GameSettings.Level(monsterSlots[slotNum].currentExp);
-            maxExp = (float) GameSettings.Experience( monsterLevel + 1) - GameSettings.Experience(monsterLevel);
+            maxExp = (float)GameSettings.Experience(monsterLevel + 1) - GameSettings.Experience(monsterLevel);
             currentCharacterLevel.text = monsterLevel.ToString();
         }
 
@@ -231,7 +246,7 @@ namespace UI
             yield return new WaitForSeconds(delay);
             action?.Invoke();
         }
-        
+
         public void DeactivateAllUI()
         {
             startSceneUICanvas.SetActive(false);
@@ -247,16 +262,20 @@ namespace UI
         {
             var inventory = GameManager.instance.player.playerInventory;
             var count = inventory.inventorySlots.Count;
-            
+
             //find Gold in inventory
             for (var i = 0; i < count; i++)
             {
                 if (!(inventory.inventorySlots[i].inventoryItem is Gold)) continue;
-                
+
                 currentGold.text = inventory.inventorySlots[i].amountOfItems.ToString();
                 break;
             }
         }
+
+
+        #endregion
+
 
     }
 

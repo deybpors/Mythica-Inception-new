@@ -43,10 +43,10 @@ namespace BrunoMikoski.TextJuicer.Modifiers
 
             targetColor = gradient.Evaluate( characterData.Progress );
 
-            newVertexColors[vertexIndex + 0] = targetColor;
-            newVertexColors[vertexIndex + 1] = targetColor;
-            newVertexColors[vertexIndex + 2] = targetColor;
-            newVertexColors[vertexIndex + 3] = targetColor;
+            newVertexColors[vertexIndex + 0] *= targetColor;
+            newVertexColors[vertexIndex + 1] *= targetColor;
+            newVertexColors[vertexIndex + 2] *= targetColor;
+            newVertexColors[vertexIndex + 3] *= targetColor;
         }
     }
 }

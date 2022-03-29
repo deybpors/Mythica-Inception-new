@@ -260,6 +260,12 @@ public class DialogueUI : MonoBehaviour
         }
     }
 
+    public void OnDialogueEnd()
+    {
+        mainDialogueTweener.Disable();
+        GameManager.instance.timelineManager.ResumeTimelineForDialogue();
+    }
+
     public void ContinueExistingDialogue()
     {
         StartDialogue(_currentConversation);

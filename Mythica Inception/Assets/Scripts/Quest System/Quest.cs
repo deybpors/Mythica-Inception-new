@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Core.Others;
 using _Core.Player;
@@ -35,12 +36,14 @@ namespace Quest_System
         public Quest quest;
         public Character questGiver;
         public int currentValue;
+        public DateTime dateAccepted;
 
-        public PlayerAcceptedQuest(Quest newQuest, Character questGiver)
+        public PlayerAcceptedQuest(Quest newQuest, Character questGiver, DateTime dateAccepted)
         {
             quest = newQuest;
             this.questGiver = questGiver;
             currentValue = 0;
+            this.dateAccepted = dateAccepted;
         }
     }
 

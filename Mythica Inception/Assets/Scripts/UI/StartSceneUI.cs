@@ -1,6 +1,7 @@
 using System;
 using _Core.Managers;
 using _Core.Others;
+using Assets.Scripts._Core.Player;
 using Pluggable_AI.Scripts.States;
 using ToolBox.Serialization;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace UI
         public GameObject continueButton;
         [SerializeField] private State gameplayState;
         public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
+
         private void Start()
         {
             if(GameManager.instance == null) return;

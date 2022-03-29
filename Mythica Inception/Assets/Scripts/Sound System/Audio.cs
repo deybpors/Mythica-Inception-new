@@ -1,12 +1,13 @@
 ﻿using MyBox;
 using SoundSystem;
 using UnityEngine;
+using System;
 
 namespace Assets.Scripts.Sound_System
 {
     public class Audio
     {
-        public string name;
+        [HideInInspector] public string name;
         public AudioClip clip;
 
         [Range(0f, 1f)]
@@ -16,20 +17,21 @@ namespace Assets.Scripts.Sound_System
         public AudioSource source;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Music : Audio
     {
-        public MusicMood musicMood;
+        public MusicMood mood;
+        public MusicSituation situation;
         public bool loop;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Ambience : Audio
     {
         public bool loop;
     }
 
-    [System.Serializable]
+    [Serializable]
     public class Sfx : Audio
     {
         public bool randomPitch;

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Items_and_Barter_System.Scripts;
-using Monster_System;
-using Skill_System;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Databases.Scripts
@@ -13,7 +9,7 @@ namespace Databases.Scripts
         [HideInInspector] public List<string> attackerTypes;
         [HideInInspector] public List<string> defenseTypes;
         [HideInInspector] public readonly List<List<float>> typeChart = new List<List<float>>();
-
+        
         public void InitializeTypeChartData()
         {
             if (_monsterTypeChart == null) { return; }
@@ -56,6 +52,5 @@ namespace Databases.Scripts
                 }
             }
         }
-
     }
 }

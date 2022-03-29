@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
+using Assets.Scripts._Core.Player;
+using Monster_System;
 using Quest_System;
 using TMPro;
 using ToolBox.Serialization;
@@ -28,6 +30,7 @@ public class NewGamePanelUI : MonoBehaviour
     private Sex selectedSex = Sex.Male;
 
     [HideInInspector] public bool continueSelected;
+    private Color _white = Color.white;
 
     void Start()
     {
@@ -65,17 +68,21 @@ public class NewGamePanelUI : MonoBehaviour
 
         var saveManager = GameManager.instance.saveManager;
 
+        var newOptionsData = new OptionsSaveData(true, OptionsSaveData.DifficultyOptions.Dynamic, true, 1, 1, 1, 1);
+
         var newPlayerData = new PlayerSaveData(nameInputField.text,
             selectedSex, 
             null, 
             GameSettings.GetDefaultMonsterSlots(4),
             new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth),
             GameSettings.GetDefaultInventorySlots(30),
-            startPlacePath, 
+            startPlacePath,
+            new Dictionary<string, Monster>(),
             new Dictionary<string, PlayerAcceptedQuest>(),
-            new Dictionary<string, Quest>(),
+            new Dictionary<string, PlayerAcceptedQuest>(),
             TimeSpan.Zero,
-            DateTime.Now);
+            DateTime.Now,
+            newOptionsData);
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);
@@ -98,7 +105,7 @@ public class NewGamePanelUI : MonoBehaviour
             message += ", ♀";
         }
 
-        GameManager.instance.uiManager.modal.OpenModal(message, verifyIcon, InitializeNewSaveFile);
+        GameManager.instance.uiManager.modal.OpenModal(message, verifyIcon, _white,InitializeNewSaveFile);
     }
 
     private void PickSexType(Button whatButton)

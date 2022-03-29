@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: c488b291-5043-411d-ab40-f4bf78e9870c
   tameBeam: 0
   skillName: Toggle skill 1
-  skillType: 0
+  skillType: 2
   skillIcon: {fileID: -4176920436240213054, guid: e62779719dcf17648836ac6ddb974074, type: 3}
   skillCategory: 0
   power: 0
@@ -29,4 +29,4 @@ MonoBehaviour:
     muzzle: {fileID: 0}
     targetObject: {fileID: 0}
   skillAiStrategy: 0
-  description: 
+  description: This is the toggle skill

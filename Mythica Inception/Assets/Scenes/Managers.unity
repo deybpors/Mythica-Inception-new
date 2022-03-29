@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35237876, g: 0.72419035, b: 0.95839924, a: 1}
+  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -486,7 +486,9 @@ MonoBehaviour:
   playerSaveKey: playerData
   defaultPlayerHealth: 20
   profileIndex: 0
-  saveSeconds: 3
+  saveSeconds: 2
+  activated: 1
+  optionsSaveKey: SaveOptions
 --- !u!1 &1387560522
 GameObject:
   m_ObjectHideFlags: 0
@@ -802,7 +804,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1387560523}
         m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
-        m_MethodName: OnEnterSettings
+        m_MethodName: OnEnterOptions
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1032,14 +1034,217 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _masterVolume: 1
+  _sfxVolume: 1
+  _ambienceVolume: 1
+  _bgMusicVolume: 1
   _musicList: []
   _musicFadeTime: 1.25
   _ambiences: []
   ambienceFadeTime: 2.5
   _soundFx: []
   _maleDialogueSfx:
-  - name: 
-    clip: {fileID: 0}
+  - name: A
+    clip: {fileID: 8300000, guid: 1e3c0ee5a8139e741a56880b21aaecfe, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: B
+    clip: {fileID: 8300000, guid: f2c742c930f5ee340a3a49754b397819, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: C
+    clip: {fileID: 8300000, guid: a006760aad8eaa54b83f32a075182333, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: D
+    clip: {fileID: 8300000, guid: e4de78b1f4fce9d499e8384b8fc08410, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: E
+    clip: {fileID: 8300000, guid: c196106357e5ec146945b0739b609033, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: F
+    clip: {fileID: 8300000, guid: 1d4f6e59b1540e34d9f65bd1b61d0b8d, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: G
+    clip: {fileID: 8300000, guid: fec54660355c36748ad67538a81dc58d, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: H
+    clip: {fileID: 8300000, guid: ddc922457897a654781ab13fb5533903, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: I
+    clip: {fileID: 8300000, guid: 7d208edc4413735478431b631b7cd84a, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: J
+    clip: {fileID: 8300000, guid: 5174dccb87eef414f84066f9476d1d0b, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: K
+    clip: {fileID: 8300000, guid: 32a9231223484fb4183fc6177144adfa, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: K
+    clip: {fileID: 8300000, guid: c6df657c489c912488f405a51df63d99, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: M
+    clip: {fileID: 8300000, guid: 38fcd0c12f96d5f4ab949c4b493ca9f5, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: N
+    clip: {fileID: 8300000, guid: f5c1b57094872a9489c103083da13cd3, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: O
+    clip: {fileID: 8300000, guid: e48e1b2126c4cf54ca27fe4779c66425, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: P
+    clip: {fileID: 8300000, guid: 2a6fc9417c012224d91e29b7b273562a, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Q
+    clip: {fileID: 8300000, guid: 610a997b76a9a74428930959aede38fc, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: R
+    clip: {fileID: 8300000, guid: 05c2105326d9e114bbafe84456f2ce4f, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: S
+    clip: {fileID: 8300000, guid: be9f8521f8d3ef24abb172f95f25a981, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: T
+    clip: {fileID: 8300000, guid: 10fce6556cdd5524a923a39c3e723c44, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: U
+    clip: {fileID: 8300000, guid: 8993f209c6e17bb4eaba2c43bfc736eb, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: V
+    clip: {fileID: 8300000, guid: d4a326b16474ea34fa48c39780cf21de, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: W
+    clip: {fileID: 8300000, guid: bb50627fb77144443a527a20a9b70a0b, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: X
+    clip: {fileID: 8300000, guid: 517de289475efbd41bb69229d7e7b018, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Y
+    clip: {fileID: 8300000, guid: fb269c3d33eda3549a3e7a3eb1feb638, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Z
+    clip: {fileID: 8300000, guid: f10fd4c8ac849b742bea332a624adb85, type: 3}
     volume: 0.5
     source: {fileID: 0}
     randomPitch: 0
@@ -1047,8 +1252,208 @@ MonoBehaviour:
     max: 0
     pitch: 1
   _femaleDialogueSfx:
-  - name: 
-    clip: {fileID: 0}
+  - name: A
+    clip: {fileID: 8300000, guid: 3c56b9b6b1c31ff4e94c5cc095134929, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: B
+    clip: {fileID: 8300000, guid: bb31b78f8fe109f469a454e31d96b806, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: C
+    clip: {fileID: 8300000, guid: 32055891379d8e34c97cb2c81b896a63, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: D
+    clip: {fileID: 8300000, guid: 5883a8a53056ff144ab7c47ff848feef, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: E
+    clip: {fileID: 8300000, guid: a0b85859d9e69d7468d37c8cb3a97c9d, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: F
+    clip: {fileID: 8300000, guid: 5f0424e723a033d48af48eaba44ec99f, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: G
+    clip: {fileID: 8300000, guid: da103aa6e742ad64dbfe8de63bb53178, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: H
+    clip: {fileID: 8300000, guid: e2c5071e98b220743b4fde643787f1d3, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: I
+    clip: {fileID: 8300000, guid: aed18603458d4f64181939947d8d706d, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: J
+    clip: {fileID: 8300000, guid: ffa5420e1e9f5db47a6ead5e056f6d84, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: K
+    clip: {fileID: 8300000, guid: 3891a34a3b116bf4fa6ee71349aea380, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: L
+    clip: {fileID: 8300000, guid: a340f648cdbd6d34c89da60668c721bf, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: M
+    clip: {fileID: 8300000, guid: 8bca1edbd16ea684aa458d772fdfb787, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: N
+    clip: {fileID: 8300000, guid: b9a93ab9a1df50a46ac79f14891f0bed, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: O
+    clip: {fileID: 8300000, guid: d58659a265cf8684a907678e4a7ec65e, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: P
+    clip: {fileID: 8300000, guid: 26a70bd23c5824744ad2367048d1d926, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Q
+    clip: {fileID: 8300000, guid: 626cd73a0dcc27c4297826a30f43525a, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: R
+    clip: {fileID: 8300000, guid: 5bad12ec2f6bf6d42a5f1b2a3db8ee5a, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: S
+    clip: {fileID: 8300000, guid: 72c0185f3d8b55840b91d04f42d3fc83, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: T
+    clip: {fileID: 8300000, guid: 589f24c5148895246bc84f2c3476e9f8, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: U
+    clip: {fileID: 8300000, guid: 8b15524496da350468011ef710a1666c, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: V
+    clip: {fileID: 8300000, guid: 08886779cc1094d4c94967662ad1dc70, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: W
+    clip: {fileID: 8300000, guid: 733cc36f3f7f1764d819ae777eb7e774, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: X
+    clip: {fileID: 8300000, guid: a9f2af15858b02149a3dd482fcc18e52, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Y
+    clip: {fileID: 8300000, guid: c59ef7c4fee12a746b3d7238691d9786, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0
+    max: 0
+    pitch: 1
+  - name: Z
+    clip: {fileID: 8300000, guid: f7d6abde71af8fb4988590afa574a8e3, type: 3}
     volume: 0.5
     source: {fileID: 0}
     randomPitch: 0
@@ -1102,6 +1507,7 @@ MonoBehaviour:
   startSceneUI: {fileID: 0}
   startButtonsTweener: {fileID: 0}
   gameplayUICanvas: {fileID: 0}
+  optionsButton: {fileID: 0}
   gameplayTweener: {fileID: 0}
   minimapCamera: {fileID: 0}
   currentCharacterName: {fileID: 0}
@@ -1122,9 +1528,17 @@ MonoBehaviour:
   modal: {fileID: 0}
   debugConsole: {fileID: 0}
   tooltip: {fileID: 0}
+  optionsMinimizeButton: {fileID: 0}
+  generalOptionsUi: {fileID: 0}
   blankSlotSquare: {fileID: 21300000, guid: 69b70aede4f8b4c47a5b58999269e16d, type: 3}
   blankSlotCircle: {fileID: 21300000, guid: 231af341598ab3046818ee1f9a88cfc6, type: 3}
   unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  piercer: {fileID: 8591533748398276056, guid: d6802d48f17d85f408b356ab832e66b8, type: 3}
+  brawler: {fileID: 8164665686281536617, guid: d6802d48f17d85f408b356ab832e66b8, type: 3}
+  slasher: {fileID: 8654201459767569128, guid: d6802d48f17d85f408b356ab832e66b8, type: 3}
+  charger: {fileID: -117397559105278086, guid: d6802d48f17d85f408b356ab832e66b8, type: 3}
+  emitter: {fileID: -7573326009092463662, guid: d6802d48f17d85f408b356ab832e66b8, type: 3}
+  keeper: {fileID: -201829091276770586, guid: d6802d48f17d85f408b356ab832e66b8, type: 3}
 --- !u!4 &1705896065
 Transform:
   m_ObjectHideFlags: 0

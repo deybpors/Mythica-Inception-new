@@ -38,8 +38,6 @@ public class QuestUI : MonoBehaviour
             {
                 _questIconItems[i].DisableQuestIcon();
             }
-            
-
         }
     }
 

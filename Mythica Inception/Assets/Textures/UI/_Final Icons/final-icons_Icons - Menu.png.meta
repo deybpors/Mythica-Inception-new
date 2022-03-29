@@ -8,6 +8,9 @@ TextureImporter:
   - first:
       213: -7961185907103286349
     second: Trash
+  - first:
+      213: -1349495005746550870
+    second: Death
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -54,7 +57,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 72
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 1
+  spriteGenerateFallbackPhysicsShape: 0
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -510,7 +513,7 @@ TextureImporter:
         width: 212
         height: 235
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -518,6 +521,27 @@ TextureImporter:
       bones: []
       spriteID: 3bb3340099f248190800000000000000
       internalID: -7961185907103286349
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Death
+      rect:
+        serializedVersion: 2
+        x: 1438
+        y: 86
+        width: 152
+        height: 214
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa720543171a54de0800000000000000
+      internalID: -1349495005746550870
       vertices: []
       indices: 
       edges: []

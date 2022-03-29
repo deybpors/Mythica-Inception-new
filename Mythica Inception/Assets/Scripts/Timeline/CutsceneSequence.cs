@@ -25,8 +25,12 @@ public class CutsceneSequence : MonoBehaviour
         director.stopped -= DirectorStopped;
         director.gameObject.SetActive(false);
         _currentDirectorNum++;
-        
-        if (_currentDirectorNum >= timelineDirectors.Count) return;
+
+        if (_currentDirectorNum >= timelineDirectors.Count)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
 
         timelineDirectors[_currentDirectorNum].gameObject.SetActive(true);
     }

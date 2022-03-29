@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 23427b9f-07b0-4900-98e9-e6c7adc4b847
   tameBeam: 0
   skillName: no target skill 1
-  skillType: 0
+  skillType: 1
   skillIcon: {fileID: 9152056960786637504, guid: e62779719dcf17648836ac6ddb974074, type: 3}
   skillCategory: 0
   power: 0
@@ -29,5 +29,5 @@ MonoBehaviour:
     muzzle: {fileID: 0}
     targetObject: {fileID: 0}
   skillAiStrategy: 0
-  description: 
+  description: This is the no target Skill
   radius: 0

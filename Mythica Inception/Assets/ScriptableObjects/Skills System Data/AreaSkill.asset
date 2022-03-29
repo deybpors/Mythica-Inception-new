@@ -29,5 +29,5 @@ MonoBehaviour:
     muzzle: {fileID: 0}
     targetObject: {fileID: 0}
   skillAiStrategy: 0
-  description: 
+  description: This is the area skill
   radius: 5

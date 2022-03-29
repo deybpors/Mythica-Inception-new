@@ -12,7 +12,6 @@ public class TooltipUI : MonoBehaviour
     public TextMeshProUGUI contentField;
     public LayoutElement layoutElement;
 
-    public float tweenerDelay = 0.5f;
     public int characterWrapLimit;
 
     void Update()
@@ -32,7 +31,7 @@ public class TooltipUI : MonoBehaviour
         var pivotX = position.x / (float) Screen.width;
         var pivotY = position.y / (float) Screen.height;
 
-        toolTipTransform.pivot = new Vector2(pivotX, pivotY);
+        toolTipTransform.pivot = new Vector2(pivotX - .2f, pivotY - .2f);
         toolTipTransform.position = position;
     }
 
@@ -40,7 +39,6 @@ public class TooltipUI : MonoBehaviour
     {
         if(title.Equals(string.Empty) && content.Equals(string.Empty)) return;
 
-        tooltipTweener.enabled = true;
         titleField.text = title;
         contentField.text = content;
 
@@ -50,7 +48,6 @@ public class TooltipUI : MonoBehaviour
 
     public void HideToolTip()
     {
-        tooltipTweener.enabled = false;
         toolTipTransform.gameObject.SetActive(false);
     }
 

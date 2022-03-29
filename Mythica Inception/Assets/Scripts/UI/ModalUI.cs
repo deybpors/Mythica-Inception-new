@@ -12,13 +12,14 @@ public class ModalUI : MonoBehaviour
     public Image icon;
     public Button confirmButton;
 
-    public void OpenModal(string message, Sprite icon, UnityAction confirmAction)
+    public void OpenModal(string message, Sprite icon, Color iconColor, UnityAction confirmAction)
     {
         confirmButton.onClick.RemoveAllListeners();
         confirmButton.onClick.AddListener(confirmAction);
 
         messageUI.text = message;
         this.icon.sprite = icon;
+        this.icon.color = iconColor;
         overlay.gameObject.SetActive(true);
         modalWhole.gameObject.SetActive(true);
     }

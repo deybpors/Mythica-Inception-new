@@ -31,6 +31,7 @@ namespace Pluggable_AI.Scripts.General
         private List<GameObject> _monsterGameObjects;
         private SkillManager _skillManager;
         private MonsterManager _monsterManager;
+        private Renderer _monsterRenderer;
 
         #endregion
 
@@ -40,6 +41,13 @@ namespace Pluggable_AI.Scripts.General
             {
                 Init();
             }
+        }
+
+        void Update()
+        {
+            if (_monsterRenderer != null && !_monsterRenderer.isVisible) return;
+            
+            GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
         }
 
         public void ActivateWildMonster(MonsterSlot newWildMonster, List<Transform> waypoints, WildMonsterSpawner spawner)
@@ -65,6 +73,7 @@ namespace Pluggable_AI.Scripts.General
             _skillManager.ActivateSkillManager(this);
             SpawnMonstersFromPool();
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
+            _monsterRenderer = _monsterGameObjects[0].GetComponent<Renderer>();
             stateController.active = true;
         }
 

@@ -17,6 +17,7 @@ namespace UI
         public Sprite trashIcon;
         public PlayerSaveData playerSaveData;
 
+        private Color _white;
         void OnEnable()
         {
             button.onClick.RemoveAllListeners();
@@ -57,7 +58,7 @@ namespace UI
         public void ConfirmDelete()
         {
             var message = "Are you sure you want to delete Player " + playerSaveData.name + " in your files?";
-            GameManager.instance.uiManager.modal.OpenModal(message, trashIcon, DeleteSaveFile);
+            GameManager.instance.uiManager.modal.OpenModal(message, trashIcon, _white, DeleteSaveFile);
         }
 
         private void DeleteSaveFile()

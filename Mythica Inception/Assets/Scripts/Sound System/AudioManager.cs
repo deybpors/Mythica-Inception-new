@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
 using Assets.Scripts.Sound_System;
+using MyBox;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -22,9 +24,29 @@ namespace SoundSystem
         Sad
     }
 
+    public enum SoundType
+    {
+        All,
+        SFX,
+        Background,
+        Ambience
+    }
+
+    public enum MusicSituation
+    {
+        Battle,
+        Dungeon,
+        Wild,
+        ShopBarter
+    }
+
     public class AudioManager : MonoBehaviour
     {
         [Range(0,1)] [SerializeField] private float _masterVolume = 1f;
+        [ReadOnly] [SerializeField] private float _sfxVolume = 1f;
+        [ReadOnly] [SerializeField] private float _ambienceVolume = 1f;
+        [ReadOnly] [SerializeField] private float _bgMusicVolume = 1f;
+
         [SerializeField] private Music[] _musicList;
         private Music _currentMusic;
         [SerializeField] private float _musicFadeTime = 1.5f;
@@ -38,37 +60,22 @@ namespace SoundSystem
         [SerializeField] private Sfx[] _maleDialogueSfx;
         [SerializeField] private Sfx[] _femaleDialogueSfx;
 
-        private Dictionary<string, Music> _musicDict;
-        private Dictionary<string, Ambience> _ambienceDict;
-        private Dictionary<string, Sfx> _sfxDict;
-        private Dictionary<string, Audio> _master;
-
-        public AudioManager(Dictionary<string, Audio> master, Dictionary<string, Sfx> sfxDict, Dictionary<string, Ambience> ambienceDict, Dictionary<string, Music> musicDict)
-        {
-            _master = master;
-            _sfxDict = sfxDict;
-            _ambienceDict = ambienceDict;
-            _musicDict = musicDict;
-        }
+        private readonly Dictionary<string, Music> _musicDict = new Dictionary<string, Music>();
+        private readonly Dictionary<string, Ambience> _ambienceDict = new Dictionary<string, Ambience>();
+        private readonly Dictionary<string, Sfx> _sfxDict = new Dictionary<string, Sfx>();
+        private readonly Dictionary<string, Audio> _master = new Dictionary<string, Audio>();
 
         void Awake()
         {
-            _musicDict = new Dictionary<string, Music>();
-            _ambienceDict = new Dictionary<string, Ambience>();
-            _sfxDict = new Dictionary<string, Sfx>();
-            _master = new Dictionary<string, Audio>();
-
             foreach (var music in _musicList)
             {
                 if (music.clip == null) continue;
+
                 music.source = gameObject.AddComponent<AudioSource>();
                 music.source.clip = music.clip;
                 music.source.volume = music.volume;
                 music.source.loop = music.loop;
-                if (music.name == string.Empty)
-                {
-                    music.name = music.clip.name;
-                }
+                music.name = music.clip.name;
                 _musicDict.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
                 _master.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
             }
@@ -76,13 +83,11 @@ namespace SoundSystem
             foreach (var sound in _soundFx)
             {
                 if (sound.clip == null) continue;
+
                 sound.source = gameObject.AddComponent<AudioSource>();
                 sound.source.clip = sound.clip;
                 sound.source.volume = sound.volume;
-                if (sound.name == string.Empty)
-                {
-                    sound.name = sound.clip.name;
-                }
+                sound.name = sound.clip.name;
                 _sfxDict.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
                 _master.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
             }
@@ -90,14 +95,12 @@ namespace SoundSystem
             foreach (var ambience in _ambiences)
             {
                 if (ambience.clip == null) continue;
+
                 ambience.source = gameObject.AddComponent<AudioSource>();
                 ambience.source.clip = ambience.clip;
                 ambience.source.volume = ambience.volume;
                 ambience.source.loop = ambience.loop;
-                if (ambience.name == string.Empty)
-                {
-                    ambience.name = ambience.clip.name;
-                }
+                ambience.name = ambience.clip.name;
                 _ambienceDict.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
                 _master.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
             }
@@ -105,13 +108,11 @@ namespace SoundSystem
             foreach (var maleDialogue in _maleDialogueSfx)
             {
                 if (maleDialogue.clip == null) continue;
+
                 maleDialogue.source = gameObject.AddComponent<AudioSource>();
                 maleDialogue.source.clip = maleDialogue.clip;
                 maleDialogue.source.volume = maleDialogue.volume;
-                if (maleDialogue.name == string.Empty)
-                {
-                    maleDialogue.name = maleDialogue.clip.name;
-                }
+                maleDialogue.name = maleDialogue.clip.name;
                 var dialogueName = maleDialogue.name + "_MALE";
                 _sfxDict.Add(dialogueName, maleDialogue);
                 _master.Add(dialogueName, maleDialogue);
@@ -120,13 +121,11 @@ namespace SoundSystem
             foreach (var femaleDialogue in _femaleDialogueSfx)
             {
                 if(femaleDialogue.clip == null) continue;
+
                 femaleDialogue.source = gameObject.AddComponent<AudioSource>();
                 femaleDialogue.source.clip = femaleDialogue.clip;
                 femaleDialogue.source.volume = femaleDialogue.volume;
-                if (femaleDialogue.name == string.Empty)
-                {
-                    femaleDialogue.name = femaleDialogue.clip.name;
-                }
+                femaleDialogue.name = femaleDialogue.clip.name;
                 var dialogueName = femaleDialogue.name + "_FEMALE";
                 _sfxDict.Add(dialogueName, femaleDialogue);
                 _master.Add(dialogueName, femaleDialogue);
@@ -137,15 +136,40 @@ namespace SoundSystem
         {
             if(_musicList.Length <= 0) return;
             PlayMusic(MusicMood.Calm);
-            ChangeMasterVolume(_masterVolume);
         }
 
-        public void ChangeMasterVolume(float newVolume)
+        public void ChangeVolume(float newVolume, SoundType typeToChange)
         {
-            _masterVolume = newVolume;
             foreach (var audioClip in _master.Values)
             {
-                audioClip.source.volume *= newVolume;
+                switch (typeToChange)
+                {
+                    case SoundType.All:
+                        _masterVolume = newVolume;
+                        audioClip.source.volume *= newVolume;
+                        break;
+                    case SoundType.SFX:
+                        _sfxVolume = newVolume;
+                        if (audioClip is Sfx)
+                        {
+                            audioClip.source.volume *= newVolume;
+                        }
+                        break;
+                    case SoundType.Background:
+                        _bgMusicVolume = newVolume;
+                        if (audioClip is Music)
+                        {
+                            audioClip.source.volume *= newVolume;
+                        }
+                        break;
+                    case SoundType.Ambience:
+                        _ambienceVolume = newVolume;
+                        if (audioClip is Ambience)
+                        {
+                            audioClip.source.volume *= newVolume;
+                        }
+                        break;
+                }
             }
         }
 
@@ -169,19 +193,42 @@ namespace SoundSystem
             _currentMusic = music;
         }
 
-        public void PlayMusic(MusicMood musicMood)
+        public void PlayMusic(MusicMood mood)
         {
+            if (_currentMusic != null && _currentMusic.mood == mood) return;
+
             var musicInMood = new List<Music>();
 
             foreach (var music in _musicList)
             {
-                if(music.musicMood != musicMood) return;
+                if(music.mood != mood) return;
                 musicInMood.Add(music);
             }
 
             var musicToPlay = musicInMood[Random.Range(0, musicInMood.Count)];
 
-            if(_currentMusic.name == musicToPlay.name) return;
+            if (_currentMusic != null && _currentMusic.name == musicToPlay.name) return;
+
+            StopAllCoroutines();
+            StartCoroutine(FadeTrack(musicToPlay));
+            _currentMusic = musicToPlay;
+        }
+
+        public void PlayMusic(MusicSituation situation)
+        {
+            if (_currentMusic != null && _currentMusic.situation == situation) return;
+
+            var musicInSituation = new List<Music>();
+
+            foreach (var music in _musicList)
+            {
+                if (music.situation != situation) return;
+                musicInSituation.Add(music);
+            }
+
+            var musicToPlay = musicInSituation[Random.Range(0, musicInSituation.Count)];
+
+            if (_currentMusic != null && _currentMusic.name == musicToPlay.name) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
@@ -215,7 +262,12 @@ namespace SoundSystem
             while (timeElapsed < fadeTime)
             {
                 audioToChange.source.volume = Mathf.Lerp(0, audioToChange.volume, timeElapsed/fadeTime);
-                currentAudio.source.volume = Mathf.Lerp(currentAudio.volume, 0, timeElapsed / fadeTime);
+                
+                if (currentAudio != null)
+                {
+                    currentAudio.source.volume = Mathf.Lerp(currentAudio.volume, 0, timeElapsed / fadeTime);
+                }
+                
                 timeElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }

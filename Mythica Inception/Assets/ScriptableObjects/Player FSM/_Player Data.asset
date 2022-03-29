@@ -15,7 +15,7 @@ MonoBehaviour:
   turnSmoothTime: 0.08
   moveRotationSpeed: 15
   speed: 10
-  dashTime: 0.25
+  dashTime: 0.15
   dashSpeed: 2.5
   attackRate: 0.8
   monsterSwitchRate: 0.5

@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: b3ed9f6a-7cc0-49cd-9f0b-4f259621cc90
   tameBeam: 0
   skillName: unit only 1
-  skillType: 0
+  skillType: 4
   skillIcon: {fileID: -7874067496603088461, guid: e62779719dcf17648836ac6ddb974074, type: 3}
   skillCategory: 0
   power: 0
@@ -29,4 +29,4 @@ MonoBehaviour:
     muzzle: {fileID: 0}
     targetObject: {fileID: 0}
   skillAiStrategy: 0
-  description: 
+  description: This is the unit only

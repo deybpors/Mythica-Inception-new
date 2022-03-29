@@ -10,8 +10,7 @@ public class QuestIconItemUI : MonoBehaviour
 
     public void SetupQuestIcon(Quest quest, UnityAction questIconOnClickAction)
     {
-        _tooltipTrigger.title = quest.title;
-        _tooltipTrigger.content = quest.description;
+        _tooltipTrigger.SetTitleContent(quest.title, quest.description);
         _questIconButton.onClick.RemoveAllListeners();
         _questIconButton.onClick.AddListener(questIconOnClickAction);
     }

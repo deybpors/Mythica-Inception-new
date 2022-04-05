@@ -7,7 +7,6 @@ namespace Items_and_Barter_System.Scripts
     public class ConsumableItem : ItemObject
     {
         public int healthToAdd;
-        public int staminaToAdd;
 
         public void Awake()
         {
@@ -16,31 +15,12 @@ namespace Items_and_Barter_System.Scripts
             stackable = true;
         }
 
-        public override void Use(GameObject user)
+        public override bool TryUse(IEntity entity)
         {
-            if (healthToAdd > 0)
-            {
-                AddHealth(user);
-            }
-
-            if (staminaToAdd > 0)
-            {
-                AddStamina(user);
-            }
-        }
-
-        private void AddStamina(GameObject toUse)
-        {
-            IHaveStamina entityWithStamina = toUse.GetComponent<IHaveStamina>();
-            if(entityWithStamina == null) return;
-            entityWithStamina.AddStamina(staminaToAdd);
-        }
-
-        private void AddHealth(GameObject toUse)
-        {
-            IHaveHealth entityWithHealth = toUse.GetComponent<IHaveHealth>();
-            if(entityWithHealth == null) return;
-            entityWithHealth.Heal(healthToAdd);
+            if (!(entity is IHaveHealth haveHealth && usable)) return false;
+            
+            haveHealth.Heal(healthToAdd);
+            return true;
         }
     }
 }

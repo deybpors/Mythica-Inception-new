@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Pluggable_AI.Scripts.Actions
 {
     [CreateAssetMenu(menuName = "Pluggable AI/Actions/Patrol")]
-    public class PatrolAction : Actions.Action
+    public class PatrolAction : Action
     {
         public override void Act(StateController stateController)
         {
@@ -13,12 +13,17 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void Patrol(StateController stateController)
         {
+            if (stateController.aI.waypoints.Count <= 0 && stateController.aI is MonsterTamerAI)
+            {
+                var ai = (MonsterTamerAI)stateController.aI;
+                stateController.aI.waypoints = ai.spawner.waypointsList;
+            }
             stateController.controllerAnimator.SetBool("Attack", false);
-            Vector3 nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
+            var nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
             stateController.aI.agent.destination = nextDestination;
             stateController.machineDestination = nextDestination;
             
-            stateController.aI.agent.isStopped = false; //stateController.Agent.Resume() is obsolete
+            stateController.aI.agent.isStopped = false;
             
             if (stateController.aI.agent.remainingDistance <= stateController.aI.agent.stoppingDistance &&
                 !stateController.aI.agent.pathPending)

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Player;
+using Assets.Scripts.Dialogue_System;
+using MyBox;
 using Pluggable_AI.Scripts.States;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -23,22 +25,27 @@ namespace Pluggable_AI.Scripts.General
         public State currentState;
         public State remainState;
 
+        [ReadOnly] public GenericAI aI;
         [HideInInspector] public Player player;
-        [HideInInspector] public GenericAI aI;
         public Animator controllerAnimator;
         [HideInInspector] public Vector3 machineDestination;
         [HideInInspector] public bool stateBoolVariable;
         [HideInInspector] public float stateTimeElapsed;
 
         public bool active;
-        
-        public void ActivateAI(bool activate, List<Transform> waypointList, Player player)
+
+        void Start()
         {
             aI = GetComponent<GenericAI>();
+        }
+
+        public void ActivateAI(bool activate, List<Transform> waypointList, Player player)
+        {
             this.player = player;
             active = activate;
             stateTimeElapsed = 0;
             if (aI == null) return;
+            Debug.Log(waypointList.Count);
             aI.waypoints = waypointList;
             aI.agent.enabled = active;
         }
@@ -67,10 +74,12 @@ namespace Pluggable_AI.Scripts.General
                 controllerAnimator = aI.currentAnimator;
             }
 
-            if (controllerAnimator == null || currentState.stateAnimation.Equals(string.Empty) ||
-                stateMachineType != StateMachineType.Player) return;
+            if (controllerAnimator == null || 
+                currentState.stateAnimation.Equals(string.Empty) || aI is MonsterTamerAI) return;
 
-            if (GameManager.instance.inputHandler.currentMonster >= 0 && currentState.stateAnimation.Equals("Roll")) return;
+            if (stateMachineType == StateMachineType.Player &&
+                GameManager.instance.inputHandler.currentMonster >= 0 &&
+                currentState.stateAnimation.Equals("Roll")) return;
 
             controllerAnimator.SetBool(currentState.stateAnimation, true);
         }
@@ -81,7 +90,8 @@ namespace Pluggable_AI.Scripts.General
 
             if (controllerAnimator != null && !currentState.stateAnimation.Equals(string.Empty))
             {
-                if (stateMachineType != StateMachineType.Player || GameManager.instance.inputHandler.currentMonster < 0 ||
+                if (stateMachineType != StateMachineType.Player ||
+                    GameManager.instance.inputHandler.currentMonster < 0 ||
                     !currentState.stateAnimation.Equals("Roll"))
                 {
                     controllerAnimator.SetBool(currentState.stateAnimation, false);
@@ -114,7 +124,10 @@ namespace Pluggable_AI.Scripts.General
         {
             if (currentState == null)
             {
-                Debug.LogError("Current State of StateController " + this.name + " is not initialized.");
+                if (active)
+                {
+                    Debug.LogError("Current State of StateController " + this.name + " is not initialized.");
+                }
                 return;
             }
             

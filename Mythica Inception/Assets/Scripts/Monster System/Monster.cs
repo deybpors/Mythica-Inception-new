@@ -84,7 +84,7 @@ namespace Monster_System
         [Range(.5f, 1.5f)] 
         public float movementSpeed = .5f;
         [Tooltip("The lower the attack rate, the faster the monster attacks.")]
-        [Range(.5f, 1.5f)]
+        [Range(.5f, 1f)]
         public float attackRate = 1f;
     }
 

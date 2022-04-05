@@ -9,6 +9,7 @@ namespace Items_and_Barter_System.Scripts
 {
     public class PlayerInventory : MonoBehaviour
     {
+        [SerializeField] private int _itemLimitPerSlot = 69;
         public List<InventorySlot> inventorySlots;
 
         public void AddItemInPlayerInventory(ItemObject item, int amountToAdd)
@@ -17,8 +18,21 @@ namespace Items_and_Barter_System.Scripts
 
             foreach (var slot in inventorySlots.Where(slot => slot.inventoryItem == item))
             {
+                var targetAmount = slot.amountOfItems + amountToAdd;
+                
+                if (targetAmount > _itemLimitPerSlot && !(item is Gold))
+                {
+                    targetAmount -= _itemLimitPerSlot;
+                    slot.amountOfItems = _itemLimitPerSlot;
+                    amountToAdd = targetAmount;
+                    break;
+                }
+
                 itemAdded = slot.AddInSlot(amountToAdd);
+                break;
             }
+
+            GameManager.instance.uiManager.UpdateGoldUI();
 
             if (itemAdded) return;
             
@@ -26,7 +40,7 @@ namespace Items_and_Barter_System.Scripts
             AddInEmptySlot(newSlot);
         }
 
-        public void AddInEmptySlot(InventorySlot newSlot)
+        private void AddInEmptySlot(InventorySlot newSlot)
         {
             var slotsCount = inventorySlots.Count;
             for (var i = 0; i < slotsCount; i++)

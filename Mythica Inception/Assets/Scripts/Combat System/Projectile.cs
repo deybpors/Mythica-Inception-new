@@ -202,7 +202,7 @@ namespace Combat_System
             int hitLevel;
             int hitDefense;
             float typeComparison;
-            //if the basic attack skill of attacker monster is used or attacker skill type is same with the attacker monster's type
+            //if the basic attack skill of attacker monster is used or attacker skill upgradeType is same with the attacker monster's upgradeType
             var stab = _spawnerMonster.basicAttackSkill == _spawnerSkill || _spawnerSkill.skillType == _spawnerMonster.type;
 
             var attackerAttack = GameSettings.Stats(

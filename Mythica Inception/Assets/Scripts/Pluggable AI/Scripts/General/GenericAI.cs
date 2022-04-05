@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,6 +7,7 @@ namespace Pluggable_AI.Scripts.General
 {
     public class GenericAI : MonoBehaviour
     {
+        [Foldout("Generic AI Fields", true)]
         public FieldOfView fieldOfView;
         public List<Transform> waypoints;
         public NavMeshAgent agent;
@@ -16,6 +18,6 @@ namespace Pluggable_AI.Scripts.General
         [HideInInspector] public int nextWaypoint;
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 lastKnownTargetPosition;
-        [HideInInspector] public Animator currentAnimator;
+        [ReadOnly] public Animator currentAnimator;
     }
 }

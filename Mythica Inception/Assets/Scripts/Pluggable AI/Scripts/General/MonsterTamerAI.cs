@@ -4,6 +4,7 @@ using _Core.Managers;
 using _Core.Others;
 using Combat_System;
 using Monster_System;
+using MyBox;
 using Skill_System;
 using UI;
 using UnityEngine;
@@ -11,8 +12,9 @@ using UnityEngine;
 namespace Pluggable_AI.Scripts.General
 {
     [RequireComponent(typeof(StateController))]
-    public class MonsterTamerAI : GenericAI, IEntity, IHaveMonsters, IHaveHealth, ISelectable
+    public class MonsterTamerAI : GenericAI, IHaveMonsters, IHaveHealth, ISelectable
     {
+        [Foldout("Monster Tamer AI Fields", true)]
         public bool tamer;
         public ProgressBarUI healthBar;
         public ProgressBarUI tameValueBarUI;
@@ -22,10 +24,11 @@ namespace Pluggable_AI.Scripts.General
         public ProjectileRelease projectileReleases;
         public GameObject experienceOrbSpawner;
 
+        [ReadOnly] public MonsterSlot monsterAttacker;
+
         #region Hidden Fields
 
         [HideInInspector] public WildMonsterSpawner spawner;
-        public MonsterSlot monsterAttacker;
         [HideInInspector] public Health healthComponent;
         [HideInInspector] public int currentMonster = 0;
         private List<GameObject> _monsterGameObjects;
@@ -50,14 +53,14 @@ namespace Pluggable_AI.Scripts.General
             GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
         }
 
-        public void ActivateWildMonster(MonsterSlot newWildMonster, List<Transform> waypoints, WildMonsterSpawner spawner)
+        public void ActivateWildMonster(MonsterSlot newWildMonster, List<Transform> waypointsList, WildMonsterSpawner spawnerRef)
         {
             monsterSlots.Clear();
             monsterSlots.Add(newWildMonster);
             Init();
             gameObject.SetActive(true);
-            this.spawner = spawner;
-            stateController.ActivateAI(true, waypoints, null);
+            spawner = spawnerRef;
+            stateController.ActivateAI(true, waypointsList, null);
         }
 
         private void Init()

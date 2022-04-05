@@ -53,6 +53,7 @@ public class DebugConsoleUI : MonoBehaviour
     {
         var consoleItem = FindInactive();
         if (consoleItem == null) return;
+        if(logString == string.Empty) return;
         consoleItem.gameObject.SetActive(true);
         consoleItem.text = logString;
     }

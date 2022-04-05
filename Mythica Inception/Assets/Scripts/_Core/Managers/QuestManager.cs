@@ -12,7 +12,7 @@ namespace Quest_System
         //public void UpdateKillQuest()
         //{
         //    var playerQuests = GameManager.instance.player.playerQuestManager.activeQuests.Values.ToList();
-        //    foreach (var playerAcceptedQuest in playerQuests.Where(playerAcceptedQuest => playerAcceptedQuest.quest.goal.type == QuestGoalType.Kill))
+        //    foreach (var playerAcceptedQuest in playerQuests.Where(playerAcceptedQuest => playerAcceptedQuest.quest.goal.upgradeType == QuestGoalType.Kill))
         //    {
         //        playerAcceptedQuest.currentValue++;
         //    }
@@ -21,7 +21,7 @@ namespace Quest_System
         //public void UpdateKillQuest(Monster monster)
         //{
         //    var playerQuests = GameManager.instance.player.playerQuestManager.activeQuests.Values.ToList();
-        //    foreach (var playerAcceptedQuest in playerQuests.Where(playerAcceptedQuest => playerAcceptedQuest.quest.goal.type == QuestGoalType.Kill))
+        //    foreach (var playerAcceptedQuest in playerQuests.Where(playerAcceptedQuest => playerAcceptedQuest.quest.goal.upgradeType == QuestGoalType.Kill))
         //    {
         //        playerAcceptedQuest.currentValue++;
         //    }
@@ -30,7 +30,7 @@ namespace Quest_System
         //public void UpdateGatherQuest()
         //{
         //    var playerQuests = GameManager.instance.player.playerQuestManager.activeQuests.Values.ToList();
-        //    foreach (var playerAcceptedQuest in playerQuests.Where(playerAcceptedQuest => playerAcceptedQuest.quest.goal.type == QuestGoalType.Gather))
+        //    foreach (var playerAcceptedQuest in playerQuests.Where(playerAcceptedQuest => playerAcceptedQuest.quest.goal.upgradeType == QuestGoalType.Gather))
         //    {
         //        playerAcceptedQuest.currentValue++;
         //    }

@@ -8,6 +8,7 @@ namespace _Core.Others
         [SerializeField]
         public string path;
     }
+
     #if UNITY_EDITOR
     [CustomEditor(typeof(ScenePicker))]
     public class ScenePickerEditor : Editor

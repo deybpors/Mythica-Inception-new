@@ -8,10 +8,9 @@ namespace Items_and_Barter_System.Scripts
     {
         Basics,
         Upgrades,
-        GoldBarterable,
         Others
     }
-    public class ItemObject : ScriptableObjectWithID
+    public abstract class ItemObject : ScriptableObjectWithID
     {
         public string itemName;
         public GameObject itemPrefab;
@@ -21,9 +20,10 @@ namespace Items_and_Barter_System.Scripts
         public string itemDescription;
         public bool usable;
         public bool stackable;
+        public bool losable = false;
         public List<ItemBarterRequirement> itemBarterRequirements;
 
-        public virtual void Use(GameObject user){}
+        public abstract bool TryUse(IEntity entity);
     }
     
     [System.Serializable]

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _Core.Others;
+using UnityEngine;
 
 namespace Items_and_Barter_System.Scripts
 {
@@ -11,6 +12,11 @@ namespace Items_and_Barter_System.Scripts
             itemType = ItemType.Others;
             itemDescription = "Pearl Isle's mode of currency.";
             stackable = true;
+        }
+
+        public override bool TryUse(IEntity entity)
+        {
+            return false;
         }
     }
 }

@@ -1,8 +1,10 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
 using _Core.Others;
 using _Core.Player;
+using MyBox;
 using Skill_System;
 using UI;
 using UnityEngine;
@@ -13,10 +15,12 @@ namespace Monster_System
     [RequireComponent(typeof(IHaveMonsters))]
     public class MonsterManager : MonoBehaviour
     {
+        [SerializeField] private Transform _charPortraitCam;
+
         #region Hidden Fields
 
-        [SerializeField] private bool _activated;
-        [SerializeField] private List<Monster> _monsters;
+        [ReadOnly][SerializeField] private bool _activated;
+        [ReadOnly][SerializeField] private List<Monster> _monsters;
         [HideInInspector] public bool isPlayer;
         private SkillManager _skillManager;
         private List<GameObject> _monsterGameObjects = new List<GameObject>();
@@ -25,12 +29,13 @@ namespace Monster_System
         private GameObject _tamerPrefab;
         private Animator _tamerAnimator;
         private float _timer;
-        [SerializeField]
+        [ReadOnly] [SerializeField]
         private int _currentMonster;
         private float _tamerTameRadius;
         private Player _player;
         private List<Sprite> _currentSkills = new List<Sprite>();
         private List<Sprite> _currentItems = new List<Sprite>();
+        private Dictionary<GameObject, Vector3> _charPortraitAlign = new Dictionary<GameObject, Vector3>();
 
         #endregion
         
@@ -121,6 +126,9 @@ namespace Monster_System
                 new Vector3(_tamerTameRadius, _tamerTameRadius, _tamerTameRadius);
             _currentMonster = -1;
             _haveMonsters.SpawnSwitchFX();
+
+            EvaluateCharPortraitCam(_tamerPrefab);
+
             _haveMonsters.ChangeStatsToMonster(_currentMonster);
             
             UpdateGameplayUI(_currentMonster);
@@ -144,6 +152,9 @@ namespace Monster_System
             _currentMonster = slot;
             _haveMonsters.ChangeMonsterUnitIndicatorRadius(_haveMonsters.GetMonsters()[slot].basicAttackSkill.castRadius);
             _haveMonsters.SpawnSwitchFX();
+
+            EvaluateCharPortraitCam(_monsterGameObjects[slot]);
+            
             _skillManager.ActivateSkillManager(_haveMonsters);
             _haveMonsters.ChangeStatsToMonster(slot);
             
@@ -151,6 +162,20 @@ namespace Monster_System
             {
                 UpdateGameplayUI(slot);
             }
+        }
+
+        private void EvaluateCharPortraitCam(GameObject gameObj)
+        {
+            if (_charPortraitCam == null) return;
+            
+            if (!_charPortraitAlign.TryGetValue(gameObj, out var position))
+            {
+                var obj = gameObj.GetObjectsOfLayerInChilds(13)[0];
+                position = new Vector3(_charPortraitCam.transform.localPosition.x, obj.localPosition.y, _charPortraitCam.transform.localPosition.z);
+                _charPortraitAlign.Add(gameObj, position);
+            }
+
+            _charPortraitCam.transform.localPosition = position;
         }
 
         private void InactiveAllMonsters()

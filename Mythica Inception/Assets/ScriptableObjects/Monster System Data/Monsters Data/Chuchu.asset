@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Chuchu
   m_EditorClassIdentifier: 
   ID: 73cdbd18-9436-4805-a36b-ac224dac93a2
-  monsterNum: 5
+  monsterNum: 18
   monsterName: Chuchu
   monsterPrefab: {fileID: 7228921039756510911, guid: b032c970d48a01b46aeaa310d280a5a8, type: 3}
   monsterPortrait: {fileID: 21300000, guid: d83a8312100b8224f91ea7523c140acd, type: 3}
-  type: 0
+  type: 4
   basicAttackType: 1
   basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
   basicAttackObjects:
@@ -38,9 +38,4 @@ MonoBehaviour:
     movementSpeed: 1.2
     attackRate: 0.8
   skillLearnSets: []
-  description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean cursus
-    metus id augue tristique, eleifend vulputate leo vulputate. Phasellus euismod
-    nisl justo, sed auctor risus porttitor pretium. Mauris non tincidunt dolor, vel
-    rutrum tortor. Mauris elementum dictum varius. Maecenas justo felis, tincidunt
-    sit amet nulla nec, cursus auctor ligula. Sed a ex et felis iaculis lobortis.
-    Vivamus tortor erat, sodales '
+  description: 'This black and blue goblin is '

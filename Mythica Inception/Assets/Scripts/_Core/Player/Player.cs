@@ -441,7 +441,6 @@ namespace _Core.Player
         public void Die()
         {
             if (_tamerInvulnerable) return;
-            Debug.Log("Player dies.");
 
             var playerGameObject = gameObject;
             tamer.SetActive(false);
@@ -530,7 +529,7 @@ namespace _Core.Player
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             
             FullyRestoreAllMonsters();
-
+            HandleItems(true);
 
             UnityAction resetPosition = () => TransferPlayerPositionRotation(savedData.playerWorldPlacement);
             UnityAction disableLoadingScreen = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
@@ -541,6 +540,37 @@ namespace _Core.Player
             GameManager.instance.uiManager.modal.CloseModal();
         }
 
+        private void HandleItems(bool dead)
+        {
+            if(!dead) return;
+            
+            var inventorySlotsCount = playerInventory.inventorySlots.Count;
+            for (var i = 0; i < inventorySlotsCount; i++)
+            {
+                var slot = playerInventory.inventorySlots[i];
+                if(slot.inventoryItem == null) continue;
+
+                if (!slot.inventoryItem.losable) continue;
+                
+                slot.inventoryItem = null;
+                slot.amountOfItems = 0;
+            }
+
+            var monstersCount = monsterSlots.Count;
+            for (var i = 0; i < monstersCount; i++)
+            {
+                var itemsCount = monsterSlots[i].inventory.Length;
+                for (var j = 0; j < itemsCount; j++)
+                {
+                    var slot = monsterSlots[i].inventory[j];
+                    if(slot.inventoryItem == null) continue;
+                    if(!slot.inventoryItem.losable) continue;
+
+                    slot.inventoryItem = null;
+                    slot.amountOfItems = 0;
+                }
+            }
+        }
 
         IEnumerator DelayAction(float delay, UnityAction action)
         {

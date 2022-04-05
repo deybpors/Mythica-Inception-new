@@ -16,7 +16,7 @@ MonoBehaviour:
   tameBeam: 0
   skillName: Vector target 1
   skillType: 5
-  skillIcon: {fileID: 3105680637504781323, guid: e62779719dcf17648836ac6ddb974074, type: 3}
+  skillIcon: {fileID: 21300000, guid: 508dfad8249b98b47b5638b7f5b98d3e, type: 3}
   skillCategory: 0
   power: 0
   cooldownTime: 10

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.35237876, g: 0.72419035, b: 0.95839924, a: 1}
+  m_IndirectSpecularColor: {r: 0.5490406, g: 0.7951933, b: 0.973512, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1432,7 +1432,6 @@ MonoBehaviour:
     maxHealth: 0
     currentHealth: 0
   playerInventory: {fileID: 969145019}
-  notDie: 0
   playerSettings: {fileID: 11400000, guid: bbabc2c88bbbf744999387a9da68e0e5, type: 2}
   projectileReleases:
     front: {fileID: 241484253}
@@ -1488,6 +1487,7 @@ MonoBehaviour:
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
   colliderExtents: {x: 0, y: 0, z: 0}
+  _tamerInvulnerable: 0
 --- !u!114 &969145014
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,6 +1531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c364c912dccae7e4b9aac55dd01a7d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _charPortraitCam: {fileID: 2124097319}
   _activated: 0
   _monsters: []
   isPlayer: 0
@@ -1595,6 +1596,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae6f8b98bcbda341bc72429ab3bc029, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _itemLimitPerSlot: 69
   inventorySlots:
   - inventoryItem: {fileID: 0}
     amountOfItems: 0
@@ -2216,6 +2218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c364c912dccae7e4b9aac55dd01a7d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _charPortraitCam: {fileID: 0}
   _activated: 0
   _monsters: []
   isPlayer: 0

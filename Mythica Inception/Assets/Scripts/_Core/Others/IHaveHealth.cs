@@ -2,7 +2,7 @@
 
 namespace _Core.Others
 {
-    public interface IHaveHealth
+    public interface IHaveHealth : IEntity
     {
         void TakeDamage(int damageToTake);
         void Heal(int amountToHeal);

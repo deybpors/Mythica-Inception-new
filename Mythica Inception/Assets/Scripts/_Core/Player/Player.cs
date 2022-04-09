@@ -53,6 +53,7 @@ namespace _Core.Player
         [HideInInspector] public MonsterSlot monsterAttacker;
         [HideInInspector] public PlayerSaveData savedData;
         [HideInInspector] public Vector3 colliderExtents;
+        [HideInInspector] public List<MonsterSlot> storageMonsters;
         private Transform _playerTransform;
         private readonly Vector3 _zeroVector = Vector3.zero;
         private DateTime _dateOpened;
@@ -116,6 +117,7 @@ namespace _Core.Player
             GameManager.instance.uiManager.questUI.UpdateQuestIcons(savedData.activeQuests.Values.ToList());
             playerQuestManager.finishedQuests = savedData.finishedQuests;
             discoveredMonsters = savedData.discoveredMonsters;
+            storageMonsters = savedData.storageMonsters ?? GameSettings.GetDefaultMonsterSlots(30);
             var playerGFX = Instantiate(savedData.sex.Equals(Sex.Male) ? playerSettings.male : playerSettings.female, _playerTransform);
             tamer = playerGFX;
             SetPlayerSavedData();
@@ -162,7 +164,9 @@ namespace _Core.Player
                     playerQuestManager.finishedQuests,
                     savedData.timeSpent + (DateTime.Now - _dateOpened),
                     DateTime.Now,
-                    GameManager.instance.uiManager.generalOptionsUi.GetCurrentOptionsData());
+                    GameManager.instance.uiManager.generalOptionsUi.GetCurrentOptionsData(),
+                    storageMonsters
+                    );
             }
             catch
             {
@@ -214,15 +218,31 @@ namespace _Core.Player
             return monsters;
         }
 
-        public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot)
+        public void AddNewMonsterSlotToParty(int slotNum, MonsterSlot newSlot)
         {
             monsterSlots[slotNum] = newSlot;
             monsterSlots[slotNum].slotNumber = slotNum;
             monsterSlots[slotNum].inParty = true;
             monsterManager.RequestPoolMonstersPrefab();
             monsterManager.GetMonsterAnimators();
-            //TODO: Fan fare for taming a mythica
             GameManager.instance.uiManager.UpdatePartyUI(monsterSlots[slotNum]);
+        }
+
+        public void AddNewMonsterSlotToStorage(MonsterSlot newSlot, out int slotNum)
+        {
+            slotNum = 0;
+            var storageMonstersCount = storageMonsters.Count;
+            for (var i = 0; i < storageMonstersCount; i++)
+            {
+                if (storageMonsters[i].monster != null) continue;
+                
+                slotNum = i;
+                break;
+            }
+
+            storageMonsters[slotNum] = newSlot;
+            storageMonsters[slotNum].slotNumber = slotNum;
+            storageMonsters[slotNum].inParty = false;
         }
 
         public List<MonsterSlot> GetMonsterSlots()
@@ -447,6 +467,7 @@ namespace _Core.Player
             _inputHandler.movementInput = Vector2.zero;
             _inputHandler.activate = false;
             rgdbody.isKinematic = true;
+            rgdbody.useGravity = false;
             GameManager.instance.pooler.SpawnFromPool(null, playerSettings.deathParticles.name, playerSettings.deathParticles, _playerTransform.position,
                 Quaternion.identity);
             var playerOrigLayer = playerGameObject.layer;
@@ -519,6 +540,7 @@ namespace _Core.Player
             GameManager.instance.saveManager.activated = true;
             tamer.SetActive(true);
             rgdbody.isKinematic = false;
+            rgdbody.useGravity = true;
             playerHealth.maxHealth = GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0 ?
                 GameManager.instance.saveManager.defaultPlayerHealth :
                 GameSettings.Stats(GameSettings.MonstersAvgHealth(monsterSlots.ToList()),
@@ -560,9 +582,11 @@ namespace _Core.Player
             for (var i = 0; i < monstersCount; i++)
             {
                 var itemsCount = monsterSlots[i].inventory.Length;
+                if(monsterSlots[i].monster == null) continue;
                 for (var j = 0; j < itemsCount; j++)
                 {
                     var slot = monsterSlots[i].inventory[j];
+                    if(slot == null) continue;
                     if(slot.inventoryItem == null) continue;
                     if(!slot.inventoryItem.losable) continue;
 

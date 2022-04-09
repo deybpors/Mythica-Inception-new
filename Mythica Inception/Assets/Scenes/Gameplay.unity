@@ -1253,8 +1253,8 @@ MonoBehaviour:
   machineEyes: {fileID: 2042769613}
   currentState: {fileID: 11400000, guid: bdb5348cdd6862e42aaf36aaff381f05, type: 2}
   remainState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
-  player: {fileID: 0}
   aI: {fileID: 0}
+  player: {fileID: 0}
   controllerAnimator: {fileID: 0}
   machineDestination: {x: 0, y: 0, z: 0}
   stateBoolVariable: 0
@@ -2305,7 +2305,6 @@ MonoBehaviour:
     left: {fileID: 0}
     right: {fileID: 0}
   experienceOrbSpawner: {fileID: 0}
-  spawner: {fileID: 0}
   monsterAttacker:
     inParty: 0
     slotNumber: 0
@@ -2342,6 +2341,7 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
+  spawner: {fileID: 0}
   healthComponent: {fileID: 0}
   currentMonster: 0
 --- !u!114 &1549083961
@@ -2376,8 +2376,8 @@ MonoBehaviour:
   machineEyes: {fileID: 2003485726}
   currentState: {fileID: 11400000, guid: 0e45a87214234fd4fbb0bd77efd15d00, type: 2}
   remainState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
-  player: {fileID: 0}
   aI: {fileID: 0}
+  player: {fileID: 0}
   controllerAnimator: {fileID: 0}
   machineDestination: {x: 0, y: 0, z: 0}
   stateBoolVariable: 0
@@ -3236,7 +3236,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 8.5
-  field of view: 10
+  field of view: 12
   orthographic: 0
   orthographic size: 3.42
   m_Depth: 0

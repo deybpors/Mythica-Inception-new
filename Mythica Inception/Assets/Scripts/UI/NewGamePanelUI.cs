@@ -82,7 +82,9 @@ public class NewGamePanelUI : MonoBehaviour
             new Dictionary<string, PlayerAcceptedQuest>(),
             TimeSpan.Zero,
             DateTime.Now,
-            newOptionsData);
+            newOptionsData,
+            GameSettings.GetDefaultMonsterSlots(20)
+            );
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);

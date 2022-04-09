@@ -36,6 +36,8 @@ namespace Monster_System
         private List<Sprite> _currentSkills = new List<Sprite>();
         private List<Sprite> _currentItems = new List<Sprite>();
         private Dictionary<GameObject, Vector3> _charPortraitAlign = new Dictionary<GameObject, Vector3>();
+        private Dictionary<GameObject, Renderer[]> _monsterRenderers = new Dictionary<GameObject, Renderer[]>();
+        private readonly Vector3 _zero = Vector3.zero;
 
         #endregion
         
@@ -85,13 +87,41 @@ namespace Monster_System
                 }
                 
                 var monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
-                    _monsters[i].monsterName, _monsters[i].monsterPrefab, Vector3.zero, Quaternion.identity);
+                    _monsters[i].monsterName, _monsters[i].monsterPrefab, _zero, Quaternion.identity);
                 monsterObj.SetActive(false);
                 if (isPlayer)
                 {
-                    monsterObj.GetComponentInChildren<Renderer>().gameObject.layer = 11;
+                    HandleMonsterRenderers(monsterObj);
                 }
                 _monsterGameObjects.Add(monsterObj);
+            }
+        }
+
+        private void HandleMonsterRenderers(GameObject monsterObj)
+        {
+            if (_monsterRenderers.TryGetValue(monsterObj, out var renderers))
+            {
+                var renderersCount = renderers.Length;
+                for (var j = 0; j < renderersCount; j++)
+                {
+                    renderers[j].gameObject.layer = 11;
+                }
+                return;
+            }
+
+            renderers = monsterObj.GetComponentsInChildren<Renderer>();
+            try
+            {
+                _monsterRenderers.Add(monsterObj, renderers);
+                var renderersCount = renderers.Length;
+                for (var j = 0; j < renderersCount; j++)
+                {
+                    renderers[j].gameObject.layer = 11;
+                }
+            }
+            catch
+            {
+                //ignored
             }
         }
 

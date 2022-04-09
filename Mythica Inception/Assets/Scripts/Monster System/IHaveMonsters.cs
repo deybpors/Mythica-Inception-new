@@ -10,7 +10,9 @@ namespace Monster_System
 
         List<Monster> GetMonsters();
 
-        void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot);
+        void AddNewMonsterSlotToParty(int slotNum, MonsterSlot newSlot);
+
+        void AddNewMonsterSlotToStorage(MonsterSlot newSlot, out int slotNum);
 
         int GetCurrentSlotNumber();
 

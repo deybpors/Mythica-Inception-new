@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Lackabat
   m_EditorClassIdentifier: 
   ID: 47feff70-1ac1-4129-8132-7e0ec27bcd7f
-  monsterNum: 2
+  monsterNum: 1
   monsterName: Lackabat
   monsterPrefab: {fileID: 2156180079196364993, guid: 925d3151938a8f94fb61678f556ba81e, type: 3}
   monsterPortrait: {fileID: 21300000, guid: 7547877e00e275345b790161e549cd93, type: 3}
@@ -27,12 +27,12 @@ MonoBehaviour:
     targetObject: {fileID: 356804050156977343, guid: 371b2a7f332e1f14d8ad7b4e8d724ae0, type: 3}
   stats:
     baseHealth: 91
-    maxLives: 3
+    maxLives: 6
     physicalAttack: 159
     physicalDefense: 89
     specialAttack: 57
-    specialDefense: 0
-    baseExpYield: 221
+    specialDefense: 67
+    baseExpYield: 114
     tameResistance: 91
     criticalChance: 0.05
     movementSpeed: 1.1

@@ -43,6 +43,7 @@ namespace UI
             [HideInInspector] public TooltipUI tooltip;
             [HideInInspector] public Button optionsMinimizeButton;
             [HideInInspector] public OptionsUI generalOptionsUi;
+            [HideInInspector] public MonsterTamedUI monsterTamedUi;
         #endregion
 
 

@@ -140,7 +140,10 @@ namespace Pluggable_AI.Scripts.General
             return monsterSlots.Count <= 0 ? null : monsterSlots.Select(monsterSlot => monsterSlot.monster).ToList();
         }
 
-        public void AddNewMonsterSlot(int slotNum, MonsterSlot newSlot) { }
+        public void AddNewMonsterSlotToParty(int slotNum, MonsterSlot newSlot) { }
+
+        public void AddNewMonsterSlotToStorage(MonsterSlot newSlot, out int slotNum) { slotNum = 0; }
+
         public int GetCurrentSlotNumber()
         {
             return currentMonster;

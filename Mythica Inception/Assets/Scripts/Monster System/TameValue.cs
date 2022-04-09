@@ -74,20 +74,24 @@ namespace Monster_System
                 slotToFill = i;
                 break;
             }
-
+            var newSlot = _haveMonster.GetMonsterSlots()[_haveMonster.GetCurrentSlotNumber()];
+            
             if (slotToFill >= 4)
             {
-                //TODO: store monster somewhere in-game
+                _tamer.AddNewMonsterSlotToStorage(newSlot, out var slotNumber);
+                GameManager.instance.uiManager.monsterTamedUi.PlayFanfare(newSlot, false, slotNumber);
             }
             else
             {
-                var newSlot = _haveMonster.GetMonsterSlots()[_haveMonster.GetCurrentSlotNumber()];
-                _tamer.AddNewMonsterSlot(slotToFill, newSlot);
-                if (tamerAI.spawner != null) { tamerAI.spawner.currentNoOfMonsters--; }
-                //play animation something screen to celebrate new monster tamed
-                //ask for nickname of monster
+                _tamer.AddNewMonsterSlotToParty(slotToFill, newSlot);
+                GameManager.instance.uiManager.monsterTamedUi.PlayFanfare(newSlot, true, slotToFill);
             }
-            
+
+            if (tamerAI.spawner != null)
+            {
+                tamerAI.spawner.currentNoOfMonsters--;
+            }
+
             GameManager.instance.UpdateEnemiesSeePlayer(transform, out var enemyCount);
             
             var player = GameManager.instance.player;

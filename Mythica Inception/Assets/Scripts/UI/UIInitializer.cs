@@ -45,6 +45,7 @@ namespace UI
 
         [Foldout("Modal UI")] public ModalUI modal;
 
+        [Foldout("Monster Tamed", true)] public MonsterTamedUI monsterTamed;
 
         [Foldout("Debug Console")] public DebugConsoleUI debugConsole;
 
@@ -74,6 +75,7 @@ namespace UI
             ui.tooltip = tooltip;
             ui.optionsMinimizeButton = optionsMinimizeButton;
             ui.generalOptionsUi = generalOptionsUI;
+            ui.monsterTamedUi = monsterTamed;
 
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
         }

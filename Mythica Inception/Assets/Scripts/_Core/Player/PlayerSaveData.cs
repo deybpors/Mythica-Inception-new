@@ -21,6 +21,7 @@ public class PlayerSaveData
     [SerializeField] private TimeSpan _timeSpent;
     [SerializeField] private DateTime _lastOpened;
     [SerializeField] private OptionsSaveData _optionsSaveData;
+    [SerializeField] private List<MonsterSlot> _storageMonsters;
 
     public string name => _playerName;
     public Sex sex => _sex;
@@ -35,8 +36,9 @@ public class PlayerSaveData
     public DateTime lastOpened => _lastOpened;
     public Dictionary<string, Monster> discoveredMonsters => _discoveredMonsters;
     public OptionsSaveData optionsSaveData => _optionsSaveData;
+    public List<MonsterSlot> storageMonsters => _storageMonsters;
 
-    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, Dictionary<string, Monster> discoveredMonsters, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, PlayerAcceptedQuest> finishedQuests, TimeSpan timeSpent, DateTime lastOpened, OptionsSaveData optionsSaveData)
+    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, Dictionary<string, Monster> discoveredMonsters, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, PlayerAcceptedQuest> finishedQuests, TimeSpan timeSpent, DateTime lastOpened, OptionsSaveData optionsSaveData, List<MonsterSlot> storageMonsters)
     {
         _playerName = playerName;
         _sex = sex; 
@@ -51,5 +53,6 @@ public class PlayerSaveData
         _lastOpened = lastOpened;
         _discoveredMonsters = discoveredMonsters;
         _optionsSaveData = optionsSaveData;
+        _storageMonsters = storageMonsters;
     }
 }

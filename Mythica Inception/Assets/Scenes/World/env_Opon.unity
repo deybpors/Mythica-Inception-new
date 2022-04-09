@@ -10020,12 +10020,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: monsters.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: monsters.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 6403f0704a7a2224e9046630b540b388, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: monsters.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6285c105e7fc8c847aaddeefbaf689f0, type: 2}
     - target: {fileID: 2502805527256253403, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: m_Name
       value: Wild Monster Spawner

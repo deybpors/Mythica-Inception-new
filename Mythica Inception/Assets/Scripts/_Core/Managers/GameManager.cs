@@ -55,8 +55,13 @@ namespace _Core.Managers
                 instance = this;
                 DontDestroyOnLoad(instance.gameObject);
             }
-            
+
             databaseManager.InitializeTypeChartData();
+        }
+
+        void Start()
+        {
+            audioManager.PlayMusic(MusicMood.Calm);
         }
 
         public void InitializePlayerReference(Player.Player p)

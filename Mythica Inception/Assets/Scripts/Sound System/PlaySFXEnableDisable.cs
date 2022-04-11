@@ -4,20 +4,27 @@ using UnityEngine;
 public class PlaySFXEnableDisable : MonoBehaviour
 {
 
-    [SerializeField] private AudioClip _audioClipOnEnable;
-    [SerializeField] private AudioClip _audioClipOnDisable;
+    [SerializeField] private string _audioOnEnable = "UI Open";
+    [SerializeField] private string _audioOnDisable = "UI Close";
+    private GameObject _thisObject;
 
     void OnEnable()
     {
-        if(_audioClipOnEnable == null) return;
+        if (_thisObject == null)
+        {
+            _thisObject = gameObject;
+        }
 
-        GameManager.instance.audioManager.PlaySFX(_audioClipOnEnable.name);
+        if(_audioOnEnable.Equals(string.Empty)) return;
+
+        GameManager.instance.audioManager.PlaySFX(_audioOnEnable);
     }
 
     void OnDisable()
     {
-        if (_audioClipOnEnable == null) return;
 
-        GameManager.instance.audioManager.PlaySFX(_audioClipOnDisable.name);
+        if (_audioOnDisable.Equals(string.Empty)) return;
+
+        GameManager.instance.audioManager.PlaySFX(_audioOnDisable);
     }
 }

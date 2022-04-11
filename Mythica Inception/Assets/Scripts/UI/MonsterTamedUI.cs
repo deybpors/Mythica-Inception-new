@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
 using Monster_System;
@@ -5,6 +6,7 @@ using MyBox;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class MonsterTamedUI : MonoBehaviour
@@ -95,7 +97,7 @@ public class MonsterTamedUI : MonoBehaviour
         {
             _thisGameObject = gameObject;
         }
-
+        GameManager.instance.audioManager.PlaySFX("Fanfare", 1);
         ChangeMonster(newMonsterSlot.monster);
         GameManager.instance.gameStateController.TransitionToState(GameManager.instance.UIState);
         _monsterTamedUI.SetActive(true);
@@ -105,6 +107,15 @@ public class MonsterTamedUI : MonoBehaviour
         _inParty = inParty;
         _slotNum = slotNum;
         HandleAnimator(AnimatorUpdateMode.UnscaledTime);
+        HandleConfirmButton();
+    }
+
+    private void HandleConfirmButton()
+    {
+        _confirmButton.interactable = false;
+        StopAllCoroutines();
+        var seconds = GameManager.instance.audioManager.GetSFX("Fanfare").clip.length;
+        StartCoroutine(DelayAction(seconds, (() => _confirmButton.interactable = true)));
     }
 
     private void HandleAnimator(AnimatorUpdateMode updateMode)
@@ -133,6 +144,12 @@ public class MonsterTamedUI : MonoBehaviour
             animOutline.outline.enabled = _outlineEnabled;
         }
         animOutline.animator.updateMode = updateMode;
+    }
+
+    IEnumerator DelayAction(float seconds, UnityAction action)
+    {
+        yield return new WaitForSecondsRealtime(seconds);
+        action?.Invoke();
     }
 
     private void ChangeMonster(Monster newMonster)

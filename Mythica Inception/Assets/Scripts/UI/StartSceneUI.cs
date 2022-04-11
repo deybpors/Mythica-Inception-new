@@ -75,7 +75,7 @@ namespace UI
 
             if (playerSavedData[profileIndex] == null)
             {
-                Debug.Log("SavePlayerData File " + profileIndex + " has no saved data. Please create a new save data in SavePlayerData File " + profileIndex + ".");
+                GameManager.instance.audioManager.PlaySFX("Error");
                 return;
             }
 
@@ -93,7 +93,6 @@ namespace UI
             GameManager.instance.currentWorldScenePath = savedScenePath;
             GameManager.instance.saveManager.profileIndex = profileIndex;
 
-            //TODO: transition state depending on the situation
             GameManager.instance.gameStateController.TransitionToState(gameplayState);
         }
     }

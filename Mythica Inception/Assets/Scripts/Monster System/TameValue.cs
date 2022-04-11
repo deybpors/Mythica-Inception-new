@@ -18,6 +18,8 @@ namespace Monster_System
         private IHaveMonsters _tamer;
         private IHaveMonsters _haveMonster;
         private MonsterTamerAI tamerAI;
+        private Transform _thisTransform;
+
         public void ActivateTameValue(int wildMonsterLvl, Health health, IHaveMonsters mon)
         {
             tamerAI = GetComponent<MonsterTamerAI>();
@@ -36,6 +38,7 @@ namespace Monster_System
             tameValueBarUI.maxValue = maxTameValue;
             tameValueBarUI.currentValue = currentTameValue;
             _activated = true;
+            _thisTransform = transform;
         }
 
         void Update()
@@ -64,7 +67,7 @@ namespace Monster_System
             }
         }
 
-        public void Tamed()
+        private void Tamed()
         {
             var monsterSlots = _tamer.GetMonsterSlots();
             var slotToFill = 99999;
@@ -92,24 +95,12 @@ namespace Monster_System
                 tamerAI.spawner.currentNoOfMonsters--;
             }
 
-            GameManager.instance.UpdateEnemiesSeePlayer(transform, out var enemyCount);
+            GameManager.instance.UpdateEnemiesSeePlayer(_thisTransform, out var enemyCount);
             
             var player = GameManager.instance.player;
             GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
             
             gameObject.SetActive(false);
-        }
-        
-        private void UpdateEnemiesSeePlayer(Object monsterTransform)
-        {
-            var enemyCount = GameManager.instance.enemiesSeePlayer.Count;
-            for (var i = 0; i < enemyCount; i++)
-            {
-                var enemy = GameManager.instance.enemiesSeePlayer[i];
-                if (monsterTransform != enemy) continue;
-                GameManager.instance.enemiesSeePlayer.Remove(enemy);
-                break;
-            }
         }
     }
 }

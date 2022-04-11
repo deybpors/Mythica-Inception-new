@@ -25,6 +25,7 @@ namespace Pluggable_AI.Scripts.General
         public GameObject experienceOrbSpawner;
 
         [ReadOnly] public MonsterSlot monsterAttacker;
+        private Transform _thisTransform;
 
         #region Hidden Fields
 
@@ -37,31 +38,6 @@ namespace Pluggable_AI.Scripts.General
         private Renderer _monsterRenderer;
 
         #endregion
-
-        void OnEnable()
-        {
-            if (tamer)
-            {
-                Init();
-            }
-        }
-
-        void Update()
-        {
-            if (_monsterRenderer != null && !_monsterRenderer.isVisible) return;
-            
-            GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
-        }
-
-        public void ActivateWildMonster(MonsterSlot newWildMonster, List<Transform> waypointsList, WildMonsterSpawner spawnerRef)
-        {
-            monsterSlots.Clear();
-            monsterSlots.Add(newWildMonster);
-            Init();
-            gameObject.SetActive(true);
-            spawner = spawnerRef;
-            stateController.ActivateAI(true, waypointsList, null);
-        }
 
         private void Init()
         {
@@ -78,6 +54,30 @@ namespace Pluggable_AI.Scripts.General
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
             _monsterRenderer = _monsterGameObjects[0].GetComponent<Renderer>();
             stateController.active = true;
+        }
+
+        void Update()
+        {
+            if (_monsterRenderer != null && !_monsterRenderer.isVisible) return;
+            
+            GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
+        }
+
+        public void ActivateMonsterAi(List<MonsterSlot> newMonsters, List<Transform> waypointsList, WildMonsterSpawner spawnerRef)
+        {
+            tamer = spawnerRef == null;
+            
+            if (_thisTransform == null)
+            {
+                _thisTransform = transform;
+            }
+
+            monsterSlots.Clear();
+            monsterSlots.AddRange(newMonsters);
+            Init();
+            gameObject.SetActive(true);
+            spawner = spawnerRef;
+            stateController.ActivateAI(true, waypointsList, null);
         }
 
         private void InitializeCurrentMonsterHealth()
@@ -106,14 +106,11 @@ namespace Pluggable_AI.Scripts.General
 
         private void SpawnMonstersFromPool()
         {
-            for (int i = 0; i < monsterSlots.Count; i++)
+            for (var i = 0; i < monsterSlots.Count; i++)
             {
-                GameObject monsterObj = GameManager.instance.pooler.SpawnFromPool(transform, monsterSlots[i].monster.monsterName,
+                var monsterObj = GameManager.instance.pooler.SpawnFromPool(_thisTransform, monsterSlots[i].monster.monsterName,
                     monsterSlots[i].monster.monsterPrefab, Vector3.zero, Quaternion.identity);
-                if (_monsterGameObjects == null)
-                {
-                    _monsterGameObjects = new List<GameObject>();
-                }
+                _monsterGameObjects ??= new List<GameObject>();
                 _monsterGameObjects.Add(monsterObj);
             }
         }
@@ -132,8 +129,6 @@ namespace Pluggable_AI.Scripts.General
         {
             return .5f;
         }
-
-        public int CurrentMonsterSlotNumber() { return currentMonster; }
 
         public List<Monster> GetMonsters()
         {
@@ -245,14 +240,13 @@ namespace Pluggable_AI.Scripts.General
 
         public void Die()
         {
-            var monsterTransform = transform;
-            var position = monsterTransform.position;
+            var position = _thisTransform.position;
             var pos = new Vector3(position.x, position.y + 1.5f, position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
             if (spawner != null) { spawner.currentNoOfMonsters--; }
 
-            GameManager.instance.UpdateEnemiesSeePlayer(monsterTransform, out var enemyCount);
+            GameManager.instance.UpdateEnemiesSeePlayer(_thisTransform, out var enemyCount);
             
             //if this object is a wild mythica
             if (!tamer)
@@ -277,7 +271,7 @@ namespace Pluggable_AI.Scripts.General
             var type = GameSettings.TypeComparison(monsterAttacker.monster.type,
                 monsterSlots[currentMonster].monster.type) < 1;
             var exp = GameSettings.ExperienceGain(!tamer, monsterAttacker, type);
-            var position = transform.position;
+            var position = _thisTransform.position;
             var newPos = new Vector3(position.x, position.y + 1f, position.z);
             
             var expOrbSpawner = GameManager.instance.pooler.SpawnFromPool(null, experienceOrbSpawner.name, experienceOrbSpawner, newPos,
@@ -296,12 +290,12 @@ namespace Pluggable_AI.Scripts.General
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : Vector3.zero, range ? transform.rotation : Quaternion.identity);
+                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : Vector3.zero, range ? _thisTransform.rotation : Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var deathTime = range ? 1f : .25f;
             var speed = range ? 30f : 20f;
             rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
-                monAttacking.basicAttackObjects.muzzle,false, true, transform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,.5f,monAttacking.basicAttackSkill);
+                monAttacking.basicAttackObjects.muzzle,false, true, _thisTransform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,.5f,monAttacking.basicAttackSkill);
         }
     }
 }

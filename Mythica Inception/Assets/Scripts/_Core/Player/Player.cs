@@ -12,13 +12,14 @@ using Monster_System;
 using MyBox;
 using Pluggable_AI.Scripts.General;
 using Skill_System;
+using SoundSystem;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace _Core.Player
 {
     [RequireComponent(typeof(StateController))]
-    public class Player : MonoBehaviour, IEntity, IHaveMonsters, IHaveHealth, ICanTame
+    public class Player : MonoBehaviour, IHaveMonsters, IHaveHealth, ICanTame
     {
         [Foldout("Data", true)]
         [ReadOnly] public string playerName;
@@ -65,9 +66,9 @@ namespace _Core.Player
 
         void Awake()
         {
+            Destroy(GameManager.instance.GetComponent<AudioListener>());
             savedData = GameManager.instance.loadedSaveData;
             GameManager.instance.uiManager.generalOptionsUi.ChangeUIValues();
-
             Init();
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
         }
@@ -400,13 +401,14 @@ namespace _Core.Player
 
         public void AddExperience(int experienceToAdd, int slotNum)
         {
+            GameManager.instance.audioManager.PlaySFX("Experience Orb");
             var nextLevel = GameSettings.Level(monsterSlots[slotNum].currentExp) + 1;
             var nextLevelExp = GameSettings.Experience(nextLevel);
             monsterSlots[slotNum].currentExp += experienceToAdd;
 
             if (monsterSlots[slotNum].currentExp > nextLevelExp)
             {
-                //TODO: sound for leveling up
+                GameManager.instance.audioManager.PlaySFX("Level Up");
             }
 
             if (_inputHandler.currentMonster != slotNum) return;

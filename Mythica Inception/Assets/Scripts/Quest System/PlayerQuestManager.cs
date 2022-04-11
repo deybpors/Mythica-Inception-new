@@ -18,6 +18,7 @@ public class PlayerQuestManager : MonoBehaviour
 
         var newQuest = new PlayerAcceptedQuest(questGiven, questGiver, DateTime.Now);
         activeQuests.Add(newQuest.quest.ID, newQuest);
+        GameManager.instance.audioManager.PlaySFX("Confirmation");
         GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
     }
 

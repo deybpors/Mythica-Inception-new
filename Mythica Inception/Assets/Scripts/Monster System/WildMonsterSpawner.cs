@@ -65,9 +65,11 @@ namespace Monster_System
                     wildMonsterPrefab,
                     monsterPos,
                     Quaternion.identity);
-            var newMonSlot = new MonsterSlot(monsters[monsterIndex], monsterXp, Random.Range(1, 51));
+
+            var newMonsters = new List<MonsterSlot> { new MonsterSlot(monsters[monsterIndex], monsterXp, Random.Range(1, 51)) };
             var monTamerAi = monsterObj.GetComponent<MonsterTamerAI>();
-            monTamerAi.ActivateWildMonster(newMonSlot, waypointsList, this);
+
+            monTamerAi.ActivateMonsterAi(newMonsters, waypointsList, this);
         }
 
         private IEnumerator WaitSpawnTime()

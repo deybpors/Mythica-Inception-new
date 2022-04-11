@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using _Core.Managers;
+using System.Linq;
 using Assets.Scripts.Sound_System;
 using MyBox;
 using UnityEngine;
@@ -21,7 +21,8 @@ namespace SoundSystem
         Mysterious,
         Somber,
         Uplifting,
-        Sad
+        Sad,
+        None
     }
 
     public enum SoundType
@@ -37,24 +38,30 @@ namespace SoundSystem
         Battle,
         Dungeon,
         Wild,
-        ShopBarter
+        ShopBarter,
+        None
+    }
+
+    public enum MusicTypePlayed
+    {
+        Name, Mood, Situation
     }
 
     public class AudioManager : MonoBehaviour
     {
-        [Range(0,1)] [SerializeField] private float _masterVolume = 1f;
-        [ReadOnly] [SerializeField] private float _sfxVolume = 1f;
-        [ReadOnly] [SerializeField] private float _ambienceVolume = 1f;
+        [Range(0,1)] public float masterVolume = 1f;
+        [ReadOnly] public float sfxVolume = 1f;
+        [ReadOnly] public float ambienceVolume = 1f;
         [ReadOnly] [SerializeField] private float _bgMusicVolume = 1f;
 
         [SerializeField] private Music[] _musicList;
         private Music _currentMusic;
+        private MusicTypePlayed _musicTypePlayed;
         [SerializeField] private float _musicFadeTime = 1.5f;
+        [Range(0, 1)] [SerializeField] private float _musicEndOn;
 
 
         [SerializeField] private Ambience[] _ambiences;
-        private Ambience _currentAmbience;
-        [SerializeField] private float ambienceFadeTime = 2.5f;
 
         [SerializeField] private Sfx[] _soundFx;
         [SerializeField] private Sfx[] _maleDialogueSfx;
@@ -64,9 +71,12 @@ namespace SoundSystem
         private readonly Dictionary<string, Ambience> _ambienceDict = new Dictionary<string, Ambience>();
         private readonly Dictionary<string, Sfx> _sfxDict = new Dictionary<string, Sfx>();
         private readonly Dictionary<string, Audio> _master = new Dictionary<string, Audio>();
+        private float _timeElapsed;
 
         void Awake()
         {
+            _currentMusic = null;
+
             foreach (var music in _musicList)
             {
                 if (music.clip == null) continue;
@@ -75,7 +85,6 @@ namespace SoundSystem
                 music.source.clip = music.clip;
                 music.source.volume = music.volume;
                 music.source.loop = music.loop;
-                music.name = music.clip.name;
                 _musicDict.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
                 _master.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
             }
@@ -87,7 +96,6 @@ namespace SoundSystem
                 sound.source = gameObject.AddComponent<AudioSource>();
                 sound.source.clip = sound.clip;
                 sound.source.volume = sound.volume;
-                sound.name = sound.clip.name;
                 _sfxDict.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
                 _master.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
             }
@@ -100,7 +108,6 @@ namespace SoundSystem
                 ambience.source.clip = ambience.clip;
                 ambience.source.volume = ambience.volume;
                 ambience.source.loop = ambience.loop;
-                ambience.name = ambience.clip.name;
                 _ambienceDict.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
                 _master.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
             }
@@ -132,43 +139,80 @@ namespace SoundSystem
             }
         }
 
-        void Start()
+        void Update()
         {
-            if(_musicList.Length <= 0) return;
-            PlayMusic(MusicMood.Calm);
+            _timeElapsed += Time.unscaledDeltaTime;
+
+            if (_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
+            switch (_musicTypePlayed)
+            {
+                case MusicTypePlayed.Mood:
+                    PlayMusic(_currentMusic.mood);
+                    break;
+                case MusicTypePlayed.Situation:
+                    PlayMusic(_currentMusic.situation);
+                    break;
+            }
+            _timeElapsed = 0;
         }
 
         public void ChangeVolume(float newVolume, SoundType typeToChange)
         {
-            foreach (var audioClip in _master.Values)
+            if (typeToChange == SoundType.SFX || typeToChange == SoundType.All)
             {
-                switch (typeToChange)
+                var allSfx = _sfxDict.Values.ToList();
+                var allSfxCount = allSfx.Count;
+                
+                if (typeToChange == SoundType.SFX)
                 {
-                    case SoundType.All:
-                        _masterVolume = newVolume;
-                        audioClip.source.volume *= newVolume;
-                        break;
-                    case SoundType.SFX:
-                        _sfxVolume = newVolume;
-                        if (audioClip is Sfx)
-                        {
-                            audioClip.source.volume *= newVolume;
-                        }
-                        break;
-                    case SoundType.Background:
-                        _bgMusicVolume = newVolume;
-                        if (audioClip is Music)
-                        {
-                            audioClip.source.volume *= newVolume;
-                        }
-                        break;
-                    case SoundType.Ambience:
-                        _ambienceVolume = newVolume;
-                        if (audioClip is Ambience)
-                        {
-                            audioClip.source.volume *= newVolume;
-                        }
-                        break;
+                    sfxVolume = newVolume;
+                }
+                else
+                {
+                    masterVolume = newVolume;
+                }
+
+                for (var i = 0; i < allSfxCount; i++)
+                {
+                    var sfx = allSfx[i];
+                    sfx.source.volume = sfx.volume * masterVolume * sfxVolume;
+                }
+            }
+
+            if (typeToChange == SoundType.Background || typeToChange == SoundType.All)
+            {
+
+                if (typeToChange == SoundType.Background)
+                {
+                    _bgMusicVolume = newVolume;
+                }
+                else
+                {
+                    masterVolume = newVolume;
+                }
+
+                if(_currentMusic == null) return;
+                _currentMusic.source.volume = _currentMusic.volume * masterVolume * _bgMusicVolume;
+            }
+
+            if (typeToChange == SoundType.Ambience || typeToChange == SoundType.All)
+            {
+                var allAmbience = _ambienceDict.Values.ToList();
+                var allAmbienceCount = allAmbience.Count;
+
+                if (typeToChange == SoundType.Ambience)
+                {
+                    ambienceVolume = newVolume;
+                }
+                else
+                {
+                    masterVolume = newVolume;
+                }
+
+                for (var i = 0; i < allAmbienceCount; i++)
+                {
+                    var ambience = allAmbience[i];
+                    ambience.source.volume = ambience.volume * masterVolume * sfxVolume;
                 }
             }
         }
@@ -176,11 +220,12 @@ namespace SoundSystem
         public void PlayAmbience(string ambienceName)
         {
             if (!_ambienceDict.TryGetValue(ambienceName.ToUpperInvariant().Replace(" ", string.Empty), out var ambience)) return;
-            if(_currentAmbience.name == ambienceName) return;
+            ambience.source.Play();
+        }
 
-            StopAllCoroutines();
-            StartCoroutine(FadeTrack(ambience));
-            _currentAmbience = ambience;
+        public Ambience GetAmbience(string ambienceName)
+        {
+            return !_ambienceDict.TryGetValue(ambienceName.ToUpperInvariant().Replace(" ", string.Empty), out var ambience) ? null : ambience;
         }
 
         public void PlayMusic(string musicName)
@@ -191,48 +236,72 @@ namespace SoundSystem
             StopAllCoroutines();
             StartCoroutine(FadeTrack(music));
             _currentMusic = music;
+            _musicTypePlayed = MusicTypePlayed.Name;
         }
 
         public void PlayMusic(MusicMood mood)
         {
-            if (_currentMusic != null && _currentMusic.mood == mood) return;
+            if (_currentMusic != null && _currentMusic.mood == mood)
+            {
+                if(_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
+            }
 
             var musicInMood = new List<Music>();
 
             foreach (var music in _musicList)
             {
-                if(music.mood != mood) return;
+                if(music.mood != mood) continue;
                 musicInMood.Add(music);
             }
-
+            
             var musicToPlay = musicInMood[Random.Range(0, musicInMood.Count)];
+            if (_currentMusic != null)
+            {
+                while (musicToPlay.clip == _currentMusic.clip)
+                {
+                    musicToPlay = musicInMood[Random.Range(0, musicInMood.Count)];
+                }
+            }
 
             if (_currentMusic != null && _currentMusic.name == musicToPlay.name) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
             _currentMusic = musicToPlay;
+            _musicTypePlayed = MusicTypePlayed.Mood;
         }
 
         public void PlayMusic(MusicSituation situation)
         {
-            if (_currentMusic != null && _currentMusic.situation == situation) return;
+            if (_currentMusic != null && _currentMusic.situation == situation)
+            {
+                if (_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
+            }
 
             var musicInSituation = new List<Music>();
 
             foreach (var music in _musicList)
             {
-                if (music.situation != situation) return;
+                if (music.situation != situation) continue;
                 musicInSituation.Add(music);
             }
 
             var musicToPlay = musicInSituation[Random.Range(0, musicInSituation.Count)];
+            if (_currentMusic != null)
+            {
+                while (musicToPlay.clip == _currentMusic.clip)
+                {
+                    musicToPlay = musicInSituation[Random.Range(0, musicInSituation.Count)];
+                }
+            }
+
 
             if (_currentMusic != null && _currentMusic.name == musicToPlay.name) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
             _currentMusic = musicToPlay;
+            _musicTypePlayed = MusicTypePlayed.Situation;
         }
 
         public void PlaySFX(string soundName)
@@ -251,21 +320,27 @@ namespace SoundSystem
             sfx.source.Play();
         }
 
-        private IEnumerator FadeTrack(Audio audioToChange)
+        public Sfx GetSFX(string soundName)
         {
-            var audioMusic = audioToChange is Music;
-            var fadeTime = audioMusic ? _musicFadeTime : ambienceFadeTime;
-            var currentAudio = audioMusic ? (Audio)_currentMusic : _currentAmbience;
+            return !_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx) ? null : sfx;
+        }
+
+        private IEnumerator FadeTrack(Music audioToChange)
+        {
+            var fadeTime = _musicFadeTime;
+            var currentAudio = _currentMusic;
             var timeElapsed = 0f;
 
             audioToChange.source.Play();
+            audioToChange.source.volume = 0;
+
             while (timeElapsed < fadeTime)
             {
-                audioToChange.source.volume = Mathf.Lerp(0, audioToChange.volume, timeElapsed/fadeTime);
+                audioToChange.source.volume = Mathf.Lerp(audioToChange.source.volume, audioToChange.volume * _bgMusicVolume * masterVolume, timeElapsed/fadeTime);
                 
                 if (currentAudio != null)
                 {
-                    currentAudio.source.volume = Mathf.Lerp(currentAudio.volume, 0, timeElapsed / fadeTime);
+                    currentAudio.source.volume = Mathf.Lerp(currentAudio.source.volume, 0, timeElapsed / fadeTime);
                 }
                 
                 timeElapsed += Time.unscaledDeltaTime;

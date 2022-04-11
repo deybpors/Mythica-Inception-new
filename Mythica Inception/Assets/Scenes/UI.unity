@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
+  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1226,6 +1226,7 @@ GameObject:
   - component: {fileID: 23812240}
   - component: {fileID: 23812241}
   - component: {fileID: 23812242}
+  - component: {fileID: 23812243}
   m_Layer: 5
   m_Name: Party
   m_TagString: Untagged
@@ -1355,6 +1356,20 @@ MonoBehaviour:
   _patterns:
   - {fileID: 311644318}
   - {fileID: 1846922988}
+--- !u!114 &23812243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 23812238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: Button Click
+  _audioOnDisable: 
 --- !u!1001 &25931939
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1635,6 +1650,7 @@ GameObject:
   - component: {fileID: 33213603}
   - component: {fileID: 33213604}
   - component: {fileID: 33213605}
+  - component: {fileID: 33213606}
   m_Layer: 5
   m_Name: Mythicas
   m_TagString: Untagged
@@ -1727,6 +1743,20 @@ MonoBehaviour:
   - {fileID: 2016278540}
   - {fileID: 1126782167}
   _monsters: []
+--- !u!114 &33213606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33213602}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: Button Click
+  _audioOnDisable: 
 --- !u!1 &38378164
 GameObject:
   m_ObjectHideFlags: 0
@@ -9381,7 +9411,7 @@ GameObject:
   m_Icon: {fileID: 1206586993520771344, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &351964775
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15866,7 +15896,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 608230526}
+  m_TargetGraphic: {fileID: 1802576024}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -19808,6 +19838,7 @@ GameObject:
   - component: {fileID: 760518314}
   - component: {fileID: 760518313}
   - component: {fileID: 760518315}
+  - component: {fileID: 760518316}
   m_Layer: 5
   m_Name: Create New Save File
   m_TagString: Untagged
@@ -19908,6 +19939,20 @@ MonoBehaviour:
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
   disabled: 0
+--- !u!114 &760518316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760518311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: UI Open
+  _audioOnDisable: UI Close
 --- !u!1 &766486295
 GameObject:
   m_ObjectHideFlags: 0
@@ -21202,6 +21247,7 @@ GameObject:
   - component: {fileID: 810890957}
   - component: {fileID: 810890956}
   - component: {fileID: 810890958}
+  - component: {fileID: 810890959}
   m_Layer: 0
   m_Name: Dialogue Panel
   m_TagString: Untagged
@@ -21301,6 +21347,20 @@ MonoBehaviour:
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
   disabled: 0
+--- !u!114 &810890959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 810890954}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: UI Open
+  _audioOnDisable: UI Close
 --- !u!1 &824429101
 GameObject:
   m_ObjectHideFlags: 0
@@ -24060,6 +24120,7 @@ GameObject:
   - component: {fileID: 914903397}
   - component: {fileID: 914903396}
   - component: {fileID: 914903398}
+  - component: {fileID: 914903399}
   m_Layer: 5
   m_Name: Quest Info Panel
   m_TagString: Untagged
@@ -24160,6 +24221,20 @@ MonoBehaviour:
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
   disabled: 0
+--- !u!114 &914903399
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 914903394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: Button Click
+  _audioOnDisable: UI Close
 --- !u!1 &921522099
 GameObject:
   m_ObjectHideFlags: 0
@@ -36890,7 +36965,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33.4
+  m_fontSize: 56.6
   m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -38587,8 +38662,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClipOnEnable: {fileID: 0}
-  _audioClipOnDisable: {fileID: 0}
+  _audioOnEnable: Button Click
+  _audioOnDisable: UI Close
 --- !u!1001 &1414126907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41882,7 +41957,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1583032575
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41951,8 +42026,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClipOnEnable: {fileID: 0}
-  _audioClipOnDisable: {fileID: 0}
+  _audioOnEnable: UI Open
+  _audioOnDisable: UI Close
 --- !u!114 &1583032578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46420,6 +46495,7 @@ GameObject:
   - component: {fileID: 1759795751}
   - component: {fileID: 1759795752}
   - component: {fileID: 1759795753}
+  - component: {fileID: 1759795754}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -46631,6 +46707,20 @@ MonoBehaviour:
   _patterns:
   - {fileID: 311644318}
   - {fileID: 1846922988}
+--- !u!114 &1759795754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1759795749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: Button Click
+  _audioOnDisable: 
 --- !u!1 &1764814488
 GameObject:
   m_ObjectHideFlags: 0
@@ -50470,8 +50560,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 494.275, y: -132}
-  m_SizeDelta: {x: 988.55, y: 971.907}
+  m_AnchoredPosition: {x: 494.275, y: -146.48915}
+  m_SizeDelta: {x: 988.55, y: 942.929}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1907710416
 MonoBehaviour:
@@ -50525,7 +50615,7 @@ MonoBehaviour:
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 0
-  m_fontSizeMax: 36
+  m_fontSizeMax: 75
   m_fontStyle: 0
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -51201,6 +51291,7 @@ GameObject:
   - component: {fileID: 1960516735}
   - component: {fileID: 1960516734}
   - component: {fileID: 1960516736}
+  - component: {fileID: 1960516737}
   m_Layer: 5
   m_Name: Save File Panel
   m_TagString: Untagged
@@ -51299,6 +51390,20 @@ MonoBehaviour:
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
   disabled: 0
+--- !u!114 &1960516737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960516732}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: UI Open
+  _audioOnDisable: UI Close
 --- !u!1001 &1965384002
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54137,6 +54242,7 @@ GameObject:
   - component: {fileID: 2029200962}
   - component: {fileID: 2029200964}
   - component: {fileID: 2029200965}
+  - component: {fileID: 2029200963}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -54166,6 +54272,20 @@ RectTransform:
   m_AnchoredPosition: {x: 361, y: -22.969}
   m_SizeDelta: {x: 602.35, y: 557.54}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2029200963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2029200961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: Button Click
+  _audioOnDisable: 
 --- !u!222 &2029200964
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -55114,8 +55234,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -43.075, y: 407.76712}
-  m_SizeDelta: {x: 988.55, y: 52.594}
+  m_AnchoredPosition: {x: -43.075, y: 394.01}
+  m_SizeDelta: {x: 988.55, y: 80.111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2059864782
 MonoBehaviour:
@@ -56632,6 +56752,7 @@ GameObject:
   - component: {fileID: 2119695597}
   - component: {fileID: 2119695599}
   - component: {fileID: 2119695598}
+  - component: {fileID: 2119695600}
   m_Layer: 5
   m_Name: Quests
   m_TagString: Untagged
@@ -56715,6 +56836,20 @@ MonoBehaviour:
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
   disabled: 0
+--- !u!114 &2119695600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2119695596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: Button Click
+  _audioOnDisable: 
 --- !u!1 &2119942376
 GameObject:
   m_ObjectHideFlags: 0
@@ -57088,6 +57223,7 @@ GameObject:
   - component: {fileID: 2137343336}
   - component: {fileID: 2137343335}
   - component: {fileID: 2137343337}
+  - component: {fileID: 2137343338}
   m_Layer: 5
   m_Name: Main Panel
   m_TagString: Untagged
@@ -57187,6 +57323,20 @@ MonoBehaviour:
   showOnEnable: 1
   _canvasGroup: {fileID: 0}
   disabled: 0
+--- !u!114 &2137343338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2137343333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1045e88b60f0cc42b51e68b5060888b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioOnEnable: UI Open
+  _audioOnDisable: UI Close
 --- !u!1 &2137600330
 GameObject:
   m_ObjectHideFlags: 0

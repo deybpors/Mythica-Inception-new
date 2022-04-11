@@ -34,7 +34,11 @@ namespace UI
 
             if (!newGamePanel.continueSelected)
             {
-                if (playerSaveData != null) return; //TODO: Play error sound here
+                if (playerSaveData != null)
+                {
+                    GameManager.instance.audioManager.PlaySFX("Error");
+                    return;
+                } 
 
                 newGamePanel.DisableTweener(GameManager.instance.uiManager.startButtonsTweener);
                 newGamePanel.ShowNewSaveFilePanel();

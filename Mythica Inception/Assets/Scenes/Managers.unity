@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
+  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -264,8 +264,8 @@ MonoBehaviour:
   machineEyes: {fileID: 0}
   currentState: {fileID: 11400000, guid: 7a9a906167f4940439a69b6a236c155d, type: 2}
   remainState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
-  player: {fileID: 0}
   aI: {fileID: 0}
+  player: {fileID: 0}
   controllerAnimator: {fileID: 0}
   machineDestination: {x: 0, y: 0, z: 0}
   stateBoolVariable: 0
@@ -1033,15 +1033,352 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7332f47e2c72f743a7ad6e89667e7dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _masterVolume: 1
-  _sfxVolume: 1
-  _ambienceVolume: 1
+  masterVolume: 1
+  sfxVolume: 1
+  ambienceVolume: 1
   _bgMusicVolume: 1
-  _musicList: []
-  _musicFadeTime: 1.25
-  _ambiences: []
-  ambienceFadeTime: 2.5
-  _soundFx: []
+  _musicList:
+  - name: Eastminster
+    clip: {fileID: 8300000, guid: 8a34d1c1567050b4ab14d3fd8e3ddcb7, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 2
+    loop: 0
+  - name: Cattails
+    clip: {fileID: 8300000, guid: 783c848c18fb17d4db6eb2e6253bb133, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 2
+    loop: 0
+  - name: Easy Lemon
+    clip: {fileID: 8300000, guid: fe51f789ced02934da9a17c49ac958d9, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 2
+    situation: 2
+    loop: 0
+  - name: For Originz
+    clip: {fileID: 8300000, guid: c37dbf720d59bab468a05da6bc6e3fa0, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 2
+    situation: 2
+    loop: 0
+  - name: Fresh Air
+    clip: {fileID: 8300000, guid: c1770789efcb5524e93ea4bdf74d5081, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 2
+    loop: 0
+  - name: Immersed
+    clip: {fileID: 8300000, guid: ab9418dbfce96394284437f53497c74e, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 2
+    loop: 0
+  - name: Silver Blue Light
+    clip: {fileID: 8300000, guid: d9da6068f5e260540a3b418ec56ce12a, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 2
+    situation: 2
+    loop: 0
+  - name: Summer Day
+    clip: {fileID: 8300000, guid: 066291fdb53038e46b24ecc573847a8d, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 2
+    loop: 0
+  - name: Windswept
+    clip: {fileID: 8300000, guid: 85e26e4745ee5cf4caabfa60c4a0aba6, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 2
+    loop: 0
+  - name: Merry Quikmas
+    clip: {fileID: 8300000, guid: f1136f4d36b53914baa9beb0e1f2b7c5, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 2
+    situation: 0
+    loop: 0
+  - name: Precision
+    clip: {fileID: 8300000, guid: e21cf95a4be754d4bbd894146f550d46, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 6
+    situation: 0
+    loop: 0
+  - name: Rocking Waves
+    clip: {fileID: 8300000, guid: 41da73ca95fd450489c358c155a91d3b, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 5
+    situation: 0
+    loop: 0
+  - name: RPG1
+    clip: {fileID: 8300000, guid: 3c3bee25d225e0148b8e53544d08f87f, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 6
+    situation: 0
+    loop: 0
+  - name: RPG2
+    clip: {fileID: 8300000, guid: 2a89a189fb50d4e42ad0d67f6c216430, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 0
+    situation: 0
+    loop: 0
+  - name: RPG3
+    clip: {fileID: 8300000, guid: d0af4415e7b726444842941a8585fc7c, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 1
+    situation: 0
+    loop: 0
+  - name: RPG4
+    clip: {fileID: 8300000, guid: 742f0ec55af64074eb29ff1154f181b3, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 0
+    situation: 0
+    loop: 0
+  - name: RPG5
+    clip: {fileID: 8300000, guid: 6c8fcbd22d039a1459779370e261518e, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 1
+    situation: 0
+    loop: 0
+  - name: Anamalie
+    clip: {fileID: 8300000, guid: 5e068cc42dc33064693e82de9fd7008f, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 4
+    situation: 1
+    loop: 0
+  - name: Avec Soin
+    clip: {fileID: 8300000, guid: a1b48fa9e090e0b45b5a7cc1437989f8, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 1
+    loop: 0
+  - name: Danse Morialta
+    clip: {fileID: 8300000, guid: d40d4533de2d0244e8dc0dfb5524e5c1, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 1
+    loop: 0
+  - name: Earnest
+    clip: {fileID: 8300000, guid: 31c6a89330671454f8695023725e158c, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 8
+    situation: 1
+    loop: 0
+  - name: Ether Vox
+    clip: {fileID: 8300000, guid: fb1520324fa999c4893f52d2e62a3a33, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 1
+    loop: 0
+  - name: Gagool
+    clip: {fileID: 8300000, guid: 3a672f8f9f663df44b8004677d69ac00, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 4
+    situation: 1
+    loop: 0
+  - name: Healing
+    clip: {fileID: 8300000, guid: 5ff9f679de58a8f489e81e5da129d3e2, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 1
+    loop: 0
+  - name: Impromptu in Blue
+    clip: {fileID: 8300000, guid: 337e8bf2950feb64e81df5d37d1f06b0, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 7
+    situation: 1
+    loop: 0
+  - name: Space X-plorers
+    clip: {fileID: 8300000, guid: cb4ef58edc5f5e2469535084278a26ef, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 7
+    situation: 1
+    loop: 0
+  - name: Swimmey Texture
+    clip: {fileID: 8300000, guid: 6c18b8aaeb850db41a536649698dde40, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 1
+    loop: 0
+  - name: Late Night Radio
+    clip: {fileID: 8300000, guid: 318a6e4e6fbf5574783ffefa4bbe6138, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 3
+    loop: 0
+  - name: Perspectives
+    clip: {fileID: 8300000, guid: 2629d39961b62d04dbfcb1862fdd809f, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 3
+    situation: 3
+    loop: 0
+  - name: Porch Swing Days
+    clip: {fileID: 8300000, guid: 1fb9897a462b07745926605371ea2d31, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    mood: 2
+    situation: 3
+    loop: 0
+  _musicFadeTime: 5
+  _musicEndOn: 0.985
+  _ambiences:
+  - name: Forest
+    clip: {fileID: 8300000, guid: 9bdacf4f51d0fab4b96a01a1c7f35b48, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    loop: 1
+  - name: Beach
+    clip: {fileID: 8300000, guid: d8fb0693de7852d4c9205842b6724653, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    loop: 1
+  - name: Chatter
+    clip: {fileID: 8300000, guid: 38f7946ed79c039419e401cf96fc1443, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    loop: 1
+  _soundFx:
+  - name: Level Up
+    clip: {fileID: 8300000, guid: 04edbdb57e985b542b8ea10c3c837a6e, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 1
+    max: 1.2
+    pitch: 0
+  - name: Experience Orb
+    clip: {fileID: 8300000, guid: 5ea9c2b0ba3fbab4a97124153eff95fa, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 0
+  - name: Grass Step
+    clip: {fileID: 8300000, guid: 004bdd4a118caa046b61e24adf0615f1, type: 3}
+    volume: 0.15
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 0
+  - name: Sand Step
+    clip: {fileID: 8300000, guid: 53cbe5d45d1b552488cfaab2e44a4e15, type: 3}
+    volume: 0.08
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 0
+  - name: Concrete Step
+    clip: {fileID: 8300000, guid: c73661c07b818e14384535c342e57437, type: 3}
+    volume: 0.15
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 0
+  - name: Rock Step
+    clip: {fileID: 8300000, guid: 8592686e9ddbb41469b63fbea419a15b, type: 3}
+    volume: 0.15
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.5
+    max: 1
+    pitch: 0
+  - name: Error
+    clip: {fileID: 8300000, guid: 18d64708daaa6ad449739f0ccdafc7b2, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.5
+    max: 1
+    pitch: 0
+  - name: Switch
+    clip: {fileID: 8300000, guid: f6ab70d39b6127841ad1ac543bdab44e, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 0
+  - name: Flap
+    clip: {fileID: 8300000, guid: 36c4be22df995a64b972b865099d82f3, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.5
+    max: 1.2
+    pitch: 0
+  - name: Fanfare
+    clip: {fileID: 8300000, guid: e30eca21f86221b4ca12f051fc9143e5, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0.5
+    max: 1.2
+    pitch: 1
+  - name: UI Open
+    clip: {fileID: 8300000, guid: 3d744f0ee35c7bf4bb650f11f38f12d7, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.9
+    max: 1.2
+    pitch: 1
+  - name: UI Close
+    clip: {fileID: 8300000, guid: d19a2b9d7ee3a9b40975efa21051848e, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.9
+    max: 1.2
+    pitch: 1
+  - name: Button Click
+    clip: {fileID: 8300000, guid: ee064874df8ee0c42b57e1ef1bf080e3, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.5
+    max: 1.2
+    pitch: 1
+  - name: Confirmation
+    clip: {fileID: 8300000, guid: 9644d3d900f42d049ab866bd30761b6d, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 1
+    max: 1.2
+    pitch: 1
   _maleDialogueSfx:
   - name: A
     clip: {fileID: 8300000, guid: 1e3c0ee5a8139e741a56880b21aaecfe, type: 3}
@@ -1530,6 +1867,7 @@ MonoBehaviour:
   tooltip: {fileID: 0}
   optionsMinimizeButton: {fileID: 0}
   generalOptionsUi: {fileID: 0}
+  monsterTamedUi: {fileID: 0}
   blankSlotSquare: {fileID: 21300000, guid: 69b70aede4f8b4c47a5b58999269e16d, type: 3}
   blankSlotCircle: {fileID: 21300000, guid: 231af341598ab3046818ee1f9a88cfc6, type: 3}
   unusedPartyMember: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}

@@ -44,14 +44,13 @@ namespace DDA
             //check if we should increase difficulty
             if (dictParamDataNeeded[dataName].IncreaseDifficulty())
             {
-                //TODO: Erase this if not needed
                 GameManager.instance.uiManager.debugConsole.DisplayLogUI("Increasing difficulty by changing values to " + parameter.name);
                 parameter.AdjustDifficultyParameterValue(Difficulty.higher);
             }
 
             //check if we should decrease difficulty
             if (!dictParamDataNeeded[dataName].DecreaseDifficulty()) return;
-            //TODO: Erase this if not needed
+
             GameManager.instance.uiManager.debugConsole.DisplayLogUI("Decreasing difficulty by changing values to " + parameter.name);
             parameter.AdjustDifficultyParameterValue(Difficulty.lower);
         }

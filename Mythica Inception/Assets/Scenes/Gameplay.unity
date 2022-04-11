@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.5490406, g: 0.7951933, b: 0.973512, a: 1}
+  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1207,6 +1207,7 @@ GameObject:
   - component: {fileID: 969145020}
   - component: {fileID: 969145021}
   - component: {fileID: 969145010}
+  - component: {fileID: 969145011}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -1274,6 +1275,14 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!81 &969145011
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 969145007}
+  m_Enabled: 1
 --- !u!114 &969145013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1487,6 +1496,7 @@ MonoBehaviour:
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
   colliderExtents: {x: 0, y: 0, z: 0}
+  storageMonsters: []
   _tamerInvulnerable: 0
 --- !u!114 &969145014
 MonoBehaviour:

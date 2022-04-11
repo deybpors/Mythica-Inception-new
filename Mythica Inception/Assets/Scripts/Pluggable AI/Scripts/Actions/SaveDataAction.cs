@@ -18,7 +18,6 @@ public class SaveDataAction : Action
 
         if(!GameManager.instance.loadedSaveData.optionsSaveData.autoSave) return;
 
-        Debug.Log("Saving data...");
         GameManager.instance.uiManager.debugConsole.DisplayLogUI("Saving data...");
         GameManager.instance.saveManager.SavePlayerData(GameManager.instance.player.GetCurrentSaveData());
     }

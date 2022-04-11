@@ -156,7 +156,7 @@ namespace Monster_System
                 new Vector3(_tamerTameRadius, _tamerTameRadius, _tamerTameRadius);
             _currentMonster = -1;
             _haveMonsters.SpawnSwitchFX();
-
+            GameManager.instance.audioManager.PlaySFX("Switch");
             EvaluateCharPortraitCam(_tamerPrefab);
 
             _haveMonsters.ChangeStatsToMonster(_currentMonster);
@@ -170,10 +170,11 @@ namespace Monster_System
             if (_haveMonsters.GetMonsterSlots()[slot].monster == null)
             {
                 GameManager.instance.inputHandler.currentMonster = GameManager.instance.inputHandler.previousMonster;
-                Debug.Log("There is no monster in the selected slot.");
+                GameManager.instance.audioManager.PlaySFX("Error");
                 GameManager.instance.uiManager.debugConsole.DisplayLogUI("There is no monster in the selected slot.");
                 return;    
             }
+
             _skillManager.Deactivate();
             InactiveAllMonsters();
             _monsterGameObjects[slot].transform.rotation = transform.rotation;
@@ -182,6 +183,7 @@ namespace Monster_System
             _currentMonster = slot;
             _haveMonsters.ChangeMonsterUnitIndicatorRadius(_haveMonsters.GetMonsters()[slot].basicAttackSkill.castRadius);
             _haveMonsters.SpawnSwitchFX();
+            GameManager.instance.audioManager.PlaySFX("Switch");
 
             EvaluateCharPortraitCam(_monsterGameObjects[slot]);
             

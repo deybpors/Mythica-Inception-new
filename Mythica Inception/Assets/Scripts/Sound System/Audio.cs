@@ -7,7 +7,7 @@ namespace Assets.Scripts.Sound_System
 {
     public class Audio
     {
-        [HideInInspector] public string name;
+        public string name;
         public AudioClip clip;
 
         [Range(0f, 1f)]

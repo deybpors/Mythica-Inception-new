@@ -71,6 +71,7 @@ public class DialogueBehavior : PlayableBehaviour
     private void InitiateDialogueUI()
     {
         GameManager.instance.timelineManager.SwitchActiveDirector(_director);
+        GameManager.instance.uiManager.dialogueUI.cutscene = true;
         var dialogueUiGameObject = GameManager.instance.uiManager.dialogueUI.mainDialogueTweener.gameObject;
         if (!dialogueUiGameObject.activeInHierarchy)
             dialogueUiGameObject.SetActive(true);
@@ -83,7 +84,7 @@ public class DialogueBehavior : PlayableBehaviour
             GameManager.instance.inputHandler.ActivatePlayerInputHandler(null, Camera.current);
         }
 
-        GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
+        GameManager.instance.gameStateController.TransitionToState(GameManager.instance.cutsceneState);
         GameManager.instance.inputHandler.SwitchActionMap("Dialogue");
     }
 }

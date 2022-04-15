@@ -4,6 +4,7 @@ using _Core.Others;
 using Assets.Scripts._Core.Managers;
 using Databases.Scripts;
 using DDA;
+using MyBox;
 using Pluggable_AI.Scripts.General;
 using Pluggable_AI.Scripts.States;
 using Quest_System;
@@ -15,14 +16,14 @@ namespace _Core.Managers
 {
     public class GameManager : MonoBehaviour
     {
-
+        [Foldout("Managers", true)]
         public static GameManager instance;
         public DatabaseManager databaseManager;
         public UIManager uiManager;
         public AudioManager audioManager;
         public GameSceneManager gameSceneManager;
         public ObjectPooler pooler;
-        public ScenePicker gameplayScene;
+        public SceneReference gameplayScene;
         public DynamicDifficultyAdjustment difficultyManager;
         public QuestManager questManager;
         public SaveManager saveManager;
@@ -32,12 +33,13 @@ namespace _Core.Managers
         public StateController gameStateController;
         public List<Transform> enemiesSeePlayer;
 
-        [Header("Game States")]
+        [Foldout("States", true)]
         public State gameplayState;
         public State UIState;
         public State dialogueState;
+        public State cutsceneState;
 
-        [HideInInspector] public string currentWorldScenePath = string.Empty;
+        [HideInInspector] public int currentWorldScenePath = -1;
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;
         [HideInInspector] public PlayerSaveData loadedSaveData;

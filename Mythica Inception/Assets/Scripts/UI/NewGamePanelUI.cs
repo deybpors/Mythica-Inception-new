@@ -4,6 +4,7 @@ using _Core.Managers;
 using _Core.Others;
 using Assets.Scripts._Core.Player;
 using Monster_System;
+using MyBox;
 using Quest_System;
 using TMPro;
 using ToolBox.Serialization;
@@ -26,21 +27,27 @@ public class NewGamePanelUI : MonoBehaviour
     public TMP_InputField nameInputField;
     public Button maleButton;
     public Button femaleButton;
-    public string startPlacePath;
+    [ReadOnly] public SceneReference startPlacePath;
     private Sex selectedSex = Sex.Male;
+    private UITweener _newSaveFilePanelTweener;
 
-    [HideInInspector] public bool continueSelected;
+    [ReadOnly] public bool continueSelected;
     private Color _white = Color.white;
 
     void Start()
     {
         maleButton.onClick.AddListener(() => PickSexType(maleButton));
         femaleButton.onClick.AddListener(() => PickSexType(femaleButton));
+        savePanelMinimize.onClick.AddListener(DisableCreateNewSavePanel);
         try
         {
             //TODO: Change StartSceneUI Scene Picker Data to env_Dream
-            startPlacePath = GameManager.instance.uiManager.startSceneUI.scenePicker.path;
-        } catch{}
+            startPlacePath = GameManager.instance.uiManager.startSceneUI.startScene;
+        }
+        catch
+        {
+            //ignored
+        }
     }
 
     public void ShowTweener(UITweener tweener)
@@ -76,7 +83,7 @@ public class NewGamePanelUI : MonoBehaviour
             GameSettings.GetDefaultMonsterSlots(4),
             new EntityHealth(saveManager.defaultPlayerHealth, saveManager.defaultPlayerHealth),
             GameSettings.GetDefaultInventorySlots(30),
-            startPlacePath,
+            startPlacePath.sceneIndex,
             new Dictionary<string, Monster>(),
             new Dictionary<string, PlayerAcceptedQuest>(),
             new Dictionary<string, PlayerAcceptedQuest>(),
@@ -113,5 +120,17 @@ public class NewGamePanelUI : MonoBehaviour
     private void PickSexType(Button whatButton)
     {
         selectedSex = whatButton.Equals(maleButton) ? Sex.Male : Sex.Female;
+    }
+
+    private void DisableCreateNewSavePanel()
+    {
+        if (continueSelected) return;
+        
+        if (_newSaveFilePanelTweener == null)
+        {
+            _newSaveFilePanelTweener = newSaveFilePanel.GetComponent<UITweener>();
+        }
+
+        _newSaveFilePanelTweener.Disable();
     }
 }

@@ -25,6 +25,7 @@ public class DialogueUI : MonoBehaviour
     public UITweener choiceTweener;
     public RectTransform choiceHolder;
     public DialogueChoiceUI[] choiceButtons;
+    [ReadOnly] public bool cutscene = false;
 
     [SerializeField] private string _playerNameTag = "<PLAYER_NAME>";
     [SerializeField] private string _firstPartyMythicaTag = "<MYTHICA_NICKNAME>";
@@ -328,7 +329,10 @@ public class DialogueUI : MonoBehaviour
         else
         {
             mainDialogueTweener.Disable();
-            GameManager.instance.inputHandler.EnterGameplay();
+            if (!cutscene)
+            {
+                GameManager.instance.inputHandler.EnterGameplay();
+            }
             _lineCount = 0;
             _currentConversation = null;
         }

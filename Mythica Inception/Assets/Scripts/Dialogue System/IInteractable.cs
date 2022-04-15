@@ -1,5 +1,4 @@
 ﻿using _Core.Player;
-using Assets.Scripts.Dialogue_System;
 
 namespace Dialogue_System
 {

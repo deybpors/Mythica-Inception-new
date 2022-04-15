@@ -14,7 +14,7 @@ public class PlayerSaveData
     [SerializeField] private List<MonsterSlot> _monsterSlots;
     [SerializeField] private EntityHealth _playerHealth;
     [SerializeField] private List<InventorySlot> _inventorySlots;
-    [SerializeField] private string _currentScenePath;
+    [SerializeField] private int _currentSceneIndex;
     [SerializeField] private Dictionary<string, PlayerAcceptedQuest> _activeQuests;
     [SerializeField] private Dictionary<string, PlayerAcceptedQuest> _finishedQuests;
     [SerializeField] private Dictionary<string, Monster> _discoveredMonsters;
@@ -29,7 +29,7 @@ public class PlayerSaveData
     public List<MonsterSlot> playerMonsters => _monsterSlots;
     public EntityHealth playerHealth => _playerHealth;
     public List<InventorySlot> inventorySlots => _inventorySlots;
-    public string currentScenePath => _currentScenePath;
+    public int currentSceneIndex => _currentSceneIndex;
     public Dictionary<string, PlayerAcceptedQuest> activeQuests => _activeQuests;
     public Dictionary<string, PlayerAcceptedQuest> finishedQuests => _finishedQuests;
     public TimeSpan timeSpent => _timeSpent;
@@ -38,7 +38,7 @@ public class PlayerSaveData
     public OptionsSaveData optionsSaveData => _optionsSaveData;
     public List<MonsterSlot> storageMonsters => _storageMonsters;
 
-    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, string currentScenePath, Dictionary<string, Monster> discoveredMonsters, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, PlayerAcceptedQuest> finishedQuests, TimeSpan timeSpent, DateTime lastOpened, OptionsSaveData optionsSaveData, List<MonsterSlot> storageMonsters)
+    public PlayerSaveData(string playerName, Sex sex, WorldPlacementData playerWorldPlacement, List<MonsterSlot> monsterSlots, EntityHealth playerHealth, List<InventorySlot> inventorySlots, int currentSceneIndex, Dictionary<string, Monster> discoveredMonsters, Dictionary<string, PlayerAcceptedQuest> activeQuests, Dictionary<string, PlayerAcceptedQuest> finishedQuests, TimeSpan timeSpent, DateTime lastOpened, OptionsSaveData optionsSaveData, List<MonsterSlot> storageMonsters)
     {
         _playerName = playerName;
         _sex = sex; 
@@ -46,7 +46,7 @@ public class PlayerSaveData
         _monsterSlots = monsterSlots;
         _playerHealth = playerHealth;
         _inventorySlots = inventorySlots;
-        _currentScenePath = currentScenePath;
+        _currentSceneIndex = currentSceneIndex;
         _activeQuests = activeQuests;
         _finishedQuests = finishedQuests;
         _timeSpent = timeSpent;

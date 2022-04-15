@@ -16,7 +16,7 @@ public class SaveDataAction : Action
 
         if(GameManager.instance.gameStateController.currentState != GameManager.instance.gameplayState) return;
 
-        if(!GameManager.instance.loadedSaveData.optionsSaveData.autoSave) return;
+        if(GameManager.instance.loadedSaveData == null || !GameManager.instance.loadedSaveData.optionsSaveData.autoSave) return;
 
         GameManager.instance.uiManager.debugConsole.DisplayLogUI("Saving data...");
         GameManager.instance.saveManager.SavePlayerData(GameManager.instance.player.GetCurrentSaveData());

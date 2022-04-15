@@ -133,7 +133,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1752716297}
   - component: {fileID: 1752716298}
-  - component: {fileID: 1752716299}
   m_Layer: 0
   m_Name: Initialization
   m_TagString: Untagged
@@ -167,17 +166,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77cc38564bbb44b59204a47d74ee14c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starting: {fileID: 1752716299}
---- !u!114 &1752716299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1752716296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483c9e96d0e0437ca712366f0703bc28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  path: Assets/Scenes/World/env_Start.unity
+  starting:
+    Scene: {fileID: 102900000, guid: 5813ba14a8f45f7418f484d5a096ca11, type: 3}
+    SceneName: env_Start
+    sceneIndex: 3
+    sceneEnabled: 1

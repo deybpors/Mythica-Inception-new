@@ -26,7 +26,7 @@ namespace UI
         public List<Image> skills;
         public List<Image> items;
 
-        [Foldout("Options UI", true)]
+        [Foldout("Credits UI", true)]
         public Button optionsButton;
         public Button optionsMinimizeButton;
         public OptionsUI generalOptionsUI;

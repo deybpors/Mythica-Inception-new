@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2138677392}
-  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
+  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -209,7 +209,6 @@ GameObject:
   - component: {fileID: 136568951}
   - component: {fileID: 136568952}
   - component: {fileID: 136568953}
-  - component: {fileID: 136568954}
   m_Layer: 0
   m_Name: Initializer
   m_TagString: Untagged
@@ -259,19 +258,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 969145013}
   currentWorldCamera: {fileID: 1687258584}
---- !u!114 &136568954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 136568950}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483c9e96d0e0437ca712366f0703bc28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  path: Assets/Scenes/World/env_Opon.unity
 --- !u!1 &140237297
 GameObject:
   m_ObjectHideFlags: 0
@@ -1223,7 +1209,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 969145007}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.75, y: 10.51, z: -148.57}
+  m_LocalPosition: {x: 18.69, y: 10.51, z: -102.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2124097319}
@@ -1546,6 +1532,7 @@ MonoBehaviour:
   _monsters: []
   isPlayer: 0
   _currentMonster: 0
+  currentOutline: {fileID: 0}
 --- !u!114 &969145016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2233,6 +2220,7 @@ MonoBehaviour:
   _monsters: []
   isPlayer: 0
   _currentMonster: 0
+  currentOutline: {fileID: 0}
 --- !u!114 &1549083959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2624,8 +2612,8 @@ Camera:
   m_GameObject: {fileID: 1687258581}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -2666,7 +2654,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1687258581}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: 48.75, y: 22.51, z: -156.57}
+  m_LocalPosition: {x: 18.69, y: 22.51, z: -110.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2917,7 +2905,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1830030837}
   m_LocalRotation: {x: 0.4694253, y: 0, z: 0, w: 0.8829722}
-  m_LocalPosition: {x: 48.75, y: 22.51, z: -156.57}
+  m_LocalPosition: {x: 18.69, y: 22.51, z: -110.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 789864694}

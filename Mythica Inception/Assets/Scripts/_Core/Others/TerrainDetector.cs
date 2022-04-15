@@ -7,10 +7,17 @@ public class TerrainDetector
     private int alphamapHeight;
     private float[,,] splatmapData;
     private int numTextures;
+    private Terrain activeTerrain;
+    private Transform activeTerrainTransform;
+    private readonly Vector3 _zero = Vector3.zero;
 
     public TerrainDetector()
     {
-        terrainData = Terrain.activeTerrain.terrainData;
+        activeTerrain = Terrain.activeTerrain;
+        
+        if(activeTerrain == null) return;
+        activeTerrainTransform = activeTerrain.transform;
+        terrainData = activeTerrain.terrainData;
         alphamapWidth = terrainData.alphamapWidth;
         alphamapHeight = terrainData.alphamapHeight;
 
@@ -20,11 +27,12 @@ public class TerrainDetector
 
     private Vector3 ConvertToSplatMapCoordinate(Vector3 worldPosition)
     {
+        if (activeTerrain == null) return _zero;
+
         Vector3 splatPosition = new Vector3();
-        Terrain ter = Terrain.activeTerrain;
-        Vector3 terPosition = ter.transform.position;
-        splatPosition.x = ((worldPosition.x - terPosition.x) / ter.terrainData.size.x) * ter.terrainData.alphamapWidth;
-        splatPosition.z = ((worldPosition.z - terPosition.z) / ter.terrainData.size.z) * ter.terrainData.alphamapHeight;
+        Vector3 terPosition = activeTerrainTransform.position;
+        splatPosition.x = ((worldPosition.x - terPosition.x) / activeTerrain.terrainData.size.x) * activeTerrain.terrainData.alphamapWidth;
+        splatPosition.z = ((worldPosition.z - terPosition.z) / activeTerrain.terrainData.size.z) * activeTerrain.terrainData.alphamapHeight;
         return splatPosition;
     }
 
@@ -36,11 +44,10 @@ public class TerrainDetector
 
         for (int i = 0; i < numTextures; i++)
         {
-            if (largestOpacity < splatmapData[(int)terrainCord.z, (int)terrainCord.x, i])
-            {
-                activeTerrainIndex = i;
-                largestOpacity = splatmapData[(int)terrainCord.z, (int)terrainCord.x, i];
-            }
+            if (!(largestOpacity < splatmapData[(int) terrainCord.z, (int) terrainCord.x, i])) continue;
+            
+            activeTerrainIndex = i;
+            largestOpacity = splatmapData[(int)terrainCord.z, (int)terrainCord.x, i];
         }
 
         return activeTerrainIndex;

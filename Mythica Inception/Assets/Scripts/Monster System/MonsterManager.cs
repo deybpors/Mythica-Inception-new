@@ -37,7 +37,9 @@ namespace Monster_System
         private List<Sprite> _currentItems = new List<Sprite>();
         private Dictionary<GameObject, Vector3> _charPortraitAlign = new Dictionary<GameObject, Vector3>();
         private Dictionary<GameObject, Renderer[]> _monsterRenderers = new Dictionary<GameObject, Renderer[]>();
+        private Dictionary<GameObject, Outline> _monsterOutlines = new Dictionary<GameObject, Outline>();
         private readonly Vector3 _zero = Vector3.zero;
+        [HideInInspector] public Outline currentOutline;
 
         #endregion
         
@@ -54,14 +56,16 @@ namespace Monster_System
                 _player = GetComponent<Player>();
                 _tamerTameRadius = _player.playerSettings.tameRadius;
                 _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
+                currentOutline = _tamerPrefab.GetComponent<Outline>();
+                _monsterOutlines.Add(_tamerPrefab, currentOutline);
+                _player.playerName = _player.playerName.Equals(string.Empty) ? _tamerPrefab.name : _player.playerName;
             }
-            
+
             _skillManager = skillManager;
             _monsterGameObjects = new List<GameObject>();
             RequestPoolMonstersPrefab();
             GetMonsterAnimators();
             
-            _player.playerName = _player.playerName.Equals(string.Empty) ? _tamerPrefab.name : _player.playerName;
             _activated = true;
         }
 
@@ -88,7 +92,9 @@ namespace Monster_System
                 
                 var monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
                     _monsters[i].monsterName, _monsters[i].monsterPrefab, _zero, Quaternion.identity);
+                _monsterOutlines.Add(monsterObj, monsterObj.GetComponent<Outline>());
                 monsterObj.SetActive(false);
+
                 if (isPlayer)
                 {
                     HandleMonsterRenderers(monsterObj);
@@ -158,7 +164,8 @@ namespace Monster_System
             _haveMonsters.SpawnSwitchFX();
             GameManager.instance.audioManager.PlaySFX("Switch");
             EvaluateCharPortraitCam(_tamerPrefab);
-
+            _monsterOutlines.TryGetValue(_tamerPrefab, out var outline);
+            currentOutline = outline;
             _haveMonsters.ChangeStatsToMonster(_currentMonster);
             
             UpdateGameplayUI(_currentMonster);
@@ -183,6 +190,9 @@ namespace Monster_System
             _currentMonster = slot;
             _haveMonsters.ChangeMonsterUnitIndicatorRadius(_haveMonsters.GetMonsters()[slot].basicAttackSkill.castRadius);
             _haveMonsters.SpawnSwitchFX();
+
+            _monsterOutlines.TryGetValue(_monsterGameObjects[slot], out var outline);
+            currentOutline = outline;
             GameManager.instance.audioManager.PlaySFX("Switch");
 
             EvaluateCharPortraitCam(_monsterGameObjects[slot]);

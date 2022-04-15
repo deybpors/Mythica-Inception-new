@@ -245,6 +245,7 @@ namespace _Core.Input
                     if (dialogueUi.CurrentConversationHasChoice()) return;
 
                     dialogueUi.OnDialogueEnd();
+                    if(dialogueUi.cutscene) return;
                     SwitchToPreviousActionMap(context);
                     return;
                 }

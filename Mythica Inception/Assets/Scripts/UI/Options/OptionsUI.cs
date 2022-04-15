@@ -21,6 +21,7 @@ public class OptionsUI : MonoBehaviour
 
     public void ChangeUIValues()
     {
+        if(GameManager.instance.loadedSaveData == null) return;
         var optionsSaveData = GameManager.instance.loadedSaveData.optionsSaveData;
         autoSave.isOn = optionsSaveData.autoSave;
         difficulty.value = (int) optionsSaveData.difficulty;

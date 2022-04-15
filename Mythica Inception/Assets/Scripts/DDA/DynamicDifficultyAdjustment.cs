@@ -11,7 +11,7 @@ namespace DDA
         private Dictionary<string, ParameterDataNeeded> dictParamDataNeeded = new Dictionary<string, ParameterDataNeeded>();
         private Dictionary<string, DifficultyParameter> dictDiffParam = new Dictionary<string, DifficultyParameter>();
 
-        private void Awake()
+        void Awake()
         {
             var paramCount = difficultyParameters.Count;
             var dataCount = parameterDataNeeded.Count;

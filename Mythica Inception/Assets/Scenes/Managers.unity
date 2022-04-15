@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
+  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -179,7 +179,6 @@ GameObject:
   m_Component:
   - component: {fileID: 721566676}
   - component: {fileID: 721566677}
-  - component: {fileID: 721566678}
   - component: {fileID: 721566679}
   - component: {fileID: 721566680}
   m_Layer: 0
@@ -220,7 +219,11 @@ MonoBehaviour:
   audioManager: {fileID: 1666776876}
   gameSceneManager: {fileID: 1105453173}
   pooler: {fileID: 1573271814}
-  gameplayScene: {fileID: 721566678}
+  gameplayScene:
+    Scene: {fileID: 102900000, guid: c1de51e8faf9a354bbf770223eece228, type: 3}
+    SceneName: Gameplay
+    sceneIndex: 4
+    sceneEnabled: 1
   difficultyManager: {fileID: 980460353}
   questManager: {fileID: 1719308059}
   saveManager: {fileID: 1370879023}
@@ -232,22 +235,10 @@ MonoBehaviour:
   gameplayState: {fileID: 11400000, guid: 3dad947175dfe8c4f860f67a26064c42, type: 2}
   UIState: {fileID: 11400000, guid: acc3cdc9d4b9ea74b83802e6c320474a, type: 2}
   dialogueState: {fileID: 11400000, guid: 0e56e5b56cd8ea446a4d417c8dacc386, type: 2}
-  currentWorldScenePath: 
+  cutsceneState: {fileID: 11400000, guid: 2bec2ac6a04d2e246a085ad6e27ece17, type: 2}
+  currentWorldScenePath: 0
   currentWorldCamera: {fileID: 0}
   player: {fileID: 0}
---- !u!114 &721566678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 721566675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 483c9e96d0e0437ca712366f0703bc28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  path: Assets/Scenes/Gameplay.unity
 --- !u!114 &721566679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +324,14 @@ MonoBehaviour:
     - Failed Encounters
     - Average Party Level
     - Failed Tame Attempts
+  - name: Level Multiplier
+    value: 1
+    minValue: 0.5
+    maxValue: 2
+    valueAdjustment: 0.2
+    increaseDifficulty: 0
+    dataNeeded:
+    - Failed Encounters
   parameterDataNeeded:
   - name: Failed Encounters
     value: 0
@@ -1316,12 +1315,12 @@ MonoBehaviour:
     max: 1
     pitch: 0
   - name: Error
-    clip: {fileID: 8300000, guid: 18d64708daaa6ad449739f0ccdafc7b2, type: 3}
+    clip: {fileID: 8300000, guid: 385fc0ce9f1e0f443b88702c945084bb, type: 3}
     volume: 0.5
     source: {fileID: 0}
     randomPitch: 1
     min: 0.5
-    max: 1
+    max: 0.8
     pitch: 0
   - name: Switch
     clip: {fileID: 8300000, guid: f6ab70d39b6127841ad1ac543bdab44e, type: 3}

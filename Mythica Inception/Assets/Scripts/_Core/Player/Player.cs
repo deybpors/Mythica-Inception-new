@@ -70,6 +70,7 @@ namespace _Core.Player
             savedData = GameManager.instance.loadedSaveData;
             GameManager.instance.uiManager.generalOptionsUi.ChangeUIValues();
             Init();
+            if(savedData == null) return;
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
         }
 

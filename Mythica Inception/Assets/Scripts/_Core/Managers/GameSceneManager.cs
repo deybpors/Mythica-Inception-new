@@ -13,7 +13,7 @@ namespace _Core.Managers
     {
         public UIManager uiManager;
         private float _target;
-        private Dictionary<string, AsyncOperation> _scenesLoading = new Dictionary<string, AsyncOperation>();
+        private Dictionary<int, AsyncOperation> _scenesLoading = new Dictionary<int, AsyncOperation>();
 
         void Update()
         {
@@ -24,7 +24,7 @@ namespace _Core.Managers
             }
         }
 
-        public async void LoadScene(string sceneToAdd, bool withLoadingScreen)
+        public async void LoadScene(int sceneToAdd, bool withLoadingScreen)
         {
             _target = 0;
             uiManager.loadingScreen.progressBar.currentValue = 0;
@@ -51,11 +51,11 @@ namespace _Core.Managers
             scene.allowSceneActivation = true;
 
             if (!GetSceneLoadProgress().Approximately(1f) || !withLoadingScreen) return;
-            
+
             uiManager.loadingScreen.tweener.Disable();
         }
 
-        public async void UnloadScene(string loadedScene, bool withLoadingScreen)
+        public async void UnloadScene(int loadedScene, bool withLoadingScreen)
         {
             _target = 0;
             uiManager.loadingScreen.progressBar.currentValue = 0;

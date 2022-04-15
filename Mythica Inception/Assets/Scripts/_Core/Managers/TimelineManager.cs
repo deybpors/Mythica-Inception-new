@@ -20,7 +20,7 @@ namespace Assets.Scripts._Core.Managers
             if(director == null) return;
 
             _activeDirector.playableGraph.GetRootPlayable(0).SetSpeed(0d);
-            GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
+            GameManager.instance.gameStateController.TransitionToState(GameManager.instance.cutsceneState);
             GameManager.instance.inputHandler.SwitchActionMap("Dialogue");
         }
 

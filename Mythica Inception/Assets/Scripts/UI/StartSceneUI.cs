@@ -1,7 +1,5 @@
-using System;
 using _Core.Managers;
-using _Core.Others;
-using Assets.Scripts._Core.Player;
+using MyBox;
 using Pluggable_AI.Scripts.States;
 using ToolBox.Serialization;
 using UnityEngine;
@@ -10,7 +8,7 @@ namespace UI
 {
     public class StartSceneUI : MonoBehaviour
     {
-        public ScenePicker scenePicker;
+        public SceneReference startScene;
         public GameObject continueButton;
         [SerializeField] private State gameplayState;
         public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
@@ -64,9 +62,22 @@ namespace UI
             }
         }
 
-        public void Options()
+        public void Credits()
         {
         
+        }
+
+        public void Quit()
+        {
+
+        #if UNITY_EDITOR
+            // Application.Quit() does not work in the editor so
+            // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+
         }
 
         public void ContinueGame(int profileIndex)
@@ -83,11 +94,11 @@ namespace UI
             GameManager.instance.loadedSaveData = playerSavedData[profileIndex];
 
             var sceneManager = GameManager.instance.gameSceneManager;
-            var savedScenePath = playerSavedData[profileIndex].currentScenePath;
+            var savedScenePath = playerSavedData[profileIndex].currentSceneIndex;
 
             sceneManager.LoadScene(savedScenePath, true);
             sceneManager.UnloadScene(GameManager.instance.currentWorldScenePath, false);
-            sceneManager.LoadScene(GameManager.instance.gameplayScene.path, false);
+            sceneManager.LoadScene(GameManager.instance.gameplayScene.sceneIndex, false);
             
             GameManager.instance.uiManager.minimapCamera.SetActive(true);
             GameManager.instance.currentWorldScenePath = savedScenePath;

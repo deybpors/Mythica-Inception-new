@@ -47,7 +47,6 @@ namespace Pluggable_AI.Scripts.Actions
             if (!skillManager.activated) return;
             
             var monsterTamerAI = stateController.GetComponent<MonsterTamerAI>();
-            var stamina = stateController.GetComponent<Stamina>();
 
             //get skill slots of the current monster
             var skillSlots = skillManager.GetAllSlots();
@@ -79,7 +78,6 @@ namespace Pluggable_AI.Scripts.Actions
                 {
                     continue;
                 }
-                skillScore[i] *= SkillStaminaTake(skillSlots[i].skill, stamina);
                 skillScore[i] *= SkillOnCooldown(skillSlots[i]);
                 skillScore[i] *= SkillStrategyCheck(skillSlots[i].skill);
             }
@@ -142,11 +140,6 @@ namespace Pluggable_AI.Scripts.Actions
         private float SkillStrategyCheck(Skill skill)
         {
             return skill.skillAiStrategy == SkillAIStrategy.Defense ? 0f : 1f;
-        }
-
-        private float SkillStaminaTake(Skill skill, Stamina stamina)
-        {
-            return skill.staminaTake > stamina.stamina.currentStamina ? 0f : 1f;
         }
 
         private float SkillOnCooldown(SkillSlot skillSlot)

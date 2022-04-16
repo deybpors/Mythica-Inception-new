@@ -53,26 +53,15 @@ public class PlayerQuestManager : MonoBehaviour
         GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
     }
 
-    public bool IsQuestSucceeded(Quest quest)
-    {
-        //check whether the passed acceptedQuest is finished
-        if (activeQuests.TryGetValue(quest.ID, out var playerQuest))
-        {
-            return playerQuest.currentValue >= playerQuest.quest.goal.requiredValue;
-        }
-
-        return false;
-    }
-
     public void GetQuestRewards(PlayerAcceptedQuest acceptedQuest)
     {
         var rewardsCount = acceptedQuest.quest.rewards.Count;
         for (var i = 0; i < rewardsCount; i++)
         {
             var questReward = acceptedQuest.quest.rewards[i];
-            switch (questReward.rewardsType.typeOfReward)
+            switch (questReward.rewardsType.typeEnumOfReward)
             {
-                case RewardTypes.Items:
+                case RewardTypesEnum.Items:
                     var item = questReward.rewardsType.rewardItem;
                     var value = questReward.value;
                     GameManager.instance.player.playerInventory.AddItemInPlayerInventory(item, value);
@@ -82,7 +71,7 @@ public class PlayerQuestManager : MonoBehaviour
                         GameManager.instance.uiManager.UpdateGoldUI();
                     }
                     break;
-                case RewardTypes.Experience:
+                case RewardTypesEnum.Experience:
                     break;
             }
         }

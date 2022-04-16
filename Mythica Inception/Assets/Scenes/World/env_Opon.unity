@@ -7831,6 +7831,8 @@ GameObject:
   m_Component:
   - component: {fileID: 978805869}
   - component: {fileID: 978805870}
+  - component: {fileID: 978805871}
+  - component: {fileID: 978805872}
   m_Layer: 0
   m_Name: World Initializer
   m_TagString: Untagged
@@ -7846,7 +7848,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 978805868}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 48.75, y: 10.51, z: -148.57}
+  m_LocalPosition: {x: 48.75, y: 9.18, z: -148.57}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -7871,6 +7873,33 @@ MonoBehaviour:
   _ambienceNames:
   - Forest
   - Beach
+--- !u!114 &978805871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978805868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3754e3b3d17ff34d9218a48e314daf2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _always: 0
+  _saveKey: AfterDream_OponPlacement
+--- !u!114 &978805872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 978805868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7780533c433652e42bba1013bc7f1fd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lightIntensity: 1
 --- !u!1001 &1008853519
 PrefabInstance:
   m_ObjectHideFlags: 0

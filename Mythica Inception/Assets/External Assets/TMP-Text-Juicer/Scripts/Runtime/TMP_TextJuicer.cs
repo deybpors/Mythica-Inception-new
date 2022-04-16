@@ -263,7 +263,7 @@ namespace BrunoMikoski.TextJuicer
         {
             if ( IsPlaying )
             {
-                internalTime += Time.deltaTime;
+                internalTime += Time.unscaledDeltaTime;
                 if (internalTime < realTotalAnimationTime || playForever)
                     return;
 

@@ -34,10 +34,10 @@ public class Character : ScriptableObjectWithID
     }
 }
 
-[System.Serializable] 
+[Serializable] 
 public class CharacterMood
 {
-    [HideInInspector] public string name;
+    public string name;
     public Emotion emotion;
     public Sprite graphic;
 

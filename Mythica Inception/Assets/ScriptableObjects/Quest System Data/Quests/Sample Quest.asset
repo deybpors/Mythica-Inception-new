@@ -17,14 +17,9 @@ MonoBehaviour:
   description: kill 5 monsters bro
   rewards:
   - rewardsType:
-      rewardType: 0
+      typeOfReward: 0
       rewardItem: {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
-      experienceReward: 0
-      icon: {fileID: 5618026609613044863, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
-      rewardName: 
     value: 100
-  goals:
-    type: 0
-    requiredValue: 5
-  succeedQuest: {fileID: 0}
-  failedQuest: {fileID: 0}
+  goal: {fileID: 11400000, guid: c62a9c4e6203ff148905e053578e4fe2, type: 2}
+  succeedQuests: []
+  failedQuests: []

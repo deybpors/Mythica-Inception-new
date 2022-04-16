@@ -30,6 +30,7 @@ public class MonsterTamedUI : MonoBehaviour
     [SerializeField] private Image _monsterTypeImage;
     [SerializeField] private TMP_InputField _monsterNicknameInput;
     [SerializeField] private TextMeshProUGUI _info;
+    [SerializeField] private bool _isPlaying;
 
     private Monster _monsterDisplayed;
     private GameObject _monsterPrefab;
@@ -50,6 +51,7 @@ public class MonsterTamedUI : MonoBehaviour
         LeanTween.rotateAround(_parentTrans.gameObject, Vector3.up, 360, 4f).setLoopClamp().setIgnoreTimeScale(true);
         
         if (_initializationDone) return;
+
         _ui = GameManager.instance.uiManager;
         _uiTweener = _monsterTamedUI.GetComponent<UITweener>();
         _overlayTweener = _overlay.GetComponent<UITweener>();
@@ -61,6 +63,7 @@ public class MonsterTamedUI : MonoBehaviour
 
     void OnDisable()
     {
+        _isPlaying = false;
         HandleAnimator(AnimatorUpdateMode.Normal);
     }
 
@@ -68,6 +71,11 @@ public class MonsterTamedUI : MonoBehaviour
     {
         if(_monsterTamedUI.activeInHierarchy) return;
         _thisGameObject.SetActive(false);
+    }
+
+    public bool FanfarePlaying()
+    {
+        return _isPlaying;
     }
 
     private void MinimizeChangeToGameplay()
@@ -97,6 +105,8 @@ public class MonsterTamedUI : MonoBehaviour
         {
             _thisGameObject = gameObject;
         }
+
+        _isPlaying = true;
         GameManager.instance.audioManager.PlaySFX("Fanfare", 1);
         ChangeMonster(newMonsterSlot.monster);
         GameManager.instance.gameStateController.TransitionToState(GameManager.instance.UIState);

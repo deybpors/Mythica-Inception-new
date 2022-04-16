@@ -1188,7 +1188,6 @@ GameObject:
   - component: {fileID: 969145014}
   - component: {fileID: 969145015}
   - component: {fileID: 969145016}
-  - component: {fileID: 969145018}
   - component: {fileID: 969145019}
   - component: {fileID: 969145020}
   - component: {fileID: 969145021}
@@ -1435,6 +1434,7 @@ MonoBehaviour:
     right: {fileID: 883345249}
   unitIndicator: {fileID: 682371732}
   vectorIndicator: {fileID: 981958594}
+  _gamePlayLight: {fileID: 2138677392}
   tempSpeed: 0
   tempAttackRate: 0
   selectionManager: {fileID: 0}
@@ -1566,21 +1566,6 @@ MonoBehaviour:
   layer:
     serializedVersion: 2
     m_Bits: 4496
---- !u!114 &969145018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969145007}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94cb8b22f1d1aa4090b070a56859297, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina:
-    currentStamina: 0
-    fullStamina: 0
 --- !u!114 &969145019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2176,7 +2161,6 @@ GameObject:
   - component: {fileID: 1549083959}
   - component: {fileID: 1549083958}
   - component: {fileID: 1549083957}
-  - component: {fileID: 1549083967}
   m_Layer: 6
   m_Name: Tamer
   m_TagString: Enemy
@@ -2303,6 +2287,7 @@ MonoBehaviour:
     left: {fileID: 0}
     right: {fileID: 0}
   experienceOrbSpawner: {fileID: 0}
+  expOrbs: 1
   monsterAttacker:
     inParty: 0
     slotNumber: 0
@@ -2436,21 +2421,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1549083967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549083956}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94cb8b22f1d1aa4090b070a56859297, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina:
-    currentStamina: 100
-    fullStamina: 100
 --- !u!1 &1634128284
 GameObject:
   m_ObjectHideFlags: 0

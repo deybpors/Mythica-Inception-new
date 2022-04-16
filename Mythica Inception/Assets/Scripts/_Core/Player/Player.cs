@@ -35,6 +35,7 @@ namespace _Core.Player
         [ReadOnly] public ProjectileRelease projectileReleases;
         [ReadOnly] public GameObject unitIndicator;
         [ReadOnly] public GameObject vectorIndicator;
+        [SerializeField] private Light _gamePlayLight;
 
         #region Hidden Fields
 
@@ -72,6 +73,7 @@ namespace _Core.Player
             Init();
             if(savedData == null) return;
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
+            GameManager.instance.mainLight = _gamePlayLight;
         }
 
         #region Initialization

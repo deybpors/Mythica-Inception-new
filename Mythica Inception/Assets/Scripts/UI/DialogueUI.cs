@@ -15,7 +15,6 @@ using UnityEngine.UI;
 public class DialogueUI : MonoBehaviour
 {
     public UITweener mainDialogueTweener;
-
     public Image speaker;
     public RectTransform speakerHolder;
     public TextMeshProUGUI dialogueText;
@@ -30,6 +29,9 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private string _playerNameTag = "<PLAYER_NAME>";
     [SerializeField] private string _firstPartyMythicaTag = "<MYTHICA_NICKNAME>";
     [SerializeField] private TMP_TextJuicer _dialogueTextJuicer;
+    [SerializeField] private Character _maleCharacter;
+    [SerializeField] private Character _femaleCharacter;
+
     private Conversation _currentConversation;
     private Character _currentCharacter;
     private int _lineCount = 0;
@@ -80,23 +82,24 @@ public class DialogueUI : MonoBehaviour
         nameHolder.SetActive(false);
         nameText.text = string.Empty;
 
-        var lineCharacter = conversationToDisplay.lines[_lineCount].character;
-        if (lineCharacter != null)
+        _currentCharacter = conversationToDisplay.lines[_lineCount].character;
+
+        if (_currentCharacter == null)
         {
-            _currentCharacter = lineCharacter;
-
-            //change name box if its not the same value already
-            if (!nameText.text.Equals(lineCharacter.name))
-            {
-                nameText.text = lineCharacter.name;
-            }
-
-            nameHolder.SetActive(true);
-            //get the mood graphic of the character and initialize speaker picture placement
-            var characterMoodGraphic = GetEmotionGraphic(lineCharacter, conversationToDisplay.lines[_lineCount].emotion);
-            InitializeSpeakerPicture(characterMoodGraphic, conversationToDisplay.lines[_lineCount].speakerDirection);
-            speakerHolder.gameObject.SetActive(true);
+            _currentCharacter = GameManager.instance.loadedSaveData.sex == Sex.Male ? _maleCharacter : _femaleCharacter;
         }
+
+        //change name box if its not the same value already
+        if (!nameText.text.Equals(_currentCharacter.fullName))
+        {
+            nameText.text = _currentCharacter.fullName;
+        }
+
+        nameHolder.SetActive(true);
+        //get the mood graphic of the character and initialize speaker picture placement
+        var characterMoodGraphic = GetEmotionGraphic(_currentCharacter, conversationToDisplay.lines[_lineCount].emotion);
+        InitializeSpeakerPicture(characterMoodGraphic, conversationToDisplay.lines[_lineCount].speakerDirection);
+        speakerHolder.gameObject.SetActive(true);
 
         //change dialogue text
         ManageDialogueString(conversationToDisplay.lines[_lineCount].text);
@@ -217,18 +220,22 @@ public class DialogueUI : MonoBehaviour
             EndConversation(choices);
         }
 
-        var lineCharacter = line.character;
-        if (lineCharacter != null && displayCharPic)
+        if (_currentCharacter == null)
+        {
+            _currentCharacter = GameManager.instance.loadedSaveData.sex == Sex.Male ? _maleCharacter : _femaleCharacter;
+        }
+
+        if (_currentCharacter != null && displayCharPic)
         {
             //change name box if its not the same value already
-            if (!nameText.text.Equals(lineCharacter.name))
+            if (!nameText.text.Equals(_currentCharacter.fullName))
             {
-                nameText.text = lineCharacter.name;
+                nameText.text = _currentCharacter.fullName;
             }
 
             nameHolder.SetActive(true);
             //get the mood graphic of the character and initialize speaker picture placement
-            var characterMoodGraphic = GetEmotionGraphic(lineCharacter, line.emotion);
+            var characterMoodGraphic = GetEmotionGraphic(_currentCharacter, line.emotion);
             InitializeSpeakerPicture(characterMoodGraphic, line.speakerDirection);
             speakerHolder.gameObject.SetActive(true);
         }
@@ -353,7 +360,7 @@ public class DialogueUI : MonoBehaviour
                     : text[index] + "_FEMALE".ToUpperInvariant();
                 GameManager.instance.audioManager.PlaySFX(dialogueSFXName, _currentCharacter.dialoguePitch);
             }
-            yield return new WaitForSeconds(_dialogueTextJuicer.Delay * 2.5f);
+            yield return new WaitForSecondsRealtime(_dialogueTextJuicer.Delay * 2.5f);
             index++;
         }
     }

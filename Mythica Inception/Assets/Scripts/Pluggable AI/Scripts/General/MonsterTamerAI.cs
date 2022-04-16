@@ -16,6 +16,7 @@ namespace Pluggable_AI.Scripts.General
     {
         [Foldout("Monster Tamer AI Fields", true)]
         public bool tamer;
+        public bool initializeOnStart;
         public ProgressBarUI healthBar;
         public ProgressBarUI tameValueBarUI;
         public List<MonsterSlot> monsterSlots;
@@ -23,6 +24,7 @@ namespace Pluggable_AI.Scripts.General
         private TameValue _tameValue;
         public ProjectileRelease projectileReleases;
         public GameObject experienceOrbSpawner;
+        public bool expOrbs = true;
 
         [ReadOnly] public MonsterSlot monsterAttacker;
         private Transform _thisTransform;
@@ -32,12 +34,20 @@ namespace Pluggable_AI.Scripts.General
         [HideInInspector] public WildMonsterSpawner spawner;
         [HideInInspector] public Health healthComponent;
         [HideInInspector] public int currentMonster = 0;
-        private List<GameObject> _monsterGameObjects;
+        private List<GameObject> _monsterGameObjects = new List<GameObject>();
         private SkillManager _skillManager;
         private MonsterManager _monsterManager;
         private Renderer _monsterRenderer;
 
         #endregion
+
+        void Start()
+        {
+            if (initializeOnStart)
+            {
+                ActivateMonsterAi();
+            }
+        }
 
         private void Init()
         {
@@ -50,16 +60,30 @@ namespace Pluggable_AI.Scripts.General
             InitializeCurrentMonsterHealth();
             InitializeMonstersData();
             _skillManager.ActivateSkillManager(this);
-            SpawnMonstersFromPool();
+            _monsterManager.ActivateMonsterManager(this, _skillManager);
+            _monsterGameObjects.AddRange(_monsterManager.GetMonsterGameObjects());
             currentAnimator = _monsterGameObjects[0].GetComponent<Animator>();
             _monsterRenderer = _monsterGameObjects[0].GetComponent<Renderer>();
+            _monsterGameObjects[0].SetActive(true);
+            CorrectRotations();
             stateController.active = true;
         }
 
         void Update()
         {
+            if (GameManager.instance.gameStateController.currentState == GameManager.instance.gameplayState)
+            {
+                if(_monsterManager.currentOutline == null) return;
+                _monsterManager.currentOutline.enabled = true;
+            }
+            else
+            {
+                if (_monsterManager.currentOutline == null) return;
+                _monsterManager.currentOutline.enabled = false;
+            }
+
             if (_monsterRenderer != null && !_monsterRenderer.isVisible) return;
-            
+
             GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
         }
 
@@ -78,6 +102,16 @@ namespace Pluggable_AI.Scripts.General
             gameObject.SetActive(true);
             spawner = spawnerRef;
             stateController.ActivateAI(true, waypointsList, null);
+        }
+
+        private void ActivateMonsterAi()
+        {
+            if (_thisTransform == null)
+            {
+                _thisTransform = transform;
+            }
+            Init();
+            stateController.ActivateAI(true, waypoints, null);
         }
 
         private void InitializeCurrentMonsterHealth()
@@ -104,14 +138,11 @@ namespace Pluggable_AI.Scripts.General
             }
         }
 
-        private void SpawnMonstersFromPool()
+        private void CorrectRotations()
         {
-            for (var i = 0; i < monsterSlots.Count; i++)
+            for (var i = 0; i < _monsterGameObjects.Count; i++)
             {
-                var monsterObj = GameManager.instance.pooler.SpawnFromPool(_thisTransform, monsterSlots[i].monster.monsterName,
-                    monsterSlots[i].monster.monsterPrefab, Vector3.zero, Quaternion.identity);
-                _monsterGameObjects ??= new List<GameObject>();
-                _monsterGameObjects.Add(monsterObj);
+                _monsterGameObjects[i].transform.localRotation = Quaternion.identity;
             }
         }
 
@@ -200,31 +231,33 @@ namespace Pluggable_AI.Scripts.General
 
             healthBar.maxValue = healthComponent.health.maxHealth;
             healthBar.currentValue = healthComponent.health.currentHealth;
-            
-            if (monsterSlots[currentMonster].currentHealth <= 0)
-            {
-                var slotToSwitch = 9999999;
-                ExtractExpOrbs();
-                for (int i = 0; i < monsterSlots.Count; i++)
-                {
-                    if (monsterSlots[i].currentHealth > 0)
-                    {
-                        slotToSwitch = i;
-                    }
-                }
 
-                if (slotToSwitch > monsterSlots.Count)
+            if (monsterSlots[currentMonster].currentHealth > 0) return;
+            
+            var slotToSwitch = 9999999;
+
+            if(expOrbs) ExtractExpOrbs();
+
+            var monsterCount = monsterSlots.Count;
+            
+            for (var i = 0; i < monsterCount; i++)
+            {
+                if (monsterSlots[i].currentHealth > 0)
                 {
-                    Die();
+                    slotToSwitch = i;
                 }
-                else
-                {
-                    if (_monsterManager != null)
-                    {
-                        _monsterManager.SwitchMonster(slotToSwitch);
-                        currentMonster = slotToSwitch;
-                    }
-                }
+            }
+
+            if (slotToSwitch > monsterCount)
+            {
+                Die();
+            }
+            else
+            {
+                if (_monsterManager == null) return;
+                
+                _monsterManager.SwitchMonster(slotToSwitch);
+                currentMonster = slotToSwitch;
             }
         }
 
@@ -251,14 +284,13 @@ namespace Pluggable_AI.Scripts.General
             //if this object is a wild mythica
             if (!tamer)
             {
-                //TODO: Update Kill Quest Type here
-                //GameManager.instance.questManager.UpdateKillQuest();
+                GameManager.instance.questManager.UpdateKillQuest(monsterSlots[0].monster);
             }
             
             
             if (enemyCount > 0) return;
             
-            //whenever we cleared an encountered
+            //whenever we cleared an encounter
             GameManager.instance.DifficultyUpdateAdd("Failed Encounters", 0);
             var player = GameManager.instance.player;
             GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));

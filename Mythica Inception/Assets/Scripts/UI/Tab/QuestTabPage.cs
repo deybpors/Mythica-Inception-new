@@ -56,8 +56,12 @@ public class QuestTabPage : TabPage
     protected override void OnActive()
     {
         Initialize();
-        
-        if(_questSlots.Count <= 0) return;
+
+        if (_questSlots.Count <= 0)
+        {
+            BlankInfo();
+            return;
+        }
         _questSlots.Values.ToList()[0].button.onClick.Invoke();
 
         if (_scrollRectTransform == null)
@@ -137,6 +141,18 @@ public class QuestTabPage : TabPage
 
         var text = "<align=\"center\"><b><size=200%>" + selectedQuest.quest.title + "</size></b>\n" + selectedQuest.quest.description;
         _description.text = text;
+        _logoImage.sprite = _questLogo;
+        _logoImage.color = _yellow;
+    }
+
+    private void BlankInfo()
+    {
+        foreach (var pattern in _patterns)
+        {
+            pattern.SetActive(false);
+        }
+
+        _description.text = string.Empty;
         _logoImage.sprite = _questLogo;
         _logoImage.color = _yellow;
     }

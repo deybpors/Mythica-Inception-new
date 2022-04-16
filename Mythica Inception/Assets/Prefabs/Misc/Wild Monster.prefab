@@ -290,7 +290,6 @@ GameObject:
   - component: {fileID: 8265144103910172170}
   - component: {fileID: 8265144103910172165}
   - component: {fileID: 8265144103910172164}
-  - component: {fileID: 8265144103910172167}
   m_Layer: 6
   m_Name: Wild Monster
   m_TagString: Enemy
@@ -424,7 +423,6 @@ MonoBehaviour:
     left: {fileID: 2651213790687896718}
     right: {fileID: 3286597249750619458}
   experienceOrbSpawner: {fileID: 1144196274050720989, guid: 378c2a537a584a8428887f65c560d841, type: 3}
-  spawner: {fileID: 0}
   monsterAttacker:
     inParty: 0
     slotNumber: 0
@@ -461,6 +459,7 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
+  spawner: {fileID: 0}
   healthComponent: {fileID: 0}
   currentMonster: 0
 --- !u!114 &8265144103910172169
@@ -479,8 +478,8 @@ MonoBehaviour:
   machineEyes: {fileID: 8265144104670599809}
   currentState: {fileID: 11400000, guid: 0e45a87214234fd4fbb0bd77efd15d00, type: 2}
   remainState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
-  player: {fileID: 0}
   aI: {fileID: 0}
+  player: {fileID: 0}
   controllerAnimator: {fileID: 0}
   machineDestination: {x: 0, y: 0, z: 0}
   stateBoolVariable: 0
@@ -528,10 +527,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c364c912dccae7e4b9aac55dd01a7d4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _charPortraitCam: {fileID: 0}
   _activated: 0
   _monsters: []
   isPlayer: 0
   _currentMonster: 0
+  currentOutline: {fileID: 0}
 --- !u!114 &8265144103910172165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -566,21 +567,6 @@ MonoBehaviour:
   maxTameValue: 100
   currentTameValue: 0
   tameValueBarUI: {fileID: 0}
---- !u!114 &8265144103910172167
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265144103910172166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f94cb8b22f1d1aa4090b070a56859297, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stamina:
-    currentStamina: 100
-    fullStamina: 100
 --- !u!1 &8265144104083982724
 GameObject:
   m_ObjectHideFlags: 0

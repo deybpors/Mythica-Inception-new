@@ -15,12 +15,16 @@ public class PlayGameplayAction : Action
             pauseManager.PauseGameplay(1);
         }
 
-        if (GameManager.instance.uiManager.gameplayUICanvas.activeInHierarchy) return;
-        
-        GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+        if (!GameManager.instance.uiManager.gameplayUICanvas.activeInHierarchy)
+        {
+            GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
+        }
 
-        if(GameManager.instance.player == null) return;
+
+        if (GameManager.instance.player == null) return;
         _playerOutline = GameManager.instance.player.monsterManager.currentOutline;
+
+        if(_playerOutline.enabled) return;
         _playerOutline.enabled = true;
     }
 }

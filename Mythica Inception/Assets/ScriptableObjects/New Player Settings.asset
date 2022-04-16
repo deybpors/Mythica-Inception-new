@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21ff1783fa45d4b499486a1be217834f, type: 3}
   m_Name: New Player Settings
   m_EditorClassIdentifier: 
+  pauseTimeScale: 0.05
   deathParticles: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
   male: {fileID: 5249737127030433709, guid: 6785e0f1fdda5424b80c7b3f5b3d3852, type: 3}
   female: {fileID: 7565443119133257875, guid: 2ff558ed64a7dca43bb89744beb01249, type: 3}

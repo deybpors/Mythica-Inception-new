@@ -57,7 +57,10 @@ namespace Monster_System
                 _tamerTameRadius = _player.playerSettings.tameRadius;
                 _tamerAnimator = _tamerPrefab.GetComponent<Animator>();
                 currentOutline = _tamerPrefab.GetComponent<Outline>();
-                _monsterOutlines.Add(_tamerPrefab, currentOutline);
+                if (currentOutline != null)
+                {
+                    _monsterOutlines.Add(_tamerPrefab, currentOutline);
+                }
                 _player.playerName = _player.playerName.Equals(string.Empty) ? _tamerPrefab.name : _player.playerName;
             }
 
@@ -92,7 +95,9 @@ namespace Monster_System
                 
                 var monsterObj = GameManager.instance.pooler.SpawnFromPool(transform,
                     _monsters[i].monsterName, _monsters[i].monsterPrefab, _zero, Quaternion.identity);
-                _monsterOutlines.Add(monsterObj, monsterObj.GetComponent<Outline>());
+                var outline = monsterObj.GetComponent<Outline>();
+                currentOutline = outline;
+                _monsterOutlines.Add(monsterObj, outline);
                 monsterObj.SetActive(false);
 
                 if (isPlayer)
@@ -283,6 +288,11 @@ namespace Monster_System
                 }
                 GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot, _currentSkills, _currentItems);
             }
+        }
+
+        public List<GameObject> GetMonsterGameObjects()
+        {
+            return _monsterGameObjects;
         }
     }
 }

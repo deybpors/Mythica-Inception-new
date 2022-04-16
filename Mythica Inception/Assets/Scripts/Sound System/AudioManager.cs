@@ -231,12 +231,13 @@ namespace SoundSystem
         public void PlayMusic(string musicName)
         {
             if (!_musicDict.TryGetValue(musicName.ToUpperInvariant().Replace(" ", string.Empty), out var music)) return;
+            _musicTypePlayed = MusicTypePlayed.Name;
+
             if (_currentMusic.name == musicName) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(music));
             _currentMusic = music;
-            _musicTypePlayed = MusicTypePlayed.Name;
         }
 
         public void PlayMusic(MusicMood mood)
@@ -245,6 +246,8 @@ namespace SoundSystem
             {
                 if(_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
             }
+
+            _musicTypePlayed = MusicTypePlayed.Mood;
 
             var musicInMood = new List<Music>();
 
@@ -268,7 +271,6 @@ namespace SoundSystem
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
             _currentMusic = musicToPlay;
-            _musicTypePlayed = MusicTypePlayed.Mood;
         }
 
         public void PlayMusic(MusicSituation situation)
@@ -277,7 +279,7 @@ namespace SoundSystem
             {
                 if (_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
             }
-
+            _musicTypePlayed = MusicTypePlayed.Situation;
             var musicInSituation = new List<Music>();
 
             foreach (var music in _musicList)
@@ -301,7 +303,6 @@ namespace SoundSystem
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
             _currentMusic = musicToPlay;
-            _musicTypePlayed = MusicTypePlayed.Situation;
         }
 
         public void PlaySFX(string soundName)

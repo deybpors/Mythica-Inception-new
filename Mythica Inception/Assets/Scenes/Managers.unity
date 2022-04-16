@@ -239,6 +239,7 @@ MonoBehaviour:
   currentWorldScenePath: 0
   currentWorldCamera: {fileID: 0}
   player: {fileID: 0}
+  mainLight: {fileID: 0}
 --- !u!114 &721566679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,6 +1266,11 @@ MonoBehaviour:
     volume: 1
     source: {fileID: 0}
     loop: 1
+  - name: Cave
+    clip: {fileID: 8300000, guid: 81aa2b8eeece1d749bc33ac169485626, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    loop: 1
   _soundFx:
   - name: Level Up
     clip: {fileID: 8300000, guid: 04edbdb57e985b542b8ea10c3c837a6e, type: 3}
@@ -1933,4 +1939,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d88fb2ecfe4efba2d59d88319f779e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questSelected: {fileID: 0}

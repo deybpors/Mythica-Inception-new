@@ -43,6 +43,7 @@ namespace _Core.Managers
         [HideInInspector] public Camera currentWorldCamera;
         [HideInInspector] public Player.Player player;
         [HideInInspector] public PlayerSaveData loadedSaveData;
+        [HideInInspector] public Light mainLight;
 
         void Awake()
         {

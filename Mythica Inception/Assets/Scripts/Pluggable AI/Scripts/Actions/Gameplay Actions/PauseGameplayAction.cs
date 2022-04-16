@@ -6,10 +6,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Gameplay FSM/Actions/Pause Gameplay")]
 public class PauseGameplayAction : Action
 {
-    [Range(0, .5f)]
-    public float pauseTimeScale = .1f;
     public override void Act(StateController stateController)
     {
-        GameManager.instance.pauseManager.PauseGameplay(pauseTimeScale);
+        GameManager.instance.pauseManager.PauseGameplay(GameManager.instance.player.playerSettings.pauseTimeScale);
     }
 }

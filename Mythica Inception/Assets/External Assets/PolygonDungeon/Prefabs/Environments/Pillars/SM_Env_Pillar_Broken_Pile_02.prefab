@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3336322}
   - component: {fileID: 2380526}
   - component: {fileID: 2627170301437174620}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Env_Pillar_Broken_Pile_02
   m_TagString: Untagged
   m_Icon: {fileID: 0}

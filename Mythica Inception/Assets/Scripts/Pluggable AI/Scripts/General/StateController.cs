@@ -45,7 +45,6 @@ namespace Pluggable_AI.Scripts.General
             active = activate;
             stateTimeElapsed = 0;
             if (aI == null) return;
-            Debug.Log(waypointList.Count);
             aI.waypoints = waypointList;
             aI.agent.enabled = active;
         }

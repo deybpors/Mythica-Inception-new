@@ -7,6 +7,7 @@ namespace Assets.Scripts._Core.Player
     [CreateAssetMenu(menuName = "Player/Player Settings")]
     public class PlayerSettings : ScriptableObject
     {
+        public float pauseTimeScale = .1f;
         public GameObject deathParticles;
         public GameObject male;
         public GameObject female;

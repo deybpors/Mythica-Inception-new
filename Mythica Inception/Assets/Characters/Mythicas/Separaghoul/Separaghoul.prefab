@@ -770,11 +770,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d709b970b456e478d22580d66ed29b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _grassClip: {fileID: 0}
-  _sandClip: {fileID: 0}
-  _concreteClip: {fileID: 0}
-  _rockClip: {fileID: 0}
-  _flapClip: {fileID: 8300000, guid: 36c4be22df995a64b972b865099d82f3, type: 3}
+  _grassStep: Grass Step
+  _sandStep: Sand Step
+  _concreteStep: Concrete Step
+  _rockStep: Rock Step
 --- !u!82 &342382255222376739
 AudioSource:
   m_ObjectHideFlags: 0

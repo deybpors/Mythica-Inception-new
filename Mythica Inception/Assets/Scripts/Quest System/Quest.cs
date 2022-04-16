@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _Core.Others;
 using _Core.Player;
 using Items_and_Barter_System.Scripts;
+using MyBox;
 using UnityEngine;
 
 namespace Quest_System
@@ -35,19 +36,21 @@ namespace Quest_System
     {
         public Quest quest;
         public Character questGiver;
-        public int currentValue;
+        public int currentAmount;
+        public bool completed;
         public DateTime dateAccepted;
 
         public PlayerAcceptedQuest(Quest newQuest, Character questGiver, DateTime dateAccepted)
         {
             quest = newQuest;
             this.questGiver = questGiver;
-            currentValue = 0;
+            currentAmount = 0;
             this.dateAccepted = dateAccepted;
+            completed = false;
         }
     }
 
-    public enum RewardTypes
+    public enum RewardTypesEnum
     {
         Items, Experience,
     }

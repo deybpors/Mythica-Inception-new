@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3330200}
   - component: {fileID: 2376232}
   - component: {fileID: 4542047913115672125}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: SM_Env_Pillar_Square_03
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -107,6 +107,10 @@ PrefabInstance:
     - target: {fileID: 103198, guid: f65b497ff807d95439b38e7da2fab667, type: 3}
       propertyPath: m_Name
       value: FX_Fire_02
+      objectReference: {fileID: 0}
+    - target: {fileID: 103198, guid: f65b497ff807d95439b38e7da2fab667, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 103198, guid: f65b497ff807d95439b38e7da2fab667, type: 3}
       propertyPath: m_StaticEditorFlags

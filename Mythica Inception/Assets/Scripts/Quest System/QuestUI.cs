@@ -16,6 +16,7 @@ public class QuestUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _questDescription;
     [SerializeField] private Image _questGiverImage;
     [SerializeField] private List<QuestRewardsUI> _questRewards;
+    [SerializeField] private Sprite _experienceRewardIcon;
     [SerializeField] private Button _acceptButton;
 
     [Header("Quest Icon Panel")]
@@ -31,8 +32,8 @@ public class QuestUI : MonoBehaviour
             {
                 var index = i;
                 void OpenQuest() =>
-                    OpenQuestInfoPanel(acceptedQuests[index].quest, acceptedQuests[index].questGiver.facePicture);
-                _questIconItems[i].SetupQuestIcon(acceptedQuests[i].quest, OpenQuest);
+                    OpenQuestInfoPanel(acceptedQuests[index], acceptedQuests[index].questGiver.facePicture);
+                _questIconItems[i].SetupQuestIcon(acceptedQuests[i], OpenQuest);
             }
             catch
             {
@@ -41,10 +42,16 @@ public class QuestUI : MonoBehaviour
         }
     }
 
-    public void OpenQuestInfoPanel(Quest quest, Sprite questGiverPicture)
+    private void OpenQuestInfoPanel(PlayerAcceptedQuest active, Sprite questGiverPicture)
     {
-        _questTitle.text = quest.title;
-        _questDescription.text = quest.description;
+        _questTitle.text = active.quest.title;
+
+        var description = active.quest.description;
+        if (active.completed)
+        {
+            description += "\n\n<align=\"center\"><color=#b3f47a>This quest is completed. You may go to " + active.questGiver.fullName + " to claim your reward.";
+        }
+        _questDescription.text = description;
         _questGiverImage.sprite = questGiverPicture;
         var rewardsCount = _questRewards.Count;
         
@@ -54,7 +61,12 @@ public class QuestUI : MonoBehaviour
             _questRewards[i].gameObject.SetActive(true);
             try
             {
-                _questRewards[i].SetupRewardsUI(quest.rewards[i].value.ToString(), quest.rewards[i].rewardsType.icon);
+                var icon = active.quest.rewards[i].rewardsType.typeEnumOfReward == RewardTypesEnum.Items
+                    ? active.quest.rewards[i].rewardsType
+                        .rewardItem.itemIcon
+                    : _experienceRewardIcon;
+                _questRewards[i].SetupRewardsUI(active.quest.rewards[i].rewardsType.typeEnumOfReward,
+                    active.quest.rewards[i].rewardsType.rewardItem, active.quest.rewards[i].value, icon);
             }
             catch
             {

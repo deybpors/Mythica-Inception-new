@@ -1,5 +1,6 @@
 ﻿
 using _Core.Managers;
+using MyBox;
 using UnityEngine;
 using UnityEngine.Playables;
 
@@ -7,7 +8,7 @@ namespace Assets.Scripts._Core.Managers
 {
     public class TimelineManager : MonoBehaviour
     {
-        private PlayableDirector _activeDirector;
+        [ReadOnly] [SerializeField] private PlayableDirector _activeDirector;
 
         public void SwitchActiveDirector(PlayableDirector newDirector)
         {

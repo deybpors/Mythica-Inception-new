@@ -29,13 +29,14 @@ namespace Items_and_Barter_System.Scripts
                 }
 
                 itemAdded = slot.AddInSlot(amountToAdd);
+                GameManager.instance.questManager.UpdateGatherQuest(slot);
                 break;
             }
 
             GameManager.instance.uiManager.UpdateGoldUI();
 
             if (itemAdded) return;
-            
+
             var newSlot = new InventorySlot(item, amountToAdd);
             AddInEmptySlot(newSlot);
         }
@@ -49,6 +50,7 @@ namespace Items_and_Barter_System.Scripts
                 
                 inventorySlots[i].inventoryItem = newSlot.inventoryItem;
                 inventorySlots[i].amountOfItems = newSlot.amountOfItems;
+                GameManager.instance.questManager.UpdateGatherQuest(newSlot);
                 break;
             }
         }

@@ -11,6 +11,9 @@ TextureImporter:
   - first:
       213: -1349495005746550870
     second: Death
+  - first:
+      213: 1309329872372012145
+    second: Exit To Main Menu
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -534,7 +537,7 @@ TextureImporter:
         width: 152
         height: 214
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -542,6 +545,27 @@ TextureImporter:
       bones: []
       spriteID: aa720543171a54de0800000000000000
       internalID: -1349495005746550870
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Exit To Main Menu
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 89
+        width: 194
+        height: 197
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1749a80f49cab2210800000000000000
+      internalID: 1309329872372012145
       vertices: []
       indices: 
       edges: []

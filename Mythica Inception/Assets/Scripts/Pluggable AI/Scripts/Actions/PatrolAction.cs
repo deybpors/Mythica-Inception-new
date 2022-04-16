@@ -20,15 +20,23 @@ namespace Pluggable_AI.Scripts.Actions
             }
             stateController.controllerAnimator.SetBool("Attack", false);
             var nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
-            stateController.aI.agent.destination = nextDestination;
-            stateController.machineDestination = nextDestination;
-            
-            stateController.aI.agent.isStopped = false;
-            
-            if (stateController.aI.agent.remainingDistance <= stateController.aI.agent.stoppingDistance &&
-                !stateController.aI.agent.pathPending)
+            try
             {
-                stateController.aI.nextWaypoint = (stateController.aI.nextWaypoint + 1) % stateController.aI.waypoints.Count;
+                stateController.aI.agent.destination = nextDestination;
+                stateController.machineDestination = nextDestination;
+
+                stateController.aI.agent.isStopped = false;
+
+                if (stateController.aI.agent.remainingDistance <= stateController.aI.agent.stoppingDistance &&
+                    !stateController.aI.agent.pathPending)
+                {
+                    stateController.aI.nextWaypoint =
+                        (stateController.aI.nextWaypoint + 1) % stateController.aI.waypoints.Count;
+                }
+            }
+            catch
+            {
+                stateController.aI.agent.Warp(stateController.thisTransform.position);
             }
         }
     }

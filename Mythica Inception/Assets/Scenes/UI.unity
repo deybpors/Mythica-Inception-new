@@ -9512,6 +9512,7 @@ MonoBehaviour:
   _monsterTypeImage: {fileID: 423065756}
   _monsterNicknameInput: {fileID: 2059864782}
   _info: {fileID: 1907710416}
+  _isPlaying: 0
 --- !u!4 &351964776
 Transform:
   m_ObjectHideFlags: 0
@@ -12445,7 +12446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToAnimate: {fileID: 0}
-  ignoreTimeScale: 0
+  ignoreTimeScale: 1
   animationType: 2
   easeType: 4
   duration: 0.1

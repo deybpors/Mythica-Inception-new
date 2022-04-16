@@ -31,11 +31,13 @@ namespace Pluggable_AI.Scripts.General
         [HideInInspector] public Vector3 machineDestination;
         [HideInInspector] public bool stateBoolVariable;
         [HideInInspector] public float stateTimeElapsed;
+        [HideInInspector] public Transform thisTransform;
 
         public bool active;
 
         void Start()
         {
+            thisTransform = transform;
             aI = GetComponent<GenericAI>();
         }
 

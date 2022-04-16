@@ -3,9 +3,10 @@
 --- !u!1 &181408
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 5
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
   m_Component:
   - component: {fileID: 411786}
   - component: {fileID: 11419446}
@@ -19,9 +20,10 @@ GameObject:
   m_IsActive: 1
 --- !u!4 &411786
 Transform:
-  m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181408}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,9 +34,10 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &11419446
 MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181408}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -45,7 +48,7 @@ MonoBehaviour:
     combineJobMode: 0
     threadAmountMode: 0
     combineMeshesPerFrame: 4
-    useMultiThreading: 0
+    useMultiThreading: 1
     useMainThread: 1
     customThreadAmount: 1
     showStats: 0
@@ -147,15 +150,16 @@ MonoBehaviour:
     - screenRelativeTransitionHeight: 0
       fadeTransitionWidth: 0
   computeDepthToArray: {fileID: 7200000, guid: be3f9bdf67d96ea4b82f169f74953359, type: 3}
-  instantiatePrefab: {fileID: 136486, guid: 66c2bee521d7aa84099472825a33310e, type: 2}
+  useCustomInstantiatePrefab: 0
+  instantiatePrefab: {fileID: 136486, guid: 66c2bee521d7aa84099472825a33310e, type: 3}
+  instantiatePrefabValid: 0
   saveMeshesFolder: 
   unitySettingsFoldout: 1
   searchOptions:
     foldoutSearchParents: 1
     foldoutSearchConditions: 1
     parent: {fileID: 0}
-    parentGOs:
-    - {fileID: 0}
+    parentGOs: []
     objectCenter: 0
     lodGroupSearchMode: 0
     useSearchBox: 0
@@ -193,6 +197,7 @@ MonoBehaviour:
     sameMaterial: 1
     sameShadowCastingMode: 0
     sameReceiveShadows: 0
+    sameReceiveGI: 0
     sameLightmapScale: 0
     sameLightProbeUsage: 0
     sameReflectionProbeUsage: 0
@@ -212,6 +217,7 @@ MonoBehaviour:
       probeAnchor: {fileID: 0}
       motionVectorGenerationMode: 0
       layer: 0
+      receiveGI: 1
       staticEditorFlags: 19
       rootInstanceId: -1
   outputSettingsFoldout: 1
@@ -262,6 +268,8 @@ MonoBehaviour:
   backFaceBounds:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0.5, y: 0.5, z: 0.5}
+  useExcludeBackfaceRemovalTag: 0
+  excludeBackfaceRemovalTag: 
   weldVertices: 0
   weldSnapVertices: 0
   weldSnapSize: 0.025
@@ -275,7 +283,7 @@ MonoBehaviour:
   originalMeshRenderers: 0
   originalLODGroups: 0
   meshSaveSettingsFoldout: 1
-  deleteFilesFromSaveFolder: 0
+  deleteFilesFromSaveFolder: 1
   oldPosition: {x: 0, y: 0, z: 0}
   oldScale: {x: 25, y: 25, z: 25}
   lodParentHolders:
@@ -316,7 +324,6 @@ MonoBehaviour:
   foundLodObjects: []
   foundLodGroups: []
   foundColliders: []
-  addMonoScripts: []
   foundCombineConditions:
     combineConditionsCount: 0
     matCount: 0
@@ -360,106 +367,14 @@ MonoBehaviour:
   newTotalUv4Channels: 0
   newTotalColorChannels: 0
   combineTime: 0
---- !u!1001 &100100000
-Prefab:
-  m_ObjectHideFlags: 1
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: searchOptions.useSearchBox
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: searchOptions.onlyActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: rebakeLighting
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: copyBakedLighting
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: validCopyBakedLighting
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: searchOptions.useTag
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: searchOptions.useLayerMask
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: searchOptions.useComponentsFilter
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: searchOptions.useNameContains
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: combineInRuntime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: removeTrianglesBelowSurface
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: removeBackFaceTriangles
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: backFaceBounds.m_Extent.x
-      value: .5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: backFaceBounds.m_Extent.y
-      value: .5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: backFaceBounds.m_Extent.z
-      value: .5
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: addMeshColliders
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: useVertexOutputLimit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: searchOptions.useVertexInputLimit
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: jobSettings.useMultiThreading
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: outputStatic
-      value: 82
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: computeDepthToArray
-      value: 
-      objectReference: {fileID: 7200000, guid: be3f9bdf67d96ea4b82f169f74953359, type: 3}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 181408}
-  m_IsPrefabParent: 1
+  addMeshCollidersList:
+    Count: 0
 --- !u!114 &114743025071339792
 MonoBehaviour:
   m_ObjectHideFlags: 2
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 181408}
   m_Enabled: 1
   m_EditorHideFlags: 0

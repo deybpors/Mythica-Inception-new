@@ -157,7 +157,7 @@ namespace _Core.Player
             {
                 savedData = new PlayerSaveData(savedData.name,
                     savedData.sex,
-                    new WorldPlacementData(_playerTransform.position, _playerTransform.rotation,
+                    new WorldPlacementData(_playerTransform.position + playerSettings.savePositionOffset, _playerTransform.rotation,
                         _playerTransform.localScale),
                     monsterSlots,
                     playerHealth,
@@ -617,7 +617,7 @@ namespace _Core.Player
         {
             try
             {
-                return savedData.playerWorldPlacement.position.Approximately(_playerTransform.position);
+                return savedData.playerWorldPlacement.position.Approximately(_playerTransform.position + playerSettings.savePositionOffset);
             }
             catch
             {

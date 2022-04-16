@@ -64,6 +64,7 @@ public class MonsterTamedUI : MonoBehaviour
     void OnDisable()
     {
         _isPlaying = false;
+        _monsterNicknameInput.text = string.Empty;
         HandleAnimator(AnimatorUpdateMode.Normal);
     }
 

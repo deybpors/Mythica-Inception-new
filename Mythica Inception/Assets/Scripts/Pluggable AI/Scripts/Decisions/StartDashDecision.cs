@@ -16,14 +16,17 @@ namespace Pluggable_AI.Scripts.Decisions
         {
             var playerInputHandler = GameManager.instance.inputHandler;
             var dashInput = playerInputHandler.dashInput;
-            
-            if (dashInput && playerInputHandler.currentMonster < 0)
+
+            var startDash = dashInput && playerInputHandler.currentMonster < 0;
+
+            if (startDash)
             {
                 GameManager.instance.pooler.SpawnFromPool(null, stateController.player.playerSettings.dashGraphic.name,
                     stateController.player.playerSettings.dashGraphic, stateController.transform.position,
                     stateController.transform.rotation);
+                GameManager.instance.audioManager.PlaySFX("Dash");
             }
-            return dashInput;
+            return startDash;
         }
     }
 }

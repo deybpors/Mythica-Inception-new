@@ -112,6 +112,7 @@ namespace Pluggable_AI.Scripts.General
             }
             Init();
             stateController.ActivateAI(true, waypoints, null);
+            agent.Warp(_thisTransform.position);
         }
 
         private void InitializeCurrentMonsterHealth()

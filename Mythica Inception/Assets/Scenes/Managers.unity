@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
+  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -262,6 +262,7 @@ MonoBehaviour:
   machineDestination: {x: 0, y: 0, z: 0}
   stateBoolVariable: 0
   stateTimeElapsed: 0
+  thisTransform: {fileID: 0}
   active: 1
 --- !u!81 &721566680
 AudioListener:
@@ -990,6 +991,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0717f7afdaca4d42823d8e614c25e40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _activeDirector: {fileID: 0}
 --- !u!4 &1596128049
 Transform:
   m_ObjectHideFlags: 0
@@ -1383,6 +1385,78 @@ MonoBehaviour:
     randomPitch: 1
     min: 1
     max: 1.2
+    pitch: 1
+  - name: Dash
+    clip: {fileID: 8300000, guid: 25afc47bc49ab7448938d2eba44a92d6, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: Death
+    clip: {fileID: 8300000, guid: 20cfa7768a72aa8439a86ccb521f4039, type: 3}
+    volume: 0.5
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: Melee
+    clip: {fileID: 8300000, guid: 5866f51994d4cb143817b26f94705cfa, type: 3}
+    volume: 0.8
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: MeleeImpact
+    clip: {fileID: 8300000, guid: e83835efc20f6644f98793a8963a2f08, type: 3}
+    volume: 0.8
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: MagicProjectile
+    clip: {fileID: 8300000, guid: a4103d7e703da19448902d539e687e44, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: TameBeam
+    clip: {fileID: 8300000, guid: 720a13a67cc753f498b29bcfc4ec3950, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    randomPitch: 0
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: TameBeamImpact
+    clip: {fileID: 8300000, guid: 684282bcb6417d44bb6ec06d9d2f9eaf, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: TameBeamTarget
+    clip: {fileID: 8300000, guid: 8101c13f4412edf49858930b7ac16dfc, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.8
+    max: 1.2
+    pitch: 1
+  - name: Spawn
+    clip: {fileID: 8300000, guid: ee064874df8ee0c42b57e1ef1bf080e3, type: 3}
+    volume: 0.2
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 1.2
+    max: 2
     pitch: 1
   _maleDialogueSfx:
   - name: A

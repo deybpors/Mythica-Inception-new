@@ -23,7 +23,9 @@ namespace Monster_System
         public int currentNoOfMonsters;
         private Coroutine _waitSpawn;
         private Vector3 _spawnerPosition;
-        
+
+        private Dictionary<GameObject, NavMeshAgent> _agents = new Dictionary<GameObject, NavMeshAgent>();
+
 
         void Start()
         {
@@ -66,6 +68,20 @@ namespace Monster_System
                     monsterPos,
                     Quaternion.identity);
 
+            if (!_agents.TryGetValue(monsterObj, out var agent))
+            {
+                agent = monsterObj.GetComponent<NavMeshAgent>();
+                try
+                {
+                    _agents.Add(monsterObj, agent);
+                }
+                catch
+                {
+                    //ignored
+                }
+            }
+ 
+            agent.Warp(monsterPos);
             var newMonsters = new List<MonsterSlot> { new MonsterSlot(monsters[monsterIndex], monsterXp, Random.Range(1, 51)) };
             var monTamerAi = monsterObj.GetComponent<MonsterTamerAI>();
 

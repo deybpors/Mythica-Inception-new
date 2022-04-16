@@ -16,5 +16,6 @@ namespace Assets.Scripts._Core.Player
         public GameObject dashGraphic;
         public PlayerFSMData playerData;
         public float tameRadius;
+        public Vector3 savePositionOffset = new Vector3(0, .3f, 0);
     }
 }

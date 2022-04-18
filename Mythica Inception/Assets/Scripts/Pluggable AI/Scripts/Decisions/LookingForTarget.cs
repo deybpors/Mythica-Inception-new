@@ -19,30 +19,20 @@ namespace Pluggable_AI.Scripts.Decisions
             stateController.transform.Rotate(0, stateController.aI.aiData.searchingTurnSpeed * Time.deltaTime, 0);
             var doneSearching = stateController.HasTimeElapsed(stateController.aI.aiData.searchDuration);
             if (!doneSearching) return false;
-            RemoveFromEnemiesSeePlayer(stateController);
-            return true;
-        }
 
-        private void RemoveFromEnemiesSeePlayer(StateController stateController)
-        {
-            var enemyCount = GameManager.instance.enemiesSeePlayer.Count;
+            if (!(stateController.aI is MonsterTamerAI tamerAi)) return true;
             
-            for (var i = 0; i < enemyCount; i++)
+            GameManager.instance.UpdateEnemiesSeePlayer(tamerAi, out var enemyCount);
+
+            if (enemyCount > 0) return true;
+            
+            GameManager.instance.DifficultyUpdateAdd("Failed Encounters", 1);
+            if (tamerAi.GetTameValue().currentTameValue > 0)
             {
-                var enemy = GameManager.instance.enemiesSeePlayer[i];
-                if (enemy != stateController.transform) continue;
-                
-                GameManager.instance.enemiesSeePlayer.Remove(enemy);
-                enemyCount--;
-                break;
+                GameManager.instance.DifficultyUpdateAdd("Failed Tame Attempts", 1);
             }
 
-            if (enemyCount != 0) return;
-            
-            //whenever we escaped an encounter, change the values of the data needed for the parameters
-            GameManager.instance.DifficultyUpdateAdd("Failed Encounters",1);
-            var player = GameManager.instance.player;
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
+            return true;
         }
     }
 }

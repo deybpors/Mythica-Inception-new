@@ -147,8 +147,8 @@ namespace _Core.Player
             }
 
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
-            //initialize party's avg level for difficulty adjustment
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", monsterAvgLvl);
+            //TODO: Update DDA Here
+
             _dateOpened = DateTime.Now;
         }
         public PlayerSaveData GetCurrentSaveData()

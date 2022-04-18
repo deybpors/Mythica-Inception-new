@@ -9,11 +9,14 @@ namespace DDA
         public string name;
         public float value;
         public float previousValue;
+
         public Difficulty increaseDifficulty;
         [ConditionalField(nameof(decreaseDifficultyOnEquals), true)]
         public bool increaseDifficultyOnEquals;
+
         [ConditionalField(nameof(increaseDifficultyOnEquals), true)]
         public bool decreaseDifficultyOnEquals;
+
         public bool IncreaseDifficulty()
         {
             if (increaseDifficultyOnEquals && previousValue.Approximately(value))

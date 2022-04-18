@@ -11,18 +11,19 @@ namespace Monster_System
         public int maxTameValue;
         public int currentTameValue;
         [HideInInspector] public ProgressBarUI tameValueBarUI;
+        private GameObject _tameValueBar;
         private int _monsterLvl;
         private bool _activated;
         private Health _healthComponent;
         private Animator _animator;
         private IHaveMonsters _tamer;
         private IHaveMonsters _haveMonster;
-        private MonsterTamerAI tamerAI;
+        private MonsterTamerAI ai;
         private Transform _thisTransform;
 
         public void ActivateTameValue(int wildMonsterLvl, Health health, IHaveMonsters mon)
         {
-            tamerAI = GetComponent<MonsterTamerAI>();
+            ai = GetComponent<MonsterTamerAI>();
             _animator = tameValueBarUI.GetComponent<Animator>();
             _monsterLvl = wildMonsterLvl;
             _healthComponent = health;
@@ -39,6 +40,7 @@ namespace Monster_System
             tameValueBarUI.currentValue = currentTameValue;
             _activated = true;
             _thisTransform = transform;
+            _tameValueBar = tameValueBarUI.gameObject;
         }
 
         void Update()
@@ -48,7 +50,7 @@ namespace Monster_System
             var newTameValue = GameSettings.TameValue(_monsterLvl, false, _healthComponent.health.currentHealth, _healthComponent.health.maxHealth);
 
             if (maxTameValue == newTameValue) return;
-            if(tameValueBarUI.gameObject.activeInHierarchy) _animator.Play("Change");
+            if(_tameValueBar.activeInHierarchy) _animator.Play("Change");
             maxTameValue = newTameValue;
         }
 
@@ -90,16 +92,12 @@ namespace Monster_System
                 GameManager.instance.uiManager.monsterTamedUi.PlayFanfare(newSlot, true, slotToFill);
             }
 
-            if (tamerAI.spawner != null)
+            if (ai.spawner != null)
             {
-                tamerAI.spawner.currentNoOfMonsters--;
+                ai.spawner.currentNoOfMonsters--;
             }
 
-            GameManager.instance.UpdateEnemiesSeePlayer(_thisTransform, out var enemyCount);
-            
-            var player = GameManager.instance.player;
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
-            
+            GameManager.instance.UpdateEnemiesSeePlayer(ai, out var enemyCount);
             gameObject.SetActive(false);
         }
     }

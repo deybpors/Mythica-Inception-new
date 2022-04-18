@@ -19,6 +19,21 @@ namespace DDA
         public Difficulty increaseDifficulty;
         public List<string> dataNeeded;
 
+        private Dictionary<string, string> _dataNeeded = new Dictionary<string, string>();
+
+        public bool HasData(string dataToSearch)
+        {
+            if (_dataNeeded.Count > 0) return _dataNeeded.ContainsKey(dataToSearch);
+            
+            var dataCount = dataNeeded.Count;
+            for (var i = 0; i < dataCount; i++)
+            {
+                _dataNeeded.Add(dataNeeded[i].Replace(" ", string.Empty).ToLower(), dataNeeded[i]);
+            }
+
+            return _dataNeeded.ContainsKey(dataToSearch);
+        }
+
         public void AdjustDifficultyParameterValue(Difficulty difficulty)
         {
             //if we want the difficulty to increase

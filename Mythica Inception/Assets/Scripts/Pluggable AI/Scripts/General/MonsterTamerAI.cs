@@ -27,7 +27,7 @@ namespace Pluggable_AI.Scripts.General
         public bool expOrbs = true;
 
         [ReadOnly] public MonsterSlot monsterAttacker;
-        private Transform _thisTransform;
+        [HideInInspector] public Transform thisTransform;
 
         #region Hidden Fields
 
@@ -91,9 +91,9 @@ namespace Pluggable_AI.Scripts.General
         {
             tamer = spawnerRef == null;
             
-            if (_thisTransform == null)
+            if (thisTransform == null)
             {
-                _thisTransform = transform;
+                thisTransform = transform;
             }
 
             monsterSlots.Clear();
@@ -106,13 +106,13 @@ namespace Pluggable_AI.Scripts.General
 
         private void ActivateMonsterAi()
         {
-            if (_thisTransform == null)
+            if (thisTransform == null)
             {
-                _thisTransform = transform;
+                thisTransform = transform;
             }
             Init();
             stateController.ActivateAI(true, waypoints, null);
-            agent.Warp(_thisTransform.position);
+            agent.Warp(thisTransform.position);
         }
 
         private void InitializeCurrentMonsterHealth()
@@ -175,6 +175,7 @@ namespace Pluggable_AI.Scripts.General
         {
             return currentMonster;
         }
+
         public List<MonsterSlot> GetMonsterSlots()
         {
             return monsterSlots;
@@ -274,28 +275,20 @@ namespace Pluggable_AI.Scripts.General
 
         public void Die()
         {
-            var position = _thisTransform.position;
+            var position = thisTransform.position;
             var pos = new Vector3(position.x, position.y + 1.5f, position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
             if (spawner != null) { spawner.currentNoOfMonsters--; }
 
-            GameManager.instance.UpdateEnemiesSeePlayer(_thisTransform, out var enemyCount);
+            GameManager.instance.UpdateEnemiesSeePlayer(this, out var enemyCount);
             
             //if this object is a wild mythica
             if (!tamer)
             {
                 GameManager.instance.questManager.UpdateKillQuest(monsterSlots[0].monster);
             }
-            
-            
-            if (enemyCount > 0) return;
-            
-            //whenever we cleared an encounter
-            GameManager.instance.DifficultyUpdateAdd("Failed Encounters", 0);
-            var player = GameManager.instance.player;
-            GameManager.instance.DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
-            
+
             gameObject.SetActive(false);
         }
 
@@ -304,7 +297,7 @@ namespace Pluggable_AI.Scripts.General
             var type = GameSettings.TypeComparison(monsterAttacker.monster.type,
                 monsterSlots[currentMonster].monster.type) < 1;
             var exp = GameSettings.ExperienceGain(!tamer, monsterAttacker, type);
-            var position = _thisTransform.position;
+            var position = thisTransform.position;
             var newPos = new Vector3(position.x, position.y + 1f, position.z);
             
             var expOrbSpawner = GameManager.instance.pooler.SpawnFromPool(null, experienceOrbSpawner.name, experienceOrbSpawner, newPos,
@@ -316,6 +309,10 @@ namespace Pluggable_AI.Scripts.General
         
         #endregion
 
+        public TameValue GetTameValue()
+        {
+            return _tameValue;
+        }
 
         public void ReleaseBasicAttack()
         {
@@ -323,12 +320,12 @@ namespace Pluggable_AI.Scripts.General
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
-                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : Vector3.zero, range ? _thisTransform.rotation : Quaternion.identity);
+                    monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : Vector3.zero, range ? thisTransform.rotation : Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var deathTime = range ? 1f : .25f;
             var speed = range ? 30f : 20f;
             rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
-                monAttacking.basicAttackObjects.muzzle,false, true, _thisTransform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,.5f,monAttacking.basicAttackSkill);
+                monAttacking.basicAttackObjects.muzzle,false, true, thisTransform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,.5f,monAttacking.basicAttackSkill);
         }
     }
 }

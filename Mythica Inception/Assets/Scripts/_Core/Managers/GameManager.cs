@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using _Core.Input;
 using _Core.Others;
 using Assets.Scripts._Core.Managers;
+using Assets.Scripts._Core.Player;
 using Databases.Scripts;
 using DDA;
 using MyBox;
@@ -81,33 +82,44 @@ namespace _Core.Managers
 
         public void DifficultyUpdateAdd(string dataKey, float valueToAdd)
         {
-            var data = difficultyManager.GetDataNeeded(dataKey);
-            var dataValue = data.value;
-            data.ChangeValue(dataValue + valueToAdd);
+            if(loadedSaveData.optionsSaveData.difficulty != OptionsSaveData.DifficultyOptions.Dynamic) return;
+            var dataNeeded = difficultyManager.GetDataNeeded(dataKey);
+            if(dataNeeded == null) return;
+            var dataValue = dataNeeded.value;
+            
+            dataNeeded.ChangeValue(dataValue + valueToAdd);
             difficultyManager.DataAdjusted(dataKey);
         }
         
         public void DifficultyUpdateChange(string dataKey, float newValue)
         {
-            var data = difficultyManager.GetDataNeeded(dataKey);
-            data.ChangeValue(newValue);
+            if (loadedSaveData.optionsSaveData.difficulty != OptionsSaveData.DifficultyOptions.Dynamic) return;
+            var dataNeeded = difficultyManager.GetDataNeeded(dataKey);
+            if (dataNeeded == null) return;
+            dataNeeded.ChangeValue(newValue);
             difficultyManager.DataAdjusted(dataKey);
         }
 
         #endregion
         
         
-        public void UpdateEnemiesSeePlayer(Object enemyTransform, out int enemyCount)
+        public void UpdateEnemiesSeePlayer(MonsterTamerAI ai, out int enemyCount)
         {
             enemyCount = enemiesSeePlayer.Count;
             for (var i = 0; i < enemyCount; i++)
             {
-                var enemy = enemiesSeePlayer[i];
-                if (enemyTransform != enemy) continue;
-                enemiesSeePlayer.Remove(enemy);
+                var enemySee = enemiesSeePlayer[i];
+
+                if (ai.thisTransform != enemySee) continue;
+                
+                enemiesSeePlayer.Remove(enemySee);
                 enemyCount--;
                 break;
             }
+
+            if (enemyCount > 0) return;
+
+            DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
         }
     }
 }

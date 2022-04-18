@@ -326,11 +326,11 @@ MonoBehaviour:
     - Failed Encounters
     - Average Party Level
     - Failed Tame Attempts
-  - name: Level Multiplier
+  - name: Wild Lvl Multiplier
     value: 1
     minValue: 0.5
     maxValue: 2
-    valueAdjustment: 0.2
+    valueAdjustment: 0.1
     increaseDifficulty: 0
     dataNeeded:
     - Failed Encounters
@@ -339,7 +339,7 @@ MonoBehaviour:
     value: 0
     previousValue: 0
     increaseDifficulty: 1
-    increaseDifficultyOnEquals: 1
+    increaseDifficultyOnEquals: 0
     decreaseDifficultyOnEquals: 0
   - name: Average Party Level
     value: 0
@@ -351,7 +351,7 @@ MonoBehaviour:
     value: 0
     previousValue: 0
     increaseDifficulty: 1
-    increaseDifficultyOnEquals: 1
+    increaseDifficultyOnEquals: 0
     decreaseDifficultyOnEquals: 0
 --- !u!1 &1105453172
 GameObject:

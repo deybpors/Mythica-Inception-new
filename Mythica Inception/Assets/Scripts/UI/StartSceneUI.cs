@@ -96,15 +96,14 @@ namespace UI
             var sceneManager = GameManager.instance.gameSceneManager;
             var savedScenePath = playerSavedData[profileIndex].currentSceneIndex;
 
+            sceneManager.UnloadScene(GameManager.instance.currentWorldScenePath, false);
             sceneManager.LoadScene(GameManager.instance.gameplayScene.sceneIndex, false);
             sceneManager.LoadScene(savedScenePath, true);
-            sceneManager.UnloadScene(GameManager.instance.currentWorldScenePath, false);
 
             GameManager.instance.uiManager.minimapCamera.SetActive(true);
             GameManager.instance.currentWorldScenePath = savedScenePath;
             GameManager.instance.saveManager.profileIndex = profileIndex;
 
-            //GameManager.instance.gameStateController.TransitionToState(gameplayState);
         }
     }
 }

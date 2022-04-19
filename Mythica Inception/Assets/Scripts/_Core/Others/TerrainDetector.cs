@@ -1,3 +1,4 @@
+using _Core.Managers;
 using UnityEngine;
 
 public class TerrainDetector
@@ -7,42 +8,49 @@ public class TerrainDetector
     private int alphamapHeight;
     private float[,,] splatmapData;
     private int numTextures;
-    private Terrain activeTerrain;
-    private Transform activeTerrainTransform;
-    private readonly Vector3 _zero = Vector3.zero;
+    private Vector3 _splatPosition = Vector3.zero;
+    private Transform _terrainTransform;
 
     public TerrainDetector()
     {
-        activeTerrain = Terrain.activeTerrain;
-        
-        if(activeTerrain == null) return;
-        activeTerrainTransform = activeTerrain.transform;
-        terrainData = activeTerrain.terrainData;
+        if(GameManager.instance.currentTerrain == null) return;
+
+        Init();
+    }
+
+    private void Init()
+    {
+        terrainData = GameManager.instance.currentTerrain.terrainData;
+        _terrainTransform = GameManager.instance.currentTerrain.transform;
         alphamapWidth = terrainData.alphamapWidth;
         alphamapHeight = terrainData.alphamapHeight;
-
         splatmapData = terrainData.GetAlphamaps(0, 0, alphamapWidth, alphamapHeight);
         numTextures = splatmapData.Length / (alphamapWidth * alphamapHeight);
     }
 
     private Vector3 ConvertToSplatMapCoordinate(Vector3 worldPosition)
     {
-        if (activeTerrain == null) return _zero;
+        var terrain = GameManager.instance.currentTerrain;
 
-        Vector3 splatPosition = new Vector3();
-        Vector3 terPosition = activeTerrainTransform.position;
-        splatPosition.x = ((worldPosition.x - terPosition.x) / activeTerrain.terrainData.size.x) * activeTerrain.terrainData.alphamapWidth;
-        splatPosition.z = ((worldPosition.z - terPosition.z) / activeTerrain.terrainData.size.z) * activeTerrain.terrainData.alphamapHeight;
-        return splatPosition;
+
+        if (terrain == null) return _splatPosition;
+        
+        if(terrainData == null) Init();
+
+        var terPosition = _terrainTransform.position;
+        _splatPosition.x = ((worldPosition.x - terPosition.x) / terrain.terrainData.size.x) * terrain.terrainData.alphamapWidth;
+        _splatPosition.z = ((worldPosition.z - terPosition.z) / terrain.terrainData.size.z) * terrain.terrainData.alphamapHeight;
+
+        return _splatPosition;
     }
 
     public int GetActiveTerrainTextureIdx(Vector3 position)
     {
-        Vector3 terrainCord = ConvertToSplatMapCoordinate(position);
-        int activeTerrainIndex = 0;
-        float largestOpacity = 0f;
+        var terrainCord = ConvertToSplatMapCoordinate(position);
+        var activeTerrainIndex = 50;
+        var largestOpacity = 0f;
 
-        for (int i = 0; i < numTextures; i++)
+        for (var i = 0; i < numTextures; i++)
         {
             if (!(largestOpacity < splatmapData[(int) terrainCord.z, (int) terrainCord.x, i])) continue;
             

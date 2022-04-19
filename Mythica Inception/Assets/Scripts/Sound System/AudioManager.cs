@@ -55,7 +55,7 @@ namespace SoundSystem
         [ReadOnly] [SerializeField] private float _bgMusicVolume = 1f;
 
         [SerializeField] private Music[] _musicList;
-        private Music _currentMusic;
+        public Music currentMusic;
         private MusicTypePlayed _musicTypePlayed;
         [SerializeField] private float _musicFadeTime = 1.5f;
         [Range(0, 1)] [SerializeField] private float _musicEndOn;
@@ -75,7 +75,7 @@ namespace SoundSystem
 
         void Awake()
         {
-            _currentMusic = null;
+            currentMusic = null;
 
             foreach (var music in _musicList)
             {
@@ -143,14 +143,14 @@ namespace SoundSystem
         {
             _timeElapsed += Time.unscaledDeltaTime;
 
-            if (_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
+            if (_timeElapsed < currentMusic.clip.length * _musicEndOn) return;
             switch (_musicTypePlayed)
             {
                 case MusicTypePlayed.Mood:
-                    PlayMusic(_currentMusic.mood);
+                    PlayMusic(currentMusic.mood);
                     break;
                 case MusicTypePlayed.Situation:
-                    PlayMusic(_currentMusic.situation);
+                    PlayMusic(currentMusic.situation);
                     break;
             }
             _timeElapsed = 0;
@@ -191,8 +191,8 @@ namespace SoundSystem
                     masterVolume = newVolume;
                 }
 
-                if(_currentMusic == null) return;
-                _currentMusic.source.volume = _currentMusic.volume * masterVolume * _bgMusicVolume;
+                if(currentMusic == null) return;
+                currentMusic.source.volume = currentMusic.volume * masterVolume * _bgMusicVolume;
             }
 
             if (typeToChange == SoundType.Ambience || typeToChange == SoundType.All)
@@ -231,20 +231,19 @@ namespace SoundSystem
         public void PlayMusic(string musicName)
         {
             if (!_musicDict.TryGetValue(musicName.ToUpperInvariant().Replace(" ", string.Empty), out var music)) return;
-            _musicTypePlayed = MusicTypePlayed.Name;
 
-            if (_currentMusic.name == musicName) return;
+            if (currentMusic.name == musicName) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(music));
-            _currentMusic = music;
+            currentMusic = music;
         }
 
         public void PlayMusic(MusicMood mood)
         {
-            if (_currentMusic != null && _currentMusic.mood == mood)
+            if (currentMusic != null && currentMusic.mood == mood)
             {
-                if(_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
+                if(_timeElapsed < currentMusic.clip.length * _musicEndOn) return;
             }
 
             _musicTypePlayed = MusicTypePlayed.Mood;
@@ -258,26 +257,26 @@ namespace SoundSystem
             }
             
             var musicToPlay = musicInMood[Random.Range(0, musicInMood.Count)];
-            if (_currentMusic != null)
+            if (currentMusic != null)
             {
-                while (musicToPlay.clip == _currentMusic.clip)
+                while (musicToPlay.clip == currentMusic.clip)
                 {
                     musicToPlay = musicInMood[Random.Range(0, musicInMood.Count)];
                 }
             }
 
-            if (_currentMusic != null && _currentMusic.name == musicToPlay.name) return;
+            if (currentMusic != null && currentMusic.name == musicToPlay.name) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
-            _currentMusic = musicToPlay;
+            currentMusic = musicToPlay;
         }
 
         public void PlayMusic(MusicSituation situation)
         {
-            if (_currentMusic != null && _currentMusic.situation == situation)
+            if (currentMusic != null && currentMusic.situation == situation)
             {
-                if (_timeElapsed < _currentMusic.clip.length * _musicEndOn) return;
+                if (_timeElapsed < currentMusic.clip.length * _musicEndOn) return;
             }
             _musicTypePlayed = MusicTypePlayed.Situation;
             var musicInSituation = new List<Music>();
@@ -289,20 +288,20 @@ namespace SoundSystem
             }
 
             var musicToPlay = musicInSituation[Random.Range(0, musicInSituation.Count)];
-            if (_currentMusic != null)
+            if (currentMusic != null)
             {
-                while (musicToPlay.clip == _currentMusic.clip)
+                while (musicToPlay.clip == currentMusic.clip)
                 {
                     musicToPlay = musicInSituation[Random.Range(0, musicInSituation.Count)];
                 }
             }
 
 
-            if (_currentMusic != null && _currentMusic.name == musicToPlay.name) return;
+            if (currentMusic != null && currentMusic.name == musicToPlay.name) return;
 
             StopAllCoroutines();
             StartCoroutine(FadeTrack(musicToPlay));
-            _currentMusic = musicToPlay;
+            currentMusic = musicToPlay;
         }
 
         public void PlaySFX(string soundName)
@@ -326,18 +325,23 @@ namespace SoundSystem
             return !_sfxDict.TryGetValue(soundName.ToUpperInvariant().Replace(" ", string.Empty), out var sfx) ? null : sfx;
         }
 
-        private IEnumerator FadeTrack(Music audioToChange)
+        public void StopSFX(Sfx sfx)
+        {
+            sfx.source.Stop();
+        }
+
+        private IEnumerator FadeTrack(Music music)
         {
             var fadeTime = _musicFadeTime;
-            var currentAudio = _currentMusic;
+            var currentAudio = currentMusic;
             var timeElapsed = 0f;
 
-            audioToChange.source.Play();
-            audioToChange.source.volume = 0;
-
+            music.source.Play();
+            music.source.volume = 0;
+            var targetVolume = music.volume * _bgMusicVolume * masterVolume;
             while (timeElapsed < fadeTime)
             {
-                audioToChange.source.volume = Mathf.Lerp(audioToChange.source.volume, audioToChange.volume * _bgMusicVolume * masterVolume, timeElapsed/fadeTime);
+                music.source.volume = Mathf.Lerp(music.source.volume, targetVolume, timeElapsed/fadeTime);
                 
                 if (currentAudio != null)
                 {

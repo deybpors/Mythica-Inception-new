@@ -19,14 +19,12 @@ namespace Quest_System
             {
                 var active = playerQuests[i];
                 if (!(active.quest.goal is KillGoal killGoal)) continue;
-                
+
                 killGoal.EnemyKilled(active, monster, out var updated);
                 active.currentAmount = updated;
 
                 //if the kill goal is complete and active.completed isn't set to true
-                if (!killGoal.IsComplete(updated) || active.completed) continue;
-
-                OnComplete(active, playerQuests);
+                if (killGoal.IsComplete(updated) && !active.completed) OnComplete(active);
             }
         }
 
@@ -46,14 +44,14 @@ namespace Quest_System
                 //if the gather goal is complete and active.completed isn't set to true
                 if (!gatherGoal.IsComplete(updated) || active.completed) continue;
 
-                OnComplete(active, playerQuests);
+                OnComplete(active);
             }
         }
 
-        private static void OnComplete(PlayerAcceptedQuest active, List<PlayerAcceptedQuest> playerQuests)
+        private static void OnComplete(PlayerAcceptedQuest active)
         {
             active.completed = true;
-            GameManager.instance.uiManager.questUI.UpdateQuestIcons(playerQuests);
+            GameManager.instance.uiManager.questUI.UpdateQuestIcons();
             GameManager.instance.audioManager.PlaySFX("Confirmation");
         }
     }

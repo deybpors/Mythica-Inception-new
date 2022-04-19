@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Player;
 using Dialogue_System;
 using MyBox;
 using Pluggable_AI.Scripts.General;
+using Quest_System;
 using UnityEngine;
 
 namespace Assets.Scripts.Dialogue_System
@@ -12,6 +14,7 @@ namespace Assets.Scripts.Dialogue_System
     {
         [Foldout("NPC AI Fields", true)]
         [SerializeField] private Conversation _conversation;
+        [SerializeField] private bool _repeatConversation = true;
         [SerializeField] private float _rotateTime = .25f;
         [SerializeField] private float _interactableDistance = 1f;
         [SerializeField] private bool _rotateOnInteract = true;
@@ -20,6 +23,9 @@ namespace Assets.Scripts.Dialogue_System
         private bool _isInteractable;
         private Transform _playerTransform;
         private Transform _npcTransform;
+        private bool _alreadyInteracted;
+        private List<Quest> _questsInConversation = new List<Quest>();
+        private Character _questGiver;
 
         void Start()
         {
@@ -44,7 +50,29 @@ namespace Assets.Scripts.Dialogue_System
             }
 
             _npcTransform = transform;
+            GetQuestInConversation();
+            _questGiver = _conversation.lines[_conversation.lines.Length - 1].character;
         }
+
+        private void GetQuestInConversation()
+        {
+            var choicesCount = _conversation.choices.Length;
+
+            for (var i = 0; i < choicesCount; i++)
+            {
+                if (!_conversation.choices[i].addAQuest || _conversation.choices[i].quest == null) continue;
+                
+                try
+                {
+                    _questsInConversation.Add(_conversation.choices[i].quest);
+                }
+                catch
+                {
+                    //ignored
+                }
+            }
+        }
+
 
         void Update()
         {
@@ -81,26 +109,45 @@ namespace Assets.Scripts.Dialogue_System
             }
 
             if (!GameManager.instance.inputHandler.interact) return;
-            
             GameManager.instance.inputHandler.interact = false;
+
             Interact(player);
+        }
+
+        private void HandleQuestInConversation(Player player)
+        {
+            var count = _questsInConversation.Count;
+            for (var i = 0; i < count; i++)
+            {
+                if (!player.playerQuestManager.PlayerHaveQuest(
+                        player.playerQuestManager.activeQuests,
+                        _questsInConversation[i], out var accepted)) continue;
+
+                GameManager.instance.uiManager.questUI.OpenPanelFromGiver(accepted, _questGiver.facePicture);
+                GameManager.instance.uiManager.questUI.PlayerInputActivate(false);
+                GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
+                GetNPCPlayerToRotateTo(out var npcRotate, out var playerRotate);
+                StopAllCoroutines();
+                StartCoroutine(LookTowards(npcRotate, playerRotate));
+                break;
+            }
         }
 
         public void Interact(Player player)
         {
+            if (!_repeatConversation && _alreadyInteracted)
+            {
+                HandleQuestInConversation(player);
+                return;
+            }
+
             if(!_isInteractable) return;
             if(_conversation == null) return;
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
             GameManager.instance.inputHandler.SwitchActionMap("Dialogue");
 
-            var npcLookPosition = _playerTransform.position - _npcTransform.position;
-            npcLookPosition.y = 0;
-            var playerLookPosition = _npcTransform.position - _playerTransform.position;
-            playerLookPosition.y = 0;
-
-            var npcRotateTo = Quaternion.LookRotation(npcLookPosition);
-            var playerRotateTo = Quaternion.LookRotation(playerLookPosition);
+            GetNPCPlayerToRotateTo(out var npcRotateTo, out var playerRotateTo);
 
             if(!_rotateOnInteract) return;
 
@@ -108,6 +155,18 @@ namespace Assets.Scripts.Dialogue_System
             StartCoroutine(LookTowards(npcRotateTo, playerRotateTo));
             GameManager.instance.uiManager.gameplayTweener.Disable();
             GameManager.instance.uiManager.dialogueUI.StartDialogue(_conversation);
+            _alreadyInteracted = true;
+        }
+
+        private void GetNPCPlayerToRotateTo(out Quaternion npcRotateTo, out Quaternion playerRotateTo)
+        {
+            var npcLookPosition = _playerTransform.position - _npcTransform.position;
+            npcLookPosition.y = 0;
+            var playerLookPosition = _npcTransform.position - _playerTransform.position;
+            playerLookPosition.y = 0;
+
+            npcRotateTo = Quaternion.LookRotation(npcLookPosition);
+            playerRotateTo = Quaternion.LookRotation(playerLookPosition);
         }
 
         private IEnumerator LookTowards(Quaternion npcRotateTo, Quaternion playerRotateTo)

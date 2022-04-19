@@ -12,12 +12,18 @@ public class NPCTalking : Decision
         if (GameManager.instance == null) return false;
 
         var isTalking = GameManager.instance.gameStateController.currentState == GameManager.instance.dialogueState;
+
+        if (!isTalking) return false;
         
-        if (isTalking)
+        try
         {
             stateController.aI.agent.velocity = _zero;
             stateController.aI.agent.isStopped = true;
         }
-        return isTalking;
+        catch
+        {
+            return true;
+        }
+        return true;
     }
 }

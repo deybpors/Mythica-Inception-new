@@ -118,7 +118,7 @@ namespace _Core.Player
             playerHealth = savedData.playerHealth;
             playerInventory.inventorySlots = savedData.inventorySlots;
             playerQuestManager.activeQuests = savedData.activeQuests;
-            GameManager.instance.uiManager.questUI.UpdateQuestIcons(savedData.activeQuests.Values.ToList());
+            GameManager.instance.uiManager.questUI.UpdateQuestIcons();
             playerQuestManager.finishedQuests = savedData.finishedQuests;
             discoveredMonsters = savedData.discoveredMonsters;
             storageMonsters = savedData.storageMonsters ?? GameSettings.GetDefaultMonsterSlots(30);

@@ -27,7 +27,7 @@ MonoBehaviour:
     emotion: 0
     speakerDirection: 1
   choices:
-  - text: What the fuck?
+  - text: What the freak?
     nextConversation: {fileID: 0}
     addAQuest: 0
     quest: {fileID: 0}

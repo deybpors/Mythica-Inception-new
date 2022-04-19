@@ -98,6 +98,16 @@ namespace Monster_System
             }
 
             GameManager.instance.UpdateEnemiesSeePlayer(ai, out var enemyCount);
+
+            if (enemyCount <= 0)
+            {
+                GameManager.instance.DifficultyUpdateAdd("Failed Encounters", -1);
+                if (currentTameValue > 0)
+                {
+                    GameManager.instance.DifficultyUpdateAdd("Failed Tame Attempts", -1);
+                }
+            }
+
             gameObject.SetActive(false);
         }
     }

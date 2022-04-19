@@ -27,7 +27,7 @@ namespace DDA
             }
         }
 
-        public float GetParameterValue(string parameterName)
+        public double GetParameterValue(string parameterName)
         {
             parameterName = parameterName.Replace(" ", string.Empty).ToLower();
             return dictDiffParam.ContainsKey(parameterName) ? dictDiffParam[parameterName].value : 0;
@@ -68,10 +68,10 @@ namespace DDA
             
             for (var i = 0; i < parametersCount; i++)
             {
-                if (difficultyParameters[i].HasData(dataNeeded))
-                {
-                    AdjustParameter(dataNeeded, difficultyParameters[i]);
-                }
+                if (!difficultyParameters[i].HasData(dataNeeded)) continue;
+                
+                AdjustParameter(dataNeeded, difficultyParameters[i]);
+                break;
             }
         }
     }

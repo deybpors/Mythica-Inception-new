@@ -289,6 +289,15 @@ namespace Pluggable_AI.Scripts.General
                 GameManager.instance.questManager.UpdateKillQuest(monsterSlots[0].monster);
             }
 
+            if (enemyCount <= 0)
+            {
+                GameManager.instance.DifficultyUpdateAdd("Failed Encounters", -1);
+                if (_tameValue.currentTameValue > 0)
+                {
+                    GameManager.instance.DifficultyUpdateAdd("Failed Tame Attempts", -1);
+                }
+            }
+
             gameObject.SetActive(false);
         }
 

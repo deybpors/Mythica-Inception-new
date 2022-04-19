@@ -113,7 +113,7 @@ public class QuestTabPage : TabPage
 
             var questManager = GameManager.instance.player.playerQuestManager;
 
-            if (questManager.PlayerHaveQuest(questManager.finishedQuests, questSlotList[i].activeQuest.quest))
+            if (questManager.PlayerHaveQuest(questManager.finishedQuests, questSlotList[i].activeQuest.quest, out var accepted))
             {
                 questSlotList[i].icon.sprite = _finished;
                 questSlotList[i].icon.color = _green;

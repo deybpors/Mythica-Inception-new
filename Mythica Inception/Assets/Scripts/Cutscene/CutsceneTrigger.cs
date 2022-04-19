@@ -36,13 +36,21 @@ public class CutsceneTrigger : MonoBehaviour
         }
 
         _transform = transform;
-        player = GameManager.instance.player;
-        playerTransform = player.transform;
         _cutsceneToTrigger.stopped += Disable;
+
+        player = GameManager.instance.player;
+        if (player == null) return;
+        playerTransform = player.transform;
     }
 
     void Update()
     {
+        if (player == null)
+        {
+            player = GameManager.instance.player;
+            playerTransform = player.transform;
+        }
+
         if(_triggered) return;
         if (!HandleConditions()) return;
 

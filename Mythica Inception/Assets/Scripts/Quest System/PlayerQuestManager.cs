@@ -13,13 +13,13 @@ public class PlayerQuestManager : MonoBehaviour
 
     public void GiveQuestToPlayer(Quest questGiven, Character questGiver)
     {
-        GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
-        if (PlayerHaveQuest(activeQuests, questGiven)) return;
+        GameManager.instance.uiManager.questUI.UpdateQuestIcons();
+        if (PlayerHaveQuest(activeQuests, questGiven, out var accepted)) return;
 
         var newQuest = new PlayerAcceptedQuest(questGiven, questGiver, DateTime.Now);
         activeQuests.Add(newQuest.quest.ID, newQuest);
         GameManager.instance.audioManager.PlaySFX("Confirmation");
-        GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
+        GameManager.instance.uiManager.questUI.UpdateQuestIcons();
     }
 
     public Dictionary<string, PlayerAcceptedQuest> GetTotalQuests()
@@ -42,15 +42,17 @@ public class PlayerQuestManager : MonoBehaviour
         return null;
     }
 
-    public bool PlayerHaveQuest(Dictionary<string, PlayerAcceptedQuest> questList, Quest quest)
+    public bool PlayerHaveQuest(Dictionary<string, PlayerAcceptedQuest> questList, Quest quest, out PlayerAcceptedQuest accepted)
     {
-        return questList != null && questList.ContainsKey(quest.ID);
+        accepted = null;
+        var haveQuest = questList != null && questList.TryGetValue(quest.ID, out accepted);
+        return haveQuest;
     }
 
     public void RemoveQuestToPlayerAcceptedQuest(Quest questToRemove)
     {
         activeQuests.Remove(questToRemove.ID);
-        GameManager.instance.uiManager.questUI.UpdateQuestIcons(activeQuests.Values.ToList());
+        GameManager.instance.uiManager.questUI.UpdateQuestIcons();
     }
 
     public void GetQuestRewards(PlayerAcceptedQuest acceptedQuest)
@@ -72,6 +74,7 @@ public class PlayerQuestManager : MonoBehaviour
                     }
                     break;
                 case RewardTypesEnum.Experience:
+                    GameManager.instance.player.monsterManager.AddMonstersExp(questReward.value);
                     break;
             }
         }

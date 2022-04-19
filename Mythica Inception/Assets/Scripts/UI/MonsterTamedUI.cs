@@ -85,6 +85,7 @@ public class MonsterTamedUI : MonoBehaviour
         _uiTweener.Disable();
         _overlayTweener.Disable();
         HandleNickname();
+        GameManager.instance.audioManager.StopSFX(GameManager.instance.audioManager.GetSFX("Fanfare"));
     }
 
     private void HandleNickname()
@@ -108,7 +109,8 @@ public class MonsterTamedUI : MonoBehaviour
         }
 
         _isPlaying = true;
-        GameManager.instance.audioManager.PlaySFX("Fanfare", 1);
+
+        GameManager.instance.audioManager.PlaySFX("Fanfare");
         ChangeMonster(newMonsterSlot.monster);
         GameManager.instance.gameStateController.TransitionToState(GameManager.instance.UIState);
         _monsterTamedUI.SetActive(true);
@@ -125,8 +127,7 @@ public class MonsterTamedUI : MonoBehaviour
     {
         _confirmButton.interactable = false;
         StopAllCoroutines();
-        var seconds = GameManager.instance.audioManager.GetSFX("Fanfare").clip.length;
-        StartCoroutine(DelayAction(seconds, (() => _confirmButton.interactable = true)));
+        StartCoroutine(DelayAction(5f, (() => _confirmButton.interactable = true)));
     }
 
     private void HandleAnimator(AnimatorUpdateMode updateMode)

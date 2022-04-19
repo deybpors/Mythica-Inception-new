@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
 using Assets.Scripts.Sound_System;
+using MyBox;
 using UnityEngine;
 
 public class AnimationSFX : MonoBehaviour
@@ -10,6 +11,7 @@ public class AnimationSFX : MonoBehaviour
     [SerializeField] private string _sandStep = "Sand Step";
     [SerializeField] private string _concreteStep = "Concrete Step";
     [SerializeField] private string _rockStep = "Rock Step";
+    [ReadOnly] private Terrain[] activeTerrains;
     private TerrainDetector _terrainDetector;
     private Transform _parentTransform;
     private Transform _thisTransform;
@@ -20,10 +22,6 @@ public class AnimationSFX : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
         _thisTransform = transform;
         _terrainDetector = new TerrainDetector();
-    }
-
-    void OnEnable()
-    {
         _parentTransform = _thisTransform.parent;
         if (_parentTransform == null)
         {

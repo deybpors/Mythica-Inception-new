@@ -12,10 +12,10 @@ namespace DDA
     public class DifficultyParameter
     {
         public string name;
-        public float value = 1f;
-        public float minValue;
-        public float maxValue;
-        public float valueAdjustment;
+        public double value = 1f;
+        public double minValue;
+        public double maxValue;
+        public double valueAdjustment;
         public Difficulty increaseDifficulty;
         public List<string> dataNeeded;
 
@@ -72,7 +72,7 @@ namespace DDA
             value = Clamp(value, minValue, maxValue);
         }
         
-        public static float Clamp( float value, float min, float max )
+        public static double Clamp(double value, double min, double max )
         {
             return (value < min) ? min : (value > max) ? max : value;
         }

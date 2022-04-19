@@ -211,18 +211,18 @@ namespace Monster_System
             }
         }
 
-        private void EvaluateCharPortraitCam(GameObject gameObj)
+        private void EvaluateCharPortraitCam(GameObject characterObject)
         {
             if (_charPortraitCam == null) return;
             
-            if (!_charPortraitAlign.TryGetValue(gameObj, out var position))
+            if (!_charPortraitAlign.TryGetValue(characterObject, out var position))
             {
-                var obj = gameObj.GetObjectsOfLayerInChilds(13)[0];
-                position = new Vector3(_charPortraitCam.transform.localPosition.x, obj.localPosition.y, _charPortraitCam.transform.localPosition.z);
-                _charPortraitAlign.Add(gameObj, position);
+                var obj = characterObject.GetObjectsOfLayerInChilds(13)[0];
+                position = new Vector3(_charPortraitCam.localPosition.x, obj.localPosition.y, _charPortraitCam.localPosition.z);
+                _charPortraitAlign.Add(characterObject, position);
             }
 
-            _charPortraitCam.transform.localPosition = position;
+            _charPortraitCam.localPosition = position;
         }
 
         private void InactiveAllMonsters()
@@ -287,6 +287,25 @@ namespace Monster_System
                     _currentItems.Add(null);
                 }
                 GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot, _currentSkills, _currentItems);
+            }
+        }
+
+        public void AddMonstersExp(int expToAdd)
+        {
+            var monsterSlots = _haveMonsters.GetMonsterSlots();
+            var count = monsterSlots.Count;
+            var toDivide = 0f;
+            for (var i = 0; i < count; i++)
+            {
+                if (monsterSlots[i].monster == null) continue;
+                toDivide++;
+            }
+            var expAdded = (int) Math.Round(expToAdd/toDivide, 0, MidpointRounding.AwayFromZero);
+
+            for (var i = 0; i < count; i++)
+            {
+                if (monsterSlots[i].monster == null) continue;
+                monsterSlots[i].currentExp += expAdded;
             }
         }
 

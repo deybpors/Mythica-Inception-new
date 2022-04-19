@@ -45,6 +45,7 @@ namespace _Core.Managers
         [HideInInspector] public Player.Player player;
         [HideInInspector] public PlayerSaveData loadedSaveData;
         [HideInInspector] public Light mainLight;
+        [HideInInspector] public Terrain currentTerrain;
 
         void Awake()
         {

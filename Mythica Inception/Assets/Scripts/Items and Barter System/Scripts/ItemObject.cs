@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using _Core.Managers;
 using _Core.Others;
 using UnityEngine;
 
@@ -50,6 +51,10 @@ namespace Items_and_Barter_System.Scripts
             if(!inventoryItem.stackable) return false;
 
             amountOfItems += amountToAdd;
+            if (inventoryItem is Gold)
+            {
+                GameManager.instance.audioManager.PlaySFX("Coins");
+            }
             return true;
         }
     }

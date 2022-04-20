@@ -1,8 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using _Core.Input;
 using _Core.Others;
 using Assets.Scripts._Core.Managers;
 using Assets.Scripts._Core.Player;
+using Cinemachine;
 using Databases.Scripts;
 using DDA;
 using MyBox;
@@ -46,6 +48,7 @@ namespace _Core.Managers
         [HideInInspector] public PlayerSaveData loadedSaveData;
         [HideInInspector] public Light mainLight;
         [HideInInspector] public Terrain currentTerrain;
+        private CinemachineBasicMultiChannelPerlin _perlinNoise;
 
         void Awake()
         {
@@ -120,7 +123,32 @@ namespace _Core.Managers
 
             if (enemyCount > 0) return;
 
+            audioManager.PlayMusic(audioManager.currentSituation);
             DifficultyUpdateChange("Average Party Level", GameSettings.MonstersAvgLevel(player.monsterSlots));
+        }
+
+        public void Screenshake(float intensity, float shakeTime)
+        {
+            if (_perlinNoise == null)
+            {
+                _perlinNoise = player.virtualCamera.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+            }
+
+            _perlinNoise.m_AmplitudeGain = intensity;
+            StopAllCoroutines();
+            StartCoroutine(FadeScreenShake(shakeTime));
+        }
+
+        private IEnumerator FadeScreenShake(float shakeTime)
+        {
+            var timeElapsed = 0f;
+            while (timeElapsed <= shakeTime)
+            {
+                timeElapsed += Time.deltaTime;
+                _perlinNoise.m_AmplitudeGain = Mathf.Lerp(_perlinNoise.m_AmplitudeGain, 0, timeElapsed / shakeTime);
+
+                yield return null;
+            }
         }
     }
 }

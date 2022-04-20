@@ -1,5 +1,6 @@
 using _Core.Managers;
 using Pluggable_AI.Scripts.General;
+using SoundSystem;
 using UnityEngine;
 
 namespace Pluggable_AI.Scripts.Decisions
@@ -22,12 +23,13 @@ namespace Pluggable_AI.Scripts.Decisions
             var count = GameManager.instance.enemiesSeePlayer.Count;
             for (var i = 0; i < count; i++)
             {
-                if (stateController.transform == GameManager.instance.enemiesSeePlayer[i])
+                if (stateController.thisTransform == GameManager.instance.enemiesSeePlayer[i])
                 {
                     return true;
                 }
             }
-            GameManager.instance.enemiesSeePlayer.Add(stateController.transform);
+            GameManager.instance.enemiesSeePlayer.Add(stateController.thisTransform);
+            GameManager.instance.audioManager.PlayMusic(MusicSituation.Battle);
             return true;
         }
     }

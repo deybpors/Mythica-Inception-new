@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Humabon
+  m_EditorClassIdentifier: 
+  ID: 9a9d822e-3d53-4483-bea3-eca67c84c119
+  lines:
+  - character: {fileID: 0}
+    text: Hello, Humabon! I would like to use your services.
+    emotion: 0
+    speakerDirection: 0
+  - character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    text: Sure thing, <b><PLAYER_NAME></b>! What will you want me to do?
+    emotion: 0
+    speakerDirection: 1
+  choices:
+  - text: Heal
+    nextConversation: {fileID: 11400000, guid: 7b72108996e64724ba7e8e7858343ae3, type: 2}
+    quest: {fileID: 0}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: e7c1cb39fde05364a9617e462aec8612, type: 2}
+          m_TargetAssemblyTypeName: HealerMerchant, Scripts
+          m_MethodName: HealMonsters
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    tooltipTitle: 
+    tooltipDescription: I will <color=#b3f47a>heal</color> all your mythicas for
+      free! Just as long as you keep on trading with me.
+  - text: Buy
+    nextConversation: {fileID: 0}
+    quest: {fileID: 0}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls: []
+    tooltipTitle: Let me heal!
+    tooltipDescription: Come on... I know you want to... Just buy from me... Please...

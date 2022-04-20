@@ -55,10 +55,12 @@ namespace SoundSystem
         [ReadOnly] [SerializeField] private float _bgMusicVolume = 1f;
 
         [SerializeField] private Music[] _musicList;
-        public Music currentMusic;
+        [ReadOnly] public Music currentMusic;
+        [ReadOnly] public MusicSituation currentSituation;
         private MusicTypePlayed _musicTypePlayed;
         [SerializeField] private float _musicFadeTime = 1.5f;
         [Range(0, 1)] [SerializeField] private float _musicEndOn;
+        private Coroutine fadeCoroutine;
 
 
         [SerializeField] private Ambience[] _ambiences;
@@ -234,9 +236,20 @@ namespace SoundSystem
 
             if (currentMusic.name == musicName) return;
 
-            StopAllCoroutines();
-            StartCoroutine(FadeTrack(music));
+            if (fadeCoroutine != null)
+            {
+                StopAllCoroutines();
+                fadeCoroutine = null;
+                currentMusic.source.Stop();
+                currentMusic.source.volume = 0;
+            }
+
+
+            fadeCoroutine = StartCoroutine(FadeTrack(music));
             currentMusic = music;
+            
+            if (currentMusic.situation == MusicSituation.Battle) return;
+            currentSituation = currentMusic.situation;
         }
 
         public void PlayMusic(MusicMood mood)
@@ -267,9 +280,18 @@ namespace SoundSystem
 
             if (currentMusic != null && currentMusic.name == musicToPlay.name) return;
 
-            StopAllCoroutines();
-            StartCoroutine(FadeTrack(musicToPlay));
+            if (fadeCoroutine != null)
+            {
+                StopAllCoroutines();
+                fadeCoroutine = null;
+                currentMusic.source.Stop();
+                currentMusic.source.volume = 0;
+            }
+            fadeCoroutine = StartCoroutine(FadeTrack(musicToPlay));
             currentMusic = musicToPlay;
+
+            if(currentMusic.situation == MusicSituation.Battle) return;
+            currentSituation = currentMusic.situation;
         }
 
         public void PlayMusic(MusicSituation situation)
@@ -279,6 +301,7 @@ namespace SoundSystem
                 if (_timeElapsed < currentMusic.clip.length * _musicEndOn) return;
             }
             _musicTypePlayed = MusicTypePlayed.Situation;
+
             var musicInSituation = new List<Music>();
 
             foreach (var music in _musicList)
@@ -299,9 +322,18 @@ namespace SoundSystem
 
             if (currentMusic != null && currentMusic.name == musicToPlay.name) return;
 
-            StopAllCoroutines();
-            StartCoroutine(FadeTrack(musicToPlay));
+            if (fadeCoroutine != null)
+            {
+                StopAllCoroutines();
+                fadeCoroutine = null;
+                currentMusic.source.Stop();
+                currentMusic.source.volume = 0;
+            }
+
+            fadeCoroutine = StartCoroutine(FadeTrack(musicToPlay));
             currentMusic = musicToPlay;
+            if (currentMusic.situation == MusicSituation.Battle) return;
+            currentSituation = currentMusic.situation;
         }
 
         public void PlaySFX(string soundName)
@@ -346,11 +378,14 @@ namespace SoundSystem
                 if (currentAudio != null)
                 {
                     currentAudio.source.volume = Mathf.Lerp(currentAudio.source.volume, 0, timeElapsed / fadeTime);
+                    if(currentAudio.source.volume <= 0) currentAudio.source.Stop();
                 }
                 
                 timeElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }
+
+            fadeCoroutine = null;
         }
     }
 }

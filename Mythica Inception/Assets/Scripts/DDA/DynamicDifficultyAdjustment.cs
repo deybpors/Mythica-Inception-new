@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using _Core.Managers;
+using MyBox;
 using UnityEngine;
 
 namespace DDA
@@ -8,8 +9,16 @@ namespace DDA
     {
         public List<DifficultyParameter> difficultyParameters;
         public List<ParameterDataNeeded> parameterDataNeeded;
+
+        public float timeToAdjust;
+        private float timeElapsed;
+
         private Dictionary<string, ParameterDataNeeded> dictParamDataNeeded = new Dictionary<string, ParameterDataNeeded>();
         private Dictionary<string, DifficultyParameter> dictDiffParam = new Dictionary<string, DifficultyParameter>();
+        public delegate void Adjustment();
+        public event Adjustment dataAdjustment = delegate {};
+        [ReadOnly] public List<DifficultyParameter> parametersToAdjust = new List<DifficultyParameter>();
+        private readonly HashSet<DifficultyParameter> _parametersToAdjust = new HashSet<DifficultyParameter>();
 
         void Awake()
         {
@@ -24,6 +33,24 @@ namespace DDA
             for (var i = 0; i < dataCount; i++)
             {
                 dictParamDataNeeded.Add(parameterDataNeeded[i].name.Replace(" ", string.Empty).ToLower(), parameterDataNeeded[i]);
+            }
+        }
+
+        void Update()
+        {
+            if (dataAdjustment == null)
+            {
+                timeElapsed = 0;
+            }
+            else
+            {
+                timeElapsed += Time.deltaTime;
+                if (timeElapsed <= timeToAdjust) return;
+                
+                dataAdjustment.Invoke();
+                _parametersToAdjust.Clear();
+                parametersToAdjust.Clear();
+                dataAdjustment = null;
             }
         }
 
@@ -65,13 +92,15 @@ namespace DDA
 
             //check which parameter has this needed data and adjust the parameter's value
             var parametersCount = difficultyParameters.Count;
-            
+
             for (var i = 0; i < parametersCount; i++)
             {
                 if (!difficultyParameters[i].HasData(dataNeeded)) continue;
+                if (!_parametersToAdjust.Add(difficultyParameters[i])) continue;
                 
-                AdjustParameter(dataNeeded, difficultyParameters[i]);
-                break;
+                var difficultyParameter = difficultyParameters[i];
+                parametersToAdjust.Add(difficultyParameter);
+                dataAdjustment += (() => AdjustParameter(dataNeeded, difficultyParameter));
             }
         }
     }

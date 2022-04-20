@@ -20,7 +20,7 @@ namespace Assets.Scripts.Dialogue_System
         [SerializeField] private bool _rotateOnInteract = true;
 
         private Outline _outline;
-        private bool _isInteractable;
+        [ReadOnly] [SerializeField] private bool _isInteractable;
         private Transform _playerTransform;
         private Transform _npcTransform;
         private bool _alreadyInteracted;
@@ -60,7 +60,7 @@ namespace Assets.Scripts.Dialogue_System
 
             for (var i = 0; i < choicesCount; i++)
             {
-                if (!_conversation.choices[i].addAQuest || _conversation.choices[i].quest == null) continue;
+                if (_conversation.choices[i].quest == null) continue;
                 
                 try
                 {
@@ -108,7 +108,7 @@ namespace Assets.Scripts.Dialogue_System
                 _isInteractable = false;
             }
 
-            if (!GameManager.instance.inputHandler.interact) return;
+            if (!GameManager.instance.inputHandler.interact || !_isInteractable) return;
             GameManager.instance.inputHandler.interact = false;
 
             Interact(player);
@@ -141,7 +141,7 @@ namespace Assets.Scripts.Dialogue_System
                 return;
             }
 
-            if(!_isInteractable) return;
+
             if(_conversation == null) return;
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);

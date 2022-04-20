@@ -35,6 +35,7 @@ public class DialogueUI : MonoBehaviour
     private Conversation _currentConversation;
     private Character _currentCharacter;
     private int _lineCount = 0;
+    private GameObject _choiceGameObject;
 
     void Update()
     {
@@ -305,11 +306,16 @@ public class DialogueUI : MonoBehaviour
                 //enable object so it can be seen
                 choiceButtons[i].gameObject.SetActive(true);
 
-                //if the choice does not entail adding a quest to the player, then continue to loop
-                if (!choices[i].addAQuest || choices[i].quest == null) continue;
-                    
+                //if the choice does not entail adding a quest to the player, then set the title and content of the tooltip to the desired title and content on the choice
                 choiceButtons[i].tooltipTrigger.enabled = true;
-                choiceButtons[i].tooltipTrigger.SetTitleContent(choices[i].quest.title, choices[i].quest.description);
+                if (choices[i].quest != null)
+                {
+                    choiceButtons[i].tooltipTrigger.SetTitleContent(choices[i].quest.title, choices[i].quest.description);
+                }
+                else
+                {
+                    choiceButtons[i].tooltipTrigger.SetTitleContent(choices[i].tooltipTitle, choices[i].tooltipTitle);
+                }
             }
             catch
             {
@@ -317,16 +323,28 @@ public class DialogueUI : MonoBehaviour
             }
         }
         //activate choicePanel
-        choiceTweener.gameObject.SetActive(true);
+        if (_choiceGameObject == null)
+        {
+            _choiceGameObject = choiceTweener.gameObject;
+        }
+        _choiceGameObject.SetActive(true);
     }
 
     private void AddChoiceButtonFunction(Choice choice)
     {
-        choiceTweener.gameObject.SetActive(false);
+        if (_choiceGameObject == null)
+        {
+            _choiceGameObject = choiceTweener.gameObject;
+        }
+        _choiceGameObject.SetActive(false);
         
-        if (choice.addAQuest && choice.quest != null)
+        if (choice.quest != null)
         {
             GameManager.instance.player.playerQuestManager.GiveQuestToPlayer(choice.quest, _currentCharacter);
+        }
+        else
+        {
+            choice.onClickChoice?.Invoke();
         }
 
         if (choice.nextConversation != null)

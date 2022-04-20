@@ -8,8 +8,17 @@ namespace Combat_System
     {
         public bool backToPoolAfterDisable;
         public float secsAfterDisable;
+        private Transform _gameManagerTransform;
+        private Transform _thisTransform;
+        private GameObject _thisGameObject;
         void OnEnable()
         {
+            if (_gameManagerTransform == null)
+            {
+                _gameManagerTransform = GameManager.instance.transform;
+                _thisTransform = transform;
+                _thisGameObject = gameObject;
+            }
             StartCoroutine(Disable(secsAfterDisable));
         }
 
@@ -18,9 +27,11 @@ namespace Combat_System
             yield return new WaitForSeconds(secs);
             if (backToPoolAfterDisable)
             {
-                transform.parent = GameManager.instance.transform;
+                
+                _thisTransform.SetParent(_gameManagerTransform);
             }
-            gameObject.SetActive(false);
+
+            _thisGameObject.SetActive(false);
         }
     }
 }

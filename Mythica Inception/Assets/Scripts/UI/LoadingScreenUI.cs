@@ -8,5 +8,12 @@ namespace Assets.Scripts.UI
         public UITweener tweener;
         public ProgressBarUI progressBar;
         public Camera loadingScreenCamera;
+
+        [HideInInspector] public GameObject thisGameObject;
+
+        void Start()
+        {
+            thisGameObject = gameObject;
+        }
     }
 }

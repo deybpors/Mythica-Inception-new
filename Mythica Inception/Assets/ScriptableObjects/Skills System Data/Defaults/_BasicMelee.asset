@@ -16,6 +16,7 @@ MonoBehaviour:
   tameBeam: 0
   skillName: Melee
   skillType: 0
+  skillIcon: {fileID: 0}
   skillCategory: 0
   power: 0.2
   cooldownTime: 0

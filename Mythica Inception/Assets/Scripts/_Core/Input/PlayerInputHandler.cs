@@ -190,7 +190,6 @@ namespace _Core.Input
 
             if (!message.Equals(string.Empty))
             {
-                Debug.Log(message);
                 GameManager.instance.uiManager.debugConsole.DisplayLogUI(message);
             }
 
@@ -205,7 +204,7 @@ namespace _Core.Input
         public void Interact(InputAction.CallbackContext context)
         {
             if (!activate) return;
-            if (!context.started) return;
+            if (!context.performed) return;
             if(currentMonster >= 0) return;
             interact = true;
         }

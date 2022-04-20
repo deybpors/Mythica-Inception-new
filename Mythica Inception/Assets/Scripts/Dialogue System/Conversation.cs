@@ -2,6 +2,7 @@
 using MyBox;
 using Quest_System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Dialogue_System
 {
@@ -28,8 +29,12 @@ namespace Assets.Scripts.Dialogue_System
     {
         public string text;
         public Conversation nextConversation;
-        public bool addAQuest;
-        [ConditionalField(nameof(addAQuest))] public Quest quest;
+        public Quest quest;
+        public UnityEvent onClickChoice;
+        [Foldout("Tooltip", true)]
+        public string tooltipTitle;
+        [TextArea(3,5)]
+        public string tooltipDescription;
     }
 
     public enum SpeakerDirection

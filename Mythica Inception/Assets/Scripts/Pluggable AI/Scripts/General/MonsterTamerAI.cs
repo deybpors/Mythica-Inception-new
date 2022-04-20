@@ -27,17 +27,19 @@ namespace Pluggable_AI.Scripts.General
         public bool expOrbs = true;
 
         [ReadOnly] public MonsterSlot monsterAttacker;
-        [HideInInspector] public Transform thisTransform;
 
         #region Hidden Fields
 
         [HideInInspector] public WildMonsterSpawner spawner;
+        [HideInInspector] public Transform thisTransform;
         [HideInInspector] public Health healthComponent;
         [HideInInspector] public int currentMonster = 0;
         private List<GameObject> _monsterGameObjects = new List<GameObject>();
         private SkillManager _skillManager;
         private MonsterManager _monsterManager;
         private Renderer _monsterRenderer;
+        private GameObject _thisGameObject;
+        private Transform _gameManagerTransform;
 
         #endregion
 
@@ -230,9 +232,11 @@ namespace Pluggable_AI.Scripts.General
             }
             healthComponent.ReduceHealth(damageToTake);
             monsterSlots[currentMonster].currentHealth = healthComponent.health.currentHealth;
-
             healthBar.maxValue = healthComponent.health.maxHealth;
             healthBar.currentValue = healthComponent.health.currentHealth;
+
+            var shakeIntensity = damageToTake >= healthComponent.health.maxHealth * .25 ? 6f : 3f;
+            GameManager.instance.Screenshake(shakeIntensity, .5f);
 
             if (monsterSlots[currentMonster].currentHealth > 0) return;
             
@@ -298,7 +302,13 @@ namespace Pluggable_AI.Scripts.General
                 }
             }
 
-            gameObject.SetActive(false);
+            if (_thisGameObject == null)
+            {
+                _thisGameObject = gameObject;
+                _gameManagerTransform = GameManager.instance.transform;
+            }
+            _thisGameObject.SetActive(false);
+            thisTransform.SetParent(_gameManagerTransform);
         }
 
         private void ExtractExpOrbs()
@@ -331,7 +341,8 @@ namespace Pluggable_AI.Scripts.General
                 SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
                     monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : Vector3.zero, range ? thisTransform.rotation : Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
-            var deathTime = range ? 1f : .25f;
+            
+            var deathTime = range ? 1f : .3f;
             var speed = range ? 30f : 20f;
             rangeProjectile.ProjectileData(true, range,monAttacking.basicAttackObjects.targetObject,monAttacking.basicAttackObjects.impact, 
                 monAttacking.basicAttackObjects.muzzle,false, true, thisTransform, stateController.aI.fieldOfView.visibleTargets[0], stateController.aI.fieldOfView.visibleTargets[0].position, deathTime, speed,.5f,monAttacking.basicAttackSkill);

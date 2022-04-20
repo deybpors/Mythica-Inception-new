@@ -11,7 +11,6 @@ public class AnimationSFX : MonoBehaviour
     [SerializeField] private string _sandStep = "Sand Step";
     [SerializeField] private string _concreteStep = "Concrete Step";
     [SerializeField] private string _rockStep = "Rock Step";
-    [ReadOnly] private Terrain[] activeTerrains;
     private TerrainDetector _terrainDetector;
     private Transform _parentTransform;
     private Transform _thisTransform;

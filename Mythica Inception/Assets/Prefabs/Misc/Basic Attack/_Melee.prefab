@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   backToPoolAfterDisable: 1
-  secsAfterDisable: 0.8
+  secsAfterDisable: 2
 --- !u!114 &7932719286760776516
 MonoBehaviour:
   m_ObjectHideFlags: 0

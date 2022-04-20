@@ -1,10 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
+using MyBox;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
 namespace Monster_System
 {
@@ -20,9 +23,10 @@ namespace Monster_System
         public int highestLevel;
         public int lowestLevel;
         public int noOfMonstersLimit;
-        public int currentNoOfMonsters;
+        [ReadOnly] public int currentNoOfMonsters;
         private Coroutine _waitSpawn;
         private Vector3 _spawnerPosition;
+        private Transform _thisTransform;
 
         private Dictionary<GameObject, NavMeshAgent> _agents = new Dictionary<GameObject, NavMeshAgent>();
 
@@ -40,7 +44,11 @@ namespace Monster_System
             if(currentNoOfMonsters >= noOfMonstersLimit) return;
             if(GameManager.instance == null) return;
             if(GameManager.instance.player == null) return;
-            var distance = Vector3.Distance(transform.position, GameManager.instance.player.transform.position);
+            if (_thisTransform == null)
+            {
+                _thisTransform = transform;
+            }
+            var distance = Vector3.Distance(_thisTransform.position, GameManager.instance.player.playerTransform.position);
             if (distance > 30) return;
             
             if(_waitSpawn != null) return;
@@ -52,8 +60,9 @@ namespace Monster_System
         private void Spawn()
         {
             var monsterIndex = Random.Range(0, monsters.Count);
-            var level = Random.Range(lowestLevel, highestLevel);
-            var monsterXp = GameSettings.Experience(level);
+            double level = Random.Range(lowestLevel, highestLevel);
+            level *= GameManager.instance.difficultyManager.GetParameterValue("Wild Lvl Multiplier");
+            var monsterXp = GameSettings.Experience((int) Math.Round(level, MidpointRounding.AwayFromZero));
             var highX = _spawnerPosition.x + xAxis;
             var lowX = _spawnerPosition.x - xAxis;
             var highZ = _spawnerPosition.z + zAxis;

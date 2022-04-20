@@ -6,6 +6,7 @@ using _Core.Input;
 using _Core.Managers;
 using _Core.Others;
 using Assets.Scripts._Core.Player;
+using Cinemachine;
 using Combat_System;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
@@ -36,6 +37,9 @@ namespace _Core.Player
         [ReadOnly] public GameObject unitIndicator;
         [ReadOnly] public GameObject vectorIndicator;
         [SerializeField] private Light _gamePlayLight;
+        [InitializationField] public CinemachineVirtualCamera virtualCamera;
+        [InitializationField] public GameObject expOrbReceiveFx;
+        [InitializationField] public GameObject lvlUpFx;
 
         #region Hidden Fields
 
@@ -56,10 +60,10 @@ namespace _Core.Player
         [HideInInspector] public PlayerSaveData savedData;
         [HideInInspector] public Vector3 colliderExtents;
         [HideInInspector] public List<MonsterSlot> storageMonsters;
-        private Transform _playerTransform;
+        [HideInInspector] public Transform playerTransform;
         private readonly Vector3 _zeroVector = Vector3.zero;
         private DateTime _dateOpened;
-        [SerializeField] private bool _tamerInvulnerable = false;
+        [ReadOnly] [SerializeField] private bool _tamerInvulnerable = false;
         private readonly Color _white = Color.white;
 
         #endregion
@@ -81,7 +85,7 @@ namespace _Core.Player
         private void Init()
         {
             if (GameManager.instance == null) return;
-            _playerTransform = transform;
+            playerTransform = transform;
             GetNeededComponents();
             InitializePlayerSavedData();
             monsterManager.ActivateMonsterManager(this, skillManager);
@@ -122,7 +126,7 @@ namespace _Core.Player
             playerQuestManager.finishedQuests = savedData.finishedQuests;
             discoveredMonsters = savedData.discoveredMonsters;
             storageMonsters = savedData.storageMonsters ?? GameSettings.GetDefaultMonsterSlots(30);
-            var playerGFX = Instantiate(savedData.sex.Equals(Sex.Male) ? playerSettings.male : playerSettings.female, _playerTransform);
+            var playerGFX = Instantiate(savedData.sex.Equals(Sex.Male) ? playerSettings.male : playerSettings.female, playerTransform);
             tamer = playerGFX;
             SetPlayerSavedData();
         }
@@ -157,8 +161,8 @@ namespace _Core.Player
             {
                 savedData = new PlayerSaveData(savedData.name,
                     savedData.sex,
-                    new WorldPlacementData(_playerTransform.position + playerSettings.savePositionOffset, _playerTransform.rotation,
-                        _playerTransform.localScale),
+                    new WorldPlacementData(playerTransform.position + playerSettings.savePositionOffset, playerTransform.rotation,
+                        playerTransform.localScale),
                     monsterSlots,
                     playerHealth,
                     playerInventory.inventorySlots,
@@ -329,25 +333,25 @@ namespace _Core.Player
             var monAttacking = GetCurrentMonster();
 
             var range = monAttacking.basicAttackType != BasicAttackType.Melee;
-            var rotation = _playerTransform.rotation;
+            var rotation = playerTransform.rotation;
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(range ? null : projectileReleases.front, monAttacking.basicAttackObjects.projectile.name,
                     monAttacking.basicAttackObjects.projectile, range ? projectileReleases.front.position : _zeroVector, range ? rotation : Quaternion.Euler(-90, rotation.y, rotation.z));
 
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             var target = selectionManager.selectables.Count > 0 ? selectionManager.selectables[0] : null;
-            var deathTime = range ? .25f : .1f;
+            var deathTime = .25f;
             var speed = range ? 30f : 20f;
 
             rangeProjectile.ProjectileData(true, range, monAttacking.basicAttackObjects.targetObject, monAttacking.basicAttackObjects.impact,
-                monAttacking.basicAttackObjects.muzzle, false, true, _playerTransform, target,
+                monAttacking.basicAttackObjects.muzzle, false, true, playerTransform, target,
                 _zeroVector, deathTime, speed, .5f, monAttacking.basicAttackSkill);
         }
 
         public void SpawnSwitchFX()
         {
             GameManager.instance.pooler.
-                SpawnFromPool(_playerTransform, playerSettings.tameBeam.projectileGraphics.targetObject.name,
+                SpawnFromPool(playerTransform, playerSettings.tameBeam.projectileGraphics.targetObject.name,
                     playerSettings.tameBeam.projectileGraphics.targetObject, _zeroVector,
                     Quaternion.identity);
         }
@@ -371,7 +375,7 @@ namespace _Core.Player
                 Quaternion.identity);
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
             rangeProjectile.ProjectileData(true, true, playerSettings.tameBeam.projectileGraphics.targetObject, playerSettings.tameBeam.projectileGraphics.impact,
-                playerSettings.tameBeam.projectileGraphics.muzzle, true, false, _playerTransform, selectionManager.selectables[0],
+                playerSettings.tameBeam.projectileGraphics.muzzle, true, false, playerTransform, selectionManager.selectables[0],
                 _zeroVector, 10, 30, 1f, playerSettings.tameBeam.skill);
         }
 
@@ -405,6 +409,7 @@ namespace _Core.Player
         public void AddExperience(int experienceToAdd, int slotNum)
         {
             GameManager.instance.audioManager.PlaySFX("Experience Orb");
+            expOrbReceiveFx.SetActive(true);
             var nextLevel = GameSettings.Level(monsterSlots[slotNum].currentExp) + 1;
             var nextLevelExp = GameSettings.Experience(nextLevel);
             monsterSlots[slotNum].currentExp += experienceToAdd;
@@ -412,6 +417,7 @@ namespace _Core.Player
             if (monsterSlots[slotNum].currentExp > nextLevelExp)
             {
                 GameManager.instance.audioManager.PlaySFX("Level Up");
+                lvlUpFx.SetActive(true);
             }
 
             if (_inputHandler.currentMonster != slotNum) return;
@@ -426,20 +432,32 @@ namespace _Core.Player
         {
             _healthComponent.ReduceHealth(damageToTake);
             var currentMonster = _inputHandler.currentMonster;
-
             if (currentMonster < 0)
             {
+                GameManager.instance.Screenshake(damageToTake >= _healthComponent.health.maxHealth * .25 ? 8f : 4f, .5f);
                 playerHealth.currentHealth = _healthComponent.health.currentHealth;
                 GameManager.instance.uiManager.UpdateHealthUI(currentMonster, playerHealth.currentHealth);
+                
+                if (playerHealth.currentHealth > 0) return;
 
-                if (playerHealth.currentHealth <= 0)
-                {
-                    Die();
-                }
+                _inputHandler.movementInput = Vector2.zero;
+                _inputHandler.activate = false;
+                HandlePauseGameFeel(.5f);
+                StartCoroutine(DelayAction(.5f, Die, true));
+
                 return;
             }
             monsterSlots[currentMonster].currentHealth = _healthComponent.health.currentHealth;
             GameManager.instance.uiManager.UpdateHealthUI(currentMonster, monsterSlots[currentMonster].currentHealth);
+
+            var bigHit = damageToTake >= _healthComponent.health.maxHealth * .25;
+            var shakeIntensity =  bigHit ? 8f : 4f;
+            GameManager.instance.Screenshake(shakeIntensity, .5f);
+            
+            if (bigHit)
+            {
+                HandlePauseGameFeel(.25f);
+            }
 
             if (monsterSlots[currentMonster].currentHealth > 0) return;
             monsterSlots[currentMonster].fainted = true;
@@ -469,22 +487,27 @@ namespace _Core.Player
 
             var playerGameObject = gameObject;
             tamer.SetActive(false);
-            _inputHandler.movementInput = Vector2.zero;
-            _inputHandler.activate = false;
-            rgdbody.isKinematic = true;
             rgdbody.useGravity = false;
-            GameManager.instance.pooler.SpawnFromPool(null, playerSettings.deathParticles.name, playerSettings.deathParticles, _playerTransform.position,
+            GameManager.instance.pooler.SpawnFromPool(null, playerSettings.deathParticles.name, playerSettings.deathParticles, playerTransform.position,
                 Quaternion.identity);
             var playerOrigLayer = playerGameObject.layer;
             playerGameObject.layer = 0;
             skillManager.targeting = false;
             GameManager.instance.saveManager.activated = false;
 
-            void Reset() => ResetGame(playerGameObject, playerOrigLayer);
+            void Reset()
+            {
+                GameManager.instance.uiManager.modal.CloseModal();
+                StopAllCoroutines();
+                GameManager.instance.uiManager.loadingScreen.thisGameObject.SetActive(true);
+                StartCoroutine(DelayAction(2, () => ResetGame(playerGameObject, playerOrigLayer), false));
+                StartCoroutine(DelayAction(2, GameManager.instance.uiManager.loadingScreen.tweener.Disable, false));
+            }
+
             GameManager.instance.uiManager.modal.OpenModal("<color=#f48989>Game Over</color>", playerSettings.deathIcon, _white, Reset);
         }
 
-        private void FullyRestoreAllMonsters()
+        public void FullyRestoreAllMonsters()
         {
             var count = monsterSlots.Count;
             for (var i = 0; i < count; i++)
@@ -537,14 +560,23 @@ namespace _Core.Player
 
         #region Miscellaneous
 
+        private void HandlePauseGameFeel(float timeToTake)
+        {
+            GameManager.instance.gameStateController.TransitionToState(playerSettings.gameFeelState);
+            GameManager.instance.pauseManager.PauseGameplay(0);
+            StopAllCoroutines();
+            StartCoroutine(DelayAction(timeToTake,
+                () => GameManager.instance.pauseManager.PauseGameplay(1),
+                true));
+            StartCoroutine(DelayAction(timeToTake, () => GameManager.instance.gameStateController.TransitionToState(playerSettings.gameplayState), true));
+        }
+
         private void ResetGame(GameObject player, int layer)
         {
-            GameManager.instance.uiManager.loadingScreen.gameObject.SetActive(true);
             player.layer = layer;
             _inputHandler.activate = true;
             GameManager.instance.saveManager.activated = true;
             tamer.SetActive(true);
-            rgdbody.isKinematic = false;
             rgdbody.useGravity = true;
             playerHealth.maxHealth = GameSettings.MonstersAvgHealth(monsterSlots.ToList()) <= 0 ?
                 GameManager.instance.saveManager.defaultPlayerHealth :
@@ -554,17 +586,12 @@ namespace _Core.Player
             
             playerHealth.currentHealth = playerHealth.maxHealth;
             _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
-            
+            GameManager.instance.uiManager.UpdateHealthUI(_inputHandler.currentMonster, playerHealth.currentHealth);
+
             FullyRestoreAllMonsters();
             HandleItems(true);
 
-            UnityAction resetPosition = () => TransferPlayerPositionRotation(savedData.playerWorldPlacement);
-            UnityAction disableLoadingScreen = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
-
-            StopAllCoroutines();
-            StartCoroutine(DelayAction(GameManager.instance.uiManager.loadingScreen.tweener.duration, resetPosition));
-            StartCoroutine(DelayAction(2, disableLoadingScreen));
-            GameManager.instance.uiManager.modal.CloseModal();
+            TransferPlayerPositionRotation(savedData.playerWorldPlacement);
         }
 
         private void HandleItems(bool dead)
@@ -601,9 +628,16 @@ namespace _Core.Player
             }
         }
 
-        IEnumerator DelayAction(float delay, UnityAction action)
+        IEnumerator DelayAction(float delay, UnityAction action, bool unscaledTime)
         {
-            yield return new WaitForSeconds(delay);
+            if (unscaledTime)
+            {
+                yield return new WaitForSecondsRealtime(delay);
+            }
+            else
+            {
+                yield return new WaitForSeconds(delay);
+            }
             action?.Invoke();
         }
 
@@ -611,13 +645,13 @@ namespace _Core.Player
         {
             if(placementData == null) return;
 
-            _playerTransform.SetPositionAndRotation(placementData.position, placementData.rotation);
+            playerTransform.SetPositionAndRotation(placementData.position, placementData.rotation);
         }
         public bool SamePositionFromSaved()
         {
             try
             {
-                return savedData.playerWorldPlacement.position.Approximately(_playerTransform.position + playerSettings.savePositionOffset);
+                return savedData.playerWorldPlacement.position.Approximately(playerTransform.position + playerSettings.savePositionOffset);
             }
             catch
             {
@@ -627,6 +661,5 @@ namespace _Core.Player
 
         #endregion
 
-        
     }
 }

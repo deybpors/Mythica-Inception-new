@@ -350,9 +350,9 @@ NavMeshAgent:
   m_Acceleration: 25
   avoidancePriority: 50
   m_AngularSpeed: 500
-  m_StoppingDistance: 3
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
+  m_AutoBraking: 0
   m_AutoRepath: 1
   m_Height: 2
   m_BaseOffset: 0
@@ -464,6 +464,7 @@ MonoBehaviour:
       amountOfItems: 0
     - inventoryItem: {fileID: 0}
       amountOfItems: 0
+  thisTransform: {fileID: 0}
   spawner: {fileID: 0}
   healthComponent: {fileID: 0}
   currentMonster: 0
@@ -1595,15 +1596,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4495521950721904, guid: b8de9a2a96c504149bdb2dafd2555c81, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.7982652
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4495521950721904, guid: b8de9a2a96c504149bdb2dafd2555c81, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.095
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4495521950721904, guid: b8de9a2a96c504149bdb2dafd2555c81, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.444
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4495521950721904, guid: b8de9a2a96c504149bdb2dafd2555c81, type: 3}
       propertyPath: m_LocalRotation.w

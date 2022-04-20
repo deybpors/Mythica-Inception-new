@@ -16,8 +16,13 @@ namespace Monster_System
         private int experienceGiven = 0;
         public bool activated;
         private int _count;
-        
-        
+        private GameObject _thisObject;
+        private Transform _thisTransform;
+
+        private Dictionary<GameObject, ExperienceOrb> _orbs = new Dictionary<GameObject, ExperienceOrb>();
+        private Dictionary<ExperienceOrb, GameObject> _orbObjects = new Dictionary<ExperienceOrb, GameObject>();
+
+
         void OnEnable()
         {
             if(!activated) return;
@@ -30,36 +35,58 @@ namespace Monster_System
                     break;
                 }
 
-                GameObject orb;
+                GameObject orbObj;
                 
                 if (GameManager.instance == null)
                 {
-                    orb = Instantiate(orbObject, InSphere() * radius, Quaternion.identity);
+                    orbObj = Instantiate(orbObject, InSphere() * radius, Quaternion.identity);
                 }
                 else
                 {
-                    orb = GameManager.instance.pooler.SpawnFromPool(null, orbObject.name, orbObject,
+                    orbObj = GameManager.instance.pooler.SpawnFromPool(null, orbObject.name, orbObject,
                         InSphere() * radius,
                         Quaternion.identity);
                 }
-                
-                ActivateExperienceOrb(orb.GetComponent<ExperienceOrb>());
+
+                if (!_orbs.TryGetValue(orbObj, out var expOrb))
+                {
+                    expOrb = orbObj.GetComponent<ExperienceOrb>();
+                    try
+                    {
+                        _orbs.Add(orbObj, expOrb);
+                        _orbObjects.Add(expOrb, orbObj);
+                    }
+                    catch
+                    {
+                        //ignored
+                    }
+                }
+
+                ActivateExperienceOrb(expOrb);
             }
-            
-            gameObject.SetActive(false);
+
+            _thisObject.SetActive(false);
         }
 
         public void SpawnerSpawned(int exp)
         {
-            gameObject.SetActive(false);
+            if (_thisObject == null)
+            {
+                _thisObject = gameObject;
+            }
+            _thisObject.SetActive(false);
             totalExperience = exp;
             activated = true;
-            gameObject.SetActive(true);
+            _thisObject.SetActive(true);
         }
 
         private Vector3 InSphere()
         {
-            var position = transform.position;
+            if (_thisTransform == null)
+            {
+                _thisTransform = transform;
+            }
+            var position = _thisTransform.position;
             var x = Random.Range(position.x - 1,position.x + 1);
             var y = Random.Range(position.y - 1, position.y + 1);
             var z = Random.Range(position.z - 1, position.z + 1);
@@ -67,9 +94,22 @@ namespace Monster_System
             return new Vector3(x,y,z);
         }
 
-        private void ActivateExperienceOrb(ExperienceOrb orb)
+        private void ActivateExperienceOrb(ExperienceOrb expOrb)
         {
-            orb.gameObject.SetActive(false);
+            if (!_orbObjects.TryGetValue(expOrb, out var orbObj))
+            {
+                orbObj = expOrb.gameObject;
+                try
+                {
+                    _orbObjects.Add(expOrb, orbObj);
+                }
+                catch
+                {
+                    //ignored
+                }
+            }
+
+            orbObj.SetActive(false);
             int experienceToGive;
             
             if (_count == maxSize - 1)
@@ -84,10 +124,10 @@ namespace Monster_System
             if(experienceToGive <= 0) return;
 
             experienceGiven += experienceToGive;
-            orb.slotNum = slotNum;
-            orb.experience = experienceToGive;
+            expOrb.slotNum = slotNum;
+            expOrb.experience = experienceToGive;
             
-            orb.gameObject.SetActive(true);
+            orbObj.SetActive(true);
         }
     }
 }

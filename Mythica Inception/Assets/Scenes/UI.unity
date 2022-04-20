@@ -30623,7 +30623,7 @@ MonoBehaviour:
   ignoreTimeScale: 1
   animationType: 2
   easeType: 4
-  duration: 0.25
+  duration: 0.5
   delay: 0
   loop: 0
   pingpong: 0
@@ -38281,7 +38281,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Input nickname of mythica...
+  m_text: What would you like your mythica to be called?
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 523748403a8dcff429494bb9e2a0b05c, type: 2}
   m_sharedMaterial: {fileID: -179815503586610210, guid: 523748403a8dcff429494bb9e2a0b05c, type: 2}
@@ -43682,7 +43682,7 @@ MonoBehaviour:
   loop: 0
   pingpong: 0
   startPositionOffset: 1
-  fromState: {x: 0, y: 0, z: 1}
+  fromState: {x: 0, y: 1, z: 1}
   toState: {x: 1, y: 1, z: 1}
   from: 0
   to: 0
@@ -46372,7 +46372,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1674864249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58983,7 +58983,7 @@ MonoBehaviour:
   loop: 0
   pingpong: 0
   startPositionOffset: 1
-  fromState: {x: 0, y: 0, z: 0}
+  fromState: {x: 0, y: 1, z: 0}
   toState: {x: 1, y: 1, z: 0}
   from: 0
   to: 0

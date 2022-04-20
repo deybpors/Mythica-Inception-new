@@ -27,3 +27,6 @@ MonoBehaviour:
   dashGraphic: {fileID: 2856564803941483247, guid: 8ce2a886accd1a34981744385089b43d, type: 3}
   playerData: {fileID: 11400000, guid: d52b9ce5e8319354c8b076db0f8eeb49, type: 2}
   tameRadius: 8
+  savePositionOffset: {x: 0, y: 0.3, z: 0}
+  gameFeelState: {fileID: 11400000, guid: 7c91e641d156d684db3ff670ef63941c, type: 2}
+  gameplayState: {fileID: 11400000, guid: 3dad947175dfe8c4f860f67a26064c42, type: 2}

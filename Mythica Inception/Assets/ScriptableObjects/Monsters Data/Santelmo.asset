@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Santelmo
+  m_EditorClassIdentifier: 
+  ID: 86318db9-fd99-4a5b-91e0-440782cb301e
+  monsterNum: 6
+  monsterName: Santelmo
+  monsterPrefab: {fileID: 2611149553095981223, guid: add7e67fb68b0d54a9d9893bd0356223, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: 0b62bd483db08794b8f5e7c503671c48, type: 3}
+  type: 4
+  basicAttackType: 1
+  basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 150356, guid: a306da11c789cca46be25731712918a7, type: 3}
+    impact: {fileID: 130332, guid: 0075196747cffd646a488e5fab5f59ce, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 133642, guid: 3419127e402a37e4f8b7066433be5c69, type: 3}
+  stats:
+    baseHealth: 45
+    maxLives: 2
+    physicalAttack: 100
+    physicalDefense: 135
+    specialAttack: 65
+    specialDefense: 135
+    baseExpYield: 120
+    tameResistance: 100
+    criticalChance: 0.05
+    movementSpeed: 0.8
+    attackRate: 1
+  skillLearnSets: []
+  description: 

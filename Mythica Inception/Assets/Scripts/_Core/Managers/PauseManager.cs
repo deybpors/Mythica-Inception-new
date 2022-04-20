@@ -1,11 +1,12 @@
-using System.Collections.Generic;
+using MyBox;
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
     public bool paused;
+
     public void PauseGameplay(float timeScale)
     {
-        Time.timeScale = 1 * timeScale;
+        Time.timeScale = timeScale;
     }
 }

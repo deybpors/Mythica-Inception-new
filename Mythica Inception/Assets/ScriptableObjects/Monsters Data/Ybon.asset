@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Ybon
+  m_EditorClassIdentifier: 
+  ID: 542373dd-3068-4095-ad6c-b74d6af941b2
+  monsterNum: 2
+  monsterName: Ybon
+  monsterPrefab: {fileID: 2361259873805981146, guid: 509cc0139dddd3e4fbe729e27b8f0dc8, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: 78cff602277a8db4b85719194dbb889c, type: 3}
+  type: 2
+  basicAttackType: 0
+  basicAttackSkill: {fileID: 11400000, guid: eec92638661d31d4da9c8f4b8afe5734, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 1263804789950809153, guid: f0726507d09bec945bfac062368f7503, type: 3}
+    impact: {fileID: 150944, guid: 57561554096f31e498b9eedec1327721, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 127072, guid: 6f2ddc26389af9f4da9be607bf7b6492, type: 3}
+  stats:
+    baseHealth: 85
+    maxLives: 5
+    physicalAttack: 120
+    physicalDefense: 70
+    specialAttack: 50
+    specialDefense: 60
+    baseExpYield: 200
+    tameResistance: 100
+    criticalChance: 0.07
+    movementSpeed: 1
+    attackRate: 1
+  skillLearnSets: []
+  description: 

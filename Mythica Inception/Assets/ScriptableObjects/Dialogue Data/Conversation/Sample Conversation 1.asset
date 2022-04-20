@@ -29,9 +29,13 @@ MonoBehaviour:
   choices:
   - text: What the freak?
     nextConversation: {fileID: 0}
-    addAQuest: 0
     quest: {fileID: 0}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls: []
   - text: Yeah baby. ugh
     nextConversation: {fileID: 11400000, guid: 0baed14d7c9bcb94bbdb2038fd8eef91, type: 2}
-    addAQuest: 1
     quest: {fileID: 11400000, guid: 2b873b069e8b730458bcd71e5ea74c85, type: 2}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls: []

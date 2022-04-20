@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Shroomboi
+  m_EditorClassIdentifier: 
+  ID: 0ad9bf64-1f57-41a6-98d9-a1d351e23806
+  monsterNum: 8
+  monsterName: Shroomboi
+  monsterPrefab: {fileID: 8666222085425565636, guid: 6817f99c996d6954bbc09b0c865d9807, type: 3}
+  monsterPortrait: {fileID: 0}
+  type: 4
+  basicAttackType: 1
+  basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 1999407639263894, guid: 28b1694ad94781646bd402524655b2d7, type: 3}
+    impact: {fileID: 1746838236574612, guid: 1136e183095a225479ac1b7c87e2ebfa, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 127072, guid: 6f2ddc26389af9f4da9be607bf7b6492, type: 3}
+  stats:
+    baseHealth: 80
+    maxLives: 5
+    physicalAttack: 50
+    physicalDefense: 100
+    specialAttack: 95
+    specialDefense: 100
+    baseExpYield: 20
+    tameResistance: 115
+    criticalChance: 0.07
+    movementSpeed: 0.95
+    attackRate: 1
+  skillLearnSets: []
+  description: 

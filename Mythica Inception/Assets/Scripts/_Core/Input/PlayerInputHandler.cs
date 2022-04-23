@@ -204,9 +204,16 @@ namespace _Core.Input
         public void Interact(InputAction.CallbackContext context)
         {
             if (!activate) return;
-            if (!context.performed) return;
             if(currentMonster >= 0) return;
-            interact = true;
+            if (context.started)
+            {
+                interact = true;
+            }
+
+            if (context.canceled)
+            {
+                interact = false;
+            }
         }
 
         public void Select(InputAction.CallbackContext context)
@@ -300,6 +307,7 @@ namespace _Core.Input
             if (!context.started) return;
 
             GameManager.instance.uiManager.optionsMinimizeButton.onClick.Invoke();
+            GameManager.instance.uiManager.merchantUi.minimizeButton.onClick.Invoke();
         }
 
         public void EnterGameplay()

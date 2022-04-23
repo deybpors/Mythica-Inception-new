@@ -48,7 +48,7 @@ namespace _Core.Player
         [HideInInspector] public SelectionManager selectionManager;
         [HideInInspector] public Camera mainCamera;
         [HideInInspector] public GameObject tamer;
-        private Health _healthComponent;
+        [HideInInspector] public Health healthComponent;
         [HideInInspector] public SkillManager skillManager;
         [HideInInspector] private PlayerInputHandler _inputHandler;
         [HideInInspector] public Rigidbody rgdbody;
@@ -78,6 +78,7 @@ namespace _Core.Player
             if(savedData == null) return;
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
             GameManager.instance.mainLight = _gamePlayLight;
+            GameManager.instance.uiManager.UpdateGoldUI();
         }
 
         #region Initialization
@@ -109,7 +110,7 @@ namespace _Core.Player
             _inputHandler.ActivatePlayerInputHandler(this, mainCamera);
             _inputHandler.EnterGameplay();
             _stateController = GetComponent<StateController>();
-            _healthComponent = GetComponent<Health>();
+            healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
             colliderExtents = GetComponent<Collider>().bounds.extents;
         }
@@ -150,7 +151,7 @@ namespace _Core.Player
                     monsterAvgLvl);
             }
 
-            _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+            healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             //TODO: Update DDA Here
 
             _dateOpened = DateTime.Now;
@@ -290,7 +291,7 @@ namespace _Core.Player
                     GameSettings.MonstersAvgStabilityValue(monsterSlots.ToList()),
                     GameSettings.MonstersAvgLevel(monsterSlots.ToList())
                 );
-                _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+                healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
                 return;
             }
 
@@ -304,7 +305,7 @@ namespace _Core.Player
                     monsterSlots[slot].stabilityValue,
                     GameSettings.Level(monsterSlots[slot].currentExp)
                 );
-            _healthComponent.UpdateHealth(maxHealth, monsterSlots[slot].currentHealth);
+            healthComponent.UpdateHealth(maxHealth, monsterSlots[slot].currentHealth);
         }
 
         public void AddToDiscoveredMonsters(Monster monster)
@@ -430,12 +431,12 @@ namespace _Core.Player
 
         public void TakeDamage(int damageToTake)
         {
-            _healthComponent.ReduceHealth(damageToTake);
+            healthComponent.ReduceHealth(damageToTake);
             var currentMonster = _inputHandler.currentMonster;
             if (currentMonster < 0)
             {
-                GameManager.instance.Screenshake(damageToTake >= _healthComponent.health.maxHealth * .25 ? 8f : 4f, .5f);
-                playerHealth.currentHealth = _healthComponent.health.currentHealth;
+                GameManager.instance.Screenshake(damageToTake >= healthComponent.health.maxHealth * .25 ? 8f : 4f, .5f);
+                playerHealth.currentHealth = healthComponent.health.currentHealth;
                 GameManager.instance.uiManager.UpdateHealthUI(currentMonster, playerHealth.currentHealth);
                 
                 if (playerHealth.currentHealth > 0) return;
@@ -447,10 +448,10 @@ namespace _Core.Player
 
                 return;
             }
-            monsterSlots[currentMonster].currentHealth = _healthComponent.health.currentHealth;
+            monsterSlots[currentMonster].currentHealth = healthComponent.health.currentHealth;
             GameManager.instance.uiManager.UpdateHealthUI(currentMonster, monsterSlots[currentMonster].currentHealth);
 
-            var bigHit = damageToTake >= _healthComponent.health.maxHealth * .25;
+            var bigHit = damageToTake >= healthComponent.health.maxHealth * .25;
             var shakeIntensity =  bigHit ? 8f : 4f;
             GameManager.instance.Screenshake(shakeIntensity, .5f);
             
@@ -467,13 +468,13 @@ namespace _Core.Player
 
         public void Heal(int amountToHeal)
         {
-            _healthComponent.AddHealth(amountToHeal);
+            healthComponent.AddHealth(amountToHeal);
             if (_inputHandler.currentMonster < 0)
             {
-                playerHealth.currentHealth = _healthComponent.health.currentHealth;
+                playerHealth.currentHealth = healthComponent.health.currentHealth;
                 return;
             }
-            monsterSlots[_inputHandler.currentMonster].currentHealth = _healthComponent.health.currentHealth;
+            monsterSlots[_inputHandler.currentMonster].currentHealth = healthComponent.health.currentHealth;
         }
 
         public void RecordDamager(MonsterSlot slot)
@@ -585,7 +586,7 @@ namespace _Core.Player
                     GameSettings.MonstersAvgLevel(monsterSlots));
             
             playerHealth.currentHealth = playerHealth.maxHealth;
-            _healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
+            healthComponent.UpdateHealth(playerHealth.maxHealth, playerHealth.currentHealth);
             GameManager.instance.uiManager.UpdateHealthUI(_inputHandler.currentMonster, playerHealth.currentHealth);
 
             FullyRestoreAllMonsters();

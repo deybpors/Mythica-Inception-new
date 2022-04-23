@@ -12,6 +12,18 @@ namespace Items_and_Barter_System.Scripts
         [SerializeField] private int _itemLimitPerSlot = 69;
         public List<InventorySlot> inventorySlots;
 
+        public bool HasSufficientItem(ItemObject item, int amount)
+        {
+            var slotCount = inventorySlots.Count;
+            for (var i = 0; i < slotCount; i++)
+            {
+                if (inventorySlots[i].inventoryItem != item || inventorySlots[i].amountOfItems < amount) continue;
+                
+                return true;
+            }
+            return false;
+        }
+
         public void AddItemInPlayerInventory(ItemObject item, int amountToAdd)
         {
             var itemAdded = false;

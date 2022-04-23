@@ -41,14 +41,26 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-    tooltipTitle: 
+    tooltipTitle: Let me heal!
     tooltipDescription: I will <color=#b3f47a>heal</color> all your mythicas for
-      free! Just as long as you keep on trading with me.
-  - text: Buy
+      free. Just as long as you keep on trading with me.
+  - text: Trade Items
     nextConversation: {fileID: 0}
     quest: {fileID: 0}
     onClickChoice:
       m_PersistentCalls:
-        m_Calls: []
-    tooltipTitle: Let me heal!
-    tooltipDescription: Come on... I know you want to... Just buy from me... Please...
+        m_Calls:
+        - m_Target: {fileID: 11400000, guid: e7c1cb39fde05364a9617e462aec8612, type: 2}
+          m_TargetAssemblyTypeName: HealerMerchant, Scripts
+          m_MethodName: Barter
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    tooltipTitle: Barter with me!
+    tooltipDescription: Come on... I know you want to... Just trade from me... Please...

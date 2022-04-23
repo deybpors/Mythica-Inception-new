@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ee73b59400358b4296fb010b6647313, type: 3}
   m_Name: Humabon_Opon
   m_EditorClassIdentifier: 
-  itemToSell: []
+  itemToSell:
+  - {fileID: 11400000, guid: 66e650777e40dd649809adea45156aae, type: 2}
+  - {fileID: 11400000, guid: ee46a3e56970d604390cf973681b7e75, type: 2}

@@ -36,6 +36,6 @@ MonoBehaviour:
     tameResistance: 110
     criticalChance: 0.09
     movementSpeed: 1.2
-    attackRate: 1
+    attackRate: 0.95
   skillLearnSets: []
   description: 

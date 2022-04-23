@@ -110,6 +110,7 @@ namespace Assets.Scripts.Dialogue_System
 
             if (!GameManager.instance.inputHandler.interact || !_isInteractable) return;
             GameManager.instance.inputHandler.interact = false;
+            _isInteractable = false;
 
             Interact(player);
         }

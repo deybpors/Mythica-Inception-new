@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Droggo
+  m_EditorClassIdentifier: 
+  ID: e0a1562a-be45-4f00-8516-eafd4046d8c2
+  monsterNum: 9
+  monsterName: Droggo
+  monsterPrefab: {fileID: 1594767147126006, guid: 33eba0da32885b84ebf38245df0735fa, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: ba5ec583b9fd1864e8f557f01442d5b9, type: 3}
+  type: 4
+  basicAttackType: 1
+  basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 122746, guid: 810e1e8a1d5ea514cb213539a0561ab6, type: 3}
+    impact: {fileID: 145150, guid: 51365398f8ddf384b8dbd25b137a9973, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 163420, guid: b0c2bd4603d06174e9f8d98fcae90ab6, type: 3}
+  stats:
+    baseHealth: 91
+    maxLives: 3
+    physicalAttack: 134
+    physicalDefense: 95
+    specialAttack: 100
+    specialDefense: 100
+    baseExpYield: 110
+    tameResistance: 100
+    criticalChance: 0.07
+    movementSpeed: 0.9
+    attackRate: 1
+  skillLearnSets: []
+  description: 

@@ -314,7 +314,7 @@ public class DialogueUI : MonoBehaviour
                 }
                 else
                 {
-                    choiceButtons[i].tooltipTrigger.SetTitleContent(choices[i].tooltipTitle, choices[i].tooltipTitle);
+                    choiceButtons[i].tooltipTrigger.SetTitleContent(choices[i].tooltipTitle, choices[i].tooltipDescription);
                 }
             }
             catch

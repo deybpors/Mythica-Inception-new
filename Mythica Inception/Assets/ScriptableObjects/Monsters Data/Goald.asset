@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Goald
+  m_EditorClassIdentifier: 
+  ID: ba6c0e30-6e7c-43bc-a361-28f16945c653
+  monsterNum: 10
+  monsterName: Goald
+  monsterPrefab: {fileID: 1706760125350986, guid: 45f36e2270151a542be4982f9f1dd581, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: 73175eeb0cea6734ab329bc9c4d80ab7, type: 3}
+  type: 1
+  basicAttackType: 0
+  basicAttackSkill: {fileID: 11400000, guid: eec92638661d31d4da9c8f4b8afe5734, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 1263804789950809153, guid: f0726507d09bec945bfac062368f7503, type: 3}
+    impact: {fileID: 150944, guid: 57561554096f31e498b9eedec1327721, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 127072, guid: 6f2ddc26389af9f4da9be607bf7b6492, type: 3}
+  stats:
+    baseHealth: 89
+    maxLives: 3
+    physicalAttack: 124
+    physicalDefense: 80
+    specialAttack: 55
+    specialDefense: 80
+    baseExpYield: 110
+    tameResistance: 120
+    criticalChance: 0.05
+    movementSpeed: 0.8
+    attackRate: 1
+  skillLearnSets: []
+  description: 

@@ -38,6 +38,7 @@ namespace UI
             [HideInInspector] public GameObject areaIndicator;
             [HideInInspector] public Texture2D pointIndicator;
             [HideInInspector] public NewGamePanelUI newGamePanel;
+            [HideInInspector] public MerchantUI merchantUi;
             [HideInInspector] public ModalUI modal;
             [HideInInspector] public DebugConsoleUI debugConsole;
             [HideInInspector] public TooltipUI tooltip;

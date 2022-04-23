@@ -32,6 +32,12 @@ namespace Items_and_Barter_System.Scripts
     {
         public ItemObject itemToBarter;
         public int amountOfItems;
+
+        public ItemBarterRequirement(ItemObject item, int amount)
+        {
+            itemToBarter = item;
+            amountOfItems = amount;
+        }
     }
     
     [System.Serializable]

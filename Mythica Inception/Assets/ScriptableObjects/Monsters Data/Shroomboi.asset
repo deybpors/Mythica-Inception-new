@@ -16,7 +16,7 @@ MonoBehaviour:
   monsterNum: 8
   monsterName: Shroomboi
   monsterPrefab: {fileID: 8666222085425565636, guid: 6817f99c996d6954bbc09b0c865d9807, type: 3}
-  monsterPortrait: {fileID: 0}
+  monsterPortrait: {fileID: 21300000, guid: d12fcf490e69a4e4ab772c0858eb15ef, type: 3}
   type: 4
   basicAttackType: 1
   basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}

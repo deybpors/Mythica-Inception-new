@@ -10,6 +10,8 @@ public class PlaySFXEnableDisable : MonoBehaviour
 
     void OnEnable()
     {
+        if(GameManager.instance == null) return;
+
         if (_thisObject == null)
         {
             _thisObject = gameObject;
@@ -22,6 +24,7 @@ public class PlaySFXEnableDisable : MonoBehaviour
 
     void OnDisable()
     {
+        if (GameManager.instance == null) return;
 
         if (_audioOnDisable.Equals(string.Empty)) return;
 

@@ -41,6 +41,8 @@ namespace UI
         public LoadingScreenUI loadingScreen;
 
         [Foldout("New Game Panel UI")] public NewGamePanelUI newGamePanel;
+        
+        [Foldout("Merchant UI")] public MerchantUI merchantUi;
 
 
         [Foldout("Modal UI")] public ModalUI modal;
@@ -76,7 +78,7 @@ namespace UI
             ui.optionsMinimizeButton = optionsMinimizeButton;
             ui.generalOptionsUi = generalOptionsUI;
             ui.monsterTamedUi = monsterTamed;
-
+            ui.merchantUi = merchantUi;
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
         }
     }

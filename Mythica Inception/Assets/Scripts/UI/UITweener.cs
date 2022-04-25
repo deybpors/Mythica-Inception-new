@@ -75,6 +75,7 @@ namespace UI
             {
                 Show();
             }
+
             disabled = false;
         }
         private void Show()

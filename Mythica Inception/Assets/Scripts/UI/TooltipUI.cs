@@ -31,7 +31,7 @@ public class TooltipUI : MonoBehaviour
         var pivotX = position.x / (float) Screen.width;
         var pivotY = position.y / (float) Screen.height;
 
-        toolTipTransform.pivot = new Vector2(pivotX - .2f, pivotY - .2f);
+        toolTipTransform.pivot = new Vector2(pivotX - .5f, pivotY - .5f);
         toolTipTransform.position = position;
     }
 

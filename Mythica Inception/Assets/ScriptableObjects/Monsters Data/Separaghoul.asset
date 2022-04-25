@@ -17,7 +17,7 @@ MonoBehaviour:
   monsterName: Separaghoul
   monsterPrefab: {fileID: 3656406855348297815, guid: 0351c7cf7537b764288f4877d2ed8d48, type: 3}
   monsterPortrait: {fileID: 21300000, guid: 5892ce3a4a3c6934aa7182b41c382351, type: 3}
-  type: 0
+  type: 2
   basicAttackType: 0
   basicAttackSkill: {fileID: 11400000, guid: eec92638661d31d4da9c8f4b8afe5734, type: 2}
   basicAttackObjects:

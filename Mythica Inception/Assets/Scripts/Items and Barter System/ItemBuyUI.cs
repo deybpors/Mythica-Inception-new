@@ -1,3 +1,4 @@
+using System;
 using _Core.Managers;
 using _Core.Player;
 using Items_and_Barter_System.Scripts;
@@ -9,7 +10,6 @@ using UnityEngine.UI;
 public class ItemBuyUI : MonoBehaviour
 {
     public Image itemImage;
-    public Button thisButton;
     public TextMeshProUGUI itemName;
     public TooltipTrigger tooltipTrigger;
     public TextMeshProUGUI amountText;
@@ -19,7 +19,6 @@ public class ItemBuyUI : MonoBehaviour
     public Button subtractButton;
 
     [Space]
-    [ReadOnly] public bool active;
     [ReadOnly] public ItemObject item;
     [ReadOnly] public int amount = 0;
     private GameObject _thisObject;
@@ -57,7 +56,6 @@ public class ItemBuyUI : MonoBehaviour
             _player = GameManager.instance.player;
         }
 
-        active = false;
         disabledObject.SetActive(false);
         addButton.interactable = false;
 
@@ -68,24 +66,36 @@ public class ItemBuyUI : MonoBehaviour
         itemName.text = itemObject.itemName;
         itemImage.sprite = itemObject.itemIcon;
 
-        var requirementsCount = itemObject.itemBarterRequirements.Count;
-        var sufficient = true;
-
-        for (var i = 0; i < requirementsCount; i++)
-        {
-            var itemRequired = itemObject.itemBarterRequirements[i].itemToBarter;
-            var amountRequired = itemObject.itemBarterRequirements[i].amountOfItems;
-
-            sufficient = sufficient && _player.playerInventory.HasSufficientItem(itemRequired, amountRequired);
-        }
-
-        active = sufficient;
+        var sufficient = IsSufficient(itemObject, amount);
 
         if (sufficient)
         {
             disabledObject.SetActive(false);
             addButton.interactable = true;
-            tooltipTrigger.SetTitleContent(itemObject.itemName, item.itemDescription);
+            
+            
+            var description = item.itemDescription + "\n\nItem Required for Trading:\n";
+            var economyValue = GameManager.instance.difficultyManager.GetParameterValue("Economy");
+
+            if (economyValue < 1)
+            {
+                description += "<color=#b3f47a>Final amount mark down to " + (int)(economyValue * 100) + "%!</color>\n";
+            }
+            else if (economyValue > 1)
+            {
+                description += "<color=#f48989>Final amount mark up of " + (int)((economyValue * 100) - 100) + "%.</color>\n";
+            }
+
+            var count = item.itemBarterRequirements.Count;
+            
+            
+            for (var i = 0; i < count; i++)
+            {
+                description += item.itemBarterRequirements[i].amountOfItems + "pcs. of " +
+                               item.itemBarterRequirements[i].itemToBarter.itemName + "\n";
+            }
+
+            tooltipTrigger.SetTitleContent(itemObject.itemName, description);
         }
         else
         {
@@ -94,13 +104,11 @@ public class ItemBuyUI : MonoBehaviour
             tooltipTrigger.SetTitleContent(string.Empty, string.Empty);
         }
 
-        GameManager.instance.uiManager.merchantUi.UpdateItemsToTradeText();
+        GameManager.instance.uiManager.merchantUi.UpdateItemsToTrade();
     }
 
     public void AddAmount()
     {
-        addButton.interactable = false;
-
         amount++;
         amountText.text = amount.ToString("00");
         addButton.interactable = true;
@@ -110,16 +118,7 @@ public class ItemBuyUI : MonoBehaviour
             subtractButton.interactable = true;
         }
 
-        var requirementsCount = item.itemBarterRequirements.Count;
-        var sufficient = true;
-
-        for (var i = 0; i < requirementsCount; i++)
-        {
-            var itemToBarter = item.itemBarterRequirements[i].itemToBarter;
-            var amountRequired = item.itemBarterRequirements[i].amountOfItems * (amount + 1);
-
-            sufficient = sufficient && _player.playerInventory.HasSufficientItem(itemToBarter, amountRequired);
-        }
+        var sufficient = IsSufficient(item, amount + 1);
 
         if (!sufficient)
         {
@@ -127,7 +126,7 @@ public class ItemBuyUI : MonoBehaviour
             addButton.interactable = false;
         }
 
-        GameManager.instance.uiManager.merchantUi.UpdateItemsToTradeText();
+        GameManager.instance.uiManager.merchantUi.UpdateItemsToTrade();
 
         if (GameManager.instance == null) return;
         GameManager.instance.audioManager.PlaySFX("Button Click", 1f);
@@ -144,25 +143,34 @@ public class ItemBuyUI : MonoBehaviour
             subtractButton.interactable = false;
         }
 
-        var requirementsCount = item.itemBarterRequirements.Count;
-        var sufficient = true;
-
-        for (var i = 0; i < requirementsCount; i++)
-        {
-            var itemToBarter = item.itemBarterRequirements[i].itemToBarter;
-            var amountRequired = item.itemBarterRequirements[i].amountOfItems * amount;
-
-            sufficient = sufficient && _player.playerInventory.HasSufficientItem(itemToBarter, amountRequired);
-        }
+        var sufficient = IsSufficient(item, amount);
 
         if (!sufficient)
         {
             addButton.interactable = false;
         }
 
-        GameManager.instance.uiManager.merchantUi.UpdateItemsToTradeText();
+        GameManager.instance.uiManager.merchantUi.UpdateItemsToTrade();
 
         if (GameManager.instance == null) return;
         GameManager.instance.audioManager.PlaySFX("Button Click", .5f);
+    }
+
+    private bool IsSufficient(ItemObject itemObject, int currentAmount)
+    {
+        var requirementsCount = itemObject.itemBarterRequirements.Count;
+        var sufficient = true;
+
+        for (var i = 0; i < requirementsCount; i++)
+        {
+            var itemRequired = itemObject.itemBarterRequirements[i].itemToBarter;
+            var amountRequired = itemObject.itemBarterRequirements[i].amountOfItems * currentAmount;
+
+            amountRequired = (int)Math.Round(amountRequired * GameManager.instance.difficultyManager.GetParameterValue("Economy"));
+
+            sufficient = sufficient && _player.playerInventory.HasSufficientItem(itemRequired, amountRequired);
+        }
+
+        return sufficient;
     }
 }

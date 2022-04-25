@@ -29,7 +29,7 @@ public class HealerMerchant : ScriptableObject
     public void Barter()
     {
         GameManager.instance.uiManager.dialogueUI.cutscene = true;
-        GameManager.instance.uiManager.merchantUi.WantToBuy(itemToSell);
+        GameManager.instance.uiManager.merchantUi.WantToTrade(itemToSell);
         GameManager.instance.inputHandler.EnterOptions();
     }
 

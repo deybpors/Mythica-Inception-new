@@ -10371,6 +10371,8 @@ MonoBehaviour:
   _goldSprite: {fileID: 5618026609613044863, guid: f632915d0a33a9b4abbd8758dae8b12f, type: 3}
   itemsToTradeText: {fileID: 499652901}
   _itemsInMerchant: []
+  _itemBuyUis: []
+  _itemBarterReq: []
 --- !u!114 &381489916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17587,6 +17589,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: MerchantUI, Scripts
         m_MethodName: DisableMerchantUI
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 381489915}
+        m_TargetAssemblyTypeName: MerchantUI, Scripts
+        m_MethodName: ChangeBuying
+        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

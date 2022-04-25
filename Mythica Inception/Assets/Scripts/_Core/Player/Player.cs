@@ -122,6 +122,7 @@ namespace _Core.Player
             monsterSlots = savedData.playerMonsters;
             playerHealth = savedData.playerHealth;
             playerInventory.inventorySlots = savedData.inventorySlots;
+            playerInventory.UpdateTotalInventory();
             playerQuestManager.activeQuests = savedData.activeQuests;
             GameManager.instance.uiManager.questUI.UpdateQuestIcons();
             playerQuestManager.finishedQuests = savedData.finishedQuests;

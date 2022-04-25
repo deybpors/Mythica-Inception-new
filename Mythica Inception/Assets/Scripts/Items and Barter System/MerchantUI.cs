@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
+using _Core.Player;
+using Codice.Client.BaseCommands.BranchExplorer;
 using Items_and_Barter_System.Scripts;
+using JetBrains.Annotations;
 using MyBox;
 using TMPro;
 using UI;
@@ -16,33 +19,21 @@ public class MerchantUI : MonoBehaviour
     [SerializeField] private RectTransform _contentParent;
     [SerializeField] private ItemBuyUI itemBuyUI;
     [SerializeField] private Sprite _goldSprite;
-
     public TextMeshProUGUI itemsToTradeText;
+
+    [ReadOnly] public bool buying;
     private UITweener _thisTweener;
     private GameObject _thisObject;
-    [ReadOnly] [SerializeField] private List<ItemObject> _itemsInMerchant = new List<ItemObject>();
-    private Dictionary<GameObject, ItemBuyUI> _itemsSlot = new Dictionary<GameObject, ItemBuyUI>();
-    public List<ItemBuyUI> _itemBuyUis = new List<ItemBuyUI>();
-    public List<BarterRequirements> _itemBarterReq = new List<BarterRequirements>();
+    private readonly Dictionary<GameObject, ItemBuyUI> _itemsSlot = new Dictionary<GameObject, ItemBuyUI>();
+    private List<ItemBuyUI> _itemBuyUis = new List<ItemBuyUI>();
+    private readonly List<ItemBarterRequirement> _itemToTrade = new List<ItemBarterRequirement>();
     private readonly Color32 _yellow = new Color32(255, 239, 125, 255);
+    private List<ItemObject> _itemsTrading = new List<ItemObject>();
 
     void Initialize()
     {
         _thisTweener = GetComponent<UITweener>();
         _thisObject = gameObject;
-    }
-
-    [Serializable]
-    public struct BarterRequirements
-    {
-        public ItemObject item;
-        public int amount;
-
-        public BarterRequirements(ItemObject item, int amount)
-        {
-            this.item = item;
-            this.amount = amount;
-        }
     }
 
     public void DisableMerchantUI()
@@ -68,12 +59,33 @@ public class MerchantUI : MonoBehaviour
     public void ConfirmTrade()
     {
         var message = "Are you sure you want to trade:\n";
-        var itemReqCount = _itemBarterReq.Count;
+        var itemReqCount = _itemToTrade.Count;
+
+        if (itemReqCount <= 0)
+        {
+            GameManager.instance.audioManager.PlaySFX("Error");
+            return;
+        }
+
+        var itemsSufficient = true;
+        var inventory = GameManager.instance.player.playerInventory;
+
         for (var i = 0; i < itemReqCount; i++)
         {
-            message += _itemBarterReq[i].amount + " pcs. of ";
-            message += _itemBarterReq[i].item.itemName;
+            message += _itemToTrade[i].amountOfItems + " pcs. of ";
+            message += _itemToTrade[i].itemToBarter.itemName;
             message += i < itemReqCount - 1 ? ", " : " ";
+            itemsSufficient = itemsSufficient &&
+                                     inventory.HasSufficientItem(_itemToTrade[i].itemToBarter,
+                                         _itemToTrade[i].amountOfItems);
+        }
+
+        if (!itemsSufficient)
+        {
+            message = "<size=80%><color=#f48989>" +
+                "Items to trade not sufficient in your inventory. Try to decrease items you want to receive or get more items in your inventory.";
+            GameManager.instance.uiManager.modal.OpenModal(message, _goldSprite, _yellow, (() => TradeItems(itemsSufficient)));
+            return;
         }
 
         message += "for ";
@@ -88,57 +100,83 @@ public class MerchantUI : MonoBehaviour
             message += i == itemsCount - 1 ? "?" : ", ";
         }
 
-        GameManager.instance.uiManager.modal.OpenModal(message, _goldSprite, _yellow, TradeItems);
+        GameManager.instance.uiManager.modal.OpenModal(message, _goldSprite, _yellow, (() => TradeItems(itemsSufficient)));
     }
 
-    private void TradeItems()
+    private void TradeItems(bool itemsSufficient)
     {
+        GameManager.instance.uiManager.modal.CloseModal();
 
+        if (!itemsSufficient) return;
+
+        var inventory = GameManager.instance.player.playerInventory;
+
+        ChangeBuying(false);
+        var itemsCount = _itemBuyUis.Count;
+        for (var i = 0; i < itemsCount; i++)
+        {
+            if (_itemBuyUis[i].amount <= 0) continue;
+            inventory.AddItemInPlayerInventory(_itemBuyUis[i].item, _itemBuyUis[i].amount);
+        }
+
+        var itemsToBarterCount = _itemToTrade.Count;
+        for (var i = 0; i < itemsToBarterCount; i++)
+        {
+            inventory.RemoveItemInInventory(_itemToTrade[i].itemToBarter, _itemToTrade[i].amountOfItems);
+        }
+
+        WantToTrade(_itemsTrading);
     }
 
-    public void UpdateItemsToTradeText()
+    public void ChangeBuying(bool isBuying)
+    {
+        buying = isBuying;
+    }
+
+    public void UpdateItemsToTrade()
     {
         itemsToTradeText.text = "Items to trade:\n";
         var itemsCount = _itemBuyUis.Count;
-        _itemBarterReq.Clear();
+        _itemToTrade.Clear();
 
         for (var i = 0; i < itemsCount; i++)
         {
-            var amount = _itemBuyUis[i].amount;
-            if (amount <= 0) continue;
+            var amountOfItem = _itemBuyUis[i].amount;
+            if (amountOfItem <= 0) continue;
             var count = _itemBuyUis[i].item.itemBarterRequirements.Count;
             
             for (var j = 0; j < count; j++)
             {
                 var itemToBarter = _itemBuyUis[i].item.itemBarterRequirements[j].itemToBarter;
-                var amountItems = _itemBuyUis[i].item.itemBarterRequirements[j].amountOfItems * amount;
-                BarterRequirements barter = new BarterRequirements(itemToBarter, amountItems);
-                _itemBarterReq.Add(barter);
-            }
+                var economyValue = GameManager.instance.difficultyManager.GetParameterValue("Economy");
+                var amountRequired = _itemBuyUis[i].item.itemBarterRequirements[j].amountOfItems;
+                var amountItems = (int)Math.Round(amountRequired * amountOfItem * economyValue, MidpointRounding.AwayFromZero);
 
-            
+                var barter = new ItemBarterRequirement(itemToBarter, amountItems);
+                _itemToTrade.Add(barter);
+            }
         }
 
-        var itemReqCount = _itemBarterReq.Count;
+        var itemToTradeCount = _itemToTrade.Count;
 
         //check for duplicates
-        for (var i = 0; i < itemReqCount; i++)
+        for (var i = 0; i < itemToTradeCount; i++)
         {
-            itemsToTradeText.text += _itemBarterReq[i].item.itemName + " - ";
-            for (var j = 0; j < itemReqCount; j++)
+            itemsToTradeText.text += _itemToTrade[i].itemToBarter.itemName + " - ";
+            for (var j = 0; j < itemToTradeCount; j++)
             {
                 if(i == j) continue;
-                if (_itemBarterReq[i].item != _itemBarterReq[j].item) continue;
+                if (_itemToTrade[i].itemToBarter != _itemToTrade[j].itemToBarter) continue;
 
-                _itemBarterReq[i] = new BarterRequirements(_itemBarterReq[i].item, _itemBarterReq[j].amount + _itemBarterReq[i].amount);
-                _itemBarterReq.RemoveAt(j);
-                itemReqCount--;
+                _itemToTrade[i] = new ItemBarterRequirement(_itemToTrade[i].itemToBarter, _itemToTrade[j].amountOfItems + _itemToTrade[i].amountOfItems);
+                _itemToTrade.RemoveAt(j);
+                itemToTradeCount--;
             }
-            itemsToTradeText.text += _itemBarterReq[i].amount + " pcs.\n";
+            itemsToTradeText.text += _itemToTrade[i].amountOfItems + " pcs.\n";
         }
     }
 
-    public void WantToBuy(List<ItemObject> items)
+    public void WantToTrade(List<ItemObject> items)
     {
         if (_thisObject == null)
         {
@@ -147,8 +185,8 @@ public class MerchantUI : MonoBehaviour
 
         _parentCanvas.SetActive(true);
         _thisObject.SetActive(true);
-        _itemsInMerchant.Clear();
-        _itemsInMerchant.AddRange(items);
+        ChangeBuying(true);
+        _itemsTrading = items;
 
         var itemsCount = items.Count;
         _itemBuyUis = _itemsSlot.Values.ToList();
@@ -157,7 +195,6 @@ public class MerchantUI : MonoBehaviour
 
         if (itemsCount <= itemsUiCount)
         {
-            Debug.Log("items: " + itemsCount + " <= Items UI: " + itemsUiCount);
             for (var i = 0; i < itemsUiCount; i++)
             {
                 if (i >= itemsCount)
@@ -170,7 +207,6 @@ public class MerchantUI : MonoBehaviour
         }
         else
         {
-            Debug.Log("items: " + itemsCount + " > Items UI: " + itemsUiCount);
             for (var i = 0; i < itemsCount; i++)
             {
                 if (i >= itemsUiCount)

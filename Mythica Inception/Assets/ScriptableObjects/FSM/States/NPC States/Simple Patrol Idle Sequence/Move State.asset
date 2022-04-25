@@ -21,5 +21,8 @@ MonoBehaviour:
   - decision: {fileID: 11400000, guid: 358e7b4cf82d1914db80fc275a3bb679, type: 2}
     successState: {fileID: 11400000, guid: 2fd63bee57e708f458e1658d27ff5929, type: 2}
     failState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
+  - decision: {fileID: 11400000, guid: 16f34eccbea862843937337280b623ca, type: 2}
+    successState: {fileID: 11400000, guid: c716df69f9477844993b02b207742ec5, type: 2}
+    failState: {fileID: 11400000, guid: f84ed6c9f5fdb5a44b5a224044f126df, type: 2}
   stateAnimation: Walk
   gizmoColor: {r: 0, g: 0, b: 1, a: 1}

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
+  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -337,6 +337,15 @@ MonoBehaviour:
     - Failed Encounters
     - Average Party Level
     - Failed Tame Attempts
+  - name: Economy
+    value: 1
+    minValue: 0.5
+    maxValue: 2
+    valueAdjustment: 0.1
+    increaseDifficulty: 0
+    dataNeeded:
+    - Failed Encounters
+    - Average Party Level
   parameterDataNeeded:
   - name: Failed Encounters
     value: 0
@@ -357,7 +366,6 @@ MonoBehaviour:
     increaseDifficultyOnEquals: 1
     decreaseDifficultyOnEquals: 0
   timeToAdjust: 1
-  parametersToAdjust: []
 --- !u!1 &1105453172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1971,6 +1979,7 @@ MonoBehaviour:
   areaIndicator: {fileID: 0}
   pointIndicator: {fileID: 0}
   newGamePanel: {fileID: 0}
+  merchantUi: {fileID: 0}
   modal: {fileID: 0}
   debugConsole: {fileID: 0}
   tooltip: {fileID: 0}

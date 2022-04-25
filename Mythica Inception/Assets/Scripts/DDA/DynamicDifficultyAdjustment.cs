@@ -15,10 +15,7 @@ namespace DDA
 
         private Dictionary<string, ParameterDataNeeded> dictParamDataNeeded = new Dictionary<string, ParameterDataNeeded>();
         private Dictionary<string, DifficultyParameter> dictDiffParam = new Dictionary<string, DifficultyParameter>();
-        public delegate void Adjustment();
-        public event Adjustment dataAdjustment = delegate {};
-        [ReadOnly] public List<DifficultyParameter> parametersToAdjust = new List<DifficultyParameter>();
-        private readonly HashSet<DifficultyParameter> _parametersToAdjust = new HashSet<DifficultyParameter>();
+        public HashSet<string> _parameter = new HashSet<string>();
 
         void Awake()
         {
@@ -33,24 +30,6 @@ namespace DDA
             for (var i = 0; i < dataCount; i++)
             {
                 dictParamDataNeeded.Add(parameterDataNeeded[i].name.Replace(" ", string.Empty).ToLower(), parameterDataNeeded[i]);
-            }
-        }
-
-        void Update()
-        {
-            if (dataAdjustment == null)
-            {
-                timeElapsed = 0;
-            }
-            else
-            {
-                timeElapsed += Time.deltaTime;
-                if (timeElapsed <= timeToAdjust) return;
-                
-                dataAdjustment.Invoke();
-                _parametersToAdjust.Clear();
-                parametersToAdjust.Clear();
-                dataAdjustment = null;
             }
         }
 
@@ -83,24 +62,38 @@ namespace DDA
         }
 
 
-        //DataAdjusted Method tells the system that data has been adjusted
+        //DataAdjusted tells the system that data has been adjusted
         public void DataAdjusted(string dataNeeded)
         {
             dataNeeded = dataNeeded.Replace(" ", string.Empty).ToLower();
 
             if (!dictParamDataNeeded.ContainsKey(dataNeeded)) return;
 
-            //check which parameter has this needed data and adjust the parameter's value
+            //check which _parameter has this needed data and adjust the _parameter's value
             var parametersCount = difficultyParameters.Count;
 
             for (var i = 0; i < parametersCount; i++)
             {
                 if (!difficultyParameters[i].HasData(dataNeeded)) continue;
-                if (!_parametersToAdjust.Add(difficultyParameters[i])) continue;
+                var parameter = difficultyParameters[i];
+                var count = parameter.dataNeeded.Count;
                 
-                var difficultyParameter = difficultyParameters[i];
-                parametersToAdjust.Add(difficultyParameter);
-                dataAdjustment += (() => AdjustParameter(dataNeeded, difficultyParameter));
+                for (var j = 0; j < count; j++)
+                {
+                    var dataNeededName = parameter.dataNeeded[j].Replace(" ", string.Empty).ToLower();
+
+                    if (dataNeededName != dataNeeded) continue;
+                    
+                    try
+                    {
+                        _parameter.Add(parameter.name);
+                        AdjustParameter(dataNeeded, parameter);
+                    }
+                    catch
+                    {
+                        //ignored
+                    }
+                }
             }
         }
     }

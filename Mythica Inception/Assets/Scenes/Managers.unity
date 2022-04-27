@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.35128176, g: 0.72345984, b: 0.9645362, a: 1}
+  m_IndirectSpecularColor: {r: 0.54935646, g: 0.7941612, b: 0.9733915, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -365,7 +365,6 @@ MonoBehaviour:
     increaseDifficulty: 1
     increaseDifficultyOnEquals: 1
     decreaseDifficultyOnEquals: 0
-  timeToAdjust: 1
 --- !u!1 &1105453172
 GameObject:
   m_ObjectHideFlags: 0
@@ -1496,6 +1495,22 @@ MonoBehaviour:
     min: 0.5
     max: 1.2
     pitch: 1
+  - name: Equip
+    clip: {fileID: 8300000, guid: 3094950b466539843ba0d02193fd806f, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.5
+    max: 1.2
+    pitch: 1
+  - name: Eat
+    clip: {fileID: 8300000, guid: cc6250f1c5f50e146bacf87d5db4d37d, type: 3}
+    volume: 1
+    source: {fileID: 0}
+    randomPitch: 1
+    min: 0.5
+    max: 1.2
+    pitch: 1
   _maleDialogueSfx:
   - name: A
     clip: {fileID: 8300000, guid: 1e3c0ee5a8139e741a56880b21aaecfe, type: 3}
@@ -1961,6 +1976,7 @@ MonoBehaviour:
   startSceneUI: {fileID: 0}
   startButtonsTweener: {fileID: 0}
   gameplayUICanvas: {fileID: 0}
+  itemDropUi: {fileID: 0}
   optionsButton: {fileID: 0}
   gameplayTweener: {fileID: 0}
   minimapCamera: {fileID: 0}

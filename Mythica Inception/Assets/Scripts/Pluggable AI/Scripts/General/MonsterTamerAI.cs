@@ -283,7 +283,12 @@ namespace Pluggable_AI.Scripts.General
             var pos = new Vector3(position.x, position.y + 1.5f, position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
-            if (spawner != null) { spawner.currentNoOfMonsters--; }
+            
+            if (spawner != null)
+            {
+                spawner.currentNoOfMonsters--;
+                spawner.DropItems(pos);
+            }
 
             GameManager.instance.UpdateEnemiesSeePlayer(this, out var enemyCount);
             

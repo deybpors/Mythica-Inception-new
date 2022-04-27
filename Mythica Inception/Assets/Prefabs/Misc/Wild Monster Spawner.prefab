@@ -151,3 +151,7 @@ MonoBehaviour:
   lowestLevel: 1
   noOfMonstersLimit: 3
   currentNoOfMonsters: 0
+  _itemDropPrefab: {fileID: 3418088317356624985, guid: d6b521263debef1448df8c843e7dd097, type: 3}
+  _maxNumberOfDrops: 5
+  _goldDropsMax: 25
+  itemDrops: []

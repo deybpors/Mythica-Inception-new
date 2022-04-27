@@ -14,12 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: cb5dc4a7-78fa-4317-9b2d-fbc6bc205de4
   itemName: Gold
-  itemPrefab: {fileID: 0}
+  itemPrefab: {fileID: 5869901310670608160, guid: 66e3d16acf4c2d74396d285ed11317a5, type: 3}
   itemIcon: {fileID: 21300000, guid: cdf6be9f06b8a674499b24b33a137ba2, type: 3}
   itemType: 2
-  itemDescription: Gold are items found in world of mythicas. They are the unit of
-    currency within the said world, in circulation in the lands of Pearl Isles. They
-    resemble a jagged thin cylinder and are most often stored within a pouch.
+  itemDescription: Pearl Isle's mode of currency.
   usable: 0
   stackable: 1
+  losable: 0
   itemBarterRequirements: []

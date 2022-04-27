@@ -55,20 +55,21 @@ namespace Items_and_Barter_System.Scripts
         public bool AddInSlot(int amountToAdd)
         {
             amountOfItems += amountToAdd;
-            if (inventoryItem is Gold)
-            {
-                GameManager.instance.audioManager.PlaySFX("Coins");
-            }
+            var sound = inventoryItem is Gold ? "Coins" : "Equip";
+
+            GameManager.instance.audioManager.PlaySFX(sound);
+
             return true;
         }
 
         public bool RemoveInSlot(int amountToRemove)
         {
             amountOfItems -= amountToRemove;
-            if (inventoryItem is Gold)
-            {
-                GameManager.instance.audioManager.PlaySFX("Coins");
-            }
+
+            var sound = inventoryItem is Gold ? "Coins" : "Equip";
+
+            GameManager.instance.audioManager.PlaySFX(sound);
+
             if (amountOfItems > 0) return true;
             
             amountOfItems = 0;

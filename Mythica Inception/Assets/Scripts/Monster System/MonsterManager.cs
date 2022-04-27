@@ -4,10 +4,12 @@ using System.Linq;
 using _Core.Managers;
 using _Core.Others;
 using _Core.Player;
+using Items_and_Barter_System.Scripts;
 using MyBox;
 using Skill_System;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.PlayerLoop;
 
 namespace Monster_System
@@ -39,6 +41,7 @@ namespace Monster_System
         private Dictionary<GameObject, Renderer[]> _monsterRenderers = new Dictionary<GameObject, Renderer[]>();
         private Dictionary<GameObject, Outline> _monsterOutlines = new Dictionary<GameObject, Outline>();
         private readonly Vector3 _zero = Vector3.zero;
+        private List<UnityAction> _itemActions = new List<UnityAction>();
         [HideInInspector] public Outline currentOutline;
 
         #endregion
@@ -70,6 +73,7 @@ namespace Monster_System
             GetMonsterAnimators();
             
             _activated = true;
+            SwitchToTamer();
         }
 
         public void RequestPoolMonstersPrefab()
@@ -243,6 +247,7 @@ namespace Monster_System
             var monsterSlots = _haveMonsters.GetMonsterSlots();
             _currentSkills.Clear();
             _currentItems.Clear();
+            _itemActions.Clear();
             
             if (slot >= 0)
             {
@@ -253,7 +258,9 @@ namespace Monster_System
                 var maxExp = (float) GameSettings.Experience(monsterLevel + 1) - GameSettings.Experience(monsterLevel);
                 var currentExp = (float) monsterSlot.currentExp - GameSettings.Experience(monsterLevel);
 
-                for (var i = 0; i < monsterSlot.skillSlots.Length; i++)
+                var skillSlotsLength = monsterSlot.skillSlots.Length;
+
+                for (var i = 0; i < skillSlotsLength; i++)
                 {
                     if (monsterSlot.skillSlots[i] == null || monsterSlot.skillSlots[i].skill == null)
                     {
@@ -263,18 +270,22 @@ namespace Monster_System
                     
                     _currentSkills.Add(monsterSlot.skillSlots[i].skill.skillIcon);    
                 }
-            
-                for (var i = 0; i < monsterSlot.inventory.Length; i++)
+
+                var inventoryLength = monsterSlot.inventory.Length;
+
+                for (var i = 0; i < inventoryLength; i++)
                 {
                     if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
                     {
                         _currentItems.Add(null);
+                        _itemActions.Add((() => { }));
                         continue;
                     }
-                    
                     _currentItems.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
+                    var index = i;
+                    _itemActions.Add(() => UseUsableItems(monsterSlot.inventory[index], slot));
                 }
-                GameManager.instance.uiManager.UpdateCharSwitchUI(monsterName, monsterSlot.currentHealth, maxHealth, currentExp, maxExp, slot, _currentSkills, _currentItems);
+                GameManager.instance.uiManager.UpdateCharSwitchUI(monsterName, monsterSlot.currentHealth, maxHealth, currentExp, maxExp, slot, _currentSkills, _currentItems, _itemActions);
             }
             else
             {
@@ -284,10 +295,66 @@ namespace Monster_System
                     {
                         _currentSkills.Add(null);
                     }
-                    _currentItems.Add(null);
+
+                    if (_player.playerInventory.inventorySlots[i].inventoryItem == null)
+                    {
+                        _currentItems.Add(null);
+                        _itemActions.Add((() => {}));
+                        continue;
+                    }
+                    _currentItems.Add(_player.playerInventory.inventorySlots[i].inventoryItem.itemIcon);
+                    var index = i;
+                    _itemActions.Add(() => UseUsableItems(_player.playerInventory.inventorySlots[index], slot));
                 }
-                GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot, _currentSkills, _currentItems);
+                GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot, _currentSkills, _currentItems, _itemActions);
             }
+        }
+
+        private void UseUsableItems(InventorySlot inventorySlot, int slot)
+        {
+            if (!inventorySlot.inventoryItem.TryUse(_player)) return;
+
+            _currentItems.Clear();
+            _itemActions.Clear();
+            inventorySlot.RemoveInSlot(1);
+
+            var monsterSlots = _haveMonsters.GetMonsterSlots();
+
+            if (slot >= 0)
+            {
+                var monsterSlot = monsterSlots[slot];
+                var inventoryLength = monsterSlot.inventory.Length;
+
+                for (var i = 0; i < inventoryLength; i++)
+                {
+                    if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
+                    {
+                        _currentItems.Add(null);
+                        _itemActions.Add((() => { }));
+                        continue;
+                    }
+                    _currentItems.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
+                    var index = i;
+                    _itemActions.Add(() => UseUsableItems(monsterSlot.inventory[index], slot));
+                }
+            }
+            else
+            {
+                for (var i = 0; i < 6; i++)
+                {
+                    if (_player.playerInventory.inventorySlots[i].inventoryItem == null)
+                    {
+                        _currentItems.Add(null);
+                        _itemActions.Add((() => { }));
+                        continue;
+                    }
+
+                    _currentItems.Add(_player.playerInventory.inventorySlots[i].inventoryItem.itemIcon);
+                    var index = i;
+                    _itemActions.Add(() => UseUsableItems(_player.playerInventory.inventorySlots[index], slot));
+                }
+            }
+            GameManager.instance.uiManager.UpdateItemsUI(_currentItems, _itemActions);
         }
 
         public void AddMonstersExp(int expToAdd)

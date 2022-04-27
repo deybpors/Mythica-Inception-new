@@ -3,16 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
+using Codice.Client.BaseCommands.BranchExplorer;
+using Items_and_Barter_System.Scripts;
 using MyBox;
 using Pluggable_AI.Scripts.General;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Monster_System
 {
     public class WildMonsterSpawner : MonoBehaviour
     {
+        [Foldout("Spawner Info", true)]
         public bool activated;
         public GameObject wildMonsterPrefab;
         public List<Transform> waypointsList;
@@ -24,11 +28,22 @@ namespace Monster_System
         public int lowestLevel;
         public int noOfMonstersLimit;
         [ReadOnly] public int currentNoOfMonsters;
+
+
+        [Space]
+        [Foldout("Item Drops", true)]
+        [SerializeField] private GameObject _itemDropPrefab;
+        [SerializeField] private int _maxNumberOfDrops;
+        [SerializeField] private int _goldDropsMax = 25;
+        public List<ItemObject> itemDrops;
+
         private Coroutine _waitSpawn;
         private Vector3 _spawnerPosition;
         private Transform _thisTransform;
+        private Vector3 _up = Vector3.up;
 
         private Dictionary<GameObject, NavMeshAgent> _agents = new Dictionary<GameObject, NavMeshAgent>();
+        private Dictionary<GameObject, ItemDrop> _drops = new Dictionary<GameObject, ItemDrop>();
 
 
         void Start()
@@ -96,6 +111,39 @@ namespace Monster_System
 
             monTamerAi.ActivateMonsterAi(newMonsters, waypointsList, this);
         }
+
+        public void DropItems(Vector3 position)
+        {
+            var numberOfDrops = Random.Range(0, _maxNumberOfDrops);
+            var itemDropsCount = itemDrops.Count;
+
+
+            for (var i = 0; i < numberOfDrops; i++)
+            {
+                var randX = Random.Range(-3, 3) + position.x;
+                var randZ = Random.Range(-3, 3) + position.z;
+                var itemPosition = new Vector3(randX, position.y, randZ);
+
+
+                var obj = GameManager.instance.pooler.SpawnFromPool(null, _itemDropPrefab.name, _itemDropPrefab, itemPosition, Quaternion.identity);
+                
+                if (!_drops.TryGetValue(obj, out var drop))
+                {
+                    drop = obj.GetComponent<ItemDrop>();
+                    _drops.Add(obj, drop);
+                }
+
+                var item = itemDrops[Random.Range(0, itemDropsCount)];
+                if (item is Gold)
+                {
+                    drop.SetupItemDrop(position, item, Random.Range(1, _goldDropsMax));
+                    continue;
+                }
+                
+                drop.SetupItemDrop(position, item, 1);
+            }
+        }
+
 
         private IEnumerator WaitSpawnTime()
         {

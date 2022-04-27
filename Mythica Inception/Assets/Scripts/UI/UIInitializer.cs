@@ -25,6 +25,7 @@ namespace UI
         public List<PartySlotUI> partySlots;
         public List<Image> skills;
         public List<Image> items;
+        public ItemDropUI itemDropUi;
 
         [Foldout("Credits UI", true)]
         public Button optionsButton;
@@ -79,6 +80,7 @@ namespace UI
             ui.generalOptionsUi = generalOptionsUI;
             ui.monsterTamedUi = monsterTamed;
             ui.merchantUi = merchantUi;
+            ui.itemDropUi = itemDropUi;
             Cursor.SetCursor(normalCursor, Vector2.zero, CursorMode.Auto);
         }
     }

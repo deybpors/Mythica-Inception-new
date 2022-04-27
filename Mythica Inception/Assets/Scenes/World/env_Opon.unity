@@ -11216,12 +11216,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: _goldDropsMax
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: noOfMonstersLimit
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: monsters.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.size
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: monsters.Array.data[0]
@@ -11255,6 +11263,34 @@ PrefabInstance:
       propertyPath: monsters.Array.data[7]
       value: 
       objectReference: {fileID: 11400000, guid: 322d133137e2d1f4cbb68c9e562dfbe4, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66e650777e40dd649809adea45156aae, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66e650777e40dd649809adea45156aae, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 66e650777e40dd649809adea45156aae, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: ee46a3e56970d604390cf973681b7e75, type: 2}
+    - target: {fileID: 2502805527256253401, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
+      propertyPath: itemDrops.Array.data[6]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2502805527256253403, guid: 812aeb86ad6dfd44f93b5a700ab12b95, type: 3}
       propertyPath: m_Name
       value: Wild Monster Spawner

@@ -9,6 +9,7 @@ using Monster_System;
 using MyBox;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UI
@@ -20,6 +21,7 @@ namespace UI
             [HideInInspector] public StartSceneUI startSceneUI;
             [HideInInspector] public UITweener startButtonsTweener;
             [HideInInspector] public GameObject gameplayUICanvas;
+            [HideInInspector] public ItemDropUI itemDropUi;
             [HideInInspector] public Button optionsButton;
             [HideInInspector] public UITweener gameplayTweener;
             [HideInInspector] public GameObject minimapCamera;
@@ -45,6 +47,7 @@ namespace UI
             [HideInInspector] public Button optionsMinimizeButton;
             [HideInInspector] public OptionsUI generalOptionsUi;
             [HideInInspector] public MonsterTamedUI monsterTamedUi;
+            private Dictionary<Image, Button> _itemButtons = new Dictionary<Image, Button>();
         #endregion
 
 
@@ -124,7 +127,7 @@ namespace UI
         #endregion
 
         #region Update
-        public void UpdateCharSwitchUI(string charName, float currentHealth, float maxHealth, float currentExp, float maxExp, int currentSlotNumber, List<Sprite> skills, List<Sprite> items)
+        public void UpdateCharSwitchUI(string charName, float currentHealth, float maxHealth, float currentExp, float maxExp, int currentSlotNumber, List<Sprite> skills, List<Sprite> items, List<UnityAction> itemActions)
         {
             gameplayUICanvas.SetActive(false);
             currentCharacterName.text = charName;
@@ -181,9 +184,41 @@ namespace UI
                 }
                 currentMonsterItemImages[i].sprite = items[i];
                 currentMonsterItemImages[i].raycastTarget = true;
+                if (!_itemButtons.TryGetValue(currentMonsterItemImages[i], out var btn))
+                {
+                    btn = currentMonsterItemImages[i].GetComponent<Button>();
+                    _itemButtons.Add(currentMonsterItemImages[i], btn);
+                }
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(itemActions[i]);
             }
 
             gameplayUICanvas.SetActive(true);
+        }
+
+        public void UpdateItemsUI(List<Sprite> items, List<UnityAction> itemActions)
+        {
+            var itemCount = items.Count;
+
+            for (var i = 0; i < itemCount; i++)
+            {
+                if (items[i] == null)
+                {
+                    currentMonsterItemImages[i].sprite = blankSlotSquare;
+                    currentMonsterItemImages[i].raycastTarget = false;
+                    continue;
+                }
+                currentMonsterItemImages[i].sprite = items[i];
+                currentMonsterItemImages[i].raycastTarget = true;
+                if (!_itemButtons.TryGetValue(currentMonsterItemImages[i], out var btn))
+                {
+                    btn = currentMonsterItemImages[i].GetComponent<Button>();
+                    _itemButtons.Add(currentMonsterItemImages[i], btn);
+                }
+
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(itemActions[i]);
+            }
         }
 
         public void UpdatePartyUI(MonsterSlot slot)

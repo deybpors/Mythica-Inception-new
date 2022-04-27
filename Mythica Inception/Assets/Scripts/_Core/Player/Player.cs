@@ -470,12 +470,17 @@ namespace _Core.Player
         public void Heal(int amountToHeal)
         {
             healthComponent.AddHealth(amountToHeal);
-            if (_inputHandler.currentMonster < 0)
+            var currentMonster = _inputHandler.currentMonster;
+
+            if (currentMonster < 0)
             {
                 playerHealth.currentHealth = healthComponent.health.currentHealth;
+                GameManager.instance.uiManager.UpdateHealthUI(currentMonster, playerHealth.currentHealth);
                 return;
             }
-            monsterSlots[_inputHandler.currentMonster].currentHealth = healthComponent.health.currentHealth;
+
+            monsterSlots[currentMonster].currentHealth = healthComponent.health.currentHealth;
+            GameManager.instance.uiManager.UpdateHealthUI(currentMonster, monsterSlots[currentMonster].currentHealth);
         }
 
         public void RecordDamager(MonsterSlot slot)

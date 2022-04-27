@@ -1,4 +1,5 @@
-﻿using _Core.Others;
+﻿using _Core.Managers;
+using _Core.Others;
 using UnityEngine;
 
 namespace Items_and_Barter_System.Scripts
@@ -18,7 +19,8 @@ namespace Items_and_Barter_System.Scripts
         public override bool TryUse(IEntity entity)
         {
             if (!(entity is IHaveHealth haveHealth && usable)) return false;
-            
+
+            GameManager.instance.audioManager.PlaySFX("Eat");
             haveHealth.Heal(healthToAdd);
             return true;
         }

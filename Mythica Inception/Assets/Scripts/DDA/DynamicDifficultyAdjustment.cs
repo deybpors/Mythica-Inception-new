@@ -10,9 +10,6 @@ namespace DDA
         public List<DifficultyParameter> difficultyParameters;
         public List<ParameterDataNeeded> parameterDataNeeded;
 
-        public float timeToAdjust;
-        private float timeElapsed;
-
         private Dictionary<string, ParameterDataNeeded> dictParamDataNeeded = new Dictionary<string, ParameterDataNeeded>();
         private Dictionary<string, DifficultyParameter> dictDiffParam = new Dictionary<string, DifficultyParameter>();
         public HashSet<string> _parameter = new HashSet<string>();

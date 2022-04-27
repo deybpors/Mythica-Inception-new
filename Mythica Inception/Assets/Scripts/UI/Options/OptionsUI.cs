@@ -67,6 +67,7 @@ public class OptionsUI : MonoBehaviour
 
     public void EnterGameplay()
     {
+        GameManager.instance.audioManager.PlaySFX("UI Close");
         GameManager.instance.inputHandler.EnterGameplay();
     }
 

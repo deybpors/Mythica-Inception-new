@@ -130,6 +130,7 @@ namespace Items_and_Barter_System.Scripts
                 inventorySlots[i].inventoryItem = newSlot.inventoryItem;
                 inventorySlots[i].amountOfItems = newSlot.amountOfItems;
                 GameManager.instance.questManager.UpdateGatherQuest(newSlot);
+                GameManager.instance.audioManager.PlaySFX("Equip");
                 break;
             }
         }

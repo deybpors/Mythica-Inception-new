@@ -307,7 +307,11 @@ namespace _Core.Input
             if (!context.started) return;
 
             GameManager.instance.uiManager.optionsMinimizeButton.onClick.Invoke();
-            GameManager.instance.uiManager.merchantUi.minimizeButton.onClick.Invoke();
+            
+            if (GameManager.instance.uiManager.merchantUi.enabled)
+            {
+                GameManager.instance.uiManager.merchantUi.minimizeButton.onClick.Invoke();
+            }
         }
 
         public void EnterGameplay()

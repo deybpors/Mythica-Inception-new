@@ -19,6 +19,7 @@ namespace _Core.Managers
         public Transform masterParent;
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
+        private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
         private readonly Vector3 zero = Vector3.zero;
         private void PreInstantiate(List<Pool> p)
         {
@@ -60,17 +61,24 @@ namespace _Core.Managers
                 
                 objectToSpawn.SetActive(true);
 
+                if (!_transforms.TryGetValue(objectToSpawn, out var trans))
+                {
+                    trans = objectToSpawn.transform;
+                    _transforms.Add(objectToSpawn, trans);
+                }
+
+
                 if (parent != null)
                 {
-                    objectToSpawn.transform.SetParent(parent);
-                    objectToSpawn.transform.localPosition = position;
-                    objectToSpawn.transform.rotation = Quaternion.Euler(0,0,0);
+                    trans.SetParent(parent);
+                    trans.localPosition = position;
+                    trans.rotation = Quaternion.Euler(0,0,0);
                 }
                 else
                 {
-                    objectToSpawn.transform.SetParent(masterParent);
-                    objectToSpawn.transform.position = position;
-                    objectToSpawn.transform.rotation = rotation;
+                    trans.SetParent(masterParent);
+                    trans.position = position;
+                    trans.rotation = rotation;
                 }
 
                 poolDictionary[newSpawnedTag].Enqueue(objectToSpawn);

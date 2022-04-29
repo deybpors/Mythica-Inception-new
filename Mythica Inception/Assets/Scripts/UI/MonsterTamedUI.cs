@@ -44,13 +44,15 @@ public class MonsterTamedUI : MonoBehaviour
     private int _slotNum;
     private bool _outlineEnabled;
     private Dictionary<GameObject, AnimOutline> _animators = new Dictionary<GameObject, AnimOutline>();
+    private GameObject _parentGameObject;
 
     void Awake()
     {
-
-        LeanTween.rotateAround(_parentTrans.gameObject, Vector3.up, 360, 4f).setLoopClamp().setIgnoreTimeScale(true);
+        _parentGameObject = _parentTrans.gameObject;
+        LeanTween.rotateAround(_parentGameObject, Vector3.up, 360, 4f).setLoopClamp().setIgnoreTimeScale(true);
         
         if (_initializationDone) return;
+        if(GameManager.instance == null) return;
 
         _ui = GameManager.instance.uiManager;
         _uiTweener = _monsterTamedUI.GetComponent<UITweener>();

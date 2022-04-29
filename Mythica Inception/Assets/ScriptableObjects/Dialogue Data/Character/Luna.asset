@@ -14,32 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 260a9473-bf9d-4e6b-a960-c19290722cbb
   fullName: Luna
-  facePicture: {fileID: 4125636645744980110, guid: 2ef02165d469a5d4eb232aba8a1371e5, type: 3}
+  facePicture: {fileID: 4125636645744980110, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   moods:
   - name: Normal
     emotion: 0
-    graphic: {fileID: 4125636645744980110, guid: c542cca58829f9e47acc098263e391e6, type: 3}
+    graphic: {fileID: 4125636645744980110, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Happy
     emotion: 1
-    graphic: {fileID: 0}
+    graphic: {fileID: 758070524931626382, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Sad
     emotion: 2
-    graphic: {fileID: 0}
+    graphic: {fileID: -3766068879812535546, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Angry
     emotion: 3
-    graphic: {fileID: 0}
+    graphic: {fileID: -2009443300490716365, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Surprised
     emotion: 4
-    graphic: {fileID: 758070524931626382, guid: 2ef02165d469a5d4eb232aba8a1371e5, type: 3}
+    graphic: {fileID: 1891900035898640601, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Confused
     emotion: 5
-    graphic: {fileID: 758070524931626382, guid: 2ef02165d469a5d4eb232aba8a1371e5, type: 3}
+    graphic: {fileID: 6293139423444599005, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Scared
     emotion: 6
-    graphic: {fileID: 0}
+    graphic: {fileID: -1153376196279930185, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   - name: Aggrivated
     emotion: 7
-    graphic: {fileID: 0}
+    graphic: {fileID: 1183229404410161921, guid: 9d8470402bb5a6840a1d27cf509169ea, type: 3}
   _hasBeenInitialized: 1
   sexOfCharacter: 1
   dialoguePitch: 1.5

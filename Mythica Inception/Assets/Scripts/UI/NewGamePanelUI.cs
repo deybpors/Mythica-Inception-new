@@ -19,6 +19,7 @@ public class NewGamePanelUI : MonoBehaviour
     public Button savePanelMinimize;
     public SaveFileUI[] saveFiles;
     public UITweener savePanelTweener;
+    public CharacterSelectionUI selectionUi;
     [HideInInspector] public SaveFileUI saveFileSelected = null;
 
     [Header("Create New SavePlayerData File")]
@@ -59,6 +60,8 @@ public class NewGamePanelUI : MonoBehaviour
     {
         newSaveFilePanel.SetActive(true);
         nameInputField.text = string.Empty;
+        var texture = (RenderTexture) selectionUi.rawImage.texture;
+        texture.Release();
     }
 
     public void DisableTweener(UITweener tweener)
@@ -92,6 +95,7 @@ public class NewGamePanelUI : MonoBehaviour
             newOptionsData,
             GameSettings.GetDefaultMonsterSlots(20)
             );
+        selectionUi.Disable();
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);
@@ -114,7 +118,7 @@ public class NewGamePanelUI : MonoBehaviour
             message += ", ♀";
         }
 
-        GameManager.instance.uiManager.modal.OpenModal(message, verifyIcon, _white,InitializeNewSaveFile);
+        GameManager.instance.uiManager.modal.OpenModal(message, verifyIcon, _white, InitializeNewSaveFile);
     }
 
     private void PickSexType(Button whatButton)

@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 3e55a7f779608ee44806136091581e39
+guid: ccbd69a673235b44e8afe93d8de216bd
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5234603629122509694
-    second: Sulayman_Happy
+      213: 8972674473837439933
+    second: Eleo_Normal
   - first:
-      213: -4964904095399928364
-    second: Sulayman_Normal
+      213: -6599986047713746385
+    second: Eleo_Happy
   - first:
-      213: 5351922864039810020
-    second: Sulayman_Sad
+      213: -3000428726477572880
+    second: Eleo_Sad
   - first:
-      213: -8124104112963569554
-    second: Sulayman_Angry
+      213: -8099050729628861887
+    second: Eleo_Angry
   - first:
-      213: 5585553513484009932
-    second: Sulayman_Confused
+      213: 7861066163451721973
+    second: Eleo_Surprised
   - first:
-      213: 8682981372253015153
-    second: Sulayman_Scared
+      213: -8165557891136553596
+    second: Eleo_Confused
   - first:
-      213: 856430698947176263
-    second: Sulayman_Aggrivated
+      213: -6044611783231332202
+    second: Eleo_Scared
   - first:
-      213: 3544529342800303111
-    second: Sulayman_Surprised
+      213: -7280232653564158586
+    second: Eleo_Aggrivated
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -163,13 +163,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sulayman_Happy
+      name: Eleo_Normal
       rect:
         serializedVersion: 2
-        x: 0
-        y: 756
-        width: 757
-        height: 756
+        x: 244
+        y: 3077
+        width: 546
+        height: 1016
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7b51dd344c05a840800000000000000
-      internalID: 5234603629122509694
+      spriteID: dbbab4a05e7558c70800000000000000
+      internalID: 8972674473837439933
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Normal
+      name: Eleo_Happy
       rect:
         serializedVersion: 2
-        x: 757
-        y: 756
-        width: 757
-        height: 756
+        x: 1266
+        y: 3076
+        width: 546
+        height: 1016
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,20 +198,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dd1ec9c70e191bb0800000000000000
-      internalID: -4964904095399928364
+      spriteID: f22ec7768a32864a0800000000000000
+      internalID: -6599986047713746385
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Sad
+      name: Eleo_Sad
       rect:
         serializedVersion: 2
-        x: 1514
-        y: 756
-        width: 757
-        height: 756
+        x: 248
+        y: 2050
+        width: 551
+        height: 1020
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,20 +219,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e352683d79d54a40800000000000000
-      internalID: 5351922864039810020
+      spriteID: 0f43d6068f55c56d0800000000000000
+      internalID: -3000428726477572880
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Angry
+      name: Eleo_Angry
       rect:
         serializedVersion: 2
-        x: 2268
-        y: 756
-        width: 757
-        height: 756
+        x: 1264
+        y: 2051
+        width: 546
+        height: 1020
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,20 +240,62 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6834844a52614f80800000000000000
-      internalID: -8124104112963569554
+      spriteID: 14a7a92a5446a9f80800000000000000
+      internalID: -8099050729628861887
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Confused
+      name: Eleo_Surprised
       rect:
         serializedVersion: 2
-        x: 0
+        x: 254
+        y: 1026
+        width: 546
+        height: 1020
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5f8f164a60e181d60800000000000000
+      internalID: 7861066163451721973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eleo_Confused
+      rect:
+        serializedVersion: 2
+        x: 1272
+        y: 1026
+        width: 546
+        height: 1020
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48dfae96c5c1eae80800000000000000
+      internalID: -8165557891136553596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Eleo_Scared
+      rect:
+        serializedVersion: 2
+        x: 227
         y: 0
-        width: 757
-        height: 756
+        width: 551
+        height: 1005
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,20 +303,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc14625b35fd38d40800000000000000
-      internalID: 5585553513484009932
+      spriteID: 6902b5fdb993d1ca0800000000000000
+      internalID: -6044611783231332202
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Scared
+      name: Eleo_Aggrivated
       rect:
         serializedVersion: 2
-        x: 757
+        x: 1276
         y: 0
-        width: 757
-        height: 756
+        width: 546
+        height: 1018
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,50 +324,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17c897cbd85208870800000000000000
-      internalID: 8682981372253015153
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sulayman_Aggrivated
-      rect:
-        serializedVersion: 2
-        x: 1514
-        y: 0
-        width: 757
-        height: 756
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7476c71ee27a2eb00800000000000000
-      internalID: 856430698947176263
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Sulayman_Surprised
-      rect:
-        serializedVersion: 2
-        x: 2271
-        y: 0
-        width: 757
-        height: 756
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7049f8558a2b03130800000000000000
-      internalID: 3544529342800303111
+      spriteID: 68ddb1259fa67fa90800000000000000
+      internalID: -7280232653564158586
       vertices: []
       indices: 
       edges: []
@@ -333,7 +333,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8dec6b126a61d1546bc89e18b76c94aa
+    spriteID: 20ba6de63cb532e4a8da849a6774b75e
     internalID: 0
     vertices: []
     indices: 

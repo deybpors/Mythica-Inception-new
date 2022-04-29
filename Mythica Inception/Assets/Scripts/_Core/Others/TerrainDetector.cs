@@ -13,6 +13,7 @@ public class TerrainDetector
 
     public TerrainDetector()
     {
+        if (GameManager.instance == null) return;
         if(GameManager.instance.currentTerrain == null) return;
 
         Init();

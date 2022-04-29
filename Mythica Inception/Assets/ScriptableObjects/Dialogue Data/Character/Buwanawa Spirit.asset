@@ -18,7 +18,7 @@ MonoBehaviour:
   moods:
   - name: Normal
     emotion: 0
-    graphic: {fileID: -8506748479071332698, guid: 422a93ef7fcd04845b9918ead9edea9d, type: 3}
+    graphic: {fileID: 4647647032112911023, guid: 422a93ef7fcd04845b9918ead9edea9d, type: 3}
   - name: Happy
     emotion: 1
     graphic: {fileID: 0}

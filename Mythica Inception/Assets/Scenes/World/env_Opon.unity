@@ -8670,7 +8670,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 42c82ea2d13a5b54dbb51b2867a397f0, type: 2}
     - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: _repeatConversation
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: waypoints.Array.size

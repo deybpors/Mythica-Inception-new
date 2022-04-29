@@ -16,11 +16,11 @@ MonoBehaviour:
   lines:
   - character: {fileID: 0}
     text: Hello, Humabon! I would like to use your services.
-    emotion: 0
+    emotion: 1
     speakerDirection: 0
   - character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     text: Sure thing, <b><PLAYER_NAME></b>! What will you want me to do?
-    emotion: 0
+    emotion: 1
     speakerDirection: 1
   choices:
   - text: Heal

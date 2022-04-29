@@ -1,31 +1,31 @@
 fileFormatVersion: 2
-guid: 3e55a7f779608ee44806136091581e39
+guid: 2dc6fe0e6dbb4d348849850d86838b63
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5234603629122509694
-    second: Sulayman_Happy
+      213: 9096469117246740002
+    second: Female 1_Normal
   - first:
-      213: -4964904095399928364
-    second: Sulayman_Normal
+      213: -7747645661870817633
+    second: Female 1_Happy
   - first:
-      213: 5351922864039810020
-    second: Sulayman_Sad
+      213: -5951350175173787827
+    second: Female 1_Sad
   - first:
-      213: -8124104112963569554
-    second: Sulayman_Angry
+      213: 3471559804511110732
+    second: Female 1_Angry
   - first:
-      213: 5585553513484009932
-    second: Sulayman_Confused
+      213: 4971048795394657692
+    second: Female 1_Surprised
   - first:
-      213: 8682981372253015153
-    second: Sulayman_Scared
+      213: 1770620238300954394
+    second: Female 1_Confused
   - first:
-      213: 856430698947176263
-    second: Sulayman_Aggrivated
+      213: -7760183778863466057
+    second: Female 1_Scared
   - first:
-      213: 3544529342800303111
-    second: Sulayman_Surprised
+      213: -357636314839866197
+    second: Female 1_Aggrivated
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -163,13 +163,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Sulayman_Happy
+      name: Female 1_Normal
       rect:
         serializedVersion: 2
-        x: 0
-        y: 756
-        width: 757
-        height: 756
+        x: 45
+        y: 1233
+        width: 705
+        height: 1010
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e7b51dd344c05a840800000000000000
-      internalID: 5234603629122509694
+      spriteID: 2269dcb87762d3e70800000000000000
+      internalID: 9096469117246740002
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Normal
+      name: Female 1_Happy
       rect:
         serializedVersion: 2
-        x: 757
-        y: 756
-        width: 757
-        height: 756
+        x: 887
+        y: 1233
+        width: 705
+        height: 1010
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,20 +198,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4dd1ec9c70e191bb0800000000000000
-      internalID: -4964904095399928364
+      spriteID: f9ef79eb155da7490800000000000000
+      internalID: -7747645661870817633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Sad
+      name: Female 1_Sad
       rect:
         serializedVersion: 2
-        x: 1514
-        y: 756
-        width: 757
-        height: 756
+        x: 1684
+        y: 1233
+        width: 816
+        height: 1014
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,20 +219,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e352683d79d54a40800000000000000
-      internalID: 5351922864039810020
+      spriteID: d4fbeca1c8e886da0800000000000000
+      internalID: -5951350175173787827
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Angry
+      name: Female 1_Angry
       rect:
         serializedVersion: 2
-        x: 2268
-        y: 756
-        width: 757
-        height: 756
+        x: 2588
+        y: 1233
+        width: 711
+        height: 1030
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,20 +240,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6834844a52614f80800000000000000
-      internalID: -8124104112963569554
+      spriteID: c46c864cf357d2030800000000000000
+      internalID: 3471559804511110732
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Confused
+      name: Female 1_Surprised
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 757
-        height: 756
+        x: 47
+        y: 126
+        width: 712
+        height: 1033
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -261,20 +261,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cc14625b35fd38d40800000000000000
-      internalID: 5585553513484009932
+      spriteID: c9dc1aaaa86bcf440800000000000000
+      internalID: 4971048795394657692
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Scared
+      name: Female 1_Confused
       rect:
         serializedVersion: 2
-        x: 757
-        y: 0
-        width: 757
-        height: 756
+        x: 890
+        y: 126
+        width: 734
+        height: 1024
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,20 +282,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 17c897cbd85208870800000000000000
-      internalID: 8682981372253015153
+      spriteID: a1fbb00c9b1829810800000000000000
+      internalID: 1770620238300954394
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Aggrivated
+      name: Female 1_Scared
       rect:
         serializedVersion: 2
-        x: 1514
-        y: 0
-        width: 757
-        height: 756
+        x: 1684
+        y: 129
+        width: 711
+        height: 1030
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -303,20 +303,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7476c71ee27a2eb00800000000000000
-      internalID: 856430698947176263
+      spriteID: 7b93815e7f94e4490800000000000000
+      internalID: -7760183778863466057
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Sulayman_Surprised
+      name: Female 1_Aggrivated
       rect:
         serializedVersion: 2
-        x: 2271
-        y: 0
-        width: 757
-        height: 756
+        x: 2592
+        y: 129
+        width: 713
+        height: 1038
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -324,8 +324,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7049f8558a2b03130800000000000000
-      internalID: 3544529342800303111
+      spriteID: ba4a03f9aab690bf0800000000000000
+      internalID: -357636314839866197
       vertices: []
       indices: 
       edges: []
@@ -333,7 +333,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 8dec6b126a61d1546bc89e18b76c94aa
+    spriteID: 8b355b98b92af1f4082d1a43a019a55a
     internalID: 0
     vertices: []
     indices: 

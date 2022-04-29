@@ -14,32 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 5d264047-06d9-41a7-b407-29136e8b1628
   fullName: Eleo
-  facePicture: {fileID: 8972674473837439933, guid: afdadc5752fe30e4a840524b238475a3, type: 3}
+  facePicture: {fileID: 8972674473837439933, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   moods:
   - name: Normal
     emotion: 0
-    graphic: {fileID: -6599986047713746385, guid: afdadc5752fe30e4a840524b238475a3, type: 3}
+    graphic: {fileID: 8972674473837439933, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Happy
     emotion: 1
-    graphic: {fileID: 0}
+    graphic: {fileID: -6599986047713746385, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Sad
     emotion: 2
-    graphic: {fileID: 0}
+    graphic: {fileID: -3000428726477572880, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Angry
     emotion: 3
-    graphic: {fileID: 0}
+    graphic: {fileID: -8099050729628861887, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Surprised
     emotion: 4
-    graphic: {fileID: -6599986047713746385, guid: afdadc5752fe30e4a840524b238475a3, type: 3}
+    graphic: {fileID: 7861066163451721973, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Confused
     emotion: 5
-    graphic: {fileID: -6599986047713746385, guid: afdadc5752fe30e4a840524b238475a3, type: 3}
+    graphic: {fileID: -8165557891136553596, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Scared
     emotion: 6
-    graphic: {fileID: 0}
+    graphic: {fileID: -6044611783231332202, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   - name: Aggrivated
     emotion: 7
-    graphic: {fileID: 0}
+    graphic: {fileID: -7280232653564158586, guid: ccbd69a673235b44e8afe93d8de216bd, type: 3}
   _hasBeenInitialized: 1
   sexOfCharacter: 0
   dialoguePitch: 0.8

@@ -14,32 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: c2e1dcd4-2aa4-45d2-bafa-8bfd169a8799
   fullName: "Sul\xE1ym\xE1n"
-  facePicture: {fileID: 8046747227409208920, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+  facePicture: {fileID: -4964904095399928364, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   moods:
   - name: Normal
     emotion: 0
-    graphic: {fileID: -3741393294810867776, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: -4964904095399928364, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Happy
     emotion: 1
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: 5234603629122509694, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Sad
     emotion: 2
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: 5351922864039810020, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Angry
     emotion: 3
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: -8124104112963569554, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Surprised
     emotion: 4
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: 3544529342800303111, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Skeptical
     emotion: 5
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: 5585553513484009932, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Scared
     emotion: 6
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: 8682981372253015153, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   - name: Aggrivated
     emotion: 7
-    graphic: {fileID: 21300000, guid: c77db20ae3a12824e968d70e1683f5ff, type: 3}
+    graphic: {fileID: 856430698947176263, guid: 3e55a7f779608ee44806136091581e39, type: 3}
   _hasBeenInitialized: 1
   sexOfCharacter: 1
   dialoguePitch: 0.8

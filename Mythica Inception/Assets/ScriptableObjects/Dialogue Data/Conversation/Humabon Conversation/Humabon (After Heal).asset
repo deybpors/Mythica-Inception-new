@@ -16,10 +16,10 @@ MonoBehaviour:
   lines:
   - character: {fileID: 0}
     text: Salamat, manong!
-    emotion: 0
+    emotion: 1
     speakerDirection: 0
   - character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     text: My pleasure! Keep on coming back, iho!
-    emotion: 0
+    emotion: 1
     speakerDirection: 1
   choices: []

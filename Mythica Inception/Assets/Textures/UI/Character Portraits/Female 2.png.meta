@@ -1,13 +1,31 @@
 fileFormatVersion: 2
-guid: 2ef02165d469a5d4eb232aba8a1371e5
+guid: ca58326a1f02d924aa7aa30d0f1a1c34
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4125636645744980110
-    second: Luna_Face
+      213: -9190159186743191164
+    second: Female 2_Normal
   - first:
-      213: 758070524931626382
-    second: Luna_Full
+      213: 4347553684203396173
+    second: Female 2_Happy
+  - first:
+      213: -2643352858764952257
+    second: Female 2_Sad
+  - first:
+      213: -50389415029920707
+    second: Female 2_Angry
+  - first:
+      213: 8854966560102170217
+    second: Female 2_Surprised
+  - first:
+      213: -1356766184529030095
+    second: Female 2_Confused
+  - first:
+      213: -8382438013732960123
+    second: Female 2_Scared
+  - first:
+      213: -6965584411449132958
+    second: Female 2_Aggrivated
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -71,7 +89,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 4096
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 3
@@ -83,7 +101,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 256
+    maxTextureSize: 4096
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 3
@@ -131,7 +149,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
-    maxTextureSize: 256
+    maxTextureSize: 4096
     resizeAlgorithm: 1
     textureFormat: -1
     textureCompression: 3
@@ -145,43 +163,169 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Luna_Face
+      name: Female 2_Normal
       rect:
         serializedVersion: 2
-        x: 2
-        y: 327
-        width: 137
-        height: 139
+        x: 56
+        y: 1378
+        width: 796
+        height: 1153
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e80b6f5bba4314930800000000000000
-      internalID: 4125636645744980110
+      spriteID: 48911e449eef57080800000000000000
+      internalID: -9190159186743191164
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Luna_Full
+      name: Female 2_Happy
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 146
-        height: 473
+        x: 926
+        y: 1377
+        width: 897
+        height: 1146
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e855e314025358a00800000000000000
-      internalID: 758070524931626382
+      spriteID: d4c52ec9a0d955c30800000000000000
+      internalID: 4347553684203396173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female 2_Sad
+      rect:
+        serializedVersion: 2
+        x: 1915
+        y: 1378
+        width: 796
+        height: 1153
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3d3d4d749ce05bd0800000000000000
+      internalID: -2643352858764952257
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female 2_Angry
+      rect:
+        serializedVersion: 2
+        x: 2825
+        y: 1378
+        width: 895
+        height: 1145
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3ca3b0181bfc4ff0800000000000000
+      internalID: -50389415029920707
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female 2_Surprised
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 85
+        width: 902
+        height: 1152
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96e3ad8bb2923ea70800000000000000
+      internalID: 8854966560102170217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female 2_Confused
+      rect:
+        serializedVersion: 2
+        x: 936
+        y: 85
+        width: 886
+        height: 1148
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13492e7f75ccb2de0800000000000000
+      internalID: -1356766184529030095
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female 2_Scared
+      rect:
+        serializedVersion: 2
+        x: 1892
+        y: 85
+        width: 916
+        height: 1163
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58847bfd9099bab80800000000000000
+      internalID: -8382438013732960123
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Female 2_Aggrivated
+      rect:
+        serializedVersion: 2
+        x: 2875
+        y: 84
+        width: 900
+        height: 1149
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 268739e02e5455f90800000000000000
+      internalID: -6965584411449132958
       vertices: []
       indices: 
       edges: []
@@ -189,7 +333,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 22ccd5e03758a514ab6f607e6dd5b357
     internalID: 0
     vertices: []
     indices: 
@@ -197,8 +341,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
   spritePackingTag: 
-  pSDRemoveMatte: 1
-  pSDShowRemoveMatteOption: 1
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

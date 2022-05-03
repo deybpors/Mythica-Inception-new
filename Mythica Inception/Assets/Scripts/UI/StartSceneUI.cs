@@ -10,6 +10,9 @@ namespace UI
     {
         public SceneReference startScene;
         public GameObject continueButton;
+
+        [HideInInspector] public bool stateObserverCreated;
+
         [SerializeField] private State gameplayState;
         public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
 
@@ -19,12 +22,14 @@ namespace UI
             FillUpSaveFiles();
         }
 
+
+
         public void FillUpSaveFiles()
         {
+            continueButton.SetActive(false);
             for (var i = 0; i < 5; i++)
             {
-                if (!DataSerializer.TryLoadProfile<PlayerSaveData>(i, GameManager.instance.saveManager.playerSaveKey,
-                        out var playerData))
+                if (!DataSerializer.FileExists(i))
                 {
                     var saveFile = GameManager.instance.uiManager.newGamePanel.saveFiles[i];
                     saveFile.playerSaveData = null;
@@ -33,7 +38,15 @@ namespace UI
                     saveFile.trashButton.SetActive(false);
                     continue;
                 }
-                
+
+                if (!stateObserverCreated)
+                {
+                    DataSerializer.CreateObserver();
+                    stateObserverCreated = true;
+                }
+
+                DataSerializer.Setup(i);
+                DataSerializer.TryLoadProfile<PlayerSaveData>(i, GameManager.instance.saveManager.playerSaveKey, out var playerData);
                 continueButton.SetActive(true);
                 playerSavedData[i] = playerData;
                 GameManager.instance.uiManager.newGamePanel.saveFiles[i].SetSaveFileData(playerData);

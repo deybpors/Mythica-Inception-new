@@ -202,6 +202,7 @@ namespace UI
 
         public void Disable()
         {
+            if(disabled) return;
             disabled = true;
             SwapDirection();
             HandleTween();

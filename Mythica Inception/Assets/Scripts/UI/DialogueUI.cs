@@ -64,6 +64,7 @@ public class DialogueUI : MonoBehaviour
 
     public void StartDialogue(Conversation conversationToDisplay)
     {
+        cutscene = false;
         _dialogueTextJuicer.SetDirty();
 
         //if its a new nextConversation

@@ -96,6 +96,13 @@ public class NewGamePanelUI : MonoBehaviour
             GameSettings.GetDefaultMonsterSlots(20)
             );
         selectionUi.Disable();
+
+        if (!GameManager.instance.uiManager.startSceneUI.stateObserverCreated)
+        {
+            DataSerializer.CreateObserver();
+            GameManager.instance.uiManager.startSceneUI.stateObserverCreated = true;
+        }
+        DataSerializer.Setup(saveFileSelected.buttonNum);
         DataSerializer.SaveToProfileIndex(saveFileSelected.buttonNum, saveManager.playerSaveKey, newPlayerData);
         GameManager.instance.uiManager.startSceneUI.playerSavedData[saveFileSelected.buttonNum] = newPlayerData;
         GameManager.instance.uiManager.startSceneUI.ContinueGame(saveFileSelected.buttonNum);
@@ -135,6 +142,9 @@ public class NewGamePanelUI : MonoBehaviour
             _newSaveFilePanelTweener = newSaveFilePanel.GetComponent<UITweener>();
         }
 
-        _newSaveFilePanelTweener.Disable();
+        if (!_newSaveFilePanelTweener.disabled)
+        {
+            _newSaveFilePanelTweener.Disable();
+        }
     }
 }

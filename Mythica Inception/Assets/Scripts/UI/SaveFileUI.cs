@@ -68,11 +68,13 @@ namespace UI
         private void DeleteSaveFile()
         {
             DataSerializer.DeleteProfileIndex(buttonNum, GameManager.instance.saveManager.playerSaveKey);
-            GameManager.instance.uiManager.startSceneUI.FillUpSaveFiles();
             GameManager.instance.uiManager.modal.CloseModal();
-            GameManager.instance.uiManager.startSceneUI.continueButton.gameObject.SetActive(false);
-            GameManager.instance.uiManager.newGamePanel.savePanelTweener.Disable();
+            if (!GameManager.instance.uiManager.newGamePanel.savePanelTweener.disabled)
+            {
+                GameManager.instance.uiManager.newGamePanel.savePanelTweener.Disable();
+            }
             GameManager.instance.uiManager.newGamePanel.continueSelected = false;
+            GameManager.instance.uiManager.startSceneUI.FillUpSaveFiles();
         }
     }
 }

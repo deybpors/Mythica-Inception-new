@@ -80,8 +80,7 @@ namespace ToolBox.Serialization
 			LoadFile();
 		}
 
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
-		private static void Setup()
+		public static void Setup()
 		{
 			_container = Resources.Load<AssetsContainer>("ToolBoxAssetsContainer");
 
@@ -92,8 +91,13 @@ namespace ToolBox.Serialization
 			LoadFile();
 		}
 
-		[RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-		private static void CreateObserver()
+        public static void Setup(int profileIndex)
+        {
+            _currentProfileIndex = profileIndex;
+			Setup();
+        }
+
+		public static void CreateObserver()
 		{
 			var obj = new GameObject("ApplicationStateObserver");
 			var observer = obj.AddComponent<ApplicationStateObserver>();
@@ -124,6 +128,11 @@ namespace ToolBox.Serialization
 		private static void GeneratePath() =>
 			_savePath = Path.Combine(Application.persistentDataPath, $"{FILE_NAME}_{_currentProfileIndex}.data");
 
+        private static string GetPath()
+        {
+            return Application.persistentDataPath + $"/{FILE_NAME}_{_currentProfileIndex}.data";
+        }
+
         public static bool TryLoadProfile<T>(int profileIndex, string key, out T data)
         {
             ChangeProfile(profileIndex);
@@ -134,9 +143,16 @@ namespace ToolBox.Serialization
 
         public static void DeleteProfileIndex(int profileIndex, string key)
         {
-            ChangeProfile(profileIndex);
+            _currentProfileIndex = profileIndex;
+            File.Delete(GetPath());
 			DeleteKey(key);
 		}
+
+        public static bool FileExists(int profileIndex)
+        {
+            _currentProfileIndex = profileIndex;
+            return File.Exists(GetPath());
+        }
 
         public static void SaveToProfileIndex<T>(int profileIndex, string key, T dataToSave)
         {

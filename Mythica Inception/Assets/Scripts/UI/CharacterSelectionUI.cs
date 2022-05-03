@@ -50,12 +50,14 @@ public class CharacterSelectionUI : MonoBehaviour
 
         if (_selected.ContainsKey(Sex.Male.ToString()))
         {
+            _selected[Sex.Male.ToString()].SetActive(false);
             Destroy(_selected[Sex.Male.ToString()]);
         }
 
         if (_selected.ContainsKey(Sex.Female.ToString()))
         {
-            Destroy(_selected[Sex.Male.ToString()]);
+            _selected[Sex.Female.ToString()].SetActive(false);
+            Destroy(_selected[Sex.Female.ToString()]);
         }
 
         _selected.Clear();

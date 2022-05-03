@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Collect Tambis
+  m_EditorClassIdentifier: 
+  ID: 74ef3a67-b32b-48e5-b4e0-135c4e2f7b8e
+  lines:
+  - text: How 'bout I'll just collect your favorite tambis?
+    character: {fileID: 0}
+    emotion: 1
+    speakerDirection: 1
+  - text: Good one, iho! I'm starting to like you.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Now, you have to pick the juciest tambis. They can be seen at the back
+      of my house. Or you can get them from mythicas.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Those vermins really know how to pick one.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 3
+    speakerDirection: 0
+  - text: You can also find them near Dang Marasa's hut. Maybe that's why they're
+      trashing her house.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Oh why am I getting so giddy with this?
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 5
+    speakerDirection: 0
+  - text: Just collect me the best ones you could find. Please. I really want the
+      perfect ones!
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 2
+    speakerDirection: 0
+  - text: Alright alright. I'll get the best ones as soon as I can.
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
+  - text: Thank you, iho! Go get 'em now as I prepare to go to Marasa. I'll be quick!
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  choices: []

@@ -61,6 +61,7 @@ namespace _Core.Player
         [HideInInspector] public Vector3 colliderExtents;
         [HideInInspector] public List<MonsterSlot> storageMonsters;
         [HideInInspector] public Transform playerTransform;
+        [HideInInspector] public Collider playerCollider;
         private readonly Vector3 _zeroVector = Vector3.zero;
         private DateTime _dateOpened;
         [ReadOnly] [SerializeField] private bool _tamerInvulnerable = false;
@@ -112,7 +113,8 @@ namespace _Core.Player
             _stateController = GetComponent<StateController>();
             healthComponent = GetComponent<Health>();
             playerQuestManager = GetComponent<PlayerQuestManager>();
-            colliderExtents = GetComponent<Collider>().bounds.extents;
+            playerCollider = GetComponent<Collider>();
+            colliderExtents = playerCollider.bounds.extents;
         }
         private void InitializePlayerSavedData()
         {
@@ -204,7 +206,7 @@ namespace _Core.Player
         {
             if (currentSlot < 0)
             {
-                monsterManager.SwitchToTamer();
+                monsterManager.SwitchToTamer(false);
             }
             else
             {
@@ -398,7 +400,7 @@ namespace _Core.Player
             {
                 if (_inputHandler.currentMonster < 0) return;
                 _inputHandler.currentMonster = -1;
-                monsterManager.SwitchToTamer();
+                monsterManager.SwitchToTamer(false);
             }
             else
             {

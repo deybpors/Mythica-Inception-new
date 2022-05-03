@@ -13,15 +13,15 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void Patrol(StateController stateController)
         {
-            if (stateController.aI.waypoints.Count <= 0 && stateController.aI is MonsterTamerAI)
+            if (stateController.aI.waypointCount <= 0 && stateController.aI is MonsterTamerAI)
             {
                 var ai = (MonsterTamerAI)stateController.aI;
                 stateController.aI.waypoints = ai.spawner.waypointsList;
             }
             stateController.controllerAnimator.SetBool("Attack", false);
-            var nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
             try
             {
+                var nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
                 stateController.aI.agent.destination = nextDestination;
                 stateController.machineDestination = nextDestination;
 
@@ -31,7 +31,7 @@ namespace Pluggable_AI.Scripts.Actions
                     !stateController.aI.agent.pathPending)
                 {
                     stateController.aI.nextWaypoint =
-                        (stateController.aI.nextWaypoint + 1) % stateController.aI.waypoints.Count;
+                        (stateController.aI.nextWaypoint + 1) % stateController.aI.waypointCount;
                 }
             }
             catch

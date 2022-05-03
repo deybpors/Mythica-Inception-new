@@ -104,7 +104,10 @@ namespace Assets.Scripts.Dialogue_System
             }
             else
             {
-                _outline.enabled = false;
+                if (_outline != null)
+                {
+                    _outline.enabled = false;
+                }
                 _isInteractable = false;
             }
 
@@ -147,15 +150,13 @@ namespace Assets.Scripts.Dialogue_System
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
             GameManager.instance.inputHandler.SwitchActionMap("Dialogue");
-
-            GetNPCPlayerToRotateTo(out var npcRotateTo, out var playerRotateTo);
+            GameManager.instance.uiManager.dialogueUI.StartDialogue(_conversation);
+            GameManager.instance.uiManager.gameplayTweener.Disable();
 
             if(!_rotateOnInteract) return;
-
+            GetNPCPlayerToRotateTo(out var npcRotateTo, out var playerRotateTo);
             StopAllCoroutines();
             StartCoroutine(LookTowards(npcRotateTo, playerRotateTo));
-            GameManager.instance.uiManager.gameplayTweener.Disable();
-            GameManager.instance.uiManager.dialogueUI.StartDialogue(_conversation);
             _alreadyInteracted = true;
         }
 

@@ -13,6 +13,15 @@ public class TooltipUI : MonoBehaviour
     public LayoutElement layoutElement;
 
     public int characterWrapLimit;
+    [HideInInspector] public GameObject thisObject;
+
+    void Start()
+    {
+        if (thisObject == null)
+        {
+            thisObject = gameObject;
+        }
+    }
 
     void Update()
     {

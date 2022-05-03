@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Help Dang Marasa
+  m_EditorClassIdentifier: 
+  ID: 74ef3a67-b32b-48e5-b4e0-135c4e2f7b8e
+  lines:
+  - text: I feel a little bit bored. I could go for some live action.
+    character: {fileID: 0}
+    emotion: 1
+    speakerDirection: 1
+  - text: Hold your horses! You only need to get rid of a few just until I'm done
+      with my fave treats and I'll deal with the rest.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Okay. Sure thing, just keep your side of the deal.
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 1
+  - text: Dang Marasa's hut is up north. See you unya, buwaya! he... he... he...
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  choices: []

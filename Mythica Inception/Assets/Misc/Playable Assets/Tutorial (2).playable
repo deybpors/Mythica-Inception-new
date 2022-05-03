@@ -16,9 +16,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: Aim the staff at a mythica and press the [Left Mouse Button] to release
         a tame beam.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -131,9 +131,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: To tame a mythica, utilize to your advantage the <color=#97e4ff>staff</color>
         I have bestowed upon you.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -258,8 +258,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: Choose your partner mythica wisely.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -801,8 +801,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 0}
       text: What? I was holding this thing the whole time?!
+      character: {fileID: 0}
       emotion: 4
       speakerDirection: 0
     responseChoices: []
@@ -1279,9 +1279,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: The tame meter will show up and when it is full, you will completely
         be connected with the mythica.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []

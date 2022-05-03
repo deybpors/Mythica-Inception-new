@@ -73,7 +73,7 @@ namespace Monster_System
             GetMonsterAnimators();
             
             _activated = true;
-            SwitchToTamer();
+            SwitchToTamer(true);
         }
 
         public void RequestPoolMonstersPrefab()
@@ -158,7 +158,7 @@ namespace Monster_System
             }
         }
         
-        public void SwitchToTamer()
+        public void SwitchToTamer(bool initialize)
         {
             if(!_activated) return;
             if (_tamerPrefab == null) return;
@@ -170,8 +170,13 @@ namespace Monster_System
             _player.unitIndicator.transform.localScale =
                 new Vector3(_tamerTameRadius, _tamerTameRadius, _tamerTameRadius);
             _currentMonster = -1;
-            _haveMonsters.SpawnSwitchFX();
-            GameManager.instance.audioManager.PlaySFX("Switch");
+
+            if (!initialize)
+            {
+                _haveMonsters.SpawnSwitchFX();
+                GameManager.instance.audioManager.PlaySFX("Switch");
+            }
+
             EvaluateCharPortraitCam(_tamerPrefab);
             _monsterOutlines.TryGetValue(_tamerPrefab, out var outline);
             currentOutline = outline;

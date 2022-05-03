@@ -40,15 +40,28 @@ namespace Monster_System
         private Coroutine _waitSpawn;
         private Vector3 _spawnerPosition;
         private Transform _thisTransform;
-        private Vector3 _up = Vector3.up;
 
         private Dictionary<GameObject, NavMeshAgent> _agents = new Dictionary<GameObject, NavMeshAgent>();
         private Dictionary<GameObject, ItemDrop> _drops = new Dictionary<GameObject, ItemDrop>();
+        private Dictionary<GameObject, Transform> _monsterTransforms = new Dictionary<GameObject, Transform>();
 
+        void OnEnable()
+        {
+            activated = true;
+            InvokeRepeating(nameof(SpawnMonsters), 0, 1);
+        }
+
+        void OnDisable()
+        {
+            activated = false;
+        }
 
         void Start()
         {
-            _spawnerPosition = transform.position;
+            _thisTransform = transform;
+            _spawnerPosition = _thisTransform.position;
+
+            if(!activated) return;
             InvokeRepeating(nameof(SpawnMonsters), 0, 1);
         }
 
@@ -59,10 +72,6 @@ namespace Monster_System
             if(currentNoOfMonsters >= noOfMonstersLimit) return;
             if(GameManager.instance == null) return;
             if(GameManager.instance.player == null) return;
-            if (_thisTransform == null)
-            {
-                _thisTransform = transform;
-            }
             var distance = Vector3.Distance(_thisTransform.position, GameManager.instance.player.playerTransform.position);
             if (distance > 30) return;
             
@@ -91,6 +100,20 @@ namespace Monster_System
                     wildMonsterPrefab,
                     monsterPos,
                     Quaternion.identity);
+            try
+            {
+                if (!_monsterTransforms.TryGetValue(monsterObj, out var trans))
+                {
+                    trans = monsterObj.transform;
+                    _monsterTransforms.Add(monsterObj, trans);
+                }
+
+                GameManager.instance.activeEnemies.Add(trans, monsterObj);
+            }
+            catch
+            {
+                //ignored
+            }
 
             if (!_agents.TryGetValue(monsterObj, out var agent))
             {
@@ -111,7 +134,6 @@ namespace Monster_System
 
             monTamerAi.ActivateMonsterAi(newMonsters, waypointsList, this);
         }
-
         public void DropItems(Vector3 position)
         {
             var numberOfDrops = Random.Range(0, _maxNumberOfDrops);
@@ -143,8 +165,6 @@ namespace Monster_System
                 drop.SetupItemDrop(position, item, 1);
             }
         }
-
-
         private IEnumerator WaitSpawnTime()
         {
             yield return new WaitForSeconds(Random.Range(1, randomSpawnTimeMax+1));

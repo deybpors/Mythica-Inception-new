@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Whannon
+  m_EditorClassIdentifier: 
+  ID: 7deefcef-c358-44f0-8279-4de4a8074596
+  monsterNum: 15
+  monsterName: Whannon
+  monsterPrefab: {fileID: 6716824340810228720, guid: 43413aa31b5b4ca459371fbde3bf40df, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: ee03a67b33c293549bdeb80e85aa15e2, type: 3}
+  type: 4
+  basicAttackType: 1
+  basicAttackSkill: {fileID: 11400000, guid: 632d4c540745dac49ac3813274fbcc3b, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 1834515177923798, guid: 579f3ec5a2e59d84ab986cc220f05183, type: 3}
+    impact: {fileID: 1822773341328252, guid: 5488c91fc1cdfbd439ee7696c8a1394c, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 0}
+  stats:
+    baseHealth: 170
+    maxLives: 3
+    physicalAttack: 90
+    physicalDefense: 45
+    specialAttack: 90
+    specialDefense: 45
+    baseExpYield: 98
+    tameResistance: 128
+    criticalChance: 0.05
+    movementSpeed: 0.96
+    attackRate: 1
+  skillLearnSets: []
+  description: 

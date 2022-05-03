@@ -14,6 +14,8 @@ public class MoveToWaypoint : Action
 
     private void Move(StateController stateController)
     {
+        if(stateController.aI.waypointCount <= 1) return;
+
         var nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
         stateController.aI.agent.destination = nextDestination;
         stateController.machineDestination = nextDestination;
@@ -28,14 +30,14 @@ public class MoveToWaypoint : Action
                 var currentWaypoint = stateController.aI.nextWaypoint;
                 do
                 {
-                    stateController.aI.nextWaypoint = Random.Range(0, stateController.aI.waypoints.Count);
+                    stateController.aI.nextWaypoint = Random.Range(0, stateController.aI.waypointCount);
                 } while (currentWaypoint == stateController.aI.nextWaypoint);
 
                 return;
             }
             else
             {
-                stateController.aI.nextWaypoint = (stateController.aI.nextWaypoint + 1) % stateController.aI.waypoints.Count;
+                stateController.aI.nextWaypoint = (stateController.aI.nextWaypoint + 1) % stateController.aI.waypointCount;
             }
         }
     }

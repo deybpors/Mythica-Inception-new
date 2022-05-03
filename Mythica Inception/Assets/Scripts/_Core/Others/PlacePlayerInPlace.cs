@@ -22,6 +22,7 @@ public class PlacePlayerInPlace : MonoBehaviour
             gameObject.SetActive(false);
             return;
         }
+
         if(GameManager.instance == null) return;
         if(GameManager.instance.player == null) return;
         var playerTransform = GameManager.instance.player.transform;

@@ -34,7 +34,9 @@ namespace _Core.Managers
         public PlayerInputHandler inputHandler;
         public TimelineManager timelineManager;
         public StateController gameStateController;
-        public List<Transform> enemiesSeePlayer;
+        [ReadOnly] public List<Transform> enemiesSeePlayer;
+        [HideInInspector] public Dictionary<Transform, GameObject> activeEnemies = new Dictionary<Transform, GameObject>();
+        private Dictionary<GameObject, Transform> _enemiesTransforms = new Dictionary<GameObject, Transform>();
 
         [Foldout("States", true)]
         public State gameplayState;
@@ -137,6 +139,17 @@ namespace _Core.Managers
             _perlinNoise.m_AmplitudeGain = intensity;
             StopAllCoroutines();
             StartCoroutine(FadeScreenShake(shakeTime));
+        }
+
+        public void RemoveInActiveEnemies(GameObject activeEnemy)
+        {
+            if (!_enemiesTransforms.TryGetValue(activeEnemy, out var trans))
+            {
+                trans = activeEnemy.transform;
+                _enemiesTransforms.Add(activeEnemy, trans);
+            }
+
+            activeEnemies.Remove(trans);
         }
 
         private IEnumerator FadeScreenShake(float shakeTime)

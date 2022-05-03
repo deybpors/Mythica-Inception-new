@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70673ed460be0b54b9398f231ca8ad63, type: 3}
+  m_Name: Antslash
+  m_EditorClassIdentifier: 
+  ID: 7fceadfd-a91e-4024-9b33-28bb511e2c36
+  monsterNum: 17
+  monsterName: Antslash
+  monsterPrefab: {fileID: 5975454344193454645, guid: a3ea81453c566f44daf1ba1d87899433, type: 3}
+  monsterPortrait: {fileID: 21300000, guid: 8fb7a21394076be4ab112adff494332c, type: 3}
+  type: 2
+  basicAttackType: 0
+  basicAttackSkill: {fileID: 11400000, guid: eec92638661d31d4da9c8f4b8afe5734, type: 2}
+  basicAttackObjects:
+    projectile: {fileID: 1263804789950809153, guid: f0726507d09bec945bfac062368f7503, type: 3}
+    impact: {fileID: 150944, guid: 57561554096f31e498b9eedec1327721, type: 3}
+    muzzle: {fileID: 0}
+    targetObject: {fileID: 127072, guid: 6f2ddc26389af9f4da9be607bf7b6492, type: 3}
+  stats:
+    baseHealth: 70
+    maxLives: 2
+    physicalAttack: 130
+    physicalDefense: 100
+    specialAttack: 55
+    specialDefense: 80
+    baseExpYield: 131
+    tameResistance: 154
+    criticalChance: 0.07
+    movementSpeed: 1.1
+    attackRate: 1
+  skillLearnSets: []
+  description: 

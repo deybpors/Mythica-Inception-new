@@ -17,9 +17,9 @@ namespace Assets.Scripts.Dialogue_System
     [System.Serializable]
     public struct Line
     {
-        public Character character;
         [TextArea(2, 5)]
         public string text;
+        public Character character;
         public Emotion emotion;
         public SpeakerDirection speakerDirection;
     }

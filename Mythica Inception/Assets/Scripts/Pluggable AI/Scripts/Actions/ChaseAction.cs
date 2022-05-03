@@ -41,17 +41,18 @@ namespace Pluggable_AI.Scripts.Actions
                     var isRange = monster.basicAttackType == BasicAttackType.Range;
                     if (isRange)
                     {
-                        stateController.aI.agent.stoppingDistance = monster.basicAttackSkill.castRadius;
+                        stateController.aI.agent.stoppingDistance = monster.basicAttackSkill.castRadius * .75f;
                     }
                 }
                 else
                 {
                     stateController.aI.agent.stoppingDistance = origStopDistance;
-                    stateController.aI.agent.destination = targetPosition;
-                    stateController.machineDestination = targetPosition;
-                    stateController.aI.lastKnownTargetPosition = targetPosition;
-                    stateController.aI.agent.isStopped = false;
                 }
+
+                stateController.aI.agent.destination = targetPosition;
+                stateController.machineDestination = targetPosition;
+                stateController.aI.lastKnownTargetPosition = targetPosition;
+                stateController.aI.agent.isStopped = false;
             }
             else
             {

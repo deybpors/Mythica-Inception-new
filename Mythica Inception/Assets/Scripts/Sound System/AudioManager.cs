@@ -365,22 +365,26 @@ namespace SoundSystem
         private IEnumerator FadeTrack(Music music)
         {
             var fadeTime = _musicFadeTime;
-            var currentAudio = currentMusic;
             var timeElapsed = 0f;
 
             music.source.Play();
             music.source.volume = 0;
             var targetVolume = music.volume * _bgMusicVolume * masterVolume;
+
+            var musicCount = _musicList.Length;
+
             while (timeElapsed < fadeTime)
             {
                 music.source.volume = Mathf.Lerp(music.source.volume, targetVolume, timeElapsed/fadeTime);
-                
-                if (currentAudio != null)
+
+                for (var i = 0; i < musicCount; i++)
                 {
-                    currentAudio.source.volume = Mathf.Lerp(currentAudio.source.volume, 0, timeElapsed / fadeTime);
-                    if(currentAudio.source.volume <= 0) currentAudio.source.Stop();
+                    if(music.clip == _musicList[i].clip) continue;
+
+                    _musicList[i].source.volume = Mathf.Lerp(_musicList[i].source.volume, 0, timeElapsed / fadeTime);
+                    if(_musicList[i].source.volume <= 0) _musicList[i].source.Stop();
                 }
-                
+
                 timeElapsed += Time.unscaledDeltaTime;
                 yield return null;
             }

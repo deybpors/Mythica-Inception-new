@@ -10,6 +10,7 @@ using UnityEngine;
 public class ItemDrop : MonoBehaviour, IInteractable
 {
     [Layer][SerializeField] private int layer;
+    [SerializeField] private float _timeToDisable = 5f;
     [SerializeField] private float _interactableDistance = 1f;
     [ReadOnly][SerializeField] private bool _isInteractable;
     
@@ -23,6 +24,10 @@ public class ItemDrop : MonoBehaviour, IInteractable
     private Vector3 _down = Vector3.down;
     private Vector3 _zero = Vector3.zero;
     private GameObject _thisObject;
+    [ReadOnly] [SerializeField] private float _timeElapsed;
+    private bool _prefabOn = true;
+    private Coroutine _warningCoroutine = null;
+    private ItemSpawner _spawner;
 
     private Dictionary<GameObject, Outline> _outlines = new Dictionary<GameObject, Outline>();
     private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
@@ -30,19 +35,16 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
     void Initialize(Vector3 initPos)
     {
-        if (_player == null)
-        {
-            _player = GameManager.instance.player;
-            _thisTransform = transform;
-            _playerTransform = _player.transform;
-        }
 
         var cast = Physics.Raycast(_thisTransform.position, _down, out var hit, layer);
-        if (!cast) return;
+        if (!cast)
+        {
+            _thisObject.SetActive(false);
+            return;
+        }
 
         _thisTransform.position = initPos;
-        StopAllCoroutines();
-        StartCoroutine(GoToPosition(hit.point,1));
+        StartCoroutine(GoToPosition(hit.point, 1));
         _thisTransform.rotation = Quaternion.Euler(_zero);
 
 
@@ -77,6 +79,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
         trans.localPosition = _zero;
         _currentPrefab = obj;
         _outline = outline;
+        _timeElapsed = 0;
     }
 
     public void SetupItemDrop(Vector3 initPos, ItemObject item, int amount)
@@ -92,12 +95,61 @@ public class ItemDrop : MonoBehaviour, IInteractable
             _thisObject = gameObject;
         }
 
+        if (_player == null)
+        {
+            _player = GameManager.instance.player;
+            _thisTransform = transform;
+            _playerTransform = _player.transform;
+        }
+
         _item = item;
         _amount = amount;
+        _spawner = null;
         Initialize(initPos);
     }
 
+    public void SetupItemDrop(Vector3 initPos, ItemObject item, int amount, ItemSpawner spawner)
+    {
+        SetupItemDrop(initPos, item, amount);
+        _spawner = spawner;
+    }
+
     void Update()
+    {
+        CheckInteraction();
+        CheckTimeDisable();
+    }
+
+    private void CheckTimeDisable()
+    {
+        var warning = _timeToDisable * .75f;
+        if (_timeElapsed >= warning && _warningCoroutine == null)
+        {
+            _warningCoroutine = StartCoroutine(Warning());
+        }
+
+        _currentPrefab.SetActive(_prefabOn);
+
+        _timeElapsed += Time.deltaTime;
+        
+        if (_timeElapsed < _timeToDisable) return;
+        
+        try
+        {
+            GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
+            _thisObject.SetActive(false);
+            _currentPrefab.SetActive(true);
+            StopAllCoroutines();
+            _warningCoroutine = null;
+            _timeElapsed = 0;
+        }
+        catch
+        {
+            //ignored
+        }
+    }
+
+    private void CheckInteraction()
     {
         var distanceToPlayer = Vector3.Distance(_playerTransform.position, _thisTransform.position);
         if (distanceToPlayer <= _interactableDistance && GameManager.instance.inputHandler.currentMonster < 0)
@@ -118,7 +170,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
             {
                 _outline.enabled = false;
             }
-            
+
             _isInteractable = false;
             GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
         }
@@ -132,13 +184,34 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
     public void Interact(Player player)
     {
+        if (!_player.playerInventory.CanAdd(_item, _amount))
+        {
+            GameManager.instance.uiManager.debugConsole.DisplayLogUI(_amount + " pcs. of " + _item.itemName + " will not be added. Insufficient inventory storage.");
+            return;
+        }
+
         if (_thisObject == null)
         {
             _thisObject = gameObject;
         }
 
+        _currentPrefab.SetActive(true);
         StopAllCoroutines();
         StartCoroutine(FollowPlayer(_playerTransform, 1));
+    }
+
+    IEnumerator Warning()
+    {
+        var elapsed = 0f;
+        while (true)
+        {
+            elapsed += Time.deltaTime;
+            if (elapsed < .75f) continue;
+            
+            _prefabOn = !_prefabOn;
+            elapsed = 0f;
+            yield return null;
+        }
     }
 
     IEnumerator GoToPosition(Vector3 toPos, float seconds)
@@ -146,14 +219,9 @@ public class ItemDrop : MonoBehaviour, IInteractable
         var timeElapsed = 0f;
         while (timeElapsed < seconds)
         {
-            _thisTransform.position = Vector3.Lerp(_thisTransform.position, toPos, timeElapsed / seconds);
             timeElapsed += Time.deltaTime;
+            _thisTransform.position = Vector3.Lerp(_thisTransform.position, toPos, timeElapsed / seconds);
             yield return null;
-        }
-
-        if (_thisTransform.position != toPos)
-        {
-            _thisTransform.position = toPos;
         }
     }
 
@@ -171,7 +239,12 @@ public class ItemDrop : MonoBehaviour, IInteractable
                 GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
                 _player.playerInventory.AddItemInPlayerInventory(_item, _amount);
                 GameManager.instance.audioManager.PlaySFX("Confirmation");
+                if (_spawner != null)
+                {
+                    _spawner.RemoveItemInCurrentItems(_thisObject);
+                }
                 _thisObject.SetActive(false);
+                _currentPrefab.SetActive(true);
             }
 
             timeElapsed += Time.deltaTime;

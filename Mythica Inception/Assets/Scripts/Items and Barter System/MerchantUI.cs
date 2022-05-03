@@ -23,17 +23,25 @@ public class MerchantUI : MonoBehaviour
 
     [ReadOnly] public bool buying;
     private UITweener _thisTweener;
-    private GameObject _thisObject;
+    [HideInInspector] public GameObject thisObject;
     private readonly Dictionary<GameObject, ItemBuyUI> _itemsSlot = new Dictionary<GameObject, ItemBuyUI>();
     private List<ItemBuyUI> _itemBuyUis = new List<ItemBuyUI>();
     private readonly List<ItemBarterRequirement> _itemToTrade = new List<ItemBarterRequirement>();
     private readonly Color32 _yellow = new Color32(255, 239, 125, 255);
     private List<ItemObject> _itemsTrading = new List<ItemObject>();
 
-    void Initialize()
+    void Start()
+    {
+        if (thisObject == null)
+        {
+            Initialize();
+        }
+    }
+
+    public void Initialize()
     {
         _thisTweener = GetComponent<UITweener>();
-        _thisObject = gameObject;
+        thisObject = gameObject;
     }
 
     public void DisableMerchantUI()
@@ -178,13 +186,13 @@ public class MerchantUI : MonoBehaviour
 
     public void WantToTrade(List<ItemObject> items)
     {
-        if (_thisObject == null)
+        if (thisObject == null)
         {
             Initialize();
         }
 
         _parentCanvas.SetActive(true);
-        _thisObject.SetActive(true);
+        thisObject.SetActive(true);
         ChangeBuying(true);
         _itemsTrading = items;
 

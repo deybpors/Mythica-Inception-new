@@ -19,5 +19,11 @@ namespace Pluggable_AI.Scripts.General
         [HideInInspector] public Transform target;
         [HideInInspector] public Vector3 lastKnownTargetPosition;
         [ReadOnly] public Animator currentAnimator;
+        [HideInInspector] public int waypointCount;
+
+        void Awake()
+        {
+            waypointCount = waypoints.Count;
+        }
     }
 }

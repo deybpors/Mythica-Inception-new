@@ -8,11 +8,11 @@ public class SetMainLight : MonoBehaviour
     [SerializeField] private float _lightIntensity;
     private bool _set;
 
-    void Update()
+    void Awake()
     {
         if (_set) return;
-        if(GameManager.instance == null) return;
-        if(GameManager.instance.mainLight == null) return;
+        if (GameManager.instance == null) return;
+        if (GameManager.instance.mainLight == null) return;
         GameManager.instance.mainLight.intensity = _lightIntensity;
         _set = true;
     }

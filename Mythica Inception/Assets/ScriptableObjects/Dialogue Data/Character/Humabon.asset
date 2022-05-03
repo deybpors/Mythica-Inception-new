@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31ff2ded45ae5b44ab1498a46aee8d0b, type: 3}
+  m_Name: Humabon
+  m_EditorClassIdentifier: 
+  ID: d6e3fbb8-4dd2-4274-a6ff-eda25ac47fe6
+  fullName: "H\xF9m\xE0b\xF2n"
+  facePicture: {fileID: 6442670709004849158, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  moods:
+  - name: Normal
+    emotion: 0
+    graphic: {fileID: 6442670709004849158, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Happy
+    emotion: 1
+    graphic: {fileID: -9211688528594047857, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Sad
+    emotion: 2
+    graphic: {fileID: -3746815008105038392, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Angry
+    emotion: 3
+    graphic: {fileID: -2533363315916224604, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Surprised
+    emotion: 4
+    graphic: {fileID: 170681157111554993, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Confused
+    emotion: 5
+    graphic: {fileID: 8041225863353622703, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Scared
+    emotion: 6
+    graphic: {fileID: 398918779848449793, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  - name: Aggrivated
+    emotion: 7
+    graphic: {fileID: -4914766888923727316, guid: 127ca92846b83764aa9b51a03fc6f5a8, type: 3}
+  _hasBeenInitialized: 1
+  sexOfCharacter: 0
+  dialoguePitch: 0.7

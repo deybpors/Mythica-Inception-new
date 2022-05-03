@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: c7b36604-74d3-4db8-bc5c-68b78aaaa361
   lines:
-  - character: {fileID: 0}
-    text: Salamat, manong!
+  - text: Salamat, manong!
+    character: {fileID: 0}
     emotion: 1
     speakerDirection: 0
-  - character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
-    text: My pleasure! Keep on coming back, iho!
+  - text: My pleasure! Keep on coming back, iho!
+    character: {fileID: 11400000, guid: e06c2d92beab08448985ddaf96cdef2f, type: 2}
     emotion: 1
     speakerDirection: 1
   choices: []

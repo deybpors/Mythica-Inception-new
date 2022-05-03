@@ -28,7 +28,7 @@ namespace Quest_System
             }
         }
 
-        public void UpdateGatherQuest(InventorySlot item)
+        public void UpdateGatherQuest()
         {
             var playerQuests = GameManager.instance.player.playerQuestManager.activeQuests.Values.ToList();
             var questCount = playerQuests.Count;
@@ -38,11 +38,15 @@ namespace Quest_System
                 var active = playerQuests[i];
                 if (!(active.quest.goal is GatherGoal gatherGoal)) continue;
 
-                gatherGoal.ItemGathered(active, item, out var updated);
+                gatherGoal.ItemGathered(active, out var updated);
                 active.currentAmount = updated;
 
-                //if the gather goal is complete and active.completed isn't set to true
-                if (!gatherGoal.IsComplete(updated) || active.completed) continue;
+                //if the gather goal is not complete or active quest is completed
+                if (!gatherGoal.IsComplete(updated) || active.completed)
+                {
+                    active.completed = gatherGoal.IsComplete(updated);
+                    continue;
+                }
 
                 OnComplete(active);
             }

@@ -14,16 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 8dec64b4-f959-40da-a8ae-ddd7353e526d
   lines:
-  - character: {fileID: 11400000, guid: dc294b3d38d3cf44a89299dcdfd7cb7d, type: 2}
-    text: Curabitur lobortis dui id felis rhoncus, congue finibus felis eleifend.
+  - text: Curabitur lobortis dui id felis rhoncus, congue finibus felis eleifend.
       Maecenas aliquam, velit sed finibus viverra, tellus est semper augue, eget
       aliquam erat felis vulputate risus.
+    showCharacter: 1
+    character: {fileID: 11400000, guid: dc294b3d38d3cf44a89299dcdfd7cb7d, type: 2}
     emotion: 0
     speakerDirection: 0
-  - character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
-    text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat
+  - text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat
       odio a sem interdum pulvinar. Curabitur nec blandit est, ac pellentesque erat.
       Vestibulum ut accumsan lacus.
+    showCharacter: 1
+    character: {fileID: 11400000, guid: 7cded8410f7480d4ca20ca9639eee777, type: 2}
     emotion: 0
     speakerDirection: 1
   choices:
@@ -33,9 +35,13 @@ MonoBehaviour:
     onClickChoice:
       m_PersistentCalls:
         m_Calls: []
+    tooltipTitle: 
+    tooltipDescription: 
   - text: Yeah baby. ugh
     nextConversation: {fileID: 11400000, guid: 0baed14d7c9bcb94bbdb2038fd8eef91, type: 2}
     quest: {fileID: 11400000, guid: 2b873b069e8b730458bcd71e5ea74c85, type: 2}
     onClickChoice:
       m_PersistentCalls:
         m_Calls: []
+    tooltipTitle: 
+    tooltipDescription: 

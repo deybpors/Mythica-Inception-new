@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
 using UnityEngine;
@@ -12,6 +11,11 @@ namespace Items_and_Barter_System.Scripts
         public List<InventorySlot> inventorySlots;
 
         private readonly Dictionary<ItemObject, int> _totalInventory = new Dictionary<ItemObject, int>();
+
+        public int GetTotalAmountItems(ItemObject item)
+        {
+            return _totalInventory.TryGetValue(item, out var amount) ? amount : 0;
+        }
 
         public void UpdateTotalInventory()
         {
@@ -42,6 +46,37 @@ namespace Items_and_Barter_System.Scripts
             return currentAmount >= amount;
         }
 
+        public bool CanAdd(ItemObject item, int amount)
+        {
+            if (item is Gold)
+            {
+                return true;
+            }
+
+            var canAdd = false;
+            var slotCount = inventorySlots.Count;
+            for (var i = 0; i < slotCount; i++)
+            {
+                var slot = inventorySlots[i];
+                
+                if (slot.inventoryItem == null)
+                {
+                    canAdd = true;
+                    break;
+                }
+
+                if (!item.stackable) continue;
+                
+                if (slot.inventoryItem != item) continue;
+                    
+                if (amount + slot.amountOfItems > _itemLimitPerSlot) continue;
+
+                canAdd = true;
+            }
+
+            return canAdd;
+        }
+
         public void AddItemInPlayerInventory(ItemObject item, int amountToAdd)
         {
             if (!item.stackable)
@@ -55,10 +90,15 @@ namespace Items_and_Barter_System.Scripts
             }
 
             var itemAdded = false;
-            foreach (var slot in inventorySlots.Where(slot => slot.inventoryItem == item))
+            var slotCount = inventorySlots.Count;
+
+            for (var i = 0; i < slotCount; i++)
             {
-                var targetAmount = slot.amountOfItems + amountToAdd;
+                var slot = inventorySlots[i];
+                if (slot.inventoryItem != item) continue;
                 
+                var targetAmount = slot.amountOfItems + amountToAdd;
+
                 if (targetAmount > _itemLimitPerSlot && !(item is Gold))
                 {
                     targetAmount -= _itemLimitPerSlot;
@@ -68,7 +108,7 @@ namespace Items_and_Barter_System.Scripts
                 }
 
                 itemAdded = slot.AddInSlot(amountToAdd);
-                GameManager.instance.questManager.UpdateGatherQuest(slot);
+                GameManager.instance.questManager.UpdateGatherQuest();
                 break;
             }
 
@@ -129,7 +169,7 @@ namespace Items_and_Barter_System.Scripts
                 
                 inventorySlots[i].inventoryItem = newSlot.inventoryItem;
                 inventorySlots[i].amountOfItems = newSlot.amountOfItems;
-                GameManager.instance.questManager.UpdateGatherQuest(newSlot);
+                GameManager.instance.questManager.UpdateGatherQuest();
                 GameManager.instance.audioManager.PlaySFX("Equip");
                 break;
             }

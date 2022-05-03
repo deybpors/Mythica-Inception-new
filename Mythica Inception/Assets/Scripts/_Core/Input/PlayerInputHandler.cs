@@ -25,6 +25,7 @@ namespace _Core.Input
         [HideInInspector] public bool playerSwitchDisabled;
         [SerializeField] private PlayerInput _playerInputSettings;
         [HideInInspector] public string previousActionMap;
+        private GameObject _optionsMinimizeButton;
         private Vector3 _zeroVector = new Vector3(0, 0, 0);
         private bool _canAttack = true;
 
@@ -306,9 +307,33 @@ namespace _Core.Input
             if (!activate) return;
             if (!context.started) return;
 
-            GameManager.instance.uiManager.optionsMinimizeButton.onClick.Invoke();
+            if (_optionsMinimizeButton == null)
+            {
+                _optionsMinimizeButton = GameManager.instance.uiManager.optionsMinimizeButton.gameObject;
+            }
+
+            if (_optionsMinimizeButton.activeInHierarchy)
+            {
+                GameManager.instance.uiManager.optionsMinimizeButton.onClick.Invoke();
+            }
+            else
+            {
+                GameManager.instance.uiManager.generalOptionsUi.EnterGameplay();
+            }
+
+            var merchantActive = false;
             
-            if (GameManager.instance.uiManager.merchantUi.enabled)
+            try
+            {
+                merchantActive = GameManager.instance.uiManager.merchantUi.thisObject.activeInHierarchy;
+            }
+            catch
+            {
+                GameManager.instance.uiManager.merchantUi.Initialize();
+                merchantActive = GameManager.instance.uiManager.merchantUi.thisObject.activeInHierarchy;
+            }
+
+            if (merchantActive)
             {
                 GameManager.instance.uiManager.merchantUi.minimizeButton.onClick.Invoke();
             }
@@ -319,7 +344,7 @@ namespace _Core.Input
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState);
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(false);
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
-            GameManager.instance.uiManager.tooltip.tooltipTweener.gameObject.SetActive(false);
+            GameManager.instance.uiManager.tooltip.thisObject.SetActive(false);
             previousActionMap = _playerInputSettings.currentActionMap.name;
             SwitchActionMap("Gameplay");
         }

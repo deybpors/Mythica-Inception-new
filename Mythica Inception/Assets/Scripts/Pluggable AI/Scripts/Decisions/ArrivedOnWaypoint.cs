@@ -8,6 +8,8 @@ namespace Pluggable_AI.Scripts.Decisions
     {
         public override bool Decide(StateController stateController)
         {
+            if (stateController.aI.agent == null) return true;
+
             var arrive = stateController.aI.agent.remainingDistance <= stateController.aI.agent.stoppingDistance &&
                          !stateController.aI.agent.pathPending;
             return arrive;

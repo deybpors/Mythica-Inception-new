@@ -54,6 +54,7 @@ namespace Items_and_Barter_System.Scripts
         
         public bool AddInSlot(int amountToAdd)
         {
+            if (!inventoryItem.stackable) return false;
             amountOfItems += amountToAdd;
             var sound = inventoryItem is Gold ? "Coins" : "Equip";
 

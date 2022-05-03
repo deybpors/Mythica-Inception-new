@@ -100,6 +100,7 @@ public class DialogueUI : MonoBehaviour
         //get the mood graphic of the character and initialize speaker picture placement
         var characterMoodGraphic = GetEmotionGraphic(_currentCharacter, conversationToDisplay.lines[_lineCount].emotion);
         InitializeSpeakerPicture(characterMoodGraphic, conversationToDisplay.lines[_lineCount].speakerDirection);
+
         speakerHolder.gameObject.SetActive(true);
 
         //change dialogue text
@@ -201,6 +202,7 @@ public class DialogueUI : MonoBehaviour
         _dialogueTextJuicer.enabled = true;
         _dialogueTextJuicer.SetProgress(0f);
         _dialogueTextJuicer.Play();
+
         StopAllCoroutines();
         StartCoroutine(PlayDialogueSound());
     }
@@ -371,13 +373,21 @@ public class DialogueUI : MonoBehaviour
         var index = 0;
         while (_dialogueTextJuicer.IsPlaying)
         {
-            if (!Char.IsPunctuation(text[index]) && !Char.IsWhiteSpace(text[index]) && _currentCharacter != null)
+            try
             {
-                var dialogueSFXName = _currentCharacter.sexOfCharacter == Sex.Male
-                    ? text[index] + "_MALE".ToUpperInvariant()
-                    : text[index] + "_FEMALE".ToUpperInvariant();
-                GameManager.instance.audioManager.PlaySFX(dialogueSFXName, _currentCharacter.dialoguePitch);
+                if (!Char.IsPunctuation(text[index]) && !Char.IsWhiteSpace(text[index]) && _currentCharacter != null)
+                {
+                    var dialogueSFXName = _currentCharacter.sexOfCharacter == Sex.Male
+                        ? text[index] + "_MALE".ToUpperInvariant()
+                        : text[index] + "_FEMALE".ToUpperInvariant();
+                    GameManager.instance.audioManager.PlaySFX(dialogueSFXName, _currentCharacter.dialoguePitch);
+                }
             }
+            catch
+            {
+                //ignored
+            }
+
             yield return new WaitForSecondsRealtime(_dialogueTextJuicer.Delay * 2.5f);
             index++;
         }

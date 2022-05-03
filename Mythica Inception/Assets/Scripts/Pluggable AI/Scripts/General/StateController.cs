@@ -120,24 +120,5 @@ namespace Pluggable_AI.Scripts.General
             stateBoolVariable = false;
             stateTimeElapsed = 0;
         }
-
-        void OnDrawGizmos()
-        {
-            if (currentState == null)
-            {
-                if (active)
-                {
-                    Debug.LogError("Current State of StateController " + this.name + " is not initialized.");
-                }
-                return;
-            }
-            
-            Gizmos.color = currentState.gizmoColor;
-            Gizmos.DrawWireSphere(transform.position, 1.5f);
-            if (machineDestination != Vector3.zero)
-            {
-                Gizmos.DrawWireSphere(machineDestination, 1.5f);
-            }
-        }
     }
 }

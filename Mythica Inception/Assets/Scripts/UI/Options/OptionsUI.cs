@@ -19,6 +19,16 @@ public class OptionsUI : MonoBehaviour
     public Slider bgMusicVolume;
     public Slider ambienceVolume;
 
+    [HideInInspector] public GameObject thisObject;
+
+    void Start()
+    {
+        if (thisObject == null)
+        {
+            thisObject = gameObject;
+        }
+    }
+
     public void ChangeUIValues()
     {
         if(GameManager.instance.loadedSaveData == null) return;

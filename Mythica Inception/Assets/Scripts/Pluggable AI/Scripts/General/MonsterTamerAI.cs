@@ -280,7 +280,7 @@ namespace Pluggable_AI.Scripts.General
         public void Die()
         {
             var position = thisTransform.position;
-            var pos = new Vector3(position.x, position.y + 1.5f, position.z);
+            var pos = new Vector3(position.x, position.y + 1, position.z);
             GameManager.instance.pooler.SpawnFromPool(null, deathParticles.name, deathParticles, pos,
                 Quaternion.identity);
             
@@ -291,7 +291,6 @@ namespace Pluggable_AI.Scripts.General
             }
 
             GameManager.instance.UpdateEnemiesSeePlayer(this, out var enemyCount);
-            
             //if this object is a wild mythica
             if (!tamer)
             {
@@ -312,6 +311,8 @@ namespace Pluggable_AI.Scripts.General
                 _thisGameObject = gameObject;
                 _gameManagerTransform = GameManager.instance.transform;
             }
+
+            GameManager.instance.activeEnemies.Remove(thisTransform);
             _thisGameObject.SetActive(false);
             thisTransform.SetParent(_gameManagerTransform);
         }

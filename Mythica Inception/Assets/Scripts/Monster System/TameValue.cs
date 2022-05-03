@@ -108,6 +108,7 @@ namespace Monster_System
                 }
             }
 
+            GameManager.instance.activeEnemies.Remove(_thisTransform);
             gameObject.SetActive(false);
         }
     }

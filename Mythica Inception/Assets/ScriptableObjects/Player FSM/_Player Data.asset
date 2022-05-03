@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e155d89fe01e9e04ba7964ef67f3294b, type: 3}
   m_Name: _Player Data
   m_EditorClassIdentifier: 
-  turnSmoothTime: 0.08
-  moveRotationSpeed: 15
+  turnSmoothTime: 10
+  moveRotationSpeed: 8
   speed: 10
   dashTime: 0.15
   dashSpeed: 2.5
   attackRate: 0.8
   monsterSwitchRate: 0.5
-  temporaryTurnSmoothTime: 0.08
+  temporaryTurnSmoothTime: 10

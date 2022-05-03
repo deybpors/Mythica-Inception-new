@@ -326,8 +326,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: For now, I have given you immunity while you tame your partner.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -347,8 +347,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: If you reach 0 HP, you will black out.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -368,8 +368,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: Wild mythicas will attack you to protect themselves and their territory.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []

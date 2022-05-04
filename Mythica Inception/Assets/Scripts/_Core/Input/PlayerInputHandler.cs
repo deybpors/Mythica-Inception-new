@@ -344,7 +344,7 @@ namespace _Core.Input
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState);
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(false);
             GameManager.instance.uiManager.gameplayUICanvas.SetActive(true);
-            GameManager.instance.uiManager.tooltip.thisObject.SetActive(false);
+            GameManager.instance.uiManager.tooltip.tooltipObject.SetActive(false);
             previousActionMap = _playerInputSettings.currentActionMap.name;
             SwitchActionMap("Gameplay");
         }

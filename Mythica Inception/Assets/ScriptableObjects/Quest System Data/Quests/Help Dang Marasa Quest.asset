@@ -23,5 +23,5 @@ MonoBehaviour:
       rewardItem: {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
     value: 100
   goal: {fileID: 11400000, guid: c62a9c4e6203ff148905e053578e4fe2, type: 2}
-  succeedQuests: []
-  failedQuests: []
+  successConversation: {fileID: 11400000, guid: 9ce7a54936f4499448b371544f72f3d8, type: 2}
+  failConversation: {fileID: 0}

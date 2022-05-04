@@ -71,6 +71,8 @@ namespace Items_and_Barter_System.Scripts
 
             GameManager.instance.audioManager.PlaySFX(sound);
 
+            GameManager.instance.player.playerInventory.UpdateTotalInventory();
+
             if (amountOfItems > 0) return true;
             
             amountOfItems = 0;

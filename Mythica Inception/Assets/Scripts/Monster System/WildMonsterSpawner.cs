@@ -40,6 +40,7 @@ namespace Monster_System
         private Coroutine _waitSpawn;
         private Vector3 _spawnerPosition;
         private Transform _thisTransform;
+        private float _economyMax;
 
         private Dictionary<GameObject, NavMeshAgent> _agents = new Dictionary<GameObject, NavMeshAgent>();
         private Dictionary<GameObject, ItemDrop> _drops = new Dictionary<GameObject, ItemDrop>();
@@ -48,6 +49,7 @@ namespace Monster_System
         void OnEnable()
         {
             activated = true;
+            _economyMax = (float) GameManager.instance.difficultyManager.GetParameterMaxValue("Economy");
             InvokeRepeating(nameof(SpawnMonsters), 0, 1);
         }
 
@@ -156,18 +158,30 @@ namespace Monster_System
                 }
 
                 var item = itemDrops[Random.Range(0, itemDropsCount)];
+                var amount = Random.Range(1, _goldDropsMax);
+                var currentEconomy = (float)GameManager.instance.difficultyManager.GetParameterValue("Economy");
+
                 if (item is Gold)
                 {
-                    drop.SetupItemDrop(position, item, Random.Range(1, _goldDropsMax));
+                    var goldAmount = (int) Math.Round(amount * (_economyMax - currentEconomy));
+                    if (goldAmount <= 0)
+                    {
+                        goldAmount = 1;
+                    }
+                    drop.SetupItemDrop(position, item, goldAmount);
                     continue;
                 }
-                
-                drop.SetupItemDrop(position, item, 1);
+
+                amount = (int) Math.Round(amount * .25, MidpointRounding.AwayFromZero);
+                amount = (int) Math.Round(amount * (_economyMax - currentEconomy));
+                drop.SetupItemDrop(position, item, amount);
             }
         }
         private IEnumerator WaitSpawnTime()
         {
-            yield return new WaitForSeconds(Random.Range(1, randomSpawnTimeMax+1));
+            var random = Random.Range(1, randomSpawnTimeMax + 1) *
+                         (float)GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
+            yield return new WaitForSeconds(random);
             _waitSpawn = null;
         }
     }

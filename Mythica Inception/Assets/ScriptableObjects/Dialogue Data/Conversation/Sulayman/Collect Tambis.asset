@@ -18,7 +18,7 @@ MonoBehaviour:
     character: {fileID: 0}
     emotion: 1
     speakerDirection: 1
-  - text: Good one, iho! I'm starting to like you.
+  - text: Good one, anak!  I'm starting to like you.
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 1
     speakerDirection: 0
@@ -49,7 +49,7 @@ MonoBehaviour:
     character: {fileID: 0}
     emotion: 5
     speakerDirection: 1
-  - text: Thank you, iho! Go get 'em now as I prepare to go to Marasa. I'll be quick!
+  - text: Thank you, anak! Go get 'em now as I prepare to go to Marasa. I'll be quick!
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 1
     speakerDirection: 0

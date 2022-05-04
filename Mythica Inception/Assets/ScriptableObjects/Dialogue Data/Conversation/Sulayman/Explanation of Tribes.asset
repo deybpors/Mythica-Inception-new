@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Explanation of Tribes
+  m_EditorClassIdentifier: 
+  ID: 8e621cc1-d904-4655-9b45-e6c4bcf9f4e2
+  lines:
+  - text: Whaaaat???
+    character: {fileID: 0}
+    emotion: 1
+    speakerDirection: 1
+  - text: Don't worry, anak! She can handle it hehe.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: While I'm eating a bunch, it seems that you're from the City of Alpas,
+      right?
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: I don't know. I can't remember a thing. All I know is before I got washed
+      up on this shore, I was talking to someone and he or she or they? gave me this
+      staff to tame mythicas.
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
+  - text: It felt like a dream. A weird dream. But I think it's real because I still
+      have this staff
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
+  - text: Is it a mythica? Maybe it's a Keeper Mythica.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: I don't know. Aren't you supposed to help me remember?
+    character: {fileID: 0}
+    emotion: 3
+    speakerDirection: 1
+  - text: Attitude.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 3
+    speakerDirection: 0
+  - text: Well, you do know I'm from a city called Alpas?
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
+  - text: From the looks of it.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: Well, I do want to remember at least something so I could start from there.
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 1
+  - text: Well, Alpas is the only city in the whole Pearl Isles. Before my tribe
+      became the most progressive, Alpas came in first.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: It was one of the center hubs of trade in the world until such time it
+      became out of reach.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: Explorers with misplaced advocacies about liberating the mythicas came
+      in to Alpas and the tribe and its leader joined in.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 3
+    speakerDirection: 0
+  - text: Their ruler declared an all out ban on mythicas, and taming mythicas.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 3
+    speakerDirection: 0
+  - text: Now, her descendant is instilling this mandate unto all of the tribes in
+      Pearl Isles and soon the world.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 7
+    speakerDirection: 0
+  - text: These are my people?!
+    character: {fileID: 0}
+    emotion: 4
+    speakerDirection: 1
+  - text: You owe me your life for not hurting you when I saw you.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: I'm so sorry. On behalf of my people, what can I do to make up for this?
+    character: {fileID: 0}
+    emotion: 2
+    speakerDirection: 1
+  - text: Well, I have another an offer for you, anak.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: Join me in my quest towards unity. A complete harmony towards mythicas
+      and humans.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: That's what that mythica in my dream was talking about!
+    character: {fileID: 0}
+    emotion: 4
+    speakerDirection: 1
+  - text: Help me convince all tribe leaders in Pearl Isles! Fight the soldiers of
+      Alpas! Break the barriers of the city. Let your people experience what was
+      once their great culture.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 7
+    speakerDirection: 0
+  - text: I'll do what I can to help!
+    character: {fileID: 0}
+    emotion: 3
+    speakerDirection: 1
+  - text: That's more like it, anak!
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Anyway, you can start observing the tribe people of Opon. They're focused
+      on combat training. They're also keen on how to fully control your mythicas.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: I'll go with you when I'm ready.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Sure thing, Rajah!
+    character: {fileID: 0}
+    emotion: 1
+    speakerDirection: 1
+  choices: []

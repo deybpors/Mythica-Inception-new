@@ -292,7 +292,7 @@ namespace UI
         public void UpdatePartyUI(MonsterSlot slot)
         {
             var num = slot.slotNumber;
-            partySlots[slot.slotNumber].memberHealth.transform.parent.gameObject.SetActive(true);
+            partySlots[num].memberHealth.transform.parent.gameObject.SetActive(true);
             var fill = (float)slot.currentHealth / GameSettings.Stats(
                 slot.monster.stats.baseHealth, slot.stabilityValue,
                 GameSettings.Level(slot.currentExp));

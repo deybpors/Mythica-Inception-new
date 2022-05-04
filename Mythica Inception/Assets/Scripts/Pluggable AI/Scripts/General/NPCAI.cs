@@ -14,7 +14,8 @@ namespace Assets.Scripts.Dialogue_System
     public class NPCAI : GenericAI, IInteractable
     {
         [Foldout("NPC AI Fields", true)]
-        [SerializeField] private string _saveKey;
+        private string _saveKey;
+        [SerializeField] private bool _savePosition;
         [SerializeField] private Conversation _conversation;
         [SerializeField] private bool _repeatConversation = true;
         [SerializeField] private float _rotateTime = .25f;
@@ -28,17 +29,35 @@ namespace Assets.Scripts.Dialogue_System
         private bool _alreadyInteracted;
         private List<Quest> _questsInConversation = new List<Quest>();
         private Character _questGiver;
-        private bool _doneQuest;
+        private int _currentState;
 
         void Start()
         {
+            GetQuestInConversation();
+            CheckQuestDone();
+
+            _saveKey = gameObject.name;
+            if (GameManager.instance.saveManager.LoadDataObject(_saveKey, out int state))
+            {
+                _currentState = state;
+            }
+
+            _saveKey += _currentState;
+
+
             var interactedKey = _saveKey + nameof(_alreadyInteracted);
             GameManager.instance.saveManager.LoadDataObject(interactedKey, out bool interacted);
             _alreadyInteracted = interacted;
-
-            var questKey = _saveKey + nameof(_doneQuest);
-            GameManager.instance.saveManager.LoadDataObject(interactedKey, out bool done);
-            _doneQuest = done;
+            
+            _npcTransform = transform;
+            if (_savePosition)
+            {
+                var positionKey = _saveKey + "Position";
+                if (GameManager.instance.saveManager.LoadDataObject(positionKey, out Vector3 position))
+                {
+                    _npcTransform.position = position;
+                }
+            }
 
             currentAnimator = GetComponentInChildren<Animator>();
 
@@ -53,16 +72,40 @@ namespace Assets.Scripts.Dialogue_System
 
             try
             {
-                _playerTransform = GameManager.instance.player.transform;
+                _playerTransform = GameManager.instance.player.playerTransform;
             }
             catch
             {
                 // ignored
             }
 
-            _npcTransform = transform;
-            GetQuestInConversation();
             _questGiver = _conversation.lines[_conversation.lines.Length - 1].character;
+        }
+
+
+        public void ResetNPC(Conversation newConversation)
+        {
+            _conversation = newConversation;
+            _questsInConversation.Clear();
+            GetQuestInConversation();
+            _alreadyInteracted = false;
+            _currentState++;
+            _saveKey = gameObject.name + _currentState;
+            GameManager.instance.saveManager.SaveOtherData(_saveKey, _currentState);
+        }
+
+        private void CheckQuestDone()
+        {
+            var questManager = GameManager.instance.player.playerQuestManager;
+            var count = _questsInConversation.Count;
+            for (var i = 0; i < count; i++)
+            {
+                if (!questManager.PlayerHaveQuest(questManager.finishedQuests, _questsInConversation[i],
+                        out var accepted)) continue;
+                
+                gameObject.SetActive(false);
+                return;
+            }
         }
 
         private void GetQuestInConversation()
@@ -71,16 +114,10 @@ namespace Assets.Scripts.Dialogue_System
 
             for (var i = 0; i < choicesCount; i++)
             {
-                if (_conversation.choices[i].quest == null) continue;
-                
-                try
-                {
-                    _questsInConversation.Add(_conversation.choices[i].quest);
-                }
-                catch
-                {
-                    //ignored
-                }
+                var quest = _conversation.choices[i].quest;
+                if (quest == null) continue;
+
+                _questsInConversation.Add(quest);
             }
         }
 
@@ -138,9 +175,10 @@ namespace Assets.Scripts.Dialogue_System
                         player.playerQuestManager.activeQuests,
                         _questsInConversation[i], out var accepted)) continue;
 
-                GameManager.instance.uiManager.questUI.OpenPanelFromGiver(accepted, _questGiver.facePicture);
+                GameManager.instance.uiManager.questUI.OpenPanelFromGiver(this, accepted, _questGiver.facePicture);
                 GameManager.instance.uiManager.questUI.PlayerInputActivate(false);
                 GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
+                CheckQuestDone();
                 GetNPCPlayerToRotateTo(out var npcRotate, out var playerRotate);
                 StopAllCoroutines();
                 StartCoroutine(LookTowards(npcRotate, playerRotate));
@@ -199,6 +237,12 @@ namespace Assets.Scripts.Dialogue_System
             }
         }
 
+        void OnApplicationQuit()
+        {
+            if(!_savePosition) return;
+            var positionKey = _saveKey + "Position";
+            GameManager.instance.saveManager.SaveOtherData(positionKey, _npcTransform.position);
+        }
 
     }
 }

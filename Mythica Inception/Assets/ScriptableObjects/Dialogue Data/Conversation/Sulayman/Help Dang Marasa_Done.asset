@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Help Dang Marasa_Done
+  m_EditorClassIdentifier: 
+  ID: d378602a-e85c-4d78-a10f-d208fd41f30d
+  lines:
+  - text: I defeated few of the wild mythicas trashing Dang Marasa's hut. The others
+      are waiting for you.
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 1
+  - text: What? Already? How many did you kill?
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 4
+    speakerDirection: 0
+  - text: Around 5 maybe? I lost count.
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
+  - text: Hmm. That sounds about right. It could hold off those trashing for a while.
+      Dang Marasa can chill for now.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 0
+    speakerDirection: 0
+  - text: Let me enjoy my perfect tambis first!
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  choices:
+  - text: ???
+    nextConversation: {fileID: 11400000, guid: 34729b2d560a4f944b66d3036b702550, type: 2}
+    quest: {fileID: 0}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls: []
+    tooltipTitle: 
+    tooltipDescription: 

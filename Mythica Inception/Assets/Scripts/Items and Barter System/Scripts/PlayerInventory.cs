@@ -182,6 +182,7 @@ namespace Items_and_Barter_System.Scripts
                 GameManager.instance.audioManager.PlaySFX("Equip");
                 break;
             }
+            UpdateTotalInventory();
         }
     }
 }

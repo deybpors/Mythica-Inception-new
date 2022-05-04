@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: d569f010-c76f-4dba-83c1-7b468932846f
   lines:
-  - text: Susmaryosep! Iho, what happened to you? Are you okay?
+  - text: Susmaryosep! bata, what happened to you? Are you okay?
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 4
     speakerDirection: 0

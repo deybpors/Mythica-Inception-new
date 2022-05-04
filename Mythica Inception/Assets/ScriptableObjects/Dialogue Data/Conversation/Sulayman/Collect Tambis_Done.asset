@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Collect Tambis_Done
+  m_EditorClassIdentifier: 
+  ID: e5bf9efb-1ef4-41d6-b7c7-40ecafc4bbbb
+  lines:
+  - text: Here are your tambis. I really picked the best ones I could find.
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 1
+  - text: Yipeeee! They look so tasty!
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Wait. I was supposed to go to Dang Marasa's hut but I forgot.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 5
+    speakerDirection: 0
+  - text: Oh. Dang Marasa can wait. Let me enjoy my tambis first.
+    character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  choices:
+  - text: ???
+    nextConversation: {fileID: 11400000, guid: 34729b2d560a4f944b66d3036b702550, type: 2}
+    quest: {fileID: 0}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls: []
+    tooltipTitle: 
+    tooltipDescription: 

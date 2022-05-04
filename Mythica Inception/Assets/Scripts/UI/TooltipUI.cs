@@ -13,13 +13,13 @@ public class TooltipUI : MonoBehaviour
     public LayoutElement layoutElement;
 
     public int characterWrapLimit;
-    [HideInInspector] public GameObject thisObject;
+    [HideInInspector] public GameObject tooltipObject;
 
     void Start()
     {
-        if (thisObject == null)
+        if (tooltipObject == null)
         {
-            thisObject = gameObject;
+            tooltipObject = tooltipTweener.gameObject;
         }
     }
 
@@ -51,13 +51,13 @@ public class TooltipUI : MonoBehaviour
         titleField.text = title;
         contentField.text = content;
 
-        toolTipTransform.gameObject.SetActive(true);
+        tooltipObject.SetActive(true);
         WrapText();
     }
 
     public void HideToolTip()
     {
-        toolTipTransform.gameObject.SetActive(false);
+        tooltipObject.SetActive(false);
     }
 
     private void WrapText()

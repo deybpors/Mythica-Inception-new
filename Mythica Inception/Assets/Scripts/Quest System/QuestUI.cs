@@ -1,7 +1,7 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
+using Assets.Scripts.Dialogue_System;
 using Pluggable_AI.Scripts.States;
 using Quest_System;
 using TMPro;
@@ -85,6 +85,7 @@ public class QuestUI : MonoBehaviour
         }
         _acceptGameObject.SetActive(false);
         var description = active.quest.description;
+        GameManager.instance.questManager.UpdateGatherQuest();
         if (active.completed)
         {
             description += "\n<align=\"center\"><color=#b3f47a>This quest is completed. You may go to " + active.questGiver.fullName + " to claim your reward.";
@@ -98,7 +99,7 @@ public class QuestUI : MonoBehaviour
         OpenQuestInfoPanel(active, questGiverPicture);
     }
 
-    public void OpenPanelFromGiver(PlayerAcceptedQuest active, Sprite questGiverPicture)
+    public void OpenPanelFromGiver(NPCAI ai, PlayerAcceptedQuest active, Sprite questGiverPicture)
     {
         _acceptButton.interactable = false;
         if (_acceptGameObject == null)
@@ -106,30 +107,45 @@ public class QuestUI : MonoBehaviour
             _acceptGameObject = _acceptButton.gameObject;
         }
         _acceptGameObject.SetActive(true);
-        _questDescription.text = active.quest.description;
+
+        var description = active.quest.description;
+        GameManager.instance.questManager.UpdateGatherQuest();
+        if (active.completed)
+        {
+            description += "\n<align=\"center\"><color=#b3f47a>This quest is completed. You may accept the quest to get the rewards.";
+        }
+        else
+        {
+            var progress = ((float)active.currentAmount / active.quest.goal.requiredAmount) * 100;
+            description += "\n<align=\"center\">Progress: <color=#f48989>" + progress.ToString("00.00") + "%";
+        }
+
+        _questDescription.text = description;
         OpenQuestInfoPanel(active, questGiverPicture);
         
         if (!active.completed) return;
-        InitiateAcceptButton(active);
+        InitiateAcceptButton(ai, active);
     }
 
-    private void InitiateAcceptButton(PlayerAcceptedQuest active)
+    private void InitiateAcceptButton(NPCAI ai, PlayerAcceptedQuest active)
     {
         _acceptButton.interactable = true;
         _acceptButton.onClick.RemoveAllListeners();
-        _acceptButton.onClick.AddListener(() => GameManager.instance.player.playerQuestManager.GetQuestRewards(active));
-        _acceptButton.onClick.AddListener(() => GameManager.instance.uiManager.questUI.PlayerInputActivate(true));
-        _acceptButton.onClick.AddListener(() => GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState));
-        _acceptButton.onClick.AddListener(() => DisableTweener(_infoPanelTweener));
-        _acceptButton.onClick.AddListener(() => GameManager.instance.player.playerQuestManager.RemoveQuestToPlayerAcceptedQuest(active.quest));
-        _acceptButton.onClick.AddListener(() => GameManager.instance.uiManager.questUI.UpdateQuestIcons());
-        _acceptButton.onClick.AddListener(() => GameManager.instance.audioManager.PlaySFX("Confirmation"));
-        for (var i = 0; i < 4; i++)
+        var player = GameManager.instance.player;
+        UnityAction actions = () => player.playerQuestManager.GetQuestRewards(active);
+        actions += () => GameManager.instance.uiManager.questUI.PlayerInputActivate(true);
+        actions += () => GameManager.instance.gameStateController.TransitionToState(GameManager.instance.gameplayState);
+        actions += () => DisableTweener(_infoPanelTweener);
+        actions += () => player.playerQuestManager.RemoveQuestToPlayerAcceptedQuest(active.quest);
+        actions += () => GameManager.instance.uiManager.questUI.UpdateQuestIcons();
+        actions += () => GameManager.instance.audioManager.PlaySFX("Confirmation");
+        actions += () => GameManager.instance.uiManager.UpdateItemsUI(player.monsterManager, -1, player.monsterSlots);
+        if (active.quest.successConversation != null)
         {
-            var player = GameManager.instance.player;
-            var index = i;
-            _acceptButton.onClick.AddListener((() => GameManager.instance.uiManager.UpdatePartyUI(player.monsterSlots[index])));
+            actions += () => ai.ResetNPC(active.quest.successConversation);
+            actions += () => GameManager.instance.inputHandler.interact = true;
         }
+        _acceptButton.onClick.AddListener(actions);
     }
 
     public void DisableTweener(UITweener tweener)

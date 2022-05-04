@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using _Core.Others;
-using _Core.Player;
-using Items_and_Barter_System.Scripts;
-using MyBox;
+using Assets.Scripts.Dialogue_System;
 using UnityEngine;
 
 namespace Quest_System
@@ -16,12 +14,12 @@ namespace Quest_System
         public string description;
         public List<Reward> rewards;
         public QuestGoal goal;
-        [Space]
-        [Tooltip("Quests to proceed if ever the current quest succeeds")]
-        public Quest[] succeedQuests;
 
-        [Tooltip("Quests to proceed if ever the current quest fails")]
-        public Quest[] failedQuests;
+        [Space] [Tooltip("Conversation to proceed if ever the current quest succeeds")]
+        public Conversation successConversation;
+
+        [Tooltip("Conversation to proceed if ever the current quest fails")]
+        public Conversation failConversation;
     }
 
     [System.Serializable]

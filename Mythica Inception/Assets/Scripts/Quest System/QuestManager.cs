@@ -39,7 +39,6 @@ namespace Quest_System
                 if (!(active.quest.goal is GatherGoal gatherGoal)) continue;
 
                 gatherGoal.ItemGathered(active, out var updated);
-                active.currentAmount = updated;
 
                 //if the gather goal is not complete or active quest is completed
                 if (!gatherGoal.IsComplete(updated) || active.completed)

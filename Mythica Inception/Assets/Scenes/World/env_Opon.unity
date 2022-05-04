@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: c18a38b1ddb37fb4199dc0be56c549bd, type: 2}
+  m_LightingDataAsset: {fileID: 112000000, guid: 55468aa159afbdf4298c51b86f5c993e, type: 2}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 477cc4148fad3449482a3bc3178594e2, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -1622,15 +1622,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2389084399226082570, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 48.20002
+      value: 48.59
       objectReference: {fileID: 0}
     - target: {fileID: 2389084399226082570, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.05
+      value: 7.94
       objectReference: {fileID: 0}
     - target: {fileID: 2389084399226082570, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -145.33
+      value: -147.15
       objectReference: {fileID: 0}
     - target: {fileID: 2389084399226082570, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1662,16 +1662,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2389084399226082573, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: m_Name
-      value: Sulayman (1)
+      value: Sulayman
       objectReference: {fileID: 0}
     - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: _outline
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: _saveKey
+      value: Sulayman 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: _conversation
       value: 
       objectReference: {fileID: 11400000, guid: 1029e2dd9456bef41a712fd77ed09f14, type: 2}
+    - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
+      propertyPath: _savePosition
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6416975622831540403, guid: 17987edfda2093646bb1833ca079fefb, type: 3}
       propertyPath: _repeatConversation
       value: 0

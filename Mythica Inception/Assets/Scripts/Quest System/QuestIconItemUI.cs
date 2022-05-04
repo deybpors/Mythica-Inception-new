@@ -8,6 +8,7 @@ public class QuestIconItemUI : MonoBehaviour
     [SerializeField] private TooltipTrigger _tooltipTrigger;
     [SerializeField] private Button _questIconButton;
     [SerializeField] private GameObject _completed;
+    private GameObject _thisObject;
 
     public void SetupQuestIcon(PlayerAcceptedQuest active, UnityAction questIconOnClickAction)
     {
@@ -19,6 +20,10 @@ public class QuestIconItemUI : MonoBehaviour
 
     public void DisableQuestIcon()
     {
-        gameObject.SetActive(false);
+        if (_thisObject == null)
+        {
+            _thisObject = gameObject;
+        }
+        _thisObject.SetActive(false);
     }
 }

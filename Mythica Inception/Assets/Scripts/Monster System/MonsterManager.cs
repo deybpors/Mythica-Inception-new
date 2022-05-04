@@ -35,13 +35,10 @@ namespace Monster_System
         private int _currentMonster;
         private float _tamerTameRadius;
         private Player _player;
-        private List<Sprite> _currentSkills = new List<Sprite>();
-        private List<Sprite> _currentItems = new List<Sprite>();
         private Dictionary<GameObject, Vector3> _charPortraitAlign = new Dictionary<GameObject, Vector3>();
         private Dictionary<GameObject, Renderer[]> _monsterRenderers = new Dictionary<GameObject, Renderer[]>();
         private Dictionary<GameObject, Outline> _monsterOutlines = new Dictionary<GameObject, Outline>();
         private readonly Vector3 _zero = Vector3.zero;
-        private List<UnityAction> _itemActions = new List<UnityAction>();
         [HideInInspector] public Outline currentOutline;
 
         #endregion
@@ -250,10 +247,12 @@ namespace Monster_System
         private void UpdateGameplayUI(int slot)
         {
             var monsterSlots = _haveMonsters.GetMonsterSlots();
-            _currentSkills.Clear();
-            _currentItems.Clear();
-            _itemActions.Clear();
-            
+
+            var monSlots = _haveMonsters.GetMonsterSlots();
+
+            GameManager.instance.uiManager.UpdateItemsUI(this, slot, monSlots);
+            GameManager.instance.uiManager.UpdateSkillUI(slot, monSlots);
+
             if (slot >= 0)
             {
                 var monsterSlot = monsterSlots[slot];
@@ -262,104 +261,21 @@ namespace Monster_System
                 var maxHealth = GameSettings.Stats(monsterSlot.monster.stats.baseHealth, monsterSlot.stabilityValue, monsterLevel);
                 var maxExp = (float) GameSettings.Experience(monsterLevel + 1) - GameSettings.Experience(monsterLevel);
                 var currentExp = (float) monsterSlot.currentExp - GameSettings.Experience(monsterLevel);
-
-                var skillSlotsLength = monsterSlot.skillSlots.Length;
-
-                for (var i = 0; i < skillSlotsLength; i++)
-                {
-                    if (monsterSlot.skillSlots[i] == null || monsterSlot.skillSlots[i].skill == null)
-                    {
-                        _currentSkills.Add(null);
-                        continue;
-                    }
-                    
-                    _currentSkills.Add(monsterSlot.skillSlots[i].skill.skillIcon);    
-                }
-
-                var inventoryLength = monsterSlot.inventory.Length;
-
-                for (var i = 0; i < inventoryLength; i++)
-                {
-                    if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
-                    {
-                        _currentItems.Add(null);
-                        _itemActions.Add((() => { }));
-                        continue;
-                    }
-                    _currentItems.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
-                    var index = i;
-                    _itemActions.Add(() => UseUsableItems(monsterSlot.inventory[index], slot));
-                }
-                GameManager.instance.uiManager.UpdateCharSwitchUI(monsterName, monsterSlot.currentHealth, maxHealth, currentExp, maxExp, slot, _currentSkills, _currentItems, _itemActions);
+                GameManager.instance.uiManager.UpdateCharSwitchUI(monsterName, monsterSlot.currentHealth, maxHealth, currentExp, maxExp, slot);
             }
             else
             {
-                for (var i = 0; i < 6; i++)
-                {
-                    if (i < 4)
-                    {
-                        _currentSkills.Add(null);
-                    }
-
-                    if (_player.playerInventory.inventorySlots[i].inventoryItem == null)
-                    {
-                        _currentItems.Add(null);
-                        _itemActions.Add((() => {}));
-                        continue;
-                    }
-                    _currentItems.Add(_player.playerInventory.inventorySlots[i].inventoryItem.itemIcon);
-                    var index = i;
-                    _itemActions.Add(() => UseUsableItems(_player.playerInventory.inventorySlots[index], slot));
-                }
-                GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot, _currentSkills, _currentItems, _itemActions);
+                GameManager.instance.uiManager.UpdateCharSwitchUI(_player.playerName, _player.playerHealth.currentHealth, _player.playerHealth.maxHealth, 0, 1, slot);
             }
         }
 
-        private void UseUsableItems(InventorySlot inventorySlot, int slot)
+        public void UseUsableItems(InventorySlot inventorySlot, int slot)
         {
             if (!inventorySlot.inventoryItem.TryUse(_player)) return;
 
-            _currentItems.Clear();
-            _itemActions.Clear();
             inventorySlot.RemoveInSlot(1);
 
-            var monsterSlots = _haveMonsters.GetMonsterSlots();
-
-            if (slot >= 0)
-            {
-                var monsterSlot = monsterSlots[slot];
-                var inventoryLength = monsterSlot.inventory.Length;
-
-                for (var i = 0; i < inventoryLength; i++)
-                {
-                    if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
-                    {
-                        _currentItems.Add(null);
-                        _itemActions.Add((() => { }));
-                        continue;
-                    }
-                    _currentItems.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
-                    var index = i;
-                    _itemActions.Add(() => UseUsableItems(monsterSlot.inventory[index], slot));
-                }
-            }
-            else
-            {
-                for (var i = 0; i < 6; i++)
-                {
-                    if (_player.playerInventory.inventorySlots[i].inventoryItem == null)
-                    {
-                        _currentItems.Add(null);
-                        _itemActions.Add((() => { }));
-                        continue;
-                    }
-
-                    _currentItems.Add(_player.playerInventory.inventorySlots[i].inventoryItem.itemIcon);
-                    var index = i;
-                    _itemActions.Add(() => UseUsableItems(_player.playerInventory.inventorySlots[index], slot));
-                }
-            }
-            GameManager.instance.uiManager.UpdateItemsUI(_currentItems, _itemActions);
+            GameManager.instance.uiManager.UpdateItemsUI(this, slot, _haveMonsters.GetMonsterSlots());
         }
 
         public void AddMonstersExp(int expToAdd)

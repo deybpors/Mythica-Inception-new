@@ -26,6 +26,7 @@ namespace UI
         public List<Image> skills;
         public List<Image> items;
         public ItemDropUI itemDropUi;
+        public UITweener skillsTweener;
 
         [Foldout("Credits UI", true)]
         public Button optionsButton;
@@ -73,6 +74,7 @@ namespace UI
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);
             ui.dialogueUI = dialogueUI;
             ui.newGamePanel = newGamePanel;
+            ui.skillsTweener = skillsTweener;
             ui.debugConsole = debugConsole;
             ui.modal = modal;
             ui.tooltip = tooltip;

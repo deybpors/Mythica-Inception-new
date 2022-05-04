@@ -24,7 +24,8 @@ namespace _Core.Player
     {
         [Foldout("Data", true)]
         [ReadOnly] public string playerName;
-         public List<MonsterSlot> monsterSlots;
+        public List<MonsterSlot> monsterSlots;
+        [ReadOnly] [Layer] public int playerLayer;
         [ReadOnly] public EntityHealth playerHealth;
         [ReadOnly] public PlayerInventory playerInventory;
         public Dictionary<string, Monster> discoveredMonsters = new Dictionary<string, Monster>();
@@ -66,12 +67,15 @@ namespace _Core.Player
         private DateTime _dateOpened;
         [ReadOnly] [SerializeField] private bool _tamerInvulnerable = false;
         private readonly Color _white = Color.white;
+        private GameObject _thisObject;
 
         #endregion
 
 
         void Awake()
         {
+            _thisObject = gameObject;
+            playerLayer = _thisObject.layer;
             Destroy(GameManager.instance.GetComponent<AudioListener>());
             savedData = GameManager.instance.loadedSaveData;
             GameManager.instance.uiManager.generalOptionsUi.ChangeUIValues();
@@ -446,9 +450,9 @@ namespace _Core.Player
 
                 _inputHandler.movementInput = Vector2.zero;
                 _inputHandler.activate = false;
-                HandlePauseGameFeel(.5f);
                 StartCoroutine(DelayAction(.5f, Die, true));
 
+                HandlePauseGameFeel(.25f);
                 return;
             }
             monsterSlots[currentMonster].currentHealth = healthComponent.health.currentHealth;
@@ -460,7 +464,7 @@ namespace _Core.Player
             
             if (bigHit)
             {
-                HandlePauseGameFeel(.25f);
+                HandlePauseGameFeel(.125f);
             }
 
             if (monsterSlots[currentMonster].currentHealth > 0) return;
@@ -494,23 +498,22 @@ namespace _Core.Player
         {
             if (_tamerInvulnerable) return;
 
-            var playerGameObject = gameObject;
+            _thisObject.layer = 0;
             tamer.SetActive(false);
             rgdbody.useGravity = false;
             GameManager.instance.pooler.SpawnFromPool(null, playerSettings.deathParticles.name, playerSettings.deathParticles, playerTransform.position,
                 Quaternion.identity);
-            var playerOrigLayer = playerGameObject.layer;
-            playerGameObject.layer = 0;
             skillManager.targeting = false;
             GameManager.instance.saveManager.activated = false;
 
             void Reset()
             {
                 GameManager.instance.uiManager.modal.CloseModal();
-                StopAllCoroutines();
                 GameManager.instance.uiManager.loadingScreen.thisGameObject.SetActive(true);
-                StartCoroutine(DelayAction(2, () => ResetGame(playerGameObject, playerOrigLayer), false));
-                StartCoroutine(DelayAction(2, GameManager.instance.uiManager.loadingScreen.tweener.Disable, false));
+                
+                UnityAction action = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
+                action += ResetGame;
+                StartCoroutine(DelayAction(2, action, false));
             }
 
             GameManager.instance.uiManager.modal.OpenModal("<color=#f48989>Game Over</color>", playerSettings.deathIcon, _white, Reset);
@@ -573,16 +576,15 @@ namespace _Core.Player
         {
             GameManager.instance.gameStateController.TransitionToState(playerSettings.gameFeelState);
             GameManager.instance.pauseManager.PauseGameplay(0);
-            StopAllCoroutines();
-            StartCoroutine(DelayAction(timeToTake,
-                () => GameManager.instance.pauseManager.PauseGameplay(1),
-                true));
-            StartCoroutine(DelayAction(timeToTake, () => GameManager.instance.gameStateController.TransitionToState(playerSettings.gameplayState), true));
+            
+            UnityAction action = () => GameManager.instance.pauseManager.PauseGameplay(1);
+            action += () => GameManager.instance.gameStateController.TransitionToState(playerSettings.gameplayState);
+            StartCoroutine(DelayAction(timeToTake, action, true));
         }
 
-        private void ResetGame(GameObject player, int layer)
+        private void ResetGame()
         {
-            player.layer = layer;
+            _thisObject.layer = playerLayer;
             _inputHandler.activate = true;
             GameManager.instance.saveManager.activated = true;
             tamer.SetActive(true);

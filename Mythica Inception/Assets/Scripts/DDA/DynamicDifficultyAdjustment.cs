@@ -36,6 +36,18 @@ namespace DDA
             return dictDiffParam.ContainsKey(parameterName) ? dictDiffParam[parameterName].value : 0;
         }
 
+        public double GetParameterMaxValue(string parameterName)
+        {
+            parameterName = parameterName.Replace(" ", string.Empty).ToLower();
+            return dictDiffParam.ContainsKey(parameterName) ? dictDiffParam[parameterName].maxValue : 0;
+        }
+
+        public double GetParameterMinValue(string parameterName)
+        {
+            parameterName = parameterName.Replace(" ", string.Empty).ToLower();
+            return dictDiffParam.ContainsKey(parameterName) ? dictDiffParam[parameterName].minValue : 0;
+        }
+
         public ParameterDataNeeded GetDataNeeded(string dataName)
         {
             dataName = dataName.Replace(" ", string.Empty).ToLower();

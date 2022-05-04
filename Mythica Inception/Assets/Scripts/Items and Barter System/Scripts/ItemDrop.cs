@@ -28,6 +28,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
     private bool _prefabOn = true;
     private Coroutine _warningCoroutine = null;
     private ItemSpawner _spawner;
+    private double _economyMax;
 
     private Dictionary<GameObject, Outline> _outlines = new Dictionary<GameObject, Outline>();
     private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
@@ -105,6 +106,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
         _item = item;
         _amount = amount;
         _spawner = null;
+        _economyMax = GameManager.instance.difficultyManager.GetParameterMaxValue("Economy");
         Initialize(initPos);
     }
 
@@ -131,8 +133,12 @@ public class ItemDrop : MonoBehaviour, IInteractable
         _currentPrefab.SetActive(_prefabOn);
 
         _timeElapsed += Time.deltaTime;
-        
-        if (_timeElapsed < _timeToDisable) return;
+
+        var disableMultiplier = Math.Round(_economyMax - GameManager.instance.difficultyManager.GetParameterValue("Economy"), MidpointRounding.AwayFromZero);
+
+        disableMultiplier = disableMultiplier < .5 ? .5 : disableMultiplier;
+
+        if (_timeElapsed < _timeToDisable * disableMultiplier) return;
         
         try
         {

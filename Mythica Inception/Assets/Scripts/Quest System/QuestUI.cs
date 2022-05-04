@@ -77,7 +77,7 @@ public class QuestUI : MonoBehaviour
         _infoPanelTweener.gameObject.SetActive(true);
     }
 
-    private void OpenPanelFromIcon(PlayerAcceptedQuest active, Sprite questGiverPicture)
+    public void OpenPanelFromIcon(PlayerAcceptedQuest active, Sprite questGiverPicture)
     {
         if (_acceptGameObject == null)
         {
@@ -87,7 +87,12 @@ public class QuestUI : MonoBehaviour
         var description = active.quest.description;
         if (active.completed)
         {
-            description += "\n\n<align=\"center\"><color=#b3f47a>This quest is completed. You may go to " + active.questGiver.fullName + " to claim your reward.";
+            description += "\n<align=\"center\"><color=#b3f47a>This quest is completed. You may go to " + active.questGiver.fullName + " to claim your reward.";
+        }
+        else
+        {
+            var progress = ((float) active.currentAmount / active.quest.goal.requiredAmount) * 100;
+            description += "\n<align=\"center\">Progress: <color=#f48989>" + progress.ToString("00.00") + "%";
         }
         _questDescription.text = description;
         OpenQuestInfoPanel(active, questGiverPicture);

@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using _Core.Managers;
 using _Core.Others;
 using Assets.Scripts.Dialogue_System;
 using BrunoMikoski.TextJuicer;
 using MyBox;
+using Quest_System;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -32,10 +34,12 @@ public class DialogueUI : MonoBehaviour
     [SerializeField] private Character _maleCharacter;
     [SerializeField] private Character _femaleCharacter;
 
+    private PlayerAcceptedQuest _newQuestGiven;
     private Conversation _currentConversation;
     private Character _currentCharacter;
     private int _lineCount = 0;
-    private GameObject _choiceGameObject;
+    private GameObject _choicesGameObject;
+    private Dictionary<DialogueChoiceUI, GameObject> _dialogueChoices = new Dictionary<DialogueChoiceUI, GameObject>();
 
     void Update()
     {
@@ -288,13 +292,25 @@ public class DialogueUI : MonoBehaviour
         var choiceLength = choices.Length;
         
         //if no responseChoices end
-        if(choiceLength <= 0) return;
+        if (choiceLength <= 0)
+        {
+            if (_newQuestGiven == null) return;
+            
+            GameManager.instance.uiManager.questUI.OpenPanelFromIcon(_newQuestGiven, _newQuestGiven.questGiver.facePicture);
+            _newQuestGiven = null;
+            return;
+        }
 
         //initializing all choice for choice buttons
         for (var i = 0; i < choiceButtons.Length; i++)
         {
+            if (!_dialogueChoices.TryGetValue(choiceButtons[i], out var choiceButtonGameObject))
+            {
+                choiceButtonGameObject = choiceButtons[i].gameObject;
+                _dialogueChoices.Add(choiceButtons[i], choiceButtonGameObject);
+            }
             //set objects to false in case it is already opened
-            choiceButtons[i].gameObject.SetActive(false);
+            choiceButtonGameObject.SetActive(false);
             choiceButtons[i].tooltipTrigger.enabled = false;
 
             //initialize only when there is an instance of responseChoices[choiceNum]
@@ -307,7 +323,7 @@ public class DialogueUI : MonoBehaviour
                 choiceButtons[i].SetTextActionOnClickButton(buttonFunc, choices[i].text);
 
                 //enable object so it can be seen
-                choiceButtons[i].gameObject.SetActive(true);
+                choiceButtonGameObject.SetActive(true);
 
                 //if the choice does not entail adding a quest to the player, then set the title and content of the tooltip to the desired title and content on the choice
                 choiceButtons[i].tooltipTrigger.enabled = true;
@@ -325,30 +341,26 @@ public class DialogueUI : MonoBehaviour
                 // ignored
             }
         }
+
         //activate choicePanel
-        if (_choiceGameObject == null)
+        if (_choicesGameObject == null)
         {
-            _choiceGameObject = choiceTweener.gameObject;
+            _choicesGameObject = choiceTweener.gameObject;
         }
-        _choiceGameObject.SetActive(true);
+        _choicesGameObject.SetActive(true);
     }
 
     private void AddChoiceButtonFunction(Choice choice)
     {
-        if (_choiceGameObject == null)
+        if (_choicesGameObject == null)
         {
-            _choiceGameObject = choiceTweener.gameObject;
+            _choicesGameObject = choiceTweener.gameObject;
         }
-        _choiceGameObject.SetActive(false);
-        
-        if (choice.quest != null)
-        {
-            GameManager.instance.player.playerQuestManager.GiveQuestToPlayer(choice.quest, _currentCharacter);
-        }
-        else
-        {
-            choice.onClickChoice?.Invoke();
-        }
+        _choicesGameObject.SetActive(false);
+
+        _newQuestGiven = GameManager.instance.player.playerQuestManager.GiveQuestToPlayer(choice.quest, _currentCharacter);
+
+        choice.onClickChoice?.Invoke();
 
         if (choice.nextConversation != null)
         {
@@ -357,12 +369,18 @@ public class DialogueUI : MonoBehaviour
         else
         {
             mainDialogueTweener.Disable();
+            
+            _lineCount = 0;
+            _currentConversation = null;
             if (!cutscene)
             {
                 GameManager.instance.inputHandler.EnterGameplay();
+                if (_newQuestGiven != null)
+                {
+                    GameManager.instance.uiManager.questUI.OpenPanelFromIcon(_newQuestGiven, _newQuestGiven.questGiver.facePicture);
+                    _newQuestGiven = null;
+                }
             }
-            _lineCount = 0;
-            _currentConversation = null;
         }
 
         GameManager.instance.uiManager.tooltip.tooltipTweener.Disable();

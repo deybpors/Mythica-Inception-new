@@ -26,11 +26,11 @@ namespace Pluggable_AI.Scripts.Actions
                 stateController.controllerAnimator.SetBool("Attack", false);
             }
 
-            if (!stateController.stateBoolVariable)
-            {
-                stateController.stateTimeElapsed = stateController.aI.aiData.combatDecisionEvery;
-                stateController.stateBoolVariable = true;
-            }
+            //if (!stateController.stateBoolVariable)
+            //{
+            //    stateController.stateTimeElapsed = stateController.aI.aiData.combatDecisionEvery;
+            //    stateController.stateBoolVariable = true;
+            //}
 
             var fieldOfView = stateController.aI.fieldOfView;
             if (fieldOfView.visibleTargets.Count <= 0) return;

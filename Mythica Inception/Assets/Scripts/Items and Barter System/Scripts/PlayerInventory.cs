@@ -89,75 +89,84 @@ namespace Items_and_Barter_System.Scripts
                 return;
             }
 
-            var itemAdded = false;
             var slotCount = inventorySlots.Count;
 
             for (var i = 0; i < slotCount; i++)
             {
                 var slot = inventorySlots[i];
                 if (slot.inventoryItem != item) continue;
-                
+
+                if (item is Gold)
+                {
+                    slot.AddInSlot(amountToAdd);
+                    amountToAdd = 0;
+                    break;
+                }
+               
                 var targetAmount = slot.amountOfItems + amountToAdd;
 
-                if (targetAmount > _itemLimitPerSlot && !(item is Gold))
+                if (targetAmount <= _itemLimitPerSlot)
                 {
-                    targetAmount -= _itemLimitPerSlot;
-                    slot.amountOfItems = _itemLimitPerSlot;
-                    amountToAdd = targetAmount;
+                    slot.AddInSlot(amountToAdd);
+                    amountToAdd = 0;
                     break;
                 }
 
-                itemAdded = slot.AddInSlot(amountToAdd);
-                GameManager.instance.questManager.UpdateGatherQuest();
-                break;
+                targetAmount -= _itemLimitPerSlot;
+                slot.amountOfItems = _itemLimitPerSlot;
+                amountToAdd = targetAmount;
+                Debug.Log("Cannot Add All!");
             }
 
-            if (itemAdded)
+            if (amountToAdd > 0)
             {
-                GameManager.instance.uiManager.UpdateGoldUI();
-                UpdateTotalInventory();
-                return;
+                var newSlot = new InventorySlot(item, amountToAdd);
+                AddInEmptySlot(newSlot);
             }
 
-            var newSlot = new InventorySlot(item, amountToAdd);
-
-            AddInEmptySlot(newSlot);
-            GameManager.instance.uiManager.UpdateGoldUI();
             UpdateTotalInventory();
+            GameManager.instance.questManager.UpdateGatherQuest();
+            GameManager.instance.uiManager.UpdateGoldUI();
+            var player = GameManager.instance.player;
+            GameManager.instance.uiManager.UpdateItemsUI(player.monsterManager, -1, player.monsterSlots);
         }
 
         public void RemoveItemInInventory(ItemObject item, int amountToRemove)
         {
-            var itemRemoved = false;
 
             foreach (var slot in inventorySlots.Where(slot => slot.inventoryItem == item))
             {
-                var targetAmount = slot.amountOfItems - amountToRemove;
-
-                if (targetAmount < 0 && !(item is Gold))
+                if (item is Gold)
                 {
-                    targetAmount -= _itemLimitPerSlot;
-                    slot.amountOfItems = 0;
-                    amountToRemove = targetAmount;
+                    slot.RemoveInSlot(amountToRemove);
+                    amountToRemove = 0;
                     break;
                 }
 
-                itemRemoved = slot.RemoveInSlot(amountToRemove);
-                break;
+                var targetAmount = slot.amountOfItems - amountToRemove;
+                if (targetAmount >= 0)
+                {
+                    slot.RemoveInSlot(amountToRemove);
+                    amountToRemove = 0;
+                    break;
+                }
+
+                targetAmount *= -1;
+                slot.amountOfItems = 0;
+                amountToRemove = targetAmount;
             }
 
-            if (itemRemoved)
+            if (amountToRemove <= 0)
             {
-                GameManager.instance.uiManager.UpdateGoldUI();
                 UpdateTotalInventory();
+                GameManager.instance.questManager.UpdateGatherQuest();
+                GameManager.instance.uiManager.UpdateGoldUI();
+                var player = GameManager.instance.player;
+                GameManager.instance.uiManager.UpdateItemsUI(player.monsterManager, -1, player.monsterSlots);
                 return;
             }
 
-            if(amountToRemove <= 0) return;
-
             RemoveItemInInventory(item, amountToRemove);
-            GameManager.instance.uiManager.UpdateGoldUI();
-            UpdateTotalInventory();
         }
 
         private void AddInEmptySlot(InventorySlot newSlot)

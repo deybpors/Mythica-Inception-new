@@ -6,6 +6,7 @@ using Dialogue_System;
 using MyBox;
 using Pluggable_AI.Scripts.General;
 using Quest_System;
+using ToolBox.Serialization;
 using UnityEngine;
 
 namespace Assets.Scripts.Dialogue_System
@@ -13,6 +14,7 @@ namespace Assets.Scripts.Dialogue_System
     public class NPCAI : GenericAI, IInteractable
     {
         [Foldout("NPC AI Fields", true)]
+        [SerializeField] private string _saveKey;
         [SerializeField] private Conversation _conversation;
         [SerializeField] private bool _repeatConversation = true;
         [SerializeField] private float _rotateTime = .25f;
@@ -26,9 +28,18 @@ namespace Assets.Scripts.Dialogue_System
         private bool _alreadyInteracted;
         private List<Quest> _questsInConversation = new List<Quest>();
         private Character _questGiver;
+        private bool _doneQuest;
 
         void Start()
         {
+            var interactedKey = _saveKey + nameof(_alreadyInteracted);
+            GameManager.instance.saveManager.LoadDataObject(interactedKey, out bool interacted);
+            _alreadyInteracted = interacted;
+
+            var questKey = _saveKey + nameof(_doneQuest);
+            GameManager.instance.saveManager.LoadDataObject(interactedKey, out bool done);
+            _doneQuest = done;
+
             currentAnimator = GetComponentInChildren<Animator>();
 
             if (_conversation == null)
@@ -145,7 +156,6 @@ namespace Assets.Scripts.Dialogue_System
                 return;
             }
 
-
             if(_conversation == null) return;
 
             GameManager.instance.gameStateController.TransitionToState(GameManager.instance.dialogueState);
@@ -158,6 +168,8 @@ namespace Assets.Scripts.Dialogue_System
             StopAllCoroutines();
             StartCoroutine(LookTowards(npcRotateTo, playerRotateTo));
             _alreadyInteracted = true;
+            var saveKey = _saveKey + nameof(_alreadyInteracted);
+            GameManager.instance.saveManager.SaveOtherData(saveKey, _alreadyInteracted);
         }
 
         private void GetNPCPlayerToRotateTo(out Quaternion npcRotateTo, out Quaternion playerRotateTo)
@@ -186,5 +198,7 @@ namespace Assets.Scripts.Dialogue_System
                 yield return null;
             }
         }
+
+
     }
 }

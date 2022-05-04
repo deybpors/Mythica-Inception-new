@@ -7,6 +7,7 @@ using Assets.Scripts.UI;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
 using MyBox;
+using Skill_System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -33,6 +34,7 @@ namespace UI
             [HideInInspector] public List<PartySlotUI> partySlots;
             [HideInInspector] public List<Image> currentMonsterSkillImages;
             [HideInInspector] public List<Image> currentMonsterItemImages;
+            [HideInInspector] public UITweener skillsTweener;
             [HideInInspector] public DialogueUI dialogueUI;
             [HideInInspector] public QuestUI questUI;
             [HideInInspector] public LoadingScreenUI loadingScreen;
@@ -48,6 +50,7 @@ namespace UI
             [HideInInspector] public OptionsUI generalOptionsUi;
             [HideInInspector] public MonsterTamedUI monsterTamedUi;
             private Dictionary<Image, Button> _itemButtons = new Dictionary<Image, Button>();
+            private GameObject _skillsObject;
         #endregion
 
 
@@ -127,7 +130,7 @@ namespace UI
         #endregion
 
         #region Update
-        public void UpdateCharSwitchUI(string charName, float currentHealth, float maxHealth, float currentExp, float maxExp, int currentSlotNumber, List<Sprite> skills, List<Sprite> items, List<UnityAction> itemActions)
+        public void UpdateCharSwitchUI(string charName, float currentHealth, float maxHealth, float currentExp, float maxExp, int currentSlotNumber)
         {
             gameplayUICanvas.SetActive(false);
             currentCharacterName.text = charName;
@@ -160,44 +163,51 @@ namespace UI
                 }
             }
 
-            var skillCount = currentMonsterSkillImages.Count;
-            for (var i = 0; i < skillCount; i++)
-            {
-                if (skills[i] == null)
-                {
-                    currentMonsterSkillImages[i].sprite = blankSlotSquare;
-                    currentMonsterSkillImages[i].raycastTarget = false;
-                    continue;
-                }
-                currentMonsterSkillImages[i].sprite = skills[i];
-                currentMonsterSkillImages[i].raycastTarget = true;
-            }
-
-            var itemCount = currentMonsterItemImages.Count;
-            for (var i = 0; i < itemCount; i++)
-            {
-                if (items[i] == null)
-                {
-                    currentMonsterItemImages[i].sprite = blankSlotSquare;
-                    currentMonsterItemImages[i].raycastTarget = false;
-                    continue;
-                }
-                currentMonsterItemImages[i].sprite = items[i];
-                currentMonsterItemImages[i].raycastTarget = true;
-                if (!_itemButtons.TryGetValue(currentMonsterItemImages[i], out var btn))
-                {
-                    btn = currentMonsterItemImages[i].GetComponent<Button>();
-                    _itemButtons.Add(currentMonsterItemImages[i], btn);
-                }
-                btn.onClick.RemoveAllListeners();
-                btn.onClick.AddListener(itemActions[i]);
-            }
-
             gameplayUICanvas.SetActive(true);
         }
 
-        public void UpdateItemsUI(List<Sprite> items, List<UnityAction> itemActions)
+        public void UpdateItemsUI(MonsterManager manager, int slot, List<MonsterSlot> monsterSlots)
         {
+            var player = GameManager.instance.player;
+
+            var items = new List<Sprite>();
+            var itemActions = new List<UnityAction>();
+
+            if (slot >= 0)
+            {
+                var monsterSlot = monsterSlots[slot];
+                var inventoryLength = monsterSlot.inventory.Length;
+
+                for (var i = 0; i < inventoryLength; i++)
+                {
+                    if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
+                    {
+                        items.Add(null);
+                        itemActions.Add((() => { }));
+                        continue;
+                    }
+                    items.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
+                    var index = i;
+                    itemActions.Add(() => manager.UseUsableItems(monsterSlot.inventory[index], slot));
+                }
+            }
+            else
+            {
+                for (var i = 0; i < 6; i++)
+                {
+                    if (player.playerInventory.inventorySlots[i].inventoryItem == null)
+                    {
+                        items.Add(null);
+                        itemActions.Add((() => { }));
+                        continue;
+                    }
+
+                    items.Add(player.playerInventory.inventorySlots[i].inventoryItem.itemIcon);
+                    var index = i;
+                    itemActions.Add(() => manager.UseUsableItems(player.playerInventory.inventorySlots[index], slot));
+                }
+            }
+
             var itemCount = items.Count;
 
             for (var i = 0; i < itemCount; i++)
@@ -218,6 +228,64 @@ namespace UI
 
                 btn.onClick.RemoveAllListeners();
                 btn.onClick.AddListener(itemActions[i]);
+            }
+        }
+
+        public void UpdateSkillUI(int slot, List<MonsterSlot> monsterSlots)
+        {
+            var skills = new List<Sprite>();
+
+            if (slot >= 0)
+            {
+                var skillSlotsLength = monsterSlots[slot].skillSlots.Length;
+                var noOfSkills = 0;
+                for (var i = 0; i < skillSlotsLength; i++)
+                {
+                    if (monsterSlots[slot].skillSlots[i] == null || monsterSlots[slot].skillSlots[i].skill == null)
+                    {
+                        skills.Add(null);
+                        continue;
+                    }
+
+                    skills.Add(monsterSlots[slot].skillSlots[i].skill.skillIcon);
+                    noOfSkills++;
+                }
+
+                if (noOfSkills <= 0)
+                {
+                    if (!skillsTweener.disabled)
+                    {
+                        skillsTweener.Disable();
+                    }
+                    return;
+                }
+
+                if (_skillsObject == null)
+                {
+                    _skillsObject = skillsTweener.gameObject;
+                }
+                _skillsObject.SetActive(true);
+            }
+            else
+            {
+                if (!skillsTweener.disabled)
+                {
+                    skillsTweener.Disable();
+                }
+                return;
+            }
+
+            var skillImagesCount = currentMonsterSkillImages.Count;
+            for (var i = 0; i < skillImagesCount; i++)
+            {
+                if (skills[i] == null)
+                {
+                    currentMonsterSkillImages[i].sprite = blankSlotSquare;
+                    currentMonsterSkillImages[i].raycastTarget = false;
+                    continue;
+                }
+                currentMonsterSkillImages[i].sprite = skills[i];
+                currentMonsterSkillImages[i].raycastTarget = true;
             }
         }
 
@@ -276,12 +344,6 @@ namespace UI
             var monsterLevel = GameSettings.Level(monsterSlots[slotNum].currentExp);
             maxExp = (float)GameSettings.Experience(monsterLevel + 1) - GameSettings.Experience(monsterLevel);
             currentCharacterLevel.text = monsterLevel.ToString();
-        }
-
-        IEnumerator DelayAction(float delay, Action action)
-        {
-            yield return new WaitForSeconds(delay);
-            action?.Invoke();
         }
 
         public void DeactivateAllUI()

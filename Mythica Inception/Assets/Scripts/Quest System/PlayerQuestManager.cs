@@ -11,15 +11,17 @@ public class PlayerQuestManager : MonoBehaviour
     public Dictionary<string, PlayerAcceptedQuest> activeQuests = new Dictionary<string, PlayerAcceptedQuest>();
     public Dictionary<string, PlayerAcceptedQuest> finishedQuests = new Dictionary<string, PlayerAcceptedQuest>();
 
-    public void GiveQuestToPlayer(Quest questGiven, Character questGiver)
+    public PlayerAcceptedQuest GiveQuestToPlayer(Quest questGiven, Character questGiver)
     {
+        if (questGiven == null) return null;
         GameManager.instance.uiManager.questUI.UpdateQuestIcons();
-        if (PlayerHaveQuest(activeQuests, questGiven, out var accepted)) return;
+        if (PlayerHaveQuest(activeQuests, questGiven, out var accepted)) return null;
 
         var newQuest = new PlayerAcceptedQuest(questGiven, questGiver, DateTime.Now);
         activeQuests.Add(newQuest.quest.ID, newQuest);
         GameManager.instance.audioManager.PlaySFX("Confirmation");
         GameManager.instance.uiManager.questUI.UpdateQuestIcons();
+        return newQuest;
     }
 
     public Dictionary<string, PlayerAcceptedQuest> GetTotalQuests()

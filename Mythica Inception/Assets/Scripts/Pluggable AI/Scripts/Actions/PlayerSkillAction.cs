@@ -60,14 +60,14 @@ namespace Pluggable_AI.Scripts.Actions
 
         private void PickSkill(StateController stateController, int slotNum)
         {
-            SkillSlot skillSlot = stateController.player.skillManager.skillSlots[slotNum];
+            var skillSlot = stateController.player.skillManager.skillSlots[slotNum];
 
-            if (skillSlot.skill == null)
+            if (skillSlot == null || skillSlot.skill == null)
             {
                 GameManager.instance.uiManager.debugConsole.DisplayLogUI("No skill currently in the slot.");
                 return;
             }
-            
+
             stateController.player.skillManager.Targeting(skillSlot);
         }
     }

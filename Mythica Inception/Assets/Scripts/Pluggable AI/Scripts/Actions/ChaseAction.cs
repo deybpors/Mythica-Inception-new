@@ -58,6 +58,7 @@ namespace Pluggable_AI.Scripts.Actions
             {
                 stateController.aI.agent.destination = stateController.aI.lastKnownTargetPosition;
                 stateController.machineDestination = stateController.aI.lastKnownTargetPosition;
+                stateController.aI.agent.stoppingDistance = origStopDistance;
             }
         }
     }

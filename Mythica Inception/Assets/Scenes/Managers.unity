@@ -339,7 +339,7 @@ MonoBehaviour:
     - Failed Tame Attempts
   - name: Economy
     value: 1
-    minValue: 0.5
+    minValue: 0.2
     maxValue: 2
     valueAdjustment: 0.1
     increaseDifficulty: 0
@@ -395,6 +395,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiManager: {fileID: 1705896064}
+  loadingScreenOn: 1
 --- !u!4 &1105453174
 Transform:
   m_ObjectHideFlags: 0

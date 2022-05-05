@@ -16,11 +16,16 @@ namespace Assets.Scripts.Dialogue_System
         [Foldout("NPC AI Fields", true)]
         private string _saveKey;
         [SerializeField] private bool _savePosition;
+        [SerializeField] private bool _randomName;
         [SerializeField] private Conversation _conversation;
         [SerializeField] private bool _repeatConversation = true;
         [SerializeField] private float _rotateTime = .25f;
         [SerializeField] private float _interactableDistance = 1f;
         [SerializeField] private bool _rotateOnInteract = true;
+        [ConditionalField(nameof(_rotateOnInteract))]
+        [DefinedValues("Both", "NPC", "Player")]
+        [SerializeField] private string _rotation;
+
 
         private Outline _outline;
         [ReadOnly] [SerializeField] private bool _isInteractable;
@@ -30,6 +35,7 @@ namespace Assets.Scripts.Dialogue_System
         private List<Quest> _questsInConversation = new List<Quest>();
         private Character _questGiver;
         private int _currentState;
+        private string _npcName;
 
         void Start()
         {
@@ -41,8 +47,13 @@ namespace Assets.Scripts.Dialogue_System
             {
                 _currentState = state;
             }
-
             _saveKey += _currentState;
+
+
+            if (_randomName)
+            {
+                HandleRandomNPC();
+            }
 
 
             var interactedKey = _saveKey + nameof(_alreadyInteracted);
@@ -80,6 +91,52 @@ namespace Assets.Scripts.Dialogue_System
             }
 
             _questGiver = _conversation.lines[_conversation.lines.Length - 1].character;
+        }
+
+        private void HandleRandomNPC()
+        {
+            if (!GameManager.instance.saveManager.LoadDataObject(_saveKey, out string npcName))
+            {
+                npcName = GameManager.instance.databaseManager.GetRandomNPCName();
+                GameManager.instance.saveManager.SaveOtherData(_saveKey, npcName);
+            }
+
+            _npcName = npcName;
+
+            var linesLength = _conversation.lines.Length;
+            var newLines = new Line[linesLength];
+
+            for (var i = 0; i < linesLength; i++)
+            {
+                newLines[i].emotion = _conversation.lines[i].emotion;
+                newLines[i].speakerDirection = _conversation.lines[i].speakerDirection;
+                newLines[i].text = _conversation.lines[i].text;
+
+                var conversationChar = _conversation.lines[i].character;
+                newLines[i].character = conversationChar;
+
+                if (conversationChar == null) continue;
+                
+                var newChar = new Character
+                {
+                    moods = conversationChar.moods,
+                    dialoguePitch = conversationChar.dialoguePitch,
+                    facePicture = conversationChar.facePicture,
+                    sexOfCharacter = conversationChar.sexOfCharacter,
+                    fullName = _npcName
+                };
+            }
+
+            var newConversation = new Conversation
+            {
+                name = _npcName,
+                hideFlags = HideFlags.None,
+                ID = null,
+                lines = newLines,
+                choices = _conversation.choices
+            };
+
+            _conversation = newConversation;
         }
 
 
@@ -213,8 +270,8 @@ namespace Assets.Scripts.Dialogue_System
         private void GetNPCPlayerToRotateTo(out Quaternion npcRotateTo, out Quaternion playerRotateTo)
         {
             var npcLookPosition = _playerTransform.position - _npcTransform.position;
-            npcLookPosition.y = 0;
             var playerLookPosition = _npcTransform.position - _playerTransform.position;
+            npcLookPosition.y = 0;
             playerLookPosition.y = 0;
 
             npcRotateTo = Quaternion.LookRotation(npcLookPosition);
@@ -227,6 +284,16 @@ namespace Assets.Scripts.Dialogue_System
             var playerRotation = _playerTransform.rotation;
             
             var timeElapsed = 0f;
+
+            switch (_rotation)
+            {
+                case "Player":
+                    npcRotateTo = npcRotation;
+                    break;
+                case "NPC":
+                    playerRotateTo = playerRotation;
+                    break;
+            }
 
             while (timeElapsed < _rotateTime)
             {

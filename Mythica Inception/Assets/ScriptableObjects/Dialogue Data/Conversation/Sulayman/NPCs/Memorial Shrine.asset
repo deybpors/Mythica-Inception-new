@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Memorial Shrine
+  m_EditorClassIdentifier: 
+  ID: a93d8e2f-c08b-4cba-958f-fbf972fe7fbc
+  lines:
+  - text: <i>Here lies the souls of those mythicas forgotten.</i>
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 0
+  - text: This must be a shrine for mythicas?
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 0
+  - text: I wonder how many mythicas have died in this tribe?
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  choices: []

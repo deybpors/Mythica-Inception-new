@@ -39,6 +39,10 @@ public class DialogueUI : MonoBehaviour
     private Character _currentCharacter;
     private int _lineCount = 0;
     private GameObject _choicesGameObject;
+    private GameObject _speakerHolder;
+    private GameObject _thisObject;
+    private GameObject _nextLine;
+    private GameObject _choiceHolderObject;
     private Dictionary<DialogueChoiceUI, GameObject> _dialogueChoices = new Dictionary<DialogueChoiceUI, GameObject>();
 
     void Update()
@@ -51,7 +55,11 @@ public class DialogueUI : MonoBehaviour
             return;
         }
         CompleteTextJuicer();
-        nextLineIconTweener.gameObject.SetActive(true);
+        if (_nextLine == null)
+        {
+            _nextLine = nextLineIconTweener.gameObject;
+        }
+        _nextLine.SetActive(true);
     }
 
     public bool TextJuicerPlaying()
@@ -68,6 +76,7 @@ public class DialogueUI : MonoBehaviour
 
     public void StartDialogue(Conversation conversationToDisplay)
     {
+        var noChar = false;
         cutscene = false;
         _dialogueTextJuicer.SetDirty();
 
@@ -84,7 +93,12 @@ public class DialogueUI : MonoBehaviour
             EndConversation(conversationToDisplay.choices);
         }
 
-        speakerHolder.gameObject.SetActive(false);
+        if (_speakerHolder == null)
+        {
+            _speakerHolder = speakerHolder.gameObject;
+        }
+
+        _speakerHolder.SetActive(false);
         nameHolder.SetActive(false);
         nameText.text = string.Empty;
 
@@ -93,12 +107,13 @@ public class DialogueUI : MonoBehaviour
         if (_currentCharacter == null)
         {
             _currentCharacter = GameManager.instance.loadedSaveData.sex == Sex.Male ? _maleCharacter : _femaleCharacter;
+            noChar = true;
         }
 
         //change name box if its not the same value already
         if (!nameText.text.Equals(_currentCharacter.fullName))
         {
-            nameText.text = _currentCharacter.fullName;
+            nameText.text = noChar ? GameManager.instance.player.playerName : _currentCharacter.fullName;
         }
 
         nameHolder.SetActive(true);
@@ -106,7 +121,7 @@ public class DialogueUI : MonoBehaviour
         var characterMoodGraphic = GetEmotionGraphic(_currentCharacter, conversationToDisplay.lines[_lineCount].emotion);
         InitializeSpeakerPicture(characterMoodGraphic, conversationToDisplay.lines[_lineCount].speakerDirection);
 
-        speakerHolder.gameObject.SetActive(true);
+        _speakerHolder.SetActive(true);
 
         //change dialogue text
         ManageDialogueString(conversationToDisplay.lines[_lineCount].text);
@@ -201,8 +216,12 @@ public class DialogueUI : MonoBehaviour
 
     private void SetDialogueUiTextJuicer()
     {
-        gameObject.SetActive(false);
-        gameObject.SetActive(true);
+        if (_thisObject == null)
+        {
+            _thisObject = gameObject;
+        }
+        _thisObject.SetActive(false);
+        _thisObject.SetActive(true);
 
         _dialogueTextJuicer.enabled = true;
         _dialogueTextJuicer.SetProgress(0f);
@@ -214,12 +233,19 @@ public class DialogueUI : MonoBehaviour
 
     public void StartDialogue(Line line, Choice[] choices, bool displayCharPic)
     {
+        var noChar = false;
         //initialize current dialogue ui
         _dialogueTextJuicer.SetDirty();
         _lineCount = 0;
         _currentConversation = null;
         _currentCharacter = line.character;
-        speakerHolder.gameObject.SetActive(false);
+
+        if (_speakerHolder == null)
+        {
+            _speakerHolder = speakerHolder.gameObject;
+        }
+
+        _speakerHolder.SetActive(false);
         nameHolder.SetActive(false);
 
         //initialize choices
@@ -231,6 +257,7 @@ public class DialogueUI : MonoBehaviour
         if (_currentCharacter == null)
         {
             _currentCharacter = GameManager.instance.loadedSaveData.sex == Sex.Male ? _maleCharacter : _femaleCharacter;
+            noChar = true;
         }
 
         if (_currentCharacter != null && displayCharPic)
@@ -238,14 +265,14 @@ public class DialogueUI : MonoBehaviour
             //change name box if its not the same value already
             if (!nameText.text.Equals(_currentCharacter.fullName))
             {
-                nameText.text = _currentCharacter.fullName;
+                nameText.text = noChar ? GameManager.instance.player.playerName : _currentCharacter.fullName;
             }
 
             nameHolder.SetActive(true);
             //get the mood graphic of the character and initialize speaker picture placement
             var characterMoodGraphic = GetEmotionGraphic(_currentCharacter, line.emotion);
             InitializeSpeakerPicture(characterMoodGraphic, line.speakerDirection);
-            speakerHolder.gameObject.SetActive(true);
+            _speakerHolder.SetActive(true);
         }
 
         //change the lineToDisplay of the text
@@ -261,7 +288,12 @@ public class DialogueUI : MonoBehaviour
             return _currentConversation.choices.Length > 0;
         }
 
-        return choiceHolder.gameObject.activeInHierarchy;
+        if (_choicesGameObject == null)
+        {
+            _choicesGameObject = choiceHolder.gameObject;
+        }
+
+        return _choicesGameObject.activeInHierarchy;
     }
 
     public bool IsEnd()
@@ -278,8 +310,10 @@ public class DialogueUI : MonoBehaviour
 
     public void OnDialogueEnd()
     {
-        mainDialogueTweener.Disable();
         GameManager.instance.timelineManager.ResumeTimelineForDialogue();
+        _currentConversation = null;
+        if (mainDialogueTweener.disabled) return;
+        mainDialogueTweener.Disable();
     }
 
     public void ContinueExistingDialogue()

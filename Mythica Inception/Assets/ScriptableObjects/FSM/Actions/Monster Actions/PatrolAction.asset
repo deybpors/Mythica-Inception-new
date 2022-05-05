@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f16cb7cd7c8d23458c513e8cda148ec, type: 3}
   m_Name: PatrolAction
   m_EditorClassIdentifier: 
+  aiStoppingDistance: 1

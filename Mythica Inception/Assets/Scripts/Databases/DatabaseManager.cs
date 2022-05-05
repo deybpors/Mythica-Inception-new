@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Databases.Scripts
@@ -6,10 +7,18 @@ namespace Databases.Scripts
     public class DatabaseManager : MonoBehaviour
     {
         [SerializeField] private TextAsset _monsterTypeChart;
+        [SerializeField] private TextAsset _npcNames;
         [HideInInspector] public List<string> attackerTypes;
         [HideInInspector] public List<string> defenseTypes;
         [HideInInspector] public readonly List<List<float>> typeChart = new List<List<float>>();
-        
+        [HideInInspector] private List<string> _npcNamesList = new List<string>();
+
+        void Start()
+        {
+            if(_npcNames == null) return;
+            InitializeNPCNames();
+        }
+
         public void InitializeTypeChartData()
         {
             if (_monsterTypeChart == null) { return; }
@@ -51,6 +60,22 @@ namespace Databases.Scripts
                     typeChart.Add(newLine);
                 }
             }
+        }
+
+        private void InitializeNPCNames()
+        {
+            var names = _npcNames.text.Split('\n');
+            _npcNamesList = names.ToList();
+        }
+
+        public string GetRandomNPCName()
+        {
+            if (_npcNames == null) return string.Empty;
+            var num = Random.Range(0, _npcNamesList.Count);
+            var npc = _npcNamesList[num];
+            npc = npc.Replace(" ", string.Empty).ToLowerInvariant();
+            npc = char.ToUpperInvariant(npc[0]) + npc.Substring(1);
+            return npc;
         }
     }
 }

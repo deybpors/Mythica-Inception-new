@@ -7,6 +7,9 @@ using UnityEngine;
 public class GoToWorldScene : ScriptableObject
 {
     public SceneReference sceneToGo;
+    public bool loadDelay;
+    [ConditionalField(nameof(loadDelay))] public float loadDelayValue;
+
     public void GoToWorld()
     {
         var current = GameManager.instance.currentWorldScenePath;
@@ -19,10 +22,19 @@ public class GoToWorldScene : ScriptableObject
             activeEnemies[i].SetActive(false);
             GameManager.instance.RemoveInActiveEnemies(activeEnemies[i]);
         }
-        
 
-        GameManager.instance.gameSceneManager.UnloadScene(current, true);
-        GameManager.instance.gameSceneManager.LoadScene(toGo, false);
+
+        var sceneManager = GameManager.instance.gameSceneManager;
+        sceneManager.UnloadScene(current, true);
+
+        if (loadDelay)
+        {
+            sceneManager.LoadScene(toGo, true, loadDelayValue);
+        }
+        else
+        {
+            sceneManager.LoadScene(toGo, false);
+        }
         GameManager.instance.currentWorldScenePath = toGo;
         GameManager.instance.inputHandler.EnterGameplay();
     }

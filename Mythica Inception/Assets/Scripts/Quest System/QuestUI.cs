@@ -4,6 +4,7 @@ using _Core.Managers;
 using Assets.Scripts.Dialogue_System;
 using Pluggable_AI.Scripts.States;
 using Quest_System;
+using Quest_System.Goals;
 using TMPro;
 using UI;
 using UnityEngine;
@@ -140,6 +141,12 @@ public class QuestUI : MonoBehaviour
         actions += () => GameManager.instance.uiManager.questUI.UpdateQuestIcons();
         actions += () => GameManager.instance.audioManager.PlaySFX("Confirmation");
         actions += () => GameManager.instance.uiManager.UpdateItemsUI(player.monsterManager, -1, player.monsterSlots);
+
+        if (active.quest.goal is GatherGoal goal)
+        {
+            player.playerInventory.RemoveItemInInventory(goal.itemToGather, goal.requiredAmount);
+        }
+
         if (active.quest.successConversation != null)
         {
             actions += () => ai.ResetNPC(active.quest.successConversation);

@@ -112,20 +112,20 @@ public class NewGamePanelUI : MonoBehaviour
     {
         if(nameInputField.text == string.Empty) return;
 
-        var message = nameInputField.text;
-        message = message.Replace(" ", string.Empty).ToLowerInvariant();
-        message = char.ToUpperInvariant(message[0]) + message.Substring(1);
-        nameInputField.text = message;
+        var playerName = nameInputField.text;
+        playerName = playerName.Replace(" ", string.Empty).ToLowerInvariant();
+        playerName = char.ToUpperInvariant(playerName[0]) + playerName.Substring(1);
+        nameInputField.text = playerName;
         if (selectedSex.Equals(Sex.Male))
         {
-            message += ", ♂";
+            playerName += ", ♂";
         }
         else
         {
-            message += ", ♀";
+            playerName += ", ♀";
         }
 
-        GameManager.instance.uiManager.modal.OpenModal(message, verifyIcon, _white, InitializeNewSaveFile);
+        GameManager.instance.uiManager.modal.OpenModal(playerName, verifyIcon, _white, InitializeNewSaveFile);
     }
 
     private void PickSexType(Button whatButton)

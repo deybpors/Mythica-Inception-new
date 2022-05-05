@@ -104,7 +104,6 @@ namespace _Core.Others
         public static int TameValue(int wildMonsterLvl, bool statusFX, int wildMonsterCurrentHP, int wildMonsterMaxHP)
         {
             var hp = (float) wildMonsterCurrentHP / wildMonsterMaxHP;
-            //if (hp < .5f) { hp = .5f; }
             var sfx = statusFX ? .75f : 1;
             return (int)(50 + ((Mathf.Pow(wildMonsterLvl, 3)) / 5) * sfx * hp);
         }
@@ -113,7 +112,8 @@ namespace _Core.Others
         { 
             var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
             var random = Random.Range(0.85f, 1);
-            var tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * ((float) tSPower / wildMonsterTamingResistance) * random + 2);
+            tSPower = avgLevel == 0 ? 200 : tSPower;
+            var tameBeam = (int) ((Mathf.Pow(avgLevel, 2) * 2 + 10 * gamePace) * (tSPower / wildMonsterTamingResistance) * random + 2);
             return tameBeam;
         }
 

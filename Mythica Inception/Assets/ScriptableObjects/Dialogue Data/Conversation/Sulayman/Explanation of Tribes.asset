@@ -16,7 +16,7 @@ MonoBehaviour:
   lines:
   - text: Whaaaat???
     character: {fileID: 0}
-    emotion: 1
+    emotion: 5
     speakerDirection: 1
   - text: Don't worry, anak! She can handle it hehe.
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
@@ -92,7 +92,7 @@ MonoBehaviour:
     speakerDirection: 1
   - text: You owe me your life for not hurting you when I saw you.
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
-    emotion: 0
+    emotion: 3
     speakerDirection: 0
   - text: I'm so sorry. On behalf of my people, what can I do to make up for this?
     character: {fileID: 0}
@@ -105,7 +105,7 @@ MonoBehaviour:
   - text: Join me in my quest towards unity. A complete harmony towards mythicas
       and humans.
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
-    emotion: 1
+    emotion: 3
     speakerDirection: 0
   - text: That's what that mythica in my dream was talking about!
     character: {fileID: 0}

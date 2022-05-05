@@ -47,6 +47,14 @@ namespace UI
 
                 DataSerializer.Setup(i);
                 DataSerializer.TryLoadProfile<PlayerSaveData>(i, GameManager.instance.saveManager.playerSaveKey, out var playerData);
+
+                if (playerData == null)
+                {
+                    DataSerializer.DeleteProfileIndex(i, GameManager.instance.saveManager.playerSaveKey);
+                    i--;
+                    continue;
+                }
+
                 continueButton.SetActive(true);
                 playerSavedData[i] = playerData;
                 GameManager.instance.uiManager.newGamePanel.saveFiles[i].SetSaveFileData(playerData);

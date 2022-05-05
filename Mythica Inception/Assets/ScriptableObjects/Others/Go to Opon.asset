@@ -17,3 +17,5 @@ MonoBehaviour:
     SceneName: env_Opon
     sceneIndex: 5
     sceneEnabled: 1
+  loadDelay: 1
+  loadDelayValue: 2

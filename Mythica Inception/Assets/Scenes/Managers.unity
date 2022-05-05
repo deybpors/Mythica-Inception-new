@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterTypeChart: {fileID: 4900000, guid: 3cb97fd2c2956dc41a8ecb5e39ab199b, type: 3}
+  _npcNames: {fileID: 4900000, guid: 1a9e7a4dee533404280e9328e8181d23, type: 3}
   attackerTypes: []
   defenseTypes: []
 --- !u!4 &481286539
@@ -1989,6 +1990,7 @@ MonoBehaviour:
   partySlots: []
   currentMonsterSkillImages: []
   currentMonsterItemImages: []
+  skillsTweener: {fileID: 0}
   dialogueUI: {fileID: 0}
   questUI: {fileID: 0}
   loadingScreen: {fileID: 0}

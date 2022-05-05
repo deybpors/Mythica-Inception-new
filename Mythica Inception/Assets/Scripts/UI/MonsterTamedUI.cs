@@ -92,6 +92,11 @@ public class MonsterTamedUI : MonoBehaviour
 
     private void HandleNickname()
     {
+        var monsterNickname = _monsterNicknameInput.text;
+        monsterNickname = monsterNickname.Replace(" ", string.Empty).ToLowerInvariant();
+        monsterNickname = char.ToUpperInvariant(monsterNickname[0]) + monsterNickname.Substring(1);
+        _monsterNicknameInput.text = monsterNickname;
+
         if (_inParty)
         {
             var party = GameManager.instance.player.monsterSlots;

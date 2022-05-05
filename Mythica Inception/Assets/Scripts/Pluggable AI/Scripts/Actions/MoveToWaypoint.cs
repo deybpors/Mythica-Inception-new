@@ -14,7 +14,7 @@ public class MoveToWaypoint : Action
 
     private void Move(StateController stateController)
     {
-        if(stateController.aI.waypointCount <= 1) return;
+        if(stateController.aI.waypointCount <= 0) return;
 
         var nextDestination = stateController.aI.waypoints[stateController.aI.nextWaypoint].position;
         stateController.aI.agent.destination = nextDestination;
@@ -22,23 +22,22 @@ public class MoveToWaypoint : Action
 
         stateController.aI.agent.isStopped = false;
 
-        if (stateController.aI.agent.remainingDistance <= stateController.aI.agent.stoppingDistance &&
-            !stateController.aI.agent.pathPending)
+        if (!(stateController.aI.agent.remainingDistance <= stateController.aI.agent.stoppingDistance) ||
+            stateController.aI.agent.pathPending) return;
+        
+        if (randomWaypoint)
         {
-            if (randomWaypoint)
+            var currentWaypoint = stateController.aI.nextWaypoint;
+            do
             {
-                var currentWaypoint = stateController.aI.nextWaypoint;
-                do
-                {
-                    stateController.aI.nextWaypoint = Random.Range(0, stateController.aI.waypointCount);
-                } while (currentWaypoint == stateController.aI.nextWaypoint);
+                stateController.aI.nextWaypoint = Random.Range(0, stateController.aI.waypointCount);
+            } while (currentWaypoint == stateController.aI.nextWaypoint);
 
-                return;
-            }
-            else
-            {
-                stateController.aI.nextWaypoint = (stateController.aI.nextWaypoint + 1) % stateController.aI.waypointCount;
-            }
+            return;
+        }
+        else
+        {
+            stateController.aI.nextWaypoint = (stateController.aI.nextWaypoint + 1) % stateController.aI.waypointCount;
         }
     }
 }

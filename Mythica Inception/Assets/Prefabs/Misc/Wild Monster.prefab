@@ -30,6 +30,70 @@ Transform:
   m_Father: {fileID: 8265144103910172173}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!1 &4891682869969918508
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1409427722476046179}
+  - component: {fileID: 1565585119467414754}
+  m_Layer: 5
+  m_Name: Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1409427722476046179
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4891682869969918508}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 8265144103586678090}
+  - {fileID: 8265144104806975873}
+  m_Father: {fileID: 8265144104381158324}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1565585119467414754
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4891682869969918508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 0
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &6438858315228531885
 GameObject:
   m_ObjectHideFlags: 0
@@ -29491,7 +29555,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8265144103586678090}
-  - component: {fileID: 8265144103586678091}
   - component: {fileID: 8265144103586678088}
   m_Layer: 5
   m_Name: Health Bar
@@ -29513,35 +29576,14 @@ RectTransform:
   m_Children:
   - {fileID: 8265144103714622736}
   - {fileID: 8265144104317381096}
-  m_Father: {fileID: 8265144104381158324}
+  m_Father: {fileID: 1409427722476046179}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1.8}
-  m_SizeDelta: {x: 1.26, y: 0.17}
+  m_AnchoredPosition: {x: 1, y: -0.1625}
+  m_SizeDelta: {x: 2, y: 0.25}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &8265144103586678091
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265144103586678085}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!114 &8265144103586678088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30193,7 +30235,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8265144104381158324}
   - component: {fileID: 8265144104381158330}
-  - component: {fileID: 8265144104381158325}
+  - component: {fileID: 9173161132297974762}
   m_Layer: 5
   m_Name: Progress Bars
   m_TagString: Untagged
@@ -30212,14 +30254,13 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8265144103586678090}
-  - {fileID: 8265144104806975873}
+  - {fileID: 1409427722476046179}
   m_Father: {fileID: 8265144103910172173}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 6.02}
+  m_AnchoredPosition: {x: 0, y: 2.5}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8265144104381158330
@@ -30243,7 +30284,7 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!114 &8265144104381158325
+--- !u!114 &9173161132297974762
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30317,7 +30358,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8265144104806975873}
-  - component: {fileID: 8265144104806975879}
   - component: {fileID: 8265144104806975872}
   - component: {fileID: 8265144104806975878}
   m_Layer: 5
@@ -30341,35 +30381,14 @@ RectTransform:
   - {fileID: 8265144105249688706}
   - {fileID: 8265144105048537386}
   - {fileID: 8265144105450278542}
-  m_Father: {fileID: 8265144104381158324}
+  m_Father: {fileID: 1409427722476046179}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 0, y: -1.95}
-  m_SizeDelta: {x: 1.26, y: 0.1}
+  m_AnchoredPosition: {x: 1, y: -0.4125}
+  m_SizeDelta: {x: 2, y: 0.1}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!223 &8265144104806975879
-Canvas:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8265144104806975875}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_RenderMode: 2
-  m_Camera: {fileID: 0}
-  m_PlaneDistance: 100
-  m_PixelPerfect: 0
-  m_ReceivesEvents: 1
-  m_OverrideSorting: 0
-  m_OverridePixelPerfect: 0
-  m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
-  m_SortingOrder: 0
-  m_TargetDisplay: 0
 --- !u!114 &8265144104806975872
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30970,5 +30989,4 @@ MonoBehaviour:
   disableDuration: 0.5
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0

@@ -17,6 +17,7 @@ public class CutsceneTrigger : MonoBehaviour
     [SerializeField] private PlayableDirector _cutsceneToTrigger;
     [SerializeField] private CutsceneTriggerCondition[] _conditions;
     [SerializeField] private TimeScale _timeScale;
+    [SerializeField] private bool _faceTrigger = true;
 
     private bool _triggered;
     [HideInInspector] public Transform _transform;
@@ -62,6 +63,8 @@ public class CutsceneTrigger : MonoBehaviour
         }
         GameManager.instance.saveManager.SaveOtherData(_saveKey, _triggered);
         _cutsceneObject.SetActive(true);
+        
+        if(!_faceTrigger) return;
         var playerLookPosition = _transform.position - playerTransform.position;
         playerLookPosition.y = 0;
         var playerRotateTo = Quaternion.LookRotation(playerLookPosition);

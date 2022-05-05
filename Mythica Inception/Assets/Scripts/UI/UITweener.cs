@@ -52,9 +52,9 @@ namespace UI
 
         private LTDescr _tweenObject;
         public bool showOnEnable;
-        [SerializeField, HideInInspector] private CanvasGroup _canvasGroup;
+        private CanvasGroup _canvasGroup;
 
-        [HideInInspector] public bool disabled;
+        public bool disabled;
 
         void Awake()
         {

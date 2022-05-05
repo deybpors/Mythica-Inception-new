@@ -16,6 +16,7 @@ MonoBehaviour:
   tameBeam: 1
   skillName: Tame Beam Basic
   skillType: 0
+  skillIcon: {fileID: 0}
   skillCategory: 0
   power: 5
   cooldownTime: 10

@@ -174,6 +174,10 @@ namespace Monster_System
 
                 amount = (int) Math.Round(amount * .25, MidpointRounding.AwayFromZero);
                 amount = (int) Math.Round(amount * (_economyMax - currentEconomy));
+                if (amount <= 0)
+                {
+                    amount = 1;
+                }
                 drop.SetupItemDrop(position, item, amount);
             }
         }

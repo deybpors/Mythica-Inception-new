@@ -1275,7 +1275,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &23812242
 MonoBehaviour:
@@ -1549,7 +1548,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &33213605
 MonoBehaviour:
@@ -10692,7 +10690,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &381489913
 MonoBehaviour:
@@ -11253,7 +11250,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &397750903
 MonoBehaviour:
@@ -13387,7 +13383,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &487718404
 GameObject:
@@ -14440,7 +14435,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &505115355
 GameObject:
@@ -14999,7 +14993,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &520537904
 MonoBehaviour:
@@ -15513,7 +15506,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &532098284
 MonoBehaviour:
@@ -17429,7 +17421,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &591085110
 GameObject:
@@ -19390,7 +19381,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &669393430
 GameObject:
@@ -22473,7 +22463,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &760518316
 MonoBehaviour:
@@ -23346,7 +23335,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &789885384
 GameObject:
@@ -23545,7 +23533,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &791737077
 GameObject:
@@ -23937,7 +23924,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &807717133
 GameObject:
@@ -24169,7 +24155,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &810890959
 MonoBehaviour:
@@ -27078,7 +27063,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &901318787
 GameObject:
@@ -27776,7 +27760,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &914903399
 MonoBehaviour:
@@ -29611,7 +29594,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1001 &1000873460
 PrefabInstance:
@@ -32321,7 +32303,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1073217460
 MonoBehaviour:
@@ -33523,8 +33504,7 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
-  disabled: 0
+  disabled: 1
 --- !u!222 &1096714396
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33578,6 +33558,7 @@ MonoBehaviour:
   tweener: {fileID: 1096714395}
   progressBar: {fileID: 1549098925}
   loadingScreenCamera: {fileID: 1656557094}
+  loadingScreenCameraObject: {fileID: 0}
   thisGameObject: {fileID: 0}
 --- !u!1 &1102430335
 GameObject:
@@ -36711,7 +36692,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1216168784
 MonoBehaviour:
@@ -38841,7 +38821,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1278892566
 MonoBehaviour:
@@ -40118,7 +40097,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1316695966
 MonoBehaviour:
@@ -40646,7 +40624,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 0
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &1336484649
 GameObject:
@@ -40839,7 +40816,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1336489270
 MonoBehaviour:
@@ -42042,7 +42018,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1373703254
 MonoBehaviour:
@@ -44136,7 +44111,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1413516352
 MonoBehaviour:
@@ -44749,11 +44723,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7490196}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.16862746}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -44785,7 +44759,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 0.7490196}
+  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -44938,7 +44912,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1434944987
 MonoBehaviour:
@@ -47430,7 +47403,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1537004792
 MonoBehaviour:
@@ -48421,7 +48393,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1580586650
 MonoBehaviour:
@@ -48549,7 +48520,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1583032577
 MonoBehaviour:
@@ -48865,7 +48835,7 @@ MonoBehaviour:
   contentField: {fileID: 359390705}
   layoutElement: {fileID: 1662914273}
   characterWrapLimit: 80
-  thisObject: {fileID: 0}
+  tooltipObject: {fileID: 0}
 --- !u!1 &1591009429
 GameObject:
   m_ObjectHideFlags: 0
@@ -48942,7 +48912,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &1598457880
 GameObject:
@@ -50780,7 +50749,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &1663765819
 GameObject:
@@ -52325,11 +52293,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7490196}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.16862746}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -52361,7 +52329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 0.7490196}
+  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -53005,7 +52973,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1755704131
 MonoBehaviour:
@@ -53220,7 +53187,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1759795753
 MonoBehaviour:
@@ -54259,7 +54225,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1794247771
 MonoBehaviour:
@@ -58420,7 +58385,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &1960516737
 MonoBehaviour:
@@ -59069,7 +59033,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 1
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &1984132279
 GameObject:
@@ -60409,11 +60372,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7490196}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.16862746}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -60445,7 +60408,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 0.7490196}
+  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -60626,7 +60589,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!1 &2016278535
 GameObject:
@@ -61870,11 +61832,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7490196}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.16862746}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -61906,7 +61868,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 0.7490196}
+  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -62030,11 +61992,11 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_NormalColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.7490196}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_PressedColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 1}
+    m_SelectedColor: {r: 0, g: 0, b: 0, a: 1}
+    m_DisabledColor: {r: 0, g: 0, b: 0, a: 0.16862746}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -62066,7 +62028,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 0.7490196}
+  m_Color: {r: 0.003921569, g: 0.043137256, b: 0.10980392, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -64034,7 +63996,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &2119695600
 MonoBehaviour:
@@ -64446,7 +64407,6 @@ MonoBehaviour:
   disableDuration: 0
   inactiveAfterDone: 0
   showOnEnable: 1
-  _canvasGroup: {fileID: 0}
   disabled: 0
 --- !u!114 &2137343338
 MonoBehaviour:

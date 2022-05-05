@@ -1,5 +1,26 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9215949804889010044
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8c3450c29bdd048ad3820065dd9fea, type: 3}
+  m_Name: DialogueClip(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  behaviorTemplate:
+    hasToPause: 1
+    displayCharPic: 1
+    line:
+      text: <PLAYER_NAME>
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
+      emotion: 0
+      speakerDirection: 1
+    responseChoices: []
 --- !u!114 &-9002526892799032793
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -44,7 +65,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 11.466666666666667
+    m_Start: 11.966666666666672
     m_ClipIn: 0
     m_Asset: {fileID: 4535030112315104969}
     m_Duration: 8.200000000000001
@@ -159,7 +180,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 19.866666666666667
+    m_Start: 20.36666666666666
     m_ClipIn: 0
     m_Asset: {fileID: 107167649817703049}
     m_Duration: 1.5999999999999996
@@ -347,7 +368,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 11.466666666666667
+    m_Start: 11.966666666666672
     m_ClipIn: 0
     m_Asset: {fileID: 7846326327853897086}
     m_Duration: 8.200000000000001
@@ -439,7 +460,7 @@ MonoBehaviour:
   m_Children: []
   m_Clips:
   - m_Version: 1
-    m_Start: 1.5
+    m_Start: 2
     m_ClipIn: 0
     m_Asset: {fileID: -3852919464715601064}
     m_Duration: 2
@@ -508,7 +529,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Buwanawa
   - m_Version: 1
-    m_Start: 4.116666666666666
+    m_Start: 4.616666666666666
     m_ClipIn: 0
     m_Asset: {fileID: 2250812420956573383}
     m_Duration: 2
@@ -577,7 +598,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: PC
   - m_Version: 1
-    m_Start: 6.7
+    m_Start: 7.200000000000004
     m_ClipIn: 0
     m_Asset: {fileID: -9002526892799032793}
     m_Duration: 2
@@ -646,7 +667,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Buwanawa
   - m_Version: 1
-    m_Start: 9.316666666666666
+    m_Start: 9.816666666666674
     m_ClipIn: 0
     m_Asset: {fileID: 8962692903446064450}
     m_Duration: 2
@@ -715,10 +736,79 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Buwanawa
   - m_Version: 1
-    m_Start: 11.916666666666666
+    m_Start: 12.416666666666671
     m_ClipIn: 0
     m_Asset: {fileID: -1724387560786416585}
     m_Duration: 7.750000000000002
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 1535429805342342155}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Buwanawa
+  - m_Version: 1
+    m_Start: 0.03333333333333333
+    m_ClipIn: 0
+    m_Asset: {fileID: -9215949804889010044}
+    m_Duration: 1.3833333333333333
     m_TimeScale: 1
     m_ParentTrack: {fileID: 1535429805342342155}
     m_EaseInDuration: 0
@@ -1000,7 +1090,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -2367986857089009393}
-    m_Duration: 19.933333333333334
+    m_Duration: 20.36666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 7498847434254686295}
     m_EaseInDuration: 0

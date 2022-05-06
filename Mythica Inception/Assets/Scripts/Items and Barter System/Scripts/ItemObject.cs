@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
@@ -27,7 +28,7 @@ namespace Items_and_Barter_System.Scripts
         public abstract bool TryUse(IEntity entity);
     }
     
-    [System.Serializable]
+    [Serializable]
     public class ItemBarterRequirement
     {
         public ItemObject itemToBarter;
@@ -40,7 +41,7 @@ namespace Items_and_Barter_System.Scripts
         }
     }
     
-    [System.Serializable]
+    [Serializable]
     public class InventorySlot
     {
         public ItemObject inventoryItem;

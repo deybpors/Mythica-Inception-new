@@ -18,7 +18,7 @@ MonoBehaviour:
     character: {fileID: 0}
     emotion: 5
     speakerDirection: 0
-  - text: This must be a shrine for mythicas?
+  - text: This must be a memorial shrine for mythicas?
     character: {fileID: 0}
     emotion: 5
     speakerDirection: 0

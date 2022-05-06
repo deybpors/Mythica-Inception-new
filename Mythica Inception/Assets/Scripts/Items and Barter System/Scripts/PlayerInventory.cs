@@ -12,71 +12,6 @@ namespace Items_and_Barter_System.Scripts
 
         private readonly Dictionary<ItemObject, int> _totalInventory = new Dictionary<ItemObject, int>();
 
-        public int GetTotalAmountItems(ItemObject item)
-        {
-            return _totalInventory.TryGetValue(item, out var amount) ? amount : 0;
-        }
-
-        public void UpdateTotalInventory()
-        {
-            var slotCount = inventorySlots.Count;
-            _totalInventory.Clear();
-
-            for (var i = 0; i < slotCount; i++)
-            {
-                if(inventorySlots[i].inventoryItem == null) continue;
-                try
-                {
-                    _totalInventory.Add(inventorySlots[i].inventoryItem, inventorySlots[i].amountOfItems);
-                }
-                catch
-                {
-                    _totalInventory[inventorySlots[i].inventoryItem] += inventorySlots[i].amountOfItems;
-                }
-            }
-        }
-
-        public bool HasSufficientItem(ItemObject item, int amount)
-        {
-            if (!_totalInventory.TryGetValue(item, out var currentAmount))
-            {
-                return false;
-            }
-
-            return currentAmount >= amount;
-        }
-
-        public bool CanAdd(ItemObject item, int amount)
-        {
-            if (item is Gold)
-            {
-                return true;
-            }
-
-            var canAdd = false;
-            var slotCount = inventorySlots.Count;
-            for (var i = 0; i < slotCount; i++)
-            {
-                var slot = inventorySlots[i];
-                
-                if (slot.inventoryItem == null)
-                {
-                    canAdd = true;
-                    break;
-                }
-
-                if (!item.stackable) continue;
-                
-                if (slot.inventoryItem != item) continue;
-                    
-                if (amount + slot.amountOfItems > _itemLimitPerSlot) continue;
-
-                canAdd = true;
-            }
-
-            return canAdd;
-        }
-
         public void AddItemInPlayerInventory(ItemObject item, int amountToAdd)
         {
             if (!item.stackable)
@@ -115,7 +50,6 @@ namespace Items_and_Barter_System.Scripts
                 targetAmount -= _itemLimitPerSlot;
                 slot.amountOfItems = _itemLimitPerSlot;
                 amountToAdd = targetAmount;
-                Debug.Log("Cannot Add All!");
             }
 
             if (amountToAdd > 0)
@@ -183,6 +117,71 @@ namespace Items_and_Barter_System.Scripts
                 break;
             }
             UpdateTotalInventory();
+        }
+
+        public int GetTotalAmountItems(ItemObject item)
+        {
+            return _totalInventory.TryGetValue(item, out var amount) ? amount : 0;
+        }
+
+        public void UpdateTotalInventory()
+        {
+            var slotCount = inventorySlots.Count;
+            _totalInventory.Clear();
+
+            for (var i = 0; i < slotCount; i++)
+            {
+                if(inventorySlots[i].inventoryItem == null) continue;
+                try
+                {
+                    _totalInventory.Add(inventorySlots[i].inventoryItem, inventorySlots[i].amountOfItems);
+                }
+                catch
+                {
+                    _totalInventory[inventorySlots[i].inventoryItem] += inventorySlots[i].amountOfItems;
+                }
+            }
+        }
+
+        public bool HasSufficientItem(ItemObject item, int amount)
+        {
+            if (!_totalInventory.TryGetValue(item, out var currentAmount))
+            {
+                return false;
+            }
+
+            return currentAmount >= amount;
+        }
+
+        public bool CanAdd(ItemObject item, int amount)
+        {
+            if (item is Gold)
+            {
+                return true;
+            }
+
+            var canAdd = false;
+            var slotCount = inventorySlots.Count;
+            for (var i = 0; i < slotCount; i++)
+            {
+                var slot = inventorySlots[i];
+                
+                if (slot.inventoryItem == null)
+                {
+                    canAdd = true;
+                    break;
+                }
+
+                if (!item.stackable) continue;
+                
+                if (slot.inventoryItem != item) continue;
+                    
+                if (amount + slot.amountOfItems > _itemLimitPerSlot) continue;
+
+                canAdd = true;
+            }
+
+            return canAdd;
         }
     }
 }

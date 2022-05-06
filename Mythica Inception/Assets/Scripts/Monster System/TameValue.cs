@@ -61,6 +61,11 @@ namespace Monster_System
             _tamer ??= tamer;
             
             currentTameValue += tameBeamValue;
+
+            var bigHit = currentTameValue >= maxTameValue * .25;
+            var shakeIntensity = bigHit ? 6f : 3f;
+            GameManager.instance.Screenshake(shakeIntensity, .5f);
+
             tameValueBarUI.currentValue = currentTameValue;
             
             if (currentTameValue >= maxTameValue)

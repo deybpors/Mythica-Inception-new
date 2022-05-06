@@ -38,7 +38,7 @@ MonoBehaviour:
     character: {fileID: 0}
     emotion: 5
     speakerDirection: 1
-  - text: Is it a mythica? Maybe it's a Keeper Mythica.
+  - text: Is it a mythica? Maybe it's a <color=#f48989>Keeper Mythica</color>.
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 0
     speakerDirection: 0

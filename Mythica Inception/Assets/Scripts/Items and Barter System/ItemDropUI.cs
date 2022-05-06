@@ -55,7 +55,7 @@ public class ItemDropUI : MonoBehaviour
             _images[button].sprite = item.itemIcon;
             _tooltipTriggers[button].SetTitleContent(item.itemName, item.itemDescription);
             button.onClick.RemoveAllListeners();
-            button.onClick.AddListener((() => AddItem(tweener, itemDrop)));
+            button.onClick.AddListener((() => AddItem(itemDrop)));
             _itemDrops.Add(itemDrop, button);
 
             obj.SetActive(true);
@@ -72,9 +72,9 @@ public class ItemDropUI : MonoBehaviour
         _tweeners[button].Disable();
     }
 
-    private void AddItem(UITweener tweener, ItemDrop drop)
+    private void AddItem(ItemDrop drop)
     {
-        tweener.Disable();
         drop.Interact(GameManager.instance.player);
+        Unsubscribe(drop);
     }
 }

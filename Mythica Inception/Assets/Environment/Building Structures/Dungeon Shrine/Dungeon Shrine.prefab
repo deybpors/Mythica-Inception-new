@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 436395343339259898}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Dungeon Shrine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 3273543366559185294}
   - component: {fileID: 9087612369248667560}
   - component: {fileID: 5963352381305743004}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -142,7 +142,7 @@ GameObject:
   - component: {fileID: 7245226396560742878}
   - component: {fileID: 6057931788755516142}
   - component: {fileID: 1564134078077715691}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Main
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 5718880454486979474}
   - component: {fileID: 696653336199719369}
   - component: {fileID: 8389691920405261987}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Stairs
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 3368262731177524739}
   - component: {fileID: 6944974180945455145}
   - component: {fileID: 7260862086802461355}
-  m_Layer: 12
+  m_Layer: 7
   m_Name: Cover
   m_TagString: Untagged
   m_Icon: {fileID: 0}

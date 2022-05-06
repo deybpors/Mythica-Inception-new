@@ -23,7 +23,7 @@ MonoBehaviour:
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 4
     speakerDirection: 0
-  - text: Around 5 maybe? I lost count.
+  - text: Around 5 maybe? Or more than 5? Not sure. I lost count.
     character: {fileID: 0}
     emotion: 5
     speakerDirection: 1
@@ -32,6 +32,10 @@ MonoBehaviour:
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 0
     speakerDirection: 0
+  - text: But she's literally in need of he...
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
   - text: Let me enjoy my perfect tambis first!
     character: {fileID: 11400000, guid: fe5c4a58da1bb994f8e89d917e3f3602, type: 2}
     emotion: 1

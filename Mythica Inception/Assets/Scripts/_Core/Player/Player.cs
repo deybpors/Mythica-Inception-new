@@ -78,6 +78,7 @@ namespace _Core.Player
             playerLayer = _thisObject.layer;
             Destroy(GameManager.instance.GetComponent<AudioListener>());
             savedData = GameManager.instance.loadedSaveData;
+            GameManager.instance.difficultyManager.ChangeValuesFromSaved();
             GameManager.instance.uiManager.generalOptionsUi.ChangeUIValues();
             Init();
             if(savedData == null) return;

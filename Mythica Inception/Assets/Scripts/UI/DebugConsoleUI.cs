@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class DebugConsoleUI : MonoBehaviour
 {
+    public TextMeshProUGUI DDAText;
     public List<TextMeshProUGUI> debugConsoleItems;
     public Dictionary<TextMeshProUGUI, CanvasGroup> canvasGroups = new Dictionary<TextMeshProUGUI, CanvasGroup>();
 

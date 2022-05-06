@@ -1,4 +1,5 @@
 ﻿using MyBox;
+using UnityEngine;
 
 
 namespace DDA
@@ -19,11 +20,12 @@ namespace DDA
 
         public bool IncreaseDifficulty()
         {
-            if (increaseDifficultyOnEquals && previousValue.Approximately(value))
+            if (increaseDifficultyOnEquals && previousValue.Equals(value))
             {
                 return true;
             }
-            
+
+
             switch (increaseDifficulty)
             {
                 case Difficulty.higher:
@@ -37,10 +39,11 @@ namespace DDA
 
         public bool DecreaseDifficulty()
         {
-            if (decreaseDifficultyOnEquals && previousValue.Approximately(value))
+            if (decreaseDifficultyOnEquals && previousValue.Equals(value))
             {
                 return true;
             }
+
 
             switch (increaseDifficulty)
             {

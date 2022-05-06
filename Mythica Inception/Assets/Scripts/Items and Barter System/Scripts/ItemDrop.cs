@@ -7,6 +7,7 @@ using Dialogue_System;
 using Items_and_Barter_System.Scripts;
 using MyBox;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class ItemDrop : MonoBehaviour, IInteractable
 {
@@ -35,6 +36,33 @@ public class ItemDrop : MonoBehaviour, IInteractable
     private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
     private Dictionary<GameObject, Quaternion> _quaternions = new Dictionary<GameObject, Quaternion>();
 
+    public void SetupItemDrop(Vector3 initPos, ItemObject item, int amount)
+    {
+        if (item == null)
+        {
+            _thisObject.SetActive(false);
+            return;
+        }
+
+        if (_thisObject == null)
+        {
+            _thisObject = gameObject;
+        }
+
+        if (_player == null)
+        {
+            _player = GameManager.instance.player;
+            _thisTransform = transform;
+            _playerTransform = _player.transform;
+        }
+
+        _item = item;
+        _amount = amount;
+        _spawner = null;
+        _economyMax = GameManager.instance.difficultyManager.GetParameterMaxValue("Economy");
+        Initialize(initPos);
+    }
+
     void Initialize(Vector3 initPos)
     {
 
@@ -52,7 +80,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
         if (_currentPrefab != null && _transforms.TryGetValue(_currentPrefab, out var t))
         {
-            t.parent = null;
+            t.parent = GameManager.instance.pooler.masterParent;
             _currentPrefab.SetActive(false);
         }
 
@@ -84,33 +112,6 @@ public class ItemDrop : MonoBehaviour, IInteractable
         _timeElapsed = 0;
     }
 
-    public void SetupItemDrop(Vector3 initPos, ItemObject item, int amount)
-    {
-        if (item == null)
-        {
-            _thisObject.SetActive(false);
-            return;
-        }
-
-        if (_thisObject == null)
-        {
-            _thisObject = gameObject;
-        }
-
-        if (_player == null)
-        {
-            _player = GameManager.instance.player;
-            _thisTransform = transform;
-            _playerTransform = _player.transform;
-        }
-
-        _item = item;
-        _amount = amount;
-        _spawner = null;
-        _economyMax = GameManager.instance.difficultyManager.GetParameterMaxValue("Economy");
-        Initialize(initPos);
-    }
-
     public void SetupItemDrop(Vector3 initPos, ItemObject item, int amount, ItemSpawner spawner)
     {
         SetupItemDrop(initPos, item, amount);
@@ -125,19 +126,20 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
     private void CheckTimeDisable()
     {
-        var warning = _timeToDisable * .75f;
-        if (_timeElapsed >= warning && _warningCoroutine == null)
-        {
-            _warningCoroutine = StartCoroutine(Warning());
-        }
-
         _currentPrefab.SetActive(_prefabOn);
 
         _timeElapsed += Time.deltaTime;
 
-        var disableMultiplier = Math.Round(_economyMax - GameManager.instance.difficultyManager.GetParameterValue("Economy"), MidpointRounding.AwayFromZero);
+        var disableMultiplier = Math.Round(_economyMax - GameManager.instance.difficultyManager.GetParameterValue("Economy"),
+            MidpointRounding.AwayFromZero);
 
         disableMultiplier = disableMultiplier < .5 ? .5 : disableMultiplier;
+
+        var warning = _timeToDisable * disableMultiplier * .75f;
+        if (_timeElapsed >= warning && _warningCoroutine == null)
+        {
+            _warningCoroutine = StartCoroutine(Warning());
+        }
 
         if (_timeElapsed < _timeToDisable * disableMultiplier) return;
         
@@ -243,21 +245,21 @@ public class ItemDrop : MonoBehaviour, IInteractable
             if (Vector3.Distance(_thisTransform.position, playerTransform.position) <= .5f)
             {
                 StopAllCoroutines();
-                GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
                 _player.playerInventory.AddItemInPlayerInventory(_item, _amount);
-                GameManager.instance.audioManager.PlaySFX("Confirmation");
                 if (_spawner != null)
                 {
                     _spawner.RemoveItemInCurrentItems(_thisObject);
                 }
                 _thisObject.SetActive(false);
                 _currentPrefab.SetActive(true);
+                break;
             }
 
             timeElapsed += Time.deltaTime;
             yield return null;
         }
 
+        GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
         _thisObject.SetActive(false);
     }
 }

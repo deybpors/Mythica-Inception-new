@@ -17,7 +17,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 1000012983155380, guid: 21a2562e68015d94982e986b9732faee, type: 3}
   itemIcon: {fileID: 21300000, guid: a12ad67800bde9945a5ceeb16e878e91, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: A rare material dropped by a defeated mythica. It is bearable
+    to eat and it's not really that good. But it serves its purpose.
   usable: 1
   stackable: 1
   losable: 0

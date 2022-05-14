@@ -174,9 +174,19 @@ public class MonsterTamedUI : MonoBehaviour
         action?.Invoke();
     }
 
-    private void ChangeMonster(Monster newMonster)
+    public void ChangeMonster(Monster newMonster)
     {
         _monsterDisplayed = newMonster;
+
+        if (newMonster == null)
+        {
+            if (_monsterPrefab == null) return;
+            
+            GameManager.instance.pooler.BackToPool(_monsterPrefab);
+            _monsterPrefab = null;
+            return;
+        }
+
         if (_monsterPrefab != null)
         {
             GameManager.instance.pooler.BackToPool(_monsterPrefab);

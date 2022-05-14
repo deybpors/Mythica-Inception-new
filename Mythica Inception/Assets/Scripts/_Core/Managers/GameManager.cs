@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using _Core.Input;
 using _Core.Others;
 using Assets.Scripts._Core.Managers;
@@ -14,6 +15,7 @@ using Quest_System;
 using SoundSystem;
 using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace _Core.Managers
 {
@@ -27,6 +29,7 @@ namespace _Core.Managers
         public GameSceneManager gameSceneManager;
         public ObjectPooler pooler;
         public SceneReference gameplayScene;
+        public SceneReference startScene;
         public DynamicDifficultyAdjustment difficultyManager;
         public QuestManager questManager;
         public SaveManager saveManager;
@@ -39,6 +42,7 @@ namespace _Core.Managers
         private Dictionary<GameObject, Transform> _enemiesTransforms = new Dictionary<GameObject, Transform>();
 
         [Foldout("States", true)]
+        public State startState;
         public State gameplayState;
         public State UIState;
         public State dialogueState;
@@ -50,7 +54,9 @@ namespace _Core.Managers
         [HideInInspector] public PlayerSaveData loadedSaveData;
         [HideInInspector] public Light mainLight;
         [HideInInspector] public Terrain currentTerrain;
+        public Dictionary<GameObject, Transform> unstuckCheckpoints = new Dictionary<GameObject, Transform>();
         private CinemachineBasicMultiChannelPerlin _perlinNoise;
+        private AudioListener _listener;
 
         void Awake()
         {
@@ -67,6 +73,7 @@ namespace _Core.Managers
             }
 
             databaseManager.InitializeTypeChartData();
+            _listener = instance.GetOrAddComponent<AudioListener>();
         }
 
         void Start()
@@ -150,6 +157,52 @@ namespace _Core.Managers
             }
 
             activeEnemies.Remove(trans);
+        }
+
+        public void BackToStartScreen()
+        {
+            pooler.DisableAllObjects();
+            uiManager.monsterTamedUi.ChangeMonster(null);
+            saveManager.profileIndex = -1;
+            gameSceneManager.UnloadScene(gameplayScene.sceneIndex, true);
+            gameStateController.TransitionToState(startState);
+            gameSceneManager.UnloadScene(currentWorldScenePath, true);
+            gameSceneManager.LoadScene(startScene.sceneIndex, true, 1f);
+            _listener = instance.GetOrAddComponent<AudioListener>();
+            audioManager.PlayMusic(MusicMood.Calm);
+            uiManager.DeactivateAllUI();
+            UnityAction action = () => uiManager.startSceneUI.gameObject.SetActive(true);
+            StartCoroutine(uiManager.Delay(1, action));
+            pauseManager.PauseGameplay(1);
+        }
+
+        public void TransferToNearestCheckpoint(Transform playerTransform)
+        {
+            var list = unstuckCheckpoints.Values.ToList();
+            var count = list.Count;
+            if(count <= 0) return;
+
+            var trans = playerTransform;
+            
+            var nearest = 0f;
+
+            for (var i = 0; i < count; i++)
+            {
+                var distance = Vector3.Distance(playerTransform.position, list[i].position);
+                if (i == 0)
+                {
+                    nearest = distance;
+                    trans = list[i];
+                    continue;
+                }
+
+                if (distance >= nearest) continue;
+                
+                nearest = distance;
+                trans = list[i];
+            }
+
+            playerTransform.position = trans.position;
         }
 
         private IEnumerator FadeScreenShake(float shakeTime)

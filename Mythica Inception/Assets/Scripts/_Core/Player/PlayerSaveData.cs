@@ -6,6 +6,8 @@ using Assets.Scripts._Core.Player;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
 using Quest_System;
+using ToolBox.Serialization;
+using UnityEditor;
 using UnityEngine;
 public class PlayerSaveData
 {
@@ -54,5 +56,19 @@ public class PlayerSaveData
         _discoveredMonsters = discoveredMonsters;
         _optionsSaveData = optionsSaveData;
         _storageMonsters = storageMonsters;
+    }
+}
+
+public sealed class AotTypeProvider : ITypeProvider
+{
+    public Type[] GetTypes()
+    {
+        return new Type[]
+        {
+            typeof(Sex),
+            typeof(DateTime),
+            typeof(TimeSpan),
+            typeof(OptionsSaveData.DifficultyOptions)
+        };
     }
 }

@@ -7,8 +7,10 @@ namespace Assets.Scripts.UI
     {
         public UITweener tweener;
         public ProgressBarUI progressBar;
+        public Camera loadScreenCamera;
 
         [HideInInspector] public GameObject thisGameObject;
+        [HideInInspector] public GameObject loadingScreeenCameraObj;
 
         void Start()
         {
@@ -18,6 +20,7 @@ namespace Assets.Scripts.UI
         public void Initialize()
         {
             thisGameObject = gameObject;
+            loadingScreeenCameraObj = loadScreenCamera.gameObject;
         }
     }
 }

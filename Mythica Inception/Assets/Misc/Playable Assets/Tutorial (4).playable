@@ -22,6 +22,28 @@ MonoBehaviour:
       emotion: 0
       speakerDirection: 1
     responseChoices: []
+--- !u!114 &-8874829997062313493
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e8c3450c29bdd048ad3820065dd9fea, type: 3}
+  m_Name: DialogueClip(Clone)(Clone)(Clone)(Clone)
+  m_EditorClassIdentifier: 
+  behaviorTemplate:
+    hasToPause: 1
+    displayCharPic: 1
+    line:
+      text: To change to your mythica press [1, 2, 3, 4]. To go back to your original
+        form, press [`] beside the [1] key at its left.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
+      emotion: 0
+      speakerDirection: 1
+    responseChoices: []
 --- !u!114 &-8499629315651241327
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -124,7 +146,7 @@ MonoBehaviour:
     m_Start: 0
     m_ClipIn: 0
     m_Asset: {fileID: -8046101401473523062}
-    m_Duration: 11.683333333333334
+    m_Duration: 14.166666666666666
     m_TimeScale: 1
     m_ParentTrack: {fileID: 2257680675191666213}
     m_EaseInDuration: 0
@@ -418,7 +440,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Buwanawa
   - m_Version: 1
-    m_Start: 5.2
+    m_Start: 7.783333333333333
     m_ClipIn: 0
     m_Asset: {fileID: -8988160517398974142}
     m_Duration: 2
@@ -487,7 +509,7 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Buwanawa
   - m_Version: 1
-    m_Start: 7.8
+    m_Start: 10.38333333333334
     m_ClipIn: 0
     m_Asset: {fileID: 6004611602599741785}
     m_Duration: 2
@@ -556,10 +578,79 @@ MonoBehaviour:
     m_PreExtrapolationTime: 0
     m_DisplayName: Buwanawa
   - m_Version: 1
-    m_Start: 10.4
+    m_Start: 12.983333333333341
     m_ClipIn: 0
     m_Asset: {fileID: -8499629315651241327}
     m_Duration: 1
+    m_TimeScale: 1
+    m_ParentTrack: {fileID: 8447465197067020283}
+    m_EaseInDuration: 0
+    m_EaseOutDuration: 0
+    m_BlendInDuration: 0
+    m_BlendOutDuration: 0
+    m_MixInCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_MixOutCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    m_BlendInCurveMode: 0
+    m_BlendOutCurveMode: 0
+    m_ExposedParameterNames: []
+    m_AnimationCurves: {fileID: 0}
+    m_Recordable: 0
+    m_PostExtrapolationMode: 0
+    m_PreExtrapolationMode: 0
+    m_PostExtrapolationTime: 0
+    m_PreExtrapolationTime: 0
+    m_DisplayName: Buwanawa
+  - m_Version: 1
+    m_Start: 5.2
+    m_ClipIn: 0
+    m_Asset: {fileID: -8874829997062313493}
+    m_Duration: 2
     m_TimeScale: 1
     m_ParentTrack: {fileID: 8447465197067020283}
     m_EaseInDuration: 0

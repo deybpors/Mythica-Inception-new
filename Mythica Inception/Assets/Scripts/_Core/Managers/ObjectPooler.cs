@@ -20,7 +20,8 @@ namespace _Core.Managers
         public List<Pool> pools;
         public Dictionary<string, Queue<GameObject>> poolDictionary;
         private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
-        private readonly Vector3 zero = Vector3.zero;
+        private readonly Vector3 _zero = Vector3.zero;
+        private List<GameObject> _masterChildren;
         private void PreInstantiate(List<Pool> p)
         {
             pools = p;
@@ -32,7 +33,7 @@ namespace _Core.Managers
                 {
                     pool.tag = pool.prefab.name;
                 }
-                AddNewPoolToDictionary(transform, pool.tag, pool.prefab, pool.size, zero);
+                AddNewPoolToDictionary(transform, pool.tag, pool.prefab, pool.size, _zero);
             }
         }
 
@@ -138,9 +139,57 @@ namespace _Core.Managers
 
         public void BackToPool(GameObject obj)
         {
-            obj.SetActive(false);
-            obj.transform.rotation = Quaternion.Euler(0,0,0);
-            obj.transform.parent = masterParent;
+            try
+            {
+                obj.SetActive(false);
+                var objTransform = obj.transform;
+                objTransform.rotation = Quaternion.Euler(0, 0, 0);
+
+                var transformParent = objTransform.parent;
+                if (transformParent.gameObject.activeInHierarchy)
+                {
+                    objTransform.SetParent(masterParent);
+                }
+
+                var tag = obj.name.Replace("(Clone)", string.Empty);
+                poolDictionary[tag].Enqueue(obj);
+            }
+            catch
+            {
+                //ignored
+            }
+        }
+
+        public void DisableAllObjects()
+        {
+
+            foreach (Transform child in masterParent)
+            {
+                var childGameObject = child.gameObject;
+                if (childGameObject.activeInHierarchy)
+                {
+                    BackToPool(childGameObject);
+                }
+            }
+
+            try
+            {
+                var queue = poolDictionary.Values.ToList();
+                var queueCount = queue.Count;
+                for (var i = 0; i < queueCount; i++)
+                {
+                    var objectsCount = queue[i].Count;
+                    var list = queue[i].ToList();
+                    for (var j = 0; j < objectsCount; j++)
+                    {
+                        BackToPool(list[i]);
+                    }
+                }
+            }
+            catch
+            {
+                //ignored
+            }
         }
     }
 }

@@ -42,7 +42,6 @@ public class NewGamePanelUI : MonoBehaviour
         savePanelMinimize.onClick.AddListener(DisableCreateNewSavePanel);
         try
         {
-            //TODO: Change StartSceneUI Scene Picker Data to env_Dream
             startPlacePath = GameManager.instance.uiManager.startSceneUI.startScene;
         }
         catch

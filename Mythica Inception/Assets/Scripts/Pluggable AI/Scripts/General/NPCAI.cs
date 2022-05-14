@@ -6,7 +6,6 @@ using Dialogue_System;
 using MyBox;
 using Pluggable_AI.Scripts.General;
 using Quest_System;
-using ToolBox.Serialization;
 using UnityEngine;
 
 namespace Assets.Scripts.Dialogue_System
@@ -112,29 +111,24 @@ namespace Assets.Scripts.Dialogue_System
                 newLines[i].speakerDirection = _conversation.lines[i].speakerDirection;
                 newLines[i].text = _conversation.lines[i].text;
 
-                var conversationChar = _conversation.lines[i].character;
-                newLines[i].character = conversationChar;
+                if (_conversation.lines[i].character == null) continue;
 
-                if (conversationChar == null) continue;
-                
-                var newChar = new Character
-                {
-                    moods = conversationChar.moods,
-                    dialoguePitch = conversationChar.dialoguePitch,
-                    facePicture = conversationChar.facePicture,
-                    sexOfCharacter = conversationChar.sexOfCharacter,
-                    fullName = _npcName
-                };
+                var conversationChar = _conversation.lines[i].character;
+                var newChar = ScriptableObject.CreateInstance<Character>();
+                newChar.moods = conversationChar.moods;
+                newChar.dialoguePitch = conversationChar.dialoguePitch;
+                newChar.facePicture = conversationChar.facePicture;
+                newChar.sexOfCharacter = conversationChar.sexOfCharacter;
+                newChar.fullName = _npcName;
+                newLines[i].character = newChar;
             }
 
-            var newConversation = new Conversation
-            {
-                name = _npcName,
-                hideFlags = HideFlags.None,
-                ID = null,
-                lines = newLines,
-                choices = _conversation.choices
-            };
+            var newConversation = ScriptableObject.CreateInstance<Conversation>();
+            name = _npcName;
+            hideFlags = HideFlags.None;
+            newConversation.ID = null;
+            newConversation.lines = newLines;
+            newConversation.choices = _conversation.choices;
 
             _conversation = newConversation;
         }
@@ -158,15 +152,25 @@ namespace Assets.Scripts.Dialogue_System
             for (var i = 0; i < count; i++)
             {
                 if (!questManager.PlayerHaveQuest(questManager.finishedQuests, _questsInConversation[i],
-                        out var accepted)) continue;
+                        out _)) continue;
                 
                 gameObject.SetActive(false);
                 return;
             }
         }
 
+        void OnDisable()
+        {
+            var player = GameManager.instance.player;
+            player.UnsubscribeInteractable(this);
+        }
+
         private void GetQuestInConversation()
         {
+            if (_conversation.choices == null)
+            {
+                return;
+            }
             var choicesCount = _conversation.choices.Length;
 
             for (var i = 0; i < choicesCount; i++)
@@ -200,6 +204,7 @@ namespace Assets.Scripts.Dialogue_System
             if (distanceToPlayer <= _interactableDistance && GameManager.instance.inputHandler.currentMonster < 0)
             {
                 _isInteractable = true;
+                player.SubscribeInteractable(this);
 
                 if (_outline != null)
                 {
@@ -214,12 +219,18 @@ namespace Assets.Scripts.Dialogue_System
                     _outline.enabled = false;
                 }
                 _isInteractable = false;
+                player.UnsubscribeInteractable(this);
             }
 
             if (!GameManager.instance.inputHandler.interact || !_isInteractable) return;
+            if (GameManager.instance.enemiesSeePlayer.Count > 0)
+            {
+                GameManager.instance.uiManager.debugConsole.DisplayLogUI("You can't interact while a mythica sees you.");
+                return;
+            }
             GameManager.instance.inputHandler.interact = false;
             _isInteractable = false;
-
+            player.UnsubscribeInteractable(this);
             Interact(player);
         }
 
@@ -266,7 +277,6 @@ namespace Assets.Scripts.Dialogue_System
             var saveKey = _saveKey + nameof(_alreadyInteracted);
             GameManager.instance.saveManager.SaveOtherData(saveKey, _alreadyInteracted);
         }
-
         private void GetNPCPlayerToRotateTo(out Quaternion npcRotateTo, out Quaternion playerRotateTo)
         {
             var npcLookPosition = _playerTransform.position - _npcTransform.position;

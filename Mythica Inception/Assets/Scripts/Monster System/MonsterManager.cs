@@ -297,6 +297,15 @@ namespace Monster_System
             }
         }
 
+        void OnDisable()
+        {
+            var objs = GetMonsterGameObjects();
+            foreach (var obj in objs)
+            {
+                GameManager.instance.pooler.BackToPool(obj);
+            }
+        }
+
         public List<GameObject> GetMonsterGameObjects()
         {
             return _monsterGameObjects;

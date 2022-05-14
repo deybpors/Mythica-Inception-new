@@ -108,6 +108,13 @@ namespace Combat_System
 
                 if (hit.transform != _target) continue;
                 if (_tameable == null) continue;
+                if (GameManager.instance.player.dead)
+                {
+                    OnDeactivate();
+                    break;
+                }
+
+
                 var monsterToTame = hit.GetComponent<IHaveMonsters>().GetCurrentMonster();
                 _hitOnTarget = true;
                 _tameable.AddCurrentTameValue(CalculateTameBeamValue(monsterToTame), _haveMonsters);

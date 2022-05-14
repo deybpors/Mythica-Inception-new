@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 
+[Serializable]
 public class WorldPlacementData
 {
     public Vector3 position;

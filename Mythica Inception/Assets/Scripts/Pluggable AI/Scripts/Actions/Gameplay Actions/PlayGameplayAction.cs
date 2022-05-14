@@ -10,6 +10,9 @@ public class PlayGameplayAction : Action
     public override void Act(StateController stateController)
     {
         var pauseManager = GameManager.instance.pauseManager;
+
+        if(pauseManager == null) return;
+
         if (pauseManager.paused)
         {
             pauseManager.PauseGameplay(1);

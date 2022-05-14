@@ -36,11 +36,22 @@ public class ItemDrop : MonoBehaviour, IInteractable
     private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
     private Dictionary<GameObject, Quaternion> _quaternions = new Dictionary<GameObject, Quaternion>();
 
+    void OnDisable()
+    {
+        if (_player == null)
+        {
+            _player = GameManager.instance.player;
+        }
+        _player.UnsubscribeInteractable(this);
+    }
+
     public void SetupItemDrop(Vector3 initPos, ItemObject item, int amount)
     {
         if (item == null)
         {
+            _player.UnsubscribeInteractable(this);
             _thisObject.SetActive(false);
+
             return;
         }
 
@@ -49,9 +60,8 @@ public class ItemDrop : MonoBehaviour, IInteractable
             _thisObject = gameObject;
         }
 
-        if (_player == null)
+        if (_thisTransform == null)
         {
-            _player = GameManager.instance.player;
             _thisTransform = transform;
             _playerTransform = _player.transform;
         }
@@ -69,6 +79,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
         var cast = Physics.Raycast(_thisTransform.position, _down, out var hit, layer);
         if (!cast)
         {
+            _player.UnsubscribeInteractable(this);
             _thisObject.SetActive(false);
             return;
         }
@@ -80,8 +91,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
         if (_currentPrefab != null && _transforms.TryGetValue(_currentPrefab, out var t))
         {
-            t.parent = GameManager.instance.pooler.masterParent;
-            _currentPrefab.SetActive(false);
+            GameManager.instance.pooler.BackToPool(_currentPrefab);
         }
 
 
@@ -91,23 +101,24 @@ public class ItemDrop : MonoBehaviour, IInteractable
             _quaternions.Add(_item.itemPrefab, rotation);
         }
 
-        var obj = GameManager.instance.pooler.SpawnFromPool(null, _item.itemPrefab.name, _item.itemPrefab, _zero, rotation);
+        var gfx = GameManager.instance.pooler.SpawnFromPool(null, _item.itemPrefab.name, _item.itemPrefab, _zero, rotation);
         
-        if (!_outlines.TryGetValue(obj, out var outline))
+        if (!_outlines.TryGetValue(gfx, out var outline))
         {
-            outline = obj.GetComponent<Outline>();
-            _outlines.Add(obj, outline);
+            outline = gfx.GetComponent<Outline>();
+            _outlines.Add(gfx, outline);
         }
 
-        if (!_transforms.TryGetValue(obj, out var trans))
+        if (!_transforms.TryGetValue(gfx, out var trans))
         {
-            trans = obj.transform;
-            _transforms.Add(obj, trans);
+            trans = gfx.transform;
+            _transforms.Add(gfx, trans);
         }
 
         trans.SetParent(_thisTransform);
         trans.localPosition = _zero;
-        _currentPrefab = obj;
+        _currentPrefab = gfx;
+        _currentPrefab.SetActive(true);
         _outline = outline;
         _timeElapsed = 0;
     }
@@ -147,6 +158,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
         {
             GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
             _thisObject.SetActive(false);
+            _player.UnsubscribeInteractable(this);
             _currentPrefab.SetActive(true);
             StopAllCoroutines();
             _warningCoroutine = null;
@@ -160,11 +172,12 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
     private void CheckInteraction()
     {
+        if(_playerTransform == null) return;
         var distanceToPlayer = Vector3.Distance(_playerTransform.position, _thisTransform.position);
         if (distanceToPlayer <= _interactableDistance && GameManager.instance.inputHandler.currentMonster < 0)
         {
             _isInteractable = true;
-
+            _player.SubscribeInteractable(this);
             GameManager.instance.uiManager.itemDropUi.Subscribe(this, _item, _amount);
 
             if (_outline != null)
@@ -181,6 +194,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
             }
 
             _isInteractable = false;
+            _player.UnsubscribeInteractable(this);
             GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
         }
 
@@ -246,11 +260,14 @@ public class ItemDrop : MonoBehaviour, IInteractable
             {
                 StopAllCoroutines();
                 _player.playerInventory.AddItemInPlayerInventory(_item, _amount);
+
                 if (_spawner != null)
                 {
                     _spawner.RemoveItemInCurrentItems(_thisObject);
                 }
-                _thisObject.SetActive(false);
+
+                _player.UnsubscribeInteractable(this);
+                GameManager.instance.pooler.BackToPool(_thisObject);
                 _currentPrefab.SetActive(true);
                 break;
             }
@@ -260,6 +277,7 @@ public class ItemDrop : MonoBehaviour, IInteractable
         }
 
         GameManager.instance.uiManager.itemDropUi.Unsubscribe(this);
-        _thisObject.SetActive(false);
+        _player.UnsubscribeInteractable(this);
+        GameManager.instance.pooler.BackToPool(_thisObject);
     }
 }

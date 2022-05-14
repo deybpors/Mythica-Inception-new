@@ -1,7 +1,6 @@
 using MyBox;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.WSA;
 using Application = UnityEngine.Application;
 
 public class IconGenerator : MonoBehaviour

@@ -1748,6 +1748,7 @@ GameObject:
   - component: {fileID: 4162075998877034365}
   - component: {fileID: 6493560731031240450}
   - component: {fileID: 6018940337776042614}
+  - component: {fileID: 880068051163551400}
   m_Layer: 0
   m_Name: Male 2
   m_TagString: Untagged
@@ -1906,6 +1907,24 @@ MonoBehaviour:
   _sandStep: Sand Step
   _concreteStep: Concrete Step
   _rockStep: Rock Step
+--- !u!114 &880068051163551400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7235409289059444669}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outlineMode: 2
+  outlineColor: {r: 0.5921569, g: 0.89411765, b: 1, a: 1}
+  outlineWidth: 4
+  precomputeOutline: 1
+  bakeKeys: []
+  bakeValues: []
 --- !u!1 &7285019106260707528
 GameObject:
   m_ObjectHideFlags: 0

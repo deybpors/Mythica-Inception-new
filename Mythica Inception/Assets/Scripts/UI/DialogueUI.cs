@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +41,6 @@ public class DialogueUI : MonoBehaviour
     private GameObject _speakerHolder;
     private GameObject _thisObject;
     private GameObject _nextLine;
-    private GameObject _choiceHolderObject;
     private Dictionary<DialogueChoiceUI, GameObject> _dialogueChoices = new Dictionary<DialogueChoiceUI, GameObject>();
 
     void Update()
@@ -420,20 +418,22 @@ public class DialogueUI : MonoBehaviour
         GameManager.instance.uiManager.tooltip.tooltipTweener.Disable();
     }
 
-    public IEnumerator PlayDialogueSound()
+    private IEnumerator PlayDialogueSound()
     {
         var text = dialogueText.text;
         var index = 0;
+        var am = GameManager.instance.audioManager;
+
         while (_dialogueTextJuicer.IsPlaying)
         {
             try
             {
-                if (!Char.IsPunctuation(text[index]) && !Char.IsWhiteSpace(text[index]) && _currentCharacter != null)
+                if (!char.IsPunctuation(text[index]) && !char.IsWhiteSpace(text[index]) && _currentCharacter != null)
                 {
                     var dialogueSFXName = _currentCharacter.sexOfCharacter == Sex.Male
                         ? text[index] + "_MALE".ToUpperInvariant()
                         : text[index] + "_FEMALE".ToUpperInvariant();
-                    GameManager.instance.audioManager.PlaySFX(dialogueSFXName, _currentCharacter.dialoguePitch);
+                    am.PlaySFX(dialogueSFXName, _currentCharacter.dialoguePitch);
                 }
             }
             catch

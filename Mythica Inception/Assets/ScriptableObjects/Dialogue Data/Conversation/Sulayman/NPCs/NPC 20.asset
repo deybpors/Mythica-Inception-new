@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: NPC 20
+  m_EditorClassIdentifier: 
+  ID: fa8eb8fd-3099-4282-ac95-a503156741bb
+  lines:
+  - text: I love you, lab.
+    character: {fileID: 11400000, guid: 114d320f972dea040b7a25b87a4fcb9e, type: 2}
+    emotion: 1
+    speakerDirection: 0
+  - text: Stop it! Someone's here.
+    character: {fileID: 11400000, guid: d2f467ec28ed5ab4f9ef782c02f2d082, type: 2}
+    emotion: 3
+    speakerDirection: 1
+  - text: Come on! Say it please! I LOVE YOU LAB!
+    character: {fileID: 11400000, guid: 114d320f972dea040b7a25b87a4fcb9e, type: 2}
+    emotion: 3
+    speakerDirection: 0
+  - text: Stop.
+    character: {fileID: 11400000, guid: d2f467ec28ed5ab4f9ef782c02f2d082, type: 2}
+    emotion: 3
+    speakerDirection: 1
+  - text: Please! <i>I LAB YOU, LAAAAB</i> Don't tell me love song please!
+    character: {fileID: 11400000, guid: 114d320f972dea040b7a25b87a4fcb9e, type: 2}
+    emotion: 7
+    speakerDirection: 0
+  - text: You want to end this?!
+    character: {fileID: 11400000, guid: d2f467ec28ed5ab4f9ef782c02f2d082, type: 2}
+    emotion: 7
+    speakerDirection: 1
+  - text: Is it really that easy to you??!
+    character: {fileID: 11400000, guid: 114d320f972dea040b7a25b87a4fcb9e, type: 2}
+    emotion: 7
+    speakerDirection: 0
+  - text: Okay... I'm going to leave you to and mind my own business...
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 1
+  choices: []

@@ -13,7 +13,6 @@ namespace Assets.Scripts.Sound_System
         [Range(0f, 1f)]
         public float volume = 1f;
 
-        [HideInInspector]
         public AudioSource source;
     }
 

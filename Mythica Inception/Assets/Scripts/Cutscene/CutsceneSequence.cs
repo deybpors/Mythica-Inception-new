@@ -35,6 +35,8 @@ public class CutsceneSequence : MonoBehaviour
 
         if (_currentDirectorNum >= timelineDirectors.Count)
         {
+            if (gameObject == null) return;
+
             gameObject.SetActive(false);
             _triggered = true;
             if (GameManager.instance == null) return;

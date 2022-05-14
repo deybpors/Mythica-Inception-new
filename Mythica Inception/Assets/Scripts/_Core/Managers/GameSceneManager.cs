@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UI;
@@ -21,25 +22,32 @@ namespace _Core.Managers
 
         void Update()
         {
-            if (!loadingScreenOn) return;
+            var loadScreen = uiManager.loadingScreen;
+            if (!loadingScreenOn)
+            {
+                loadScreen.loadingScreeenCameraObj.SetActive(false);
+                return;
+            }
 
             var scenesCount = _scenesLoading.Count;
-
             if (scenesCount > 0)
             {
-                uiManager.loadingScreen.progressBar.currentValue = 1f / scenesCount;
+                loadScreen.progressBar.currentValue = 1f / scenesCount;
             }
             else
             {
                 if(_delayCoroutine != null) return;
-                uiManager.loadingScreen.progressBar.currentValue = 1f;
-                if (!uiManager.loadingScreen.tweener.disabled)
+                loadScreen.progressBar.currentValue = 1f;
+                
+                loadScreen.loadingScreeenCameraObj.SetActive(false);
+
+                if (!loadScreen.tweener.disabled)
                 {
-                    uiManager.loadingScreen.tweener.Disable();
+                    loadScreen.tweener.Disable();
                 }
             }
 
-            loadingScreenOn = uiManager.loadingScreen.thisGameObject.activeInHierarchy;
+            loadingScreenOn = loadScreen.thisGameObject.activeInHierarchy;
         }
 
         public void LoadScene(int sceneToAdd, bool withLoadingScreen)
@@ -47,17 +55,27 @@ namespace _Core.Managers
             uiManager.loadingScreen.progressBar.currentValue = 0;
 
             var scene = SceneManager.LoadSceneAsync(sceneToAdd, LoadSceneMode.Additive);
-            _scenesLoading.Add(sceneToAdd, scene);
+            try
+            {
+                _scenesLoading.Add(sceneToAdd, scene);
+            }
+            catch
+            {
+                //ignored
+            }
+
             _scenes.Add(scene, sceneToAdd);
+
+
             scene.completed += (operation => RemoveScene(scene));
             
             scene.allowSceneActivation = true;
 
-            if (withLoadingScreen && !uiManager.loadingScreen.gameObject.activeInHierarchy)
-            {
-                uiManager.loadingScreen.thisGameObject.SetActive(true);
-                loadingScreenOn = true;
-            }
+            if (!withLoadingScreen || uiManager.loadingScreen.gameObject.activeInHierarchy) return;
+            
+            uiManager.loadingScreen.thisGameObject.SetActive(true);
+            uiManager.loadingScreen.loadingScreeenCameraObj.SetActive(true);
+            loadingScreenOn = true;
         }
 
         public void LoadScene(int sceneToAdd, bool withLoadingScreen, float delayActivation)
@@ -74,6 +92,7 @@ namespace _Core.Managers
             if (withLoadingScreen && !uiManager.loadingScreen.gameObject.activeInHierarchy)
             {
                 uiManager.loadingScreen.thisGameObject.SetActive(true);
+                uiManager.loadingScreen.loadingScreeenCameraObj.SetActive(true);
                 loadingScreenOn = true;
             }
 
@@ -98,20 +117,19 @@ namespace _Core.Managers
             }
             scene.allowSceneActivation = true;
 
-            if (withLoadingScreen && !uiManager.loadingScreen.gameObject.activeInHierarchy)
-            {
-                uiManager.loadingScreen.gameObject.SetActive(true);
-                loadingScreenOn = true;
-            }
+            if (!withLoadingScreen || uiManager.loadingScreen.gameObject.activeInHierarchy) return;
+            
+            uiManager.loadingScreen.gameObject.SetActive(true);
+            uiManager.loadingScreen.loadingScreeenCameraObj.SetActive(true);
+            loadingScreenOn = true;
         }
 
         private void RemoveScene(AsyncOperation scene)
         {
-            if (_scenes.TryGetValue(scene, out var sceneIndex))
-            {
-                _scenes.Remove(scene);
-                _scenesLoading.Remove(sceneIndex);
-            }
+            if (!_scenes.TryGetValue(scene, out var sceneIndex)) return;
+            
+            _scenes.Remove(scene);
+            _scenesLoading.Remove(sceneIndex);
         }
 
         private IEnumerator Delay(AsyncOperation scene, float delay)

@@ -1,10 +1,16 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Sound_System;
 using MyBox;
+
+#if UNITY_EDITOR
+    using UnityEditor;
+    using UnityEditor.SceneManagement;
+#endif
+
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace SoundSystem
@@ -79,65 +85,54 @@ namespace SoundSystem
         {
             currentMusic = null;
 
-            foreach (var music in _musicList)
+            try
             {
-                if (music.clip == null) continue;
+                foreach (var music in _musicList)
+                {
+                    if (music.clip == null) continue;
+                    music.source.Stop();
+                    _musicDict.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
+                    _master.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
+                }
 
-                music.source = gameObject.AddComponent<AudioSource>();
-                music.source.clip = music.clip;
-                music.source.volume = music.volume;
-                music.source.loop = music.loop;
-                _musicDict.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
-                _master.Add(music.name.ToUpperInvariant().Replace(" ", string.Empty), music);
+                foreach (var sound in _soundFx)
+                {
+                    if (sound.clip == null) continue;
+                    sound.source.Stop();
+                    _sfxDict.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
+                    _master.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
+                }
+
+                foreach (var ambience in _ambiences)
+                {
+                    if (ambience.clip == null) continue;
+                    ambience.source.Stop();
+                    _ambienceDict.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
+                    _master.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
+                }
+
+                foreach (var maleDialogue in _maleDialogueSfx)
+                {
+                    if (maleDialogue.clip == null) continue;
+                    maleDialogue.source.Stop();
+                    maleDialogue.name = maleDialogue.clip.name;
+                    var dialogueName = maleDialogue.name + "_MALE";
+                    _sfxDict.Add(dialogueName, maleDialogue);
+                    _master.Add(dialogueName, maleDialogue);
+                }
+
+                foreach (var femaleDialogue in _femaleDialogueSfx)
+                {
+                    if (femaleDialogue.clip == null) continue;
+                    femaleDialogue.source.Stop();
+                    var dialogueName = femaleDialogue.name + "_FEMALE";
+                    _sfxDict.Add(dialogueName, femaleDialogue);
+                    _master.Add(dialogueName, femaleDialogue);
+                }
             }
-
-            foreach (var sound in _soundFx)
+            catch
             {
-                if (sound.clip == null) continue;
-
-                sound.source = gameObject.AddComponent<AudioSource>();
-                sound.source.clip = sound.clip;
-                sound.source.volume = sound.volume;
-                _sfxDict.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
-                _master.Add(sound.name.ToUpperInvariant().Replace(" ", string.Empty), sound);
-            }
-
-            foreach (var ambience in _ambiences)
-            {
-                if (ambience.clip == null) continue;
-
-                ambience.source = gameObject.AddComponent<AudioSource>();
-                ambience.source.clip = ambience.clip;
-                ambience.source.volume = ambience.volume;
-                ambience.source.loop = ambience.loop;
-                _ambienceDict.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
-                _master.Add(ambience.name.ToUpperInvariant().Replace(" ", string.Empty), ambience);
-            }
-
-            foreach (var maleDialogue in _maleDialogueSfx)
-            {
-                if (maleDialogue.clip == null) continue;
-
-                maleDialogue.source = gameObject.AddComponent<AudioSource>();
-                maleDialogue.source.clip = maleDialogue.clip;
-                maleDialogue.source.volume = maleDialogue.volume;
-                maleDialogue.name = maleDialogue.clip.name;
-                var dialogueName = maleDialogue.name + "_MALE";
-                _sfxDict.Add(dialogueName, maleDialogue);
-                _master.Add(dialogueName, maleDialogue);
-            }
-
-            foreach (var femaleDialogue in _femaleDialogueSfx)
-            {
-                if(femaleDialogue.clip == null) continue;
-
-                femaleDialogue.source = gameObject.AddComponent<AudioSource>();
-                femaleDialogue.source.clip = femaleDialogue.clip;
-                femaleDialogue.source.volume = femaleDialogue.volume;
-                femaleDialogue.name = femaleDialogue.clip.name;
-                var dialogueName = femaleDialogue.name + "_FEMALE";
-                _sfxDict.Add(dialogueName, femaleDialogue);
-                _master.Add(dialogueName, femaleDialogue);
+                //ignored
             }
         }
 
@@ -244,7 +239,6 @@ namespace SoundSystem
                 currentMusic.source.volume = 0;
             }
 
-
             fadeCoroutine = StartCoroutine(FadeTrack(music));
             currentMusic = music;
             
@@ -287,6 +281,7 @@ namespace SoundSystem
                 currentMusic.source.Stop();
                 currentMusic.source.volume = 0;
             }
+
             fadeCoroutine = StartCoroutine(FadeTrack(musicToPlay));
             currentMusic = musicToPlay;
 
@@ -391,5 +386,92 @@ namespace SoundSystem
 
             fadeCoroutine = null;
         }
+
+#if UNITY_EDITOR
+        public void AddAudioSource()
+        {
+            var audioSources = gameObject.GetComponents<AudioSource>();
+
+            foreach (var source in audioSources)
+            {
+                DestroyImmediate(source);
+            }
+
+            Debug.Log("Destroyed");
+
+            foreach (var music in _musicList)
+            {
+                if (music.clip == null) continue;
+
+                music.source = gameObject.AddComponent<AudioSource>();
+                music.source.clip = music.clip;
+                music.source.volume = music.volume;
+                music.source.loop = music.loop;
+                music.source.Stop();
+            }
+
+            foreach (var sound in _soundFx)
+            {
+                if (sound.clip == null) continue;
+
+                sound.source = gameObject.AddComponent<AudioSource>();
+                sound.source.clip = sound.clip;
+                sound.source.volume = sound.volume;
+                sound.source.pitch = sound.pitch;
+                sound.source.Stop();
+            }
+
+            foreach (var ambience in _ambiences)
+            {
+                if (ambience.clip == null) continue;
+
+                ambience.source = gameObject.AddComponent<AudioSource>();
+                ambience.source.loop = ambience.loop;
+                ambience.source.clip = ambience.clip;
+                ambience.source.volume = ambience.volume;
+                ambience.source.Stop();
+            }
+
+            foreach (var maleDialogue in _maleDialogueSfx)
+            {
+                if (maleDialogue.clip == null) continue;
+
+                maleDialogue.source = gameObject.AddComponent<AudioSource>();
+                maleDialogue.source.clip = maleDialogue.clip;
+                maleDialogue.source.volume = maleDialogue.volume;
+                maleDialogue.source.pitch = maleDialogue.pitch;
+                maleDialogue.source.Stop();
+            }
+
+            foreach (var femaleDialogue in _femaleDialogueSfx)
+            {
+                if (femaleDialogue.clip == null) continue;
+
+                femaleDialogue.source = gameObject.AddComponent<AudioSource>();
+                femaleDialogue.source.clip = femaleDialogue.clip;
+                femaleDialogue.source.volume = femaleDialogue.volume;
+                femaleDialogue.source.pitch = femaleDialogue.pitch;
+                femaleDialogue.source.Stop();
+            }
+
+            EditorSceneManager.SaveScene(SceneManager.GetActiveScene());
+        }
+#endif
     }
+
+#if UNITY_EDITOR
+    [CustomEditor(typeof(AudioManager))]
+        public class AudioManagerEditor : Editor
+        {
+            public override void OnInspectorGUI()
+            {
+                DrawDefaultInspector();
+                var audioManager = (AudioManager) target;
+                if (GUILayout.Button("Add Audio Sources"))
+                {
+                    audioManager.AddAudioSource();
+                }
+            }
+        }
+#endif
 }

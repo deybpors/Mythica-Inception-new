@@ -16,7 +16,14 @@ namespace UI
         
         void LateUpdate()
         {
-            _thisTransform.LookAt(_thisTransform.position + _cameraTransform.forward);
+            try
+            {
+                _thisTransform.LookAt(_thisTransform.position + _cameraTransform.forward);
+            }
+            catch
+            {
+                //ignored
+            }
         }
     }
 }

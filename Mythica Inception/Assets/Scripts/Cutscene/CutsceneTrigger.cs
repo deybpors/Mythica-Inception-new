@@ -48,8 +48,15 @@ public class CutsceneTrigger : MonoBehaviour
     {
         if (player == null)
         {
-            player = GameManager.instance.player;
-            playerTransform = player.transform;
+            try
+            {
+                player = GameManager.instance.player;
+                playerTransform = player.transform;
+            }
+            catch
+            {
+                //ignored
+            }
         }
 
         if(_triggered) return;

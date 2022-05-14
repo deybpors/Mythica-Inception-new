@@ -1,10 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using MyBox;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace UI
 {
@@ -55,6 +53,7 @@ namespace UI
         private CanvasGroup _canvasGroup;
 
         public bool disabled;
+        [HideInInspector] public GameObject parent;
 
         void Awake()
         {
@@ -77,6 +76,15 @@ namespace UI
             }
 
             disabled = false;
+            if (parent != null) return;
+            try
+            {
+                parent = transform.parent.gameObject;
+            }
+            catch
+            {
+                //ignore
+            }
         }
         private void Show()
         {

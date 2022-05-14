@@ -17,7 +17,9 @@ MonoBehaviour:
   itemPrefab: {fileID: 1000010384050218, guid: f52469794080df34aad854d8ccf24dff, type: 3}
   itemIcon: {fileID: 21300000, guid: dc26038fd17400242975d2fe532e0ebc, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: 'Coconut trees are abudant in tropical lands. These coconuts are
+    quite appetizing and will be dropped by coconut trees. Careful, you might get
+    hit in the head while waiting for it to be dropped. '
   usable: 1
   stackable: 1
   losable: 0

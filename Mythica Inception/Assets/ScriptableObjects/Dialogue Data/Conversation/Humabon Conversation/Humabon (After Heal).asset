@@ -18,7 +18,7 @@ MonoBehaviour:
     character: {fileID: 0}
     emotion: 1
     speakerDirection: 0
-  - text: My pleasure! Keep on coming back, iho!
+  - text: My pleasure! Keep on coming back, <b><PLAYER_NAME></b>!
     character: {fileID: 11400000, guid: e06c2d92beab08448985ddaf96cdef2f, type: 2}
     emotion: 1
     speakerDirection: 1

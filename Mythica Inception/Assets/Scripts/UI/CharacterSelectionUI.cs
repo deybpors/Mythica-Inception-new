@@ -34,11 +34,25 @@ public class CharacterSelectionUI : MonoBehaviour
     {
         if (_monsterTamedObj == null)
         {
-            _monsterTamedObj = _monsterTamedUi.gameObject;
+            try
+            {
+                _monsterTamedObj = _monsterTamedUi.gameObject;
+            }
+            catch
+            {
+                //ignored
+            }
         }
 
-        _monsterTamedObj.SetActive(false);
-        _monsterTamedUi.enabled = true;
+        try
+        {
+            _monsterTamedObj.SetActive(false);
+            _monsterTamedUi.enabled = true;
+        }
+        catch
+        {
+            //ignored
+        }
     }
 
     public void Disable()

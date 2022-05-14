@@ -17,7 +17,7 @@ MonoBehaviour:
   itemPrefab: {fileID: 100802, guid: b2286e18f53a07c4bab84484dd67a749, type: 3}
   itemIcon: {fileID: 21300000, guid: 6fdb95fa9dc4e9e4aa1303f2dd4a3b8d, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: A rare blue mushroom. Eat it to increase your health.
   usable: 1
   stackable: 1
   losable: 0

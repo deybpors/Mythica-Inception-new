@@ -34,6 +34,7 @@ namespace UI
             [HideInInspector] public List<PartySlotUI> partySlots;
             [HideInInspector] public List<Image> currentMonsterSkillImages;
             [HideInInspector] public List<Image> currentMonsterItemImages;
+            [HideInInspector] public List<TextMeshProUGUI> currentMonsterItemsAmount;
             [HideInInspector] public UITweener skillsTweener;
             [HideInInspector] public DialogueUI dialogueUI;
             [HideInInspector] public QuestUI questUI;
@@ -83,7 +84,7 @@ namespace UI
             pointIndicator = point;
         }
 
-        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items, Button optionsButton)
+        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items, List<TextMeshProUGUI> itemsAmount, Button optionsButton)
         {
             gameplayUICanvas = canvas;
             gameplayTweener = canvas.GetComponent<UITweener>();
@@ -95,6 +96,7 @@ namespace UI
             currentCharacterExp = characterExp;
             currentMonsterSkillImages = skills;
             currentMonsterItemImages = items;
+            currentMonsterItemsAmount = itemsAmount;
             partySlots = party;
             this.optionsButton = optionsButton;
         }
@@ -171,6 +173,7 @@ namespace UI
             var player = GameManager.instance.player;
 
             var items = new List<Sprite>();
+            var itemsAmount = new List<string>();
             var itemActions = new List<UnityAction>();
 
             if (slot >= 0)
@@ -183,10 +186,12 @@ namespace UI
                     if (monsterSlot.inventory[i] == null || monsterSlot.inventory[i].inventoryItem == null)
                     {
                         items.Add(null);
+                        itemsAmount.Add(string.Empty);
                         itemActions.Add((() => { }));
                         continue;
                     }
                     items.Add(monsterSlot.inventory[i].inventoryItem.itemIcon);
+                    itemsAmount.Add(monsterSlot.inventory[i].amountOfItems.ToString());
                     var index = i;
                     itemActions.Add(() => manager.UseUsableItems(monsterSlot.inventory[index], slot));
                 }
@@ -198,11 +203,13 @@ namespace UI
                     if (player.playerInventory.inventorySlots[i].inventoryItem == null)
                     {
                         items.Add(null);
+                        itemsAmount.Add(string.Empty);
                         itemActions.Add((() => { }));
                         continue;
                     }
 
                     items.Add(player.playerInventory.inventorySlots[i].inventoryItem.itemIcon);
+                    itemsAmount.Add(player.playerInventory.inventorySlots[i].amountOfItems.ToString());
                     var index = i;
                     itemActions.Add(() => manager.UseUsableItems(player.playerInventory.inventorySlots[index], slot));
                 }
@@ -212,14 +219,17 @@ namespace UI
 
             for (var i = 0; i < itemCount; i++)
             {
+                currentMonsterItemsAmount[i].text = itemsAmount[i];
                 if (items[i] == null)
                 {
                     currentMonsterItemImages[i].sprite = blankSlotSquare;
                     currentMonsterItemImages[i].raycastTarget = false;
                     continue;
                 }
+
                 currentMonsterItemImages[i].sprite = items[i];
                 currentMonsterItemImages[i].raycastTarget = true;
+
                 if (!_itemButtons.TryGetValue(currentMonsterItemImages[i], out var btn))
                 {
                     btn = currentMonsterItemImages[i].GetComponent<Button>();
@@ -352,7 +362,12 @@ namespace UI
             gameplayUICanvas.SetActive(false);
             minimapCamera.SetActive(false);
             dialogueUI.gameObject.SetActive(false);
-            loadingScreen.gameObject.SetActive(false);
+
+            if (generalOptionsUi.thisObject == null)
+            {
+                generalOptionsUi.thisObject = generalOptionsUi.gameObject;
+            }
+            generalOptionsUi.thisObject.SetActive(false);
             newGamePanel.gameObject.SetActive(false);
             modal.CloseModal();
         }
@@ -374,7 +389,11 @@ namespace UI
 
         #endregion
 
-
+        public IEnumerator Delay(float seconds, UnityAction action)
+        {
+            yield return new WaitForSecondsRealtime(seconds);
+            action?.Invoke();
+        }
     }
 
     [System.Serializable]

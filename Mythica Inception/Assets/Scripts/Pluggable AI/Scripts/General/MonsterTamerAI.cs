@@ -45,9 +45,19 @@ namespace Pluggable_AI.Scripts.General
 
         void Start()
         {
-            if (initializeOnStart)
+            if (!initializeOnStart) return;
+            
+            ActivateMonsterAi();
+            RandomizeStabilityValue();
+        }
+
+        private void RandomizeStabilityValue()
+        {
+            var slotCount = monsterSlots.Count;
+            for (var i = 0; i < slotCount; i++)
             {
-                ActivateMonsterAi();
+                if (monsterSlots[i].monster == null) continue;
+                monsterSlots[i].stabilityValue = Random.Range(1, 51);
             }
         }
 
@@ -86,7 +96,14 @@ namespace Pluggable_AI.Scripts.General
 
             if (_monsterRenderer != null && !_monsterRenderer.isVisible) return;
 
-            GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
+            try
+            {
+                GameManager.instance.player.AddToDiscoveredMonsters(monsterSlots[0].monster);
+            }
+            catch
+            {
+                //ignored
+            }
         }
 
         public void ActivateMonsterAi(List<MonsterSlot> newMonsters, List<Transform> waypointsList, WildMonsterSpawner spawnerRef)
@@ -98,12 +115,12 @@ namespace Pluggable_AI.Scripts.General
                 thisTransform = transform;
             }
 
-            monsterSlots.Clear();
+            monsterSlots = new List<MonsterSlot>();
             monsterSlots.AddRange(newMonsters);
             Init();
-            gameObject.SetActive(true);
             spawner = spawnerRef;
             stateController.ActivateAI(true, waypointsList, null);
+            gameObject.SetActive(true);
         }
 
         private void ActivateMonsterAi()
@@ -313,8 +330,7 @@ namespace Pluggable_AI.Scripts.General
             }
 
             GameManager.instance.activeEnemies.Remove(thisTransform);
-            _thisGameObject.SetActive(false);
-            thisTransform.SetParent(_gameManagerTransform);
+            GameManager.instance.pooler.BackToPool(_thisGameObject);
         }
 
         private void ExtractExpOrbs()

@@ -17,7 +17,9 @@ MonoBehaviour:
   itemPrefab: {fileID: 199196, guid: f8f66e15c1203864fa965aa457eaa828, type: 3}
   itemIcon: {fileID: 21300000, guid: a04232cad12baf946a591a543876d0e8, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: A rare material dropped by a defeated mythica. It's fun to look
+    at, but it doesn't seem to have much use at first glance. But it must be good
+    for something...
   usable: 1
   stackable: 1
   losable: 0

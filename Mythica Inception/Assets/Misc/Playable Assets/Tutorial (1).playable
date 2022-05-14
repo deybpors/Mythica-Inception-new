@@ -16,8 +16,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 0}
       text: You're saying that I can have my own mythica?
+      character: {fileID: 0}
       emotion: 4
       speakerDirection: 0
     responseChoices: []
@@ -37,9 +37,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: Located in one of the rooms are three mythicas. One of them could be
         your potential partner.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -59,9 +59,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
+      text: To travel to the different rooms in this shrine, you may use the control
+        [WASD] or the arrow keys. You can also dash using the [Space] key.
       character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
-      text: To travel to the different rooms in this shrine. You may use the control
-        WASD.
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -81,8 +81,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: Correct.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -114,8 +114,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 0}
       text: Agh! sakita ah... What happened?
+      character: {fileID: 0}
       emotion: 5
       speakerDirection: 0
     responseChoices: []
@@ -135,8 +135,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 0}
       text: Is it you? Was it you in my dream?
+      character: {fileID: 0}
       emotion: 5
       speakerDirection: 0
     responseChoices: []
@@ -401,9 +401,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: A number of shrines are located all over the isles, created by humans
         to worship and praise mythicas.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -423,8 +423,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: <PLAYER_NAME>...
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -444,9 +444,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: Shrines paved the way in discovering the means for connecting humans
         and multiple mythicas at once.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []
@@ -559,8 +559,8 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 0}
       text: Humans can connect with multiple mythicas at once?!
+      character: {fileID: 0}
       emotion: 4
       speakerDirection: 0
     responseChoices: []
@@ -580,9 +580,9 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       text: You are in an unfamiliar territory. You are standing inside a <color=#ffef7d>shrine</color>
         somewhere around Pearl Isles.
+      character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1
     responseChoices: []

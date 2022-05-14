@@ -17,7 +17,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 1000013408067630, guid: 1face7fa60dcea84fb36abbd4a92f29c, type: 3}
   itemIcon: {fileID: 21300000, guid: 56ea88e6467eba845bbca2c0f6835e13, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: A rare material dropped by a defeated mythica. Eat it and you'll
+    feel weird in the tummy.
   usable: 1
   stackable: 1
   losable: 0

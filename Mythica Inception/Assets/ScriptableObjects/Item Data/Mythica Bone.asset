@@ -17,7 +17,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 126104, guid: 3b4358a8faf28c04394c85b1778b2953, type: 3}
   itemIcon: {fileID: 21300000, guid: 6cadadce03a3f32489217c8754599947, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: A material dropped by a defeated mythica. It's greasy and uncomfortable
+    to hold. But it must be good for something...
   usable: 1
   stackable: 1
   losable: 0

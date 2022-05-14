@@ -892,6 +892,72 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_UsePipelineSettings: 1
+--- !u!1001 &359929125
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1626293492}
+    m_Modifications:
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.29714328
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.015134952
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.95248693
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.065157086
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 7.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 145.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -0.572
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073028911519236166, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_Name
+      value: Dave
+      objectReference: {fileID: 0}
+    - target: {fileID: 3073028911519236166, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+--- !u!4 &359929126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2444969919011117820, guid: 8dd4f82a4f2809040836ea3e296aed0e, type: 3}
+  m_PrefabInstance: {fileID: 359929125}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &467225082
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3556,6 +3622,7 @@ Transform:
   m_Children:
   - {fileID: 483186763}
   - {fileID: 1691900458}
+  - {fileID: 359929126}
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3781,8 +3848,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _camera: {fileID: 1671051537}
   fileName: 
-  _pathInAssets: /Textures/UI/Items Icon/Consumable
-  _imageSize: {x: 256, y: 256}
+  _pathInAssets: /Textures/UI/Character Portraits
+  _imageSize: {x: 2000, y: 2000}
 --- !u!20 &1671051537
 Camera:
   m_ObjectHideFlags: 0

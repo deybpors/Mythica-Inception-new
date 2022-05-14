@@ -321,8 +321,8 @@ namespace _Core.Input
                 GameManager.instance.uiManager.generalOptionsUi.EnterGameplay();
             }
 
-            var merchantActive = false;
-            
+            bool merchantActive;
+
             try
             {
                 merchantActive = GameManager.instance.uiManager.merchantUi.thisObject.activeInHierarchy;

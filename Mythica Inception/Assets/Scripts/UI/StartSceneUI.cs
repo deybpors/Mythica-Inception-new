@@ -10,16 +10,19 @@ namespace UI
     {
         public SceneReference startScene;
         public GameObject continueButton;
+        public GameObject startPanel;
+        public Sprite quitSprite;
 
         [HideInInspector] public bool stateObserverCreated;
 
         [SerializeField] private State gameplayState;
         public PlayerSaveData[] playerSavedData = new PlayerSaveData[5];
 
-        private void Start()
+        void OnEnable()
         {
             if(GameManager.instance == null) return;
             FillUpSaveFiles();
+            startPanel.SetActive(true);
         }
 
 
@@ -83,22 +86,20 @@ namespace UI
             }
         }
 
-        public void Credits()
-        {
-        
-        }
-
         public void Quit()
         {
+            GameManager.instance.uiManager.modal.OpenModal("Are you sure you want to quit the game?", quitSprite, Color.white, QuitGame);
+        }
 
-        #if UNITY_EDITOR
-            // Application.Quit() does not work in the editor so
-            // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
-
+        public void QuitGame()
+        {
+            #if UNITY_EDITOR
+                        // Application.Quit() does not work in the editor so
+                        // UnityEditor.EditorApplication.isPlaying need to be set to false to end the game
+                        UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                        Application.Quit();
+            #endif
         }
 
         public void ContinueGame(int profileIndex)
@@ -112,13 +113,15 @@ namespace UI
             }
 
             GameManager.instance.uiManager.DeactivateAllUI();
+            var newGamePanel = GameManager.instance.uiManager.newGamePanel.newSaveFilePanel;
+            newGamePanel.SetActive(false);
             GameManager.instance.loadedSaveData = playerSavedData[profileIndex];
 
             var sceneManager = GameManager.instance.gameSceneManager;
             var savedScenePath = playerSavedData[profileIndex].currentSceneIndex;
 
-            sceneManager.UnloadScene(GameManager.instance.currentWorldScenePath, false);
-            sceneManager.LoadScene(GameManager.instance.gameplayScene.sceneIndex, false);
+            sceneManager.UnloadScene(GameManager.instance.startScene.sceneIndex, true);
+            sceneManager.LoadScene(GameManager.instance.gameplayScene.sceneIndex, true, 1f);
             sceneManager.LoadScene(savedScenePath, true);
 
             GameManager.instance.uiManager.minimapCamera.SetActive(true);

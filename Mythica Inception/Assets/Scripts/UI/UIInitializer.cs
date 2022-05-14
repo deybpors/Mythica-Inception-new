@@ -25,10 +25,11 @@ namespace UI
         public List<PartySlotUI> partySlots;
         public List<Image> skills;
         public List<Image> items;
+        public List<TextMeshProUGUI> itemsAmount;
         public ItemDropUI itemDropUi;
         public UITweener skillsTweener;
 
-        [Foldout("Credits UI", true)]
+        [Foldout("Options UI", true)]
         public Button optionsButton;
         public Button optionsMinimizeButton;
         public OptionsUI generalOptionsUI;
@@ -68,7 +69,7 @@ namespace UI
             var ui = GameManager.instance.uiManager;
             GameManager.instance.inputHandler.SwitchActionMap("UI");
             ui.loadingScreen = loadingScreen;
-            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items, optionsButton);
+            ui.InitGameplayUIRef(gameplayUICanvas, minimapCamera, characterName, currentGold,characterLevel,characterHealth, characterExp, partySlots, skills, items, itemsAmount, optionsButton);
             ui.questUI = questUI;
             ui.InitStartSceneUIRef(startSceneUICanvas, startButtonsTweener);
             ui.InitCursors(normalCursor, areaIndicator, pointIndicator);

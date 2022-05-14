@@ -73,8 +73,17 @@ namespace Databases.Scripts
             if (_npcNames == null) return string.Empty;
             var num = Random.Range(0, _npcNamesList.Count);
             var npc = _npcNamesList[num];
-            npc = npc.Replace(" ", string.Empty).ToLowerInvariant();
-            npc = char.ToUpperInvariant(npc[0]) + npc.Substring(1);
+
+            try
+            {
+                npc = npc.Replace(" ", string.Empty).ToLowerInvariant();
+                npc = char.ToUpperInvariant(npc[0]) + npc.Substring(1);
+            }
+            catch
+            {
+                GetRandomNPCName();
+            }
+
             return npc;
         }
     }

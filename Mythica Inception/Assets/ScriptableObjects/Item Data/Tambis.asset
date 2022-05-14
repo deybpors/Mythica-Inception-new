@@ -17,7 +17,8 @@ MonoBehaviour:
   itemPrefab: {fileID: 3985454523203778645, guid: 314a1425b946dee4facdb915bc371045, type: 3}
   itemIcon: {fileID: 21300000, guid: 7ee3a3b63d8648c4c9793762d8fb2a21, type: 3}
   itemType: 0
-  itemDescription: 
+  itemDescription: The juciest ones are often picked by mythicas. Tambis drops from
+    small trees and would likely fill your tummy til your next meal.
   usable: 1
   stackable: 1
   losable: 0

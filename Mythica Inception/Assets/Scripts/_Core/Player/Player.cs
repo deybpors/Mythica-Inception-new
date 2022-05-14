@@ -8,12 +8,13 @@ using _Core.Others;
 using Assets.Scripts._Core.Player;
 using Cinemachine;
 using Combat_System;
+using Dialogue_System;
 using Items_and_Barter_System.Scripts;
 using Monster_System;
 using MyBox;
 using Pluggable_AI.Scripts.General;
 using Skill_System;
-using SoundSystem;
+using UI;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -41,9 +42,12 @@ namespace _Core.Player
         [InitializationField] public CinemachineVirtualCamera virtualCamera;
         [InitializationField] public GameObject expOrbReceiveFx;
         [InitializationField] public GameObject lvlUpFx;
+        [InitializationField] [SerializeField] private UITweener _blackCanvassTweener;
+        [InitializationField] [SerializeField] private GameObject _interactableIndicator;
 
         #region Hidden Fields
 
+        private UITweener _interactableTweener;
         [HideInInspector] public float tempSpeed;
         [HideInInspector] public float tempAttackRate;
         [HideInInspector] public SelectionManager selectionManager;
@@ -68,6 +72,8 @@ namespace _Core.Player
         [ReadOnly] [SerializeField] private bool _tamerInvulnerable = false;
         private readonly Color _white = Color.white;
         private GameObject _thisObject;
+        [HideInInspector] public bool dead;
+        [HideInInspector] public HashSet<IInteractable> interactables = new HashSet<IInteractable>();
 
         #endregion
 
@@ -85,6 +91,28 @@ namespace _Core.Player
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
             GameManager.instance.mainLight = _gamePlayLight;
             GameManager.instance.uiManager.UpdateGoldUI();
+            var disable = DelayAction(_blackCanvassTweener.disableDuration + _blackCanvassTweener.duration,
+                () => Destroy(_blackCanvassTweener.gameObject), true);
+            StartCoroutine(disable);
+        }
+
+        void Update()
+        {
+            var isTalking = GameManager.instance.gameStateController.currentState == GameManager.instance.dialogueState;
+            if (isTalking)
+            {
+                HideInteractableIndicator();
+                return;
+            }
+
+            if (interactables.Count > 0)
+            {
+                ShowInteractableIndicator();
+            }
+            else
+            {
+                HideInteractableIndicator();
+            }
         }
 
         #region Initialization
@@ -370,19 +398,14 @@ namespace _Core.Player
             if (_inputHandler.currentMonster >= 0) return;
             if (selectionManager.selectables.Count <= 0) return;
 
-            var tameable = selectionManager.selectables[0].GetComponent<ITameable>();
-            if (tameable == null)
-            {
-                Debug.Log("Target has to be a wild mythica.");
-                return;
-            }
-
             //spawn projectile
             var projectile = GameManager.instance.pooler.
                 SpawnFromPool(null, playerSettings.tameBeam.projectileGraphics.projectile.name,
                 playerSettings.tameBeam.projectileGraphics.projectile, projectileReleases.front.position,
                 Quaternion.identity);
+
             var rangeProjectile = projectile.GetComponent<IDamageDetection>() ?? projectile.AddComponent<Projectile>();
+
             rangeProjectile.ProjectileData(true, true, playerSettings.tameBeam.projectileGraphics.targetObject, playerSettings.tameBeam.projectileGraphics.impact,
                 playerSettings.tameBeam.projectileGraphics.muzzle, true, false, playerTransform, selectionManager.selectables[0],
                 _zeroVector, 10, 30, 1f, playerSettings.tameBeam.skill);
@@ -499,6 +522,7 @@ namespace _Core.Player
         {
             if (_tamerInvulnerable) return;
 
+            dead = true;
             _thisObject.layer = 0;
             tamer.SetActive(false);
             rgdbody.useGravity = false;
@@ -514,10 +538,11 @@ namespace _Core.Player
                 
                 UnityAction action = () => GameManager.instance.uiManager.loadingScreen.tweener.Disable();
                 action += ResetGame;
+                action += () => dead = false;
                 StartCoroutine(DelayAction(2, action, false));
             }
 
-            GameManager.instance.uiManager.modal.OpenModal("<color=#f48989>Game Over</color>", playerSettings.deathIcon, _white, Reset);
+            GameManager.instance.uiManager.modal.OpenModal("<color=#f48989>Game Over</color>", playerSettings.deathIcon, _white, Reset, GameManager.instance.BackToStartScreen);
         }
 
         public void FullyRestoreAllMonsters()
@@ -576,13 +601,12 @@ namespace _Core.Player
         private void HandlePauseGameFeel(float timeToTake)
         {
             GameManager.instance.gameStateController.TransitionToState(playerSettings.gameFeelState);
-            GameManager.instance.pauseManager.PauseGameplay(0);
+            GameManager.instance.pauseManager.PauseGameplay(playerSettings.pauseTimeScale);
             
             UnityAction action = () => GameManager.instance.pauseManager.PauseGameplay(1);
             action += () => GameManager.instance.gameStateController.TransitionToState(playerSettings.gameplayState);
             StartCoroutine(DelayAction(timeToTake, action, true));
         }
-
         private void ResetGame()
         {
             _thisObject.layer = playerLayer;
@@ -605,7 +629,6 @@ namespace _Core.Player
 
             TransferPlayerPositionRotation(savedData.playerWorldPlacement);
         }
-
         private void HandleItems(bool dead)
         {
             if(!dead) return;
@@ -639,7 +662,6 @@ namespace _Core.Player
                 }
             }
         }
-
         IEnumerator DelayAction(float delay, UnityAction action, bool unscaledTime)
         {
             if (unscaledTime)
@@ -652,7 +674,6 @@ namespace _Core.Player
             }
             action?.Invoke();
         }
-
         private void TransferPlayerPositionRotation(WorldPlacementData placementData)
         {
             if(placementData == null) return;
@@ -669,6 +690,55 @@ namespace _Core.Player
             {
                 return false;
             }
+        }
+
+        public void SubscribeInteractable(IInteractable interactable)
+        {
+            try
+            {
+                interactables.Add(interactable);
+            }
+            catch
+            {
+                //ignored
+            }
+        }
+
+        public void UnsubscribeInteractable(IInteractable interactable)
+        {
+            try
+            {
+                interactables.Remove(interactable);
+            }
+            catch
+            {
+                //ignored
+            }
+        }
+
+        public void ShowInteractableIndicator()
+        {
+            _interactableIndicator.SetActive(true);
+            if (_interactableTweener == null)
+            {
+                _interactableTweener = _interactableIndicator.GetComponent<UITweener>();
+            }
+
+            if (_interactableTweener.parent == null)
+            {
+                _interactableTweener.parent = _interactableIndicator.transform.parent.gameObject;
+            }
+            _interactableTweener.parent.SetActive(true);
+        }
+
+        public void HideInteractableIndicator()
+        {
+            if (_interactableTweener == null)
+            {
+                _interactableTweener = _interactableIndicator.GetComponent<UITweener>();
+            }
+            if(_interactableTweener.disabled) return;
+            _interactableTweener.Disable();
         }
 
         #endregion

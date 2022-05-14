@@ -18,7 +18,8 @@ public class SaveDataAction : Action
 
         if(GameManager.instance.loadedSaveData == null || !GameManager.instance.loadedSaveData.optionsSaveData.autoSave) return;
 
+        var data = GameManager.instance.player.GetCurrentSaveData();
+        GameManager.instance.saveManager.SavePlayerData(data);
         GameManager.instance.uiManager.debugConsole.DisplayLogUI("Saving data...");
-        GameManager.instance.saveManager.SavePlayerData(GameManager.instance.player.GetCurrentSaveData());
     }
 }

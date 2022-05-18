@@ -230,6 +230,21 @@ namespace _Core.Input
             movementInput = _zeroVector;
         }
 
+        public void OnToggleInputDebug(InputAction.CallbackContext context)
+        {
+            if(!activate) return;
+            if(!context.started) return;
+            GameManager.instance.uiManager.debugConsole.OnToggleDebug();
+        }
+
+        public void OnEnterInputDebug(InputAction.CallbackContext context)
+        {
+            if (!activate) return;
+            if (!context.started) return;
+            if(!GameManager.instance.uiManager.debugConsole.showConsole) return;
+            GameManager.instance.uiManager.debugConsole.OnEnterDebug();
+        }
+
         #endregion
 
         #region UI

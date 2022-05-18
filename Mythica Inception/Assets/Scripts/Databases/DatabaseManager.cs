@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Items_and_Barter_System.Scripts;
+using Monster_System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Databases.Scripts
 {
@@ -8,6 +11,10 @@ namespace Databases.Scripts
     {
         [SerializeField] private TextAsset _monsterTypeChart;
         [SerializeField] private TextAsset _npcNames;
+        public List<Monster> monstersList;
+        public List<ItemObject> itemsList;
+        public Dictionary<string, Monster> monsterDictionary = new Dictionary<string, Monster>();
+        public Dictionary<string, ItemObject> itemsDictionary = new Dictionary<string, ItemObject>();
         [HideInInspector] public List<string> attackerTypes;
         [HideInInspector] public List<string> defenseTypes;
         [HideInInspector] public readonly List<List<float>> typeChart = new List<List<float>>();
@@ -15,9 +22,24 @@ namespace Databases.Scripts
 
         void Start()
         {
-            if(_npcNames == null) return;
+            var monsterCount = monstersList.Count;
+            var itemCount = itemsList.Count;
+
+            for (var i = 0; i < monsterCount; i++)
+            {
+                monsterDictionary.Add(monstersList[i].monsterName.ToLowerInvariant().Replace(" ", string.Empty), monstersList[i]);
+            }
+
+            for (var i = 0; i < itemCount; i++)
+            {
+                itemsDictionary.Add(itemsList[i].itemName.ToLowerInvariant().Replace(" ", string.Empty), itemsList[i]);
+            }
+
+            if (_npcNames == null) return;
             InitializeNPCNames();
         }
+
+
 
         public void InitializeTypeChartData()
         {

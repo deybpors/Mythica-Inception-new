@@ -140,6 +140,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Open Debug Console",
+                    "type": "Button",
+                    "id": "898d9239-9c7c-4b91-91f1-4252f5bf704f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Send Debug Console Text",
+                    "type": "Button",
+                    "id": "ba16f167-1142-46b4-81c9-e965f95b8b39",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -448,6 +464,28 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93343b24-6d13-45ae-bc40-bfa3fa0800e6",
+                    "path": "<Keyboard>/f4",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Open Debug Console",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1d6a9e6d-a703-44e4-ba9a-ca785cfbebc8",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Send Debug Console Text",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

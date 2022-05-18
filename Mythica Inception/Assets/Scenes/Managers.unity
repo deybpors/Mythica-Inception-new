@@ -154,6 +154,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monsterTypeChart: {fileID: 4900000, guid: 3cb97fd2c2956dc41a8ecb5e39ab199b, type: 3}
   _npcNames: {fileID: 4900000, guid: 1a9e7a4dee533404280e9328e8181d23, type: 3}
+  monstersList:
+  - {fileID: 11400000, guid: aaf78b0e295338041b1e770511a0c1c6, type: 2}
+  - {fileID: 11400000, guid: 09e4de3e7a2208248acafaf3290fd00b, type: 2}
+  - {fileID: 11400000, guid: 45fbeab61a4574e49a799d30c628150a, type: 2}
+  - {fileID: 11400000, guid: 8dbab56df0186f94caefe3050a3d81a8, type: 2}
+  - {fileID: 11400000, guid: ece024d3ee18a0c4eafe41eccc9dd807, type: 2}
+  - {fileID: 11400000, guid: d2294390a949918409d540e85fb5c117, type: 2}
+  - {fileID: 11400000, guid: 4ea4f674b18219b4e970b4d83904d17c, type: 2}
+  - {fileID: 11400000, guid: d9d159973713b40488dbbf40f984c6e7, type: 2}
+  - {fileID: 11400000, guid: 67481f1901960664bbe7f8e80cd9b80c, type: 2}
+  - {fileID: 11400000, guid: c5982d92f9959e6448cb2eaee2533c5f, type: 2}
+  - {fileID: 11400000, guid: 6403f0704a7a2224e9046630b540b388, type: 2}
+  - {fileID: 11400000, guid: 6fd42a686816cc148b27ee85f02dc85a, type: 2}
+  - {fileID: 11400000, guid: 6285c105e7fc8c847aaddeefbaf689f0, type: 2}
+  - {fileID: 11400000, guid: 0d3d41bc3feab7648b44579de4c1e993, type: 2}
+  - {fileID: 11400000, guid: 322d133137e2d1f4cbb68c9e562dfbe4, type: 2}
+  - {fileID: 11400000, guid: 79386b5e5ffa3f7499a99a5fc3b4357b, type: 2}
+  - {fileID: 11400000, guid: 3a1ef297855012e46a6632d5b0306f11, type: 2}
+  itemsList:
+  - {fileID: 11400000, guid: 66e650777e40dd649809adea45156aae, type: 2}
+  - {fileID: 11400000, guid: 58eee007ce0414d45b999752752fbfaa, type: 2}
+  - {fileID: 11400000, guid: ab523f977dac7d343bc0411a4f912d4e, type: 2}
+  - {fileID: 11400000, guid: c3320e7685fcceb428b0a479bab81d47, type: 2}
+  - {fileID: 11400000, guid: de6d0859446c2c14680486f9d7a00fb9, type: 2}
+  - {fileID: 11400000, guid: d2dd87ee5ae8c79478131e80364c1bb1, type: 2}
+  - {fileID: 11400000, guid: 4113ecada6c101c4cbc425db894db876, type: 2}
+  - {fileID: 11400000, guid: 449235a2ff465644caa00071b4e2c59d, type: 2}
+  - {fileID: 11400000, guid: e7d4700e2f16cdd43a09c24fe944b7a0, type: 2}
+  - {fileID: 11400000, guid: ef2a782c8e3ea914caf0e88cf543f4d9, type: 2}
+  - {fileID: 11400000, guid: 2a8ef182e36efb2438a7659c36f4a4ce, type: 2}
   attackerTypes: []
   defenseTypes: []
 --- !u!4 &481286539
@@ -885,6 +915,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8ac1d841-fff5-46c7-b8c9-6864024799a2
     m_ActionName: Dialogue/Next Line[/Keyboard/space,/Keyboard/e,/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnToggleInputDebug
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 898d9239-9c7c-4b91-91f1-4252f5bf704f
+    m_ActionName: Gameplay/Open Debug Console[/Keyboard/f4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1387560523}
+        m_TargetAssemblyTypeName: _Core.Input.PlayerInputHandler, Scripts
+        m_MethodName: OnEnterInputDebug
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: ba16f167-1142-46b4-81c9-e965f95b8b39
+    m_ActionName: Gameplay/Send Debug Console Text[/Keyboard/enter]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Gameplay
@@ -12957,6 +13019,7 @@ MonoBehaviour:
   partySlots: []
   currentMonsterSkillImages: []
   currentMonsterItemImages: []
+  currentMonsterItemsAmount: []
   skillsTweener: {fileID: 0}
   dialogueUI: {fileID: 0}
   questUI: {fileID: 0}

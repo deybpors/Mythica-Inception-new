@@ -21089,6 +21089,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DDAText: {fileID: 785398378}
+  debugField: {fileID: 1728190323}
+  debugCommands:
+  - commandId: update_quest_kill
+    commandDescription: Records the amount of monsters killed.
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 686983561}
+          m_TargetAssemblyTypeName: DebugConsoleUI, Scripts
+          m_MethodName: UpdateQuest
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - commandId: update_quest_gather
+    commandDescription: Adds items in player inventory.
+    action:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 686983561}
+          m_TargetAssemblyTypeName: DebugConsoleUI, Scripts
+          m_MethodName: UpdateQuest
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   debugConsoleItems:
   - {fileID: 2022091127}
   - {fileID: 888017672}
@@ -21122,6 +21158,7 @@ MonoBehaviour:
   - {fileID: 1363929163}
   - {fileID: 971520105}
   - {fileID: 1819409378}
+  showConsole: 0
 --- !u!1 &694359171
 GameObject:
   m_ObjectHideFlags: 0

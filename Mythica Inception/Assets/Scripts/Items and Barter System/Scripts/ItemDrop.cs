@@ -137,8 +137,6 @@ public class ItemDrop : MonoBehaviour, IInteractable
 
     private void CheckTimeDisable()
     {
-        _currentPrefab.SetActive(_prefabOn);
-
         _timeElapsed += Time.deltaTime;
 
         var disableMultiplier = Math.Round(_economyMax - GameManager.instance.difficultyManager.GetParameterValue("Economy"),
@@ -147,6 +145,12 @@ public class ItemDrop : MonoBehaviour, IInteractable
         disableMultiplier = disableMultiplier < .5 ? .5 : disableMultiplier;
 
         var warning = _timeToDisable * disableMultiplier * .75f;
+        
+        if (_warningCoroutine == null)
+        {
+            _currentPrefab.SetActive(true);
+        }
+        
         if (_timeElapsed >= warning && _warningCoroutine == null)
         {
             _warningCoroutine = StartCoroutine(Warning());

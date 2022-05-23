@@ -467,6 +467,10 @@ namespace _Core.Player
             if (currentMonster < 0)
             {
                 GameManager.instance.Screenshake(damageToTake >= healthComponent.health.maxHealth * .25 ? 8f : 4f, .5f);
+                var colorAlpha = ((float)damageToTake / healthComponent.health.maxHealth) * 10;
+
+                StopCoroutine(nameof(HandleDamageIndicator));
+                StartCoroutine(HandleDamageIndicator(colorAlpha, 1));
                 playerHealth.currentHealth = healthComponent.health.currentHealth;
                 GameManager.instance.uiManager.UpdateHealthUI(currentMonster, playerHealth.currentHealth);
                 
@@ -483,6 +487,11 @@ namespace _Core.Player
             GameManager.instance.uiManager.UpdateHealthUI(currentMonster, monsterSlots[currentMonster].currentHealth);
 
             var bigHit = damageToTake >= healthComponent.health.maxHealth * .25;
+            
+            var alpha = ((float)damageToTake / healthComponent.health.maxHealth) * 10;
+            StopCoroutine(nameof(HandleDamageIndicator));
+            StartCoroutine(HandleDamageIndicator(alpha, 1));
+            
             var shakeIntensity =  bigHit ? 8f : 4f;
             GameManager.instance.Screenshake(shakeIntensity, .5f);
             
@@ -530,7 +539,7 @@ namespace _Core.Player
                 Quaternion.identity);
             skillManager.targeting = false;
             GameManager.instance.saveManager.activated = false;
-
+            
             void Reset()
             {
                 GameManager.instance.uiManager.modal.CloseModal();
@@ -607,6 +616,28 @@ namespace _Core.Player
             action += () => GameManager.instance.gameStateController.TransitionToState(playerSettings.gameplayState);
             StartCoroutine(DelayAction(timeToTake, action, true));
         }
+
+        private IEnumerator HandleDamageIndicator(float alphaValue, float duration)
+        {
+            var timeElapsed = 0f;
+            var damageImage = GameManager.instance.uiManager.damageIndicator;
+            damageImage.alpha = alphaValue;
+            if (damageImage.alpha > 1)
+            {
+                damageImage.alpha = 1;
+            }
+
+            while (timeElapsed < duration)
+            {
+                damageImage.alpha = Mathf.Lerp(damageImage.alpha, 0, timeElapsed / duration);
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            damageImage.alpha = 0;
+            StopCoroutine(nameof(HandleDamageIndicator));
+        }
+
         private void ResetGame()
         {
             _thisObject.layer = playerLayer;

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Others;
 using Monster_System;
@@ -40,6 +41,17 @@ namespace Combat_System
         private Collider[] _colliders = new Collider[5];
         private Vector3 zero = Vector3.zero;
         private MonsterSlot _spawnerSlot;
+        private Color32 _red = new Color32(244, 137, 137, 255);
+        private Color32 _blue = new Color32(151, 228, 255, 255);
+
+        private Dictionary<GameObject, VisualCueIndicator> _cueIndicators =
+            new Dictionary<GameObject, VisualCueIndicator>();
+
+        private Dictionary<Collider, GameObject> _colliderObjects = new Dictionary<Collider, GameObject>();
+        private Dictionary<Collider, Transform> _colliderTransforms = new Dictionary<Collider, Transform>();
+        private Dictionary<GameObject, IHaveMonsters> _dictMonsters = new Dictionary<GameObject, IHaveMonsters>();
+        private Dictionary<GameObject, IHaveHealth> _dictHealths = new Dictionary<GameObject, IHaveHealth>();
+
         void OnEnable()
         {
             Init();
@@ -103,10 +115,23 @@ namespace Combat_System
             for (var i = 0; i < size; i++)
             {
                 var hit = _colliders[i];
-                if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
+                if (!_colliderObjects.TryGetValue(hit, out var hitGameObject))
+                {
+                    hitGameObject = hit.gameObject;
+                    _colliderObjects.Add(hit, hitGameObject);
+                }
 
-                if (hit.transform != _target) continue;
+                
+                if (hitGameObject.layer == LayerMask.NameToLayer("Ground") ||
+                    hitGameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
+
+                if (!_colliderTransforms.TryGetValue(hit, out var hitTransform))
+                {
+                    hitTransform = hit.transform;
+                    _colliderTransforms.Add(hit, hitTransform);
+                }
+                
+                if (hitTransform != _target) continue;
                 if (_tameable == null) continue;
                 if (GameManager.instance.player.dead)
                 {
@@ -114,14 +139,34 @@ namespace Combat_System
                     break;
                 }
 
+                if (!_dictMonsters.TryGetValue(hitGameObject, out var haveMonsters))
+                {
+                    haveMonsters = hit.GetComponent<IHaveMonsters>();
+                    _dictMonsters.Add(hitGameObject, haveMonsters);
+                }
 
-                var monsterToTame = hit.GetComponent<IHaveMonsters>().GetCurrentMonster();
+                var monsterToTame = haveMonsters.GetCurrentMonster();
                 _hitOnTarget = true;
-                _tameable.AddCurrentTameValue(CalculateTameBeamValue(monsterToTame), _haveMonsters);
+                var tameBeam = CalculateTameBeamValue(monsterToTame);
+                SpawnCue(hitTransform, tameBeam, _blue);
+                _tameable.AddCurrentTameValue(tameBeam, _haveMonsters);
                 return true;
             }
 
             return true;
+        }
+
+        private void SpawnCue(Transform hitTransform, int value, Color32 color)
+        {
+            var cue = GameManager.instance.pooler.SpawnFromPool(null, "Value Cue", null, hitTransform.position,
+                Quaternion.identity);
+            if (!_cueIndicators.TryGetValue(cue, out var cueIndicator))
+            {
+                cueIndicator = cue.GetComponent<VisualCueIndicator>();
+                _cueIndicators.Add(cue, cueIndicator);
+            }
+
+            cueIndicator.InitializeCue(value, color);
         }
 
         private bool CheckByTarget()
@@ -133,14 +178,27 @@ namespace Combat_System
             for (var i = 0; i < size; i++)
             {
                 var hit = _colliders[i];
-                if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+                if (!_colliderObjects.TryGetValue(hit, out var hitGameObject))
+                {
+                    hitGameObject = hit.gameObject;
+                    _colliderObjects.Add(hit, hitGameObject);
+                }
+
+
+                if (hitGameObject.layer == LayerMask.NameToLayer("Ground") ||
+                    hitGameObject.layer == LayerMask.NameToLayer("Obstacles"))
                 {
                     hitSomething = true;
                     continue;
                 }
 
-                if (hit.transform != _target)
+                if (!_colliderTransforms.TryGetValue(hit, out var hitTransform))
+                {
+                    hitTransform = hit.transform;
+                    _colliderTransforms.Add(hit, hitTransform);
+                }
+
+                if (hitTransform != _target)
                 {
                     if (hitSomething && i == size - 1)
                     {
@@ -148,22 +206,31 @@ namespace Combat_System
                     }
                     continue;
                 }
-                var damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
-                var hitHaveMonster = hit.GetComponent<IHaveMonsters>();
+
+                if (!_dictHealths.TryGetValue(hitGameObject, out var damageable))
+                {
+                    damageable = hitTransform.GetComponent<IHaveHealth>();
+                    _dictHealths.Add(hitGameObject, damageable);
+                }
+
+                if (!_dictMonsters.TryGetValue(hitGameObject, out var hitHaveMonster))
+                {
+                    hitHaveMonster = hit.GetComponent<IHaveMonsters>();
+                    _dictMonsters.Add(hitGameObject, hitHaveMonster);
+                }
+
                 if (hitHaveMonster == null) continue;
                 var monsterHit = hitHaveMonster.GetCurrentMonster();
-                if (_isDamage)
-                {
-                    if (damageable == null)
-                    {
-                        continue;
-                    }
+                if (!_isDamage) continue;
+                
+                if (damageable == null) continue;
 
-                    _hitOnTarget = true;
-                    damageable.TakeDamage(CalculateDamage(monsterHit, hitHaveMonster));
-                    damageable.RecordDamager(_spawnerSlot);
-                    return true;
-                }
+                _hitOnTarget = true;
+                var damage = CalculateDamage(monsterHit, hitHaveMonster);
+                SpawnCue(hitTransform, damage, _red);
+                damageable.TakeDamage(damage);
+                damageable.RecordDamager(_spawnerSlot);
+                return true;
             }
 
             return hitSomething;
@@ -177,22 +244,37 @@ namespace Combat_System
             for (var i = 0; i < size; i++)
             {
                 var hit = _colliders[i];
-                if (hit.gameObject.layer == LayerMask.NameToLayer("Ground") ||
-                    hit.gameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
+                var hitGameObject = hit.gameObject;
+                if (hitGameObject.layer == LayerMask.NameToLayer("Ground") ||
+                    hitGameObject.layer == LayerMask.NameToLayer("Obstacles")) continue;
+
                 if (!hit.CompareTag(opponentTag)) continue;
-                var damageable = hit.transform.gameObject.GetComponent<IHaveHealth>();
+                
+                if (!_dictHealths.TryGetValue(hitGameObject, out var damageable))
+                {
+                    damageable = hitGameObject.GetComponent<IHaveHealth>();
+                    _dictHealths.Add(hitGameObject, damageable);
+                }
+
                 if (damageable == null) continue;
-                var hitHaveMonster = hit.GetComponent<IHaveMonsters>();
+
+                if (!_dictMonsters.TryGetValue(hitGameObject, out var hitHaveMonster))
+                {
+                    hitHaveMonster = hit.GetComponent<IHaveMonsters>();
+                    _dictMonsters.Add(hitGameObject, hitHaveMonster);
+                }
+
                 if (hitHaveMonster == null) continue;
                 var monsterHit = hitHaveMonster.GetCurrentMonster();
-                if (_isDamage)
-                {
-                    _target = hit.transform;
-                    _hitOnTarget = true;
-                    damageable.TakeDamage(CalculateDamage(monsterHit, hitHaveMonster));
-                    damageable.RecordDamager(_spawnerSlot);
-                    return true;
-                }
+                if (!_isDamage) continue;
+                
+                _target = hit.transform;
+                _hitOnTarget = true;
+                var damage = CalculateDamage(monsterHit, hitHaveMonster);
+                SpawnCue(_target, damage, _red);
+                damageable.TakeDamage(damage);
+                damageable.RecordDamager(_spawnerSlot);
+                return true;
             }
 
             return true;

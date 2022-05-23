@@ -10,7 +10,14 @@ namespace UI
 
         void Start()
         {
-            _cameraTransform = GameManager.instance.currentWorldCamera.transform;
+            try
+            {
+                _cameraTransform = GameManager.instance.currentWorldCamera.transform;
+            }
+            catch
+            {
+                _cameraTransform = GameObject.FindObjectOfType<Camera>().transform;
+            }
             _thisTransform = transform;
         }
         

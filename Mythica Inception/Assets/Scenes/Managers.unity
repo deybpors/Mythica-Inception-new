@@ -1016,19 +1016,13 @@ MonoBehaviour:
     prefab: {fileID: 1263804789950809153, guid: f0726507d09bec945bfac062368f7503, type: 3}
     size: 10
   - tag: 
-    prefab: {fileID: 3709998008571580245, guid: db95a228ce752894b95105fcc4c74f1f, type: 3}
-    size: 10
-  - tag: 
-    prefab: {fileID: 356804050156977343, guid: 371b2a7f332e1f14d8ad7b4e8d724ae0, type: 3}
-    size: 10
-  - tag: 
     prefab: {fileID: 6122720254351930497, guid: 821b559ad4beaf34d9028ef48853af30, type: 3}
     size: 10
   - tag: 
     prefab: {fileID: 1936619017637676521, guid: 2ae71bf3e1eeb304fbf27b94f8fdc3aa, type: 3}
     size: 10
   - tag: 
-    prefab: {fileID: 8265144103910172166, guid: d43522dbb271d5d46bce5d56c2d16156, type: 3}
+    prefab: {fileID: 83175995017804924, guid: 227e5c1ad2ef20749956e6af16d90f3c, type: 3}
     size: 10
 --- !u!4 &1573271815
 Transform:
@@ -13010,6 +13004,7 @@ MonoBehaviour:
   itemDropUi: {fileID: 0}
   optionsButton: {fileID: 0}
   gameplayTweener: {fileID: 0}
+  damageIndicator: {fileID: 0}
   minimapCamera: {fileID: 0}
   currentCharacterName: {fileID: 0}
   currentCharacterLevel: {fileID: 0}

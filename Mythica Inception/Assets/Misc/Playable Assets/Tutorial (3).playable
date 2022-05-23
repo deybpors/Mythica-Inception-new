@@ -326,7 +326,7 @@ MonoBehaviour:
     hasToPause: 1
     displayCharPic: 1
     line:
-      text: For now, I have given you immunity while you tame your partner.
+      text: Dodge the mythica's attacks while trying to tame one of them.
       character: {fileID: 11400000, guid: 26028c38ef3bff040bb6d81774cd85f6, type: 2}
       emotion: 0
       speakerDirection: 1

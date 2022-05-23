@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 569fc37d-76cd-4b54-9d27-66283f0b56be
   lines:
-  - text: Staying in this place wants me to wake up.
+  - text: Staying in this place... It wants me to learn something...
     character: {fileID: 0}
     emotion: 4
     speakerDirection: 0
-  - text: Do I really want to?
+  - text: What? What do I want to do?
     character: {fileID: 0}
     emotion: 5
     speakerDirection: 0
   choices:
-  - text: No
+  - text: Nothing.
     nextConversation: {fileID: 0}
     quest: {fileID: 0}
     onClickChoice:
@@ -31,7 +31,15 @@ MonoBehaviour:
         m_Calls: []
     tooltipTitle: 
     tooltipDescription: 
-  - text: Yes
+  - text: Type Advantage?
+    nextConversation: {fileID: 11400000, guid: e6d9e0e3cd8808e4a9a66bb9203aca5f, type: 2}
+    quest: {fileID: 0}
+    onClickChoice:
+      m_PersistentCalls:
+        m_Calls: []
+    tooltipTitle: 
+    tooltipDescription: 
+  - text: Wake Up?
     nextConversation: {fileID: 0}
     quest: {fileID: 0}
     onClickChoice:

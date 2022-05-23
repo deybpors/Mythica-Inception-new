@@ -25,6 +25,7 @@ namespace UI
             [HideInInspector] public ItemDropUI itemDropUi;
             [HideInInspector] public Button optionsButton;
             [HideInInspector] public UITweener gameplayTweener;
+            [HideInInspector] public CanvasGroup damageIndicator;
             [HideInInspector] public GameObject minimapCamera;
             [HideInInspector] public TextMeshProUGUI currentCharacterName;
             [HideInInspector] public TextMeshProUGUI currentCharacterLevel;
@@ -84,7 +85,7 @@ namespace UI
             pointIndicator = point;
         }
 
-        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items, List<TextMeshProUGUI> itemsAmount, Button optionsButton)
+        public void InitGameplayUIRef(GameObject canvas, GameObject minimapCam, TextMeshProUGUI characterName, TextMeshProUGUI gold, TextMeshProUGUI characterLevel,ProgressBarUI characterHealth, ProgressBarUI characterExp, List<PartySlotUI> party, List<Image> skills, List<Image> items, List<TextMeshProUGUI> itemsAmount, Button optionsButton, CanvasGroup damageIndicator)
         {
             gameplayUICanvas = canvas;
             gameplayTweener = canvas.GetComponent<UITweener>();
@@ -98,6 +99,7 @@ namespace UI
             currentMonsterItemImages = items;
             currentMonsterItemsAmount = itemsAmount;
             partySlots = party;
+            this.damageIndicator = damageIndicator;
             this.optionsButton = optionsButton;
         }
 

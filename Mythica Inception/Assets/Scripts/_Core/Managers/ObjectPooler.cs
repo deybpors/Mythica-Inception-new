@@ -22,6 +22,12 @@ namespace _Core.Managers
         private Dictionary<GameObject, Transform> _transforms = new Dictionary<GameObject, Transform>();
         private readonly Vector3 _zero = Vector3.zero;
         private List<GameObject> _masterChildren;
+
+        void Start()
+        {
+            PreInstantiate(pools);
+        }
+
         private void PreInstantiate(List<Pool> p)
         {
             pools = p;
@@ -29,11 +35,11 @@ namespace _Core.Managers
             
             foreach (var pool in p.ToList())
             {
-                if (pool.tag.IsNullOrEmpty())
+                if (pool.tag == string.Empty)
                 {
                     pool.tag = pool.prefab.name;
                 }
-                AddNewPoolToDictionary(transform, pool.tag, pool.prefab, pool.size, _zero);
+                AddNewPoolToDictionary(pool.tag, pool.prefab, pool.size, _zero);
             }
         }
 
@@ -49,7 +55,7 @@ namespace _Core.Managers
 
                 if (!poolDictionary.ContainsKey(newSpawnedTag))
                 {
-                    AddNewPoolToDictionary(parent, newSpawnedTag, prefabCheck, 10, position);
+                    AddNewPoolToDictionary(newSpawnedTag, prefabCheck, 10, position);
                     continue;
                 }
 
@@ -88,7 +94,7 @@ namespace _Core.Managers
             }
         }
 
-        private void AddNewPoolToDictionary(Transform parent, string newSpawnedTag, GameObject prefabCheck, int size, Vector3 position)
+        private void AddNewPoolToDictionary(string newSpawnedTag, GameObject prefabCheck, int size, Vector3 position)
         {
             poolDictionary ??= new Dictionary<string, Queue<GameObject>>();
             

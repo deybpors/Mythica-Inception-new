@@ -14,7 +14,7 @@ namespace _Core.Others
         public static int Damage(int attackerLvl, int attackerAttack, int targetDefense, float skillPower, int maxSkillPower, float modifier)
         {
             var gamePace = GameManager.instance.difficultyManager.GetParameterValue("GAMEPACE");
-            return (int)(((2 * attackerLvl * gamePace + 10) * skillPower / maxSkillPower *
+            return (int)(gamePace * ((2 * attackerLvl + 10) * skillPower / maxSkillPower *
                 ((float) attackerAttack / targetDefense) + 2) * modifier);
         }
 

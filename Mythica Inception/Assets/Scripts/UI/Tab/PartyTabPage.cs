@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using _Core.Managers;
 using Assets.Scripts.UI;
+using Items_and_Barter_System.Scripts;
 using Monster_System;
 using MyBox;
 using Skill_System;
@@ -118,6 +119,7 @@ public class PartyTabPage : TabPage
        var ui = GameManager.instance.uiManager;
        var text = "<b><size=200%>" + monster.monsterName + "</size></b>\n" +
                   "<size=90%>Type: <b>" + monster.type + "</b>\n" +
+                  GetTypeAdvantage(monster.type) +
                   "Basic Attack: <b>" + monster.basicAttackType + "</b>\n" +
                   "Stability Value: <b>" + _currentMonsterSlotSelected.stabilityValue.ToString("#.00") + "</b></size>\n" +
                   monster.description + "\n\n" +
@@ -146,8 +148,49 @@ public class PartyTabPage : TabPage
        };
     }
 
-   private void UpdateItems()
-   {
+    private string GetTypeAdvantage(MonsterType type)
+    {
+        var text = string.Empty;
+
+        switch (type)
+        {
+            case MonsterType.Piercer:
+                text = "Strong to: <color=#ffc880>Chargers</color>\n" +
+                       "Resistant to: <color=#ffc880>Chargers</color>\n" +
+                       "Weak to:  <color=#b3f47a>Slashers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Brawler:
+                text = "Strong to: None\n" +
+                       "Resistant to: <color=#ffef7d>Piercers</color>, <color=#d8a1ff>Brawlers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Weak to:  <color=#ffc880>Chargers</color>\n\n";
+                break;
+            case MonsterType.Slasher:
+                text = "Strong to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Resistant to: None\n" +
+                       "Weak to:  <color=#ffef7d>Piercers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Charger:
+                text = "Strong to: <color=#d8a1ff>Brawlers</color>, <color=#b3f47a>Slashers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Resistant to: None\n" +
+                       "Weak to:  <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Emitter:
+                text = "Strong to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Resistant to: <color=#ffc880>Chargers</color>\n" +
+                       "Weak to:  <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Keeper:
+                text = "Strong to: <color=#f48989>Keepers</color>\n" +
+                       "Resistant to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#d8a1ff>Brawlers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Weak to:  <color=#f48989>Keepers</color>\n\n";
+                break;
+        }
+
+        return text;
+    }
+
+    private void UpdateItems()
+    {
        var itemsCount = _itemImages.Length;
 
        for (var i = 0; i < itemsCount; i++)
@@ -157,14 +200,24 @@ public class PartyTabPage : TabPage
 
            tooltip.SetTitleContent(string.Empty, string.Empty);
 
-           var item = _currentMonsterSlotSelected.inventory[i].inventoryItem;
-           if (item == null)
+           ItemObject item = null;
+           try
+           {
+               item = _currentMonsterSlotSelected.inventory[i].inventoryItem;
+               if (item == null)
+               {
+                   _itemAmount[i].text = string.Empty;
+                   _itemImages[i].sprite = _ui.blankSlotSquare;
+                   continue;
+               }
+           }
+           catch
            {
                _itemAmount[i].text = string.Empty;
-                _itemImages[i].sprite = _ui.blankSlotSquare;
+               _itemImages[i].sprite = _ui.blankSlotSquare;
                continue;
            }
-
+           
            var title = "<b>" + item.itemName + "</b>";
            var content = item.itemDescription;
            tooltip.enabled = true;
@@ -186,8 +239,18 @@ public class PartyTabPage : TabPage
 
            tooltip.SetTitleContent(string.Empty, string.Empty);
 
-           var skill = _currentMonsterSlotSelected.skillSlots[i].skill;
-           if (skill == null)
+           Skill skill;
+
+           try
+           {
+               skill = _currentMonsterSlotSelected.skillSlots[i].skill;
+               if (skill == null)
+               {
+                   _skillImages[i].sprite = _ui.blankSlotSquare;
+                   continue;
+               }
+           }
+           catch
            {
                _skillImages[i].sprite = _ui.blankSlotSquare;
                continue;

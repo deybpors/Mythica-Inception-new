@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ec7948df0c1ab4590359f7eabbdb8f, type: 3}
+  m_Name: Type Advantage
+  m_EditorClassIdentifier: 
+  ID: f27ec967-d98e-4360-9028-e4725e85beb5
+  lines:
+  - text: What? Each mythica specie is classifed to a type?
+    character: {fileID: 0}
+    emotion: 5
+    speakerDirection: 0
+  - text: The types are <color=#ffef7d>Piercer</color>, <color=#b3f47a>Slasher</color>,
+      <color=#d8a1ff>Brawler</color>, <color=#ffc880>Charger</color>, <color=#97e4ff>Emitter</color>,
+      and <color=#f48989>Keeper</color>.
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: Some mythica types have advantages, some have even disadvantages.
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: 'Piercers are strong to: <color=#ffc880>Chargers</color>. They are resistant
+      to: <color=#ffc880>Chargers</color>. They are weak to:  <color=#b3f47a>Slashers</color>,
+      and <color=#97e4ff>Emitters</color>.'
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: 'Brawlers are strong to: None. They are resistant to: <color=#ffef7d>Piercers</color>,
+      <color=#d8a1ff>Brawlers</color>, and <color=#97e4ff>Emitters</color>. They
+      are weak to:  <color=#ffc880>Chargers</color>.'
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: 'Slashers are strong to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>,
+      <color=#97e4ff>Emitters</color>. They are resistant to: None. They are weak
+      to: <color=#ffef7d>Piercers</color>, <color=#97e4ff>Emitters</color>.'
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: 'Chargers are strong to: <color=#d8a1ff>Brawlers</color>, <color=#b3f47a>Slashers</color>,
+      <color=#97e4ff>Emitters</color>. They are resistant to: None. They are weak
+      to:  <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, and
+      <color=#97e4ff>Emitters</color>.'
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: 'Emitters are strong to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>,
+      <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>. They are
+      resistant to: <color=#ffc880>Chargers</color>. They are weak to:  <color=#b3f47a>Slashers</color>,
+      <color=#ffc880>Chargers</color>, and <color=#97e4ff>Emitters</color>.'
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: 'Keepers are strong to: <color=#f48989>Keepers</color>. They are resistant
+      to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>,
+      <color=#d8a1ff>Brawlers</color>, <color=#97e4ff>Emitters</color>. They are
+      weak to:  <color=#f48989>Keepers</color>.'
+    character: {fileID: 0}
+    emotion: 0
+    speakerDirection: 0
+  - text: WHERE THE HECK DID THAT COME FROM??
+    character: {fileID: 0}
+    emotion: 4
+    speakerDirection: 0
+  choices: []

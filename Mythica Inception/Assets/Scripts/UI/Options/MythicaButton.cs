@@ -78,6 +78,7 @@ public class MythicaButton : MonoBehaviour
         var ui = GameManager.instance.uiManager;
         var text = "<b><size=200%>" + _monster.monsterName + "</size></b>\n" +
                    "<size=90%>Type: <b>" + _monster.type + "</b>\n" +
+                   GetTypeAdvantage(_monster.type) +
                    "Basic Attack: <b>" + _monster.basicAttackType + "</b></size>\n" +
                    _monster.description + "\n\n" +
                    "<size=120%><b>Base Stats</b></size>\n" +
@@ -103,5 +104,46 @@ public class MythicaButton : MonoBehaviour
             MonsterType.Keeper => ui.keeper,
             _ => _logoImage.sprite
         };
+    }
+
+    private string GetTypeAdvantage(MonsterType type)
+    {
+        var text = string.Empty;
+
+        switch (type)
+        {
+            case MonsterType.Piercer:
+                text = "Strong to: <color=#ffc880>Chargers</color>\n" +
+                       "Resistant to: <color=#ffc880>Chargers</color>\n" +
+                       "Weak to:  <color=#b3f47a>Slashers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Brawler:
+                text = "Strong to: None\n" +
+                       "Resistant to: <color=#ffef7d>Piercers</color>, <color=#d8a1ff>Brawlers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Weak to:  <color=#ffc880>Chargers</color>\n\n";
+                break;
+            case MonsterType.Slasher:
+                text = "Strong to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Resistant to: None\n" +
+                       "Weak to:  <color=#ffef7d>Piercers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Charger:
+                text = "Strong to: <color=#d8a1ff>Brawlers</color>, <color=#b3f47a>Slashers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Resistant to: None\n" +
+                       "Weak to:  <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Emitter:
+                text = "Strong to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Resistant to: <color=#ffc880>Chargers</color>\n" +
+                       "Weak to:  <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#97e4ff>Emitters</color>\n\n";
+                break;
+            case MonsterType.Keeper:
+                text = "Strong to: <color=#f48989>Keepers</color>\n" +
+                       "Resistant to: <color=#ffef7d>Piercers</color>, <color=#b3f47a>Slashers</color>, <color=#ffc880>Chargers</color>, <color=#d8a1ff>Brawlers</color>, <color=#97e4ff>Emitters</color>\n" +
+                       "Weak to:  <color=#f48989>Keepers</color>\n\n";
+                break;
+        }
+
+        return text;
     }
 }

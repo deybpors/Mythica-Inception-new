@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using _Core.Managers;
 using _Core.Player;
 using MyBox;
@@ -24,6 +25,11 @@ namespace Monster_System
         public bool activated;
         private Collider[] results = new Collider[5];
         private Transform _thisTransform;
+        private GameObject _thisGameObject;
+        private Color32 _yellow = new Color32(255, 239, 125, 255);
+
+        public Dictionary<GameObject, VisualCueIndicator> _cueIndicators =
+            new Dictionary<GameObject, VisualCueIndicator>();
 
         private void OnEnable()
         {
@@ -64,18 +70,41 @@ namespace Monster_System
 
             _thisTransform.position = Vector3.MoveTowards(thisPos, playerPos, Time.deltaTime * followSpeed);
             var dist = Vector3.Distance(thisPos, playerPos);
-            if (dist > .5f) return;
+            if (dist > 1f) return;
             
             _player.AddExperience(experience, slotNum);
-            gameObject.SetActive(false);
+
+            SpawnCue(_playerTransform, experience, _yellow);
+
+            if (_thisGameObject == null)
+            {
+                _thisGameObject = gameObject;
+            }
+
+            _thisGameObject.SetActive(false);
+        }
+
+        private void SpawnCue(Transform hitTransform, int value, Color32 color)
+        {
+            var cue = GameManager.instance.pooler.SpawnFromPool(null, "Value Cue", null, hitTransform.position,
+                Quaternion.identity);
+            if (!_cueIndicators.TryGetValue(cue, out var cueIndicator))
+            {
+                cueIndicator = cue.GetComponent<VisualCueIndicator>();
+                _cueIndicators.Add(cue, cueIndicator);
+            }
+
+            cueIndicator.InitializeCue(value, color);
         }
 
         void PlayerCheck()
         {
             var size = Physics.OverlapSphereNonAlloc(_thisTransform.position, orbCollider.radius + .5f, results);
+            var playerGameObject = _player.gameObject;
+
             for (var i = 0; i < size; i++)
             {
-                if (_player.gameObject != results[i].gameObject) continue;
+                if (playerGameObject != results[i].gameObject) continue;
                 
                 orbCollider.isTrigger = true;
                 orbRigidbody.useGravity = false;
